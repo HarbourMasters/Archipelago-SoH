@@ -3,7 +3,7 @@ import pkgutil
 
 from typing import Any, List, ClassVar
 
-from BaseClasses import CollectionState, Item, Tutorial
+from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups
@@ -81,6 +81,8 @@ class SohWorld(World):
         self.scrub_prices = dict[str, int]()
         self.merchant_prices = dict[str, int]()
         self.triforce_pieces_required: int = 0
+        self.progressive_skulltula_count = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value ==
+                                          6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, 100 if self.options.shuffle_100_gs_reward.value else 0)
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -136,6 +138,11 @@ class SohWorld(World):
     def create_item(self, name: str, create_as_event: bool = False) -> SohItem:
         item_entry = Items(name)
         return SohItem(str(name), item_data_table[item_entry].classification,
+                       None if create_as_event else item_data_table[item_entry].item_id, self.player)
+    
+    def create_item_specific_classification(self, name: str, classification: ItemClassification, create_as_event: bool = False) -> SohItem:
+        item_entry = Items(name)
+        return SohItem(str(name), classification,
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
 
     def get_filler_item_name(self) -> str:

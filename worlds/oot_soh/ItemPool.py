@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from .Enums import *
 from .Items import item_data_table, filler_items, filler_bottles
+from BaseClasses import ItemClassification
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -215,6 +216,17 @@ def create_item_pool(world: "SohWorld") -> None:
     # Skeleton Key
     if world.options.skeleton_key:
         items_to_create[Items.SKELETON_KEY] = 1
+
+    # Add Golden Skulltula Tokens as progressive if necessary
+    if world.options.shuffle_skull_tokens.value > 0 and (world.options.rainbow_bridge.value == 6 or world.options.ganons_castle_boss_key.value == 7) and world.progressive_skulltula_count > 0:
+        # We can only set progressive for whatever we shuffle
+
+        tokens = [world.create_item_specific_classification(Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.progressive_skulltula_count)]
+        world.item_pool += tokens
+        world.multiworld.itempool += tokens
+
+        world.progressive_skulltula_count -= len(tokens)
+        items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= len(tokens)
 
     # Add regular item pool
     for item, quantity in items_to_create.items():
