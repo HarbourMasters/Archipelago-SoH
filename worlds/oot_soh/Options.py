@@ -836,6 +836,13 @@ class TrueNoLogic(Toggle):
     visibility = Visibility.spoiler
 
 
+class ShuffleTycoonWallet(Toggle):
+    """
+    Enabling this adds an extra Progressive Wallet to the pool and adds a new 999 capacity tier after Giants Wallet.
+    """
+    display_name = "Shuffle Tycoon Wallet"
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -919,6 +926,7 @@ class SohOptions(PerGameCommonOptions):
     ice_trap_count: IceTrapCount
     ice_trap_filler_replacement: IceTrapFillerReplacement
     true_no_logic: TrueNoLogic
+    shuffle_tycoon_wallet: ShuffleTycoonWallet
 
 
 soh_option_groups = [
@@ -964,7 +972,7 @@ soh_option_groups = [
         # Shuffle Kokiri Sword
         ShuffleMasterSword,
         ShuffleChildsWallet,
-        # Include Tycoon Wallet
+        ShuffleTycoonWallet,
         # Shuffle Ocarinas
         ShuffleOcarinaButtons,
         ShuffleSwim,

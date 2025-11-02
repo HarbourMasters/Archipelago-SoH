@@ -65,6 +65,10 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.shuffle_childs_wallet:
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
 
+    # Tycoon Wallet
+    if world.options.shuffle_tycoon_wallet:
+        items_to_create[Items.PROGRESSIVE_WALLET] += 1
+
     # Ocarina Buttons
     if world.options.shuffle_ocarina_buttons:
         items_to_create[Items.OCARINA_A_BUTTON] = 1
