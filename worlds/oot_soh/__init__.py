@@ -107,6 +107,10 @@ class SohWorld(World):
             if self.options.shuffle_scrubs_maximum_price.value > wallet_capacities[Items.GIANT_WALLET]:
                 self.options.shuffle_scrubs_maximum_price.value = wallet_capacities[Items.GIANT_WALLET]
 
+            # Uncomment this when merchant prices and this are merged
+            # if self.options.shuffle_merchants_minimum_price.value > wallet_capacities[Items.GIANT_WALLET]:
+            #     self.options.shuffle_merchants_maximum_price.value = wallet_capacities[Items.GIANT_WALLET]
+
         # If maximum price is below minimum, set max to minimum.
         if self.options.shuffle_shops_minimum_price.value > self.options.shuffle_shops_maximum_price.value:
             self.options.shuffle_shops_maximum_price.value = self.options.shuffle_shops_minimum_price.value
