@@ -99,7 +99,7 @@ class SohWorld(World):
         if self.options.door_of_time.value == 0 and self.options.shuffle_dungeon_rewards.value == 0:
             self.options.starting_age.value = 0
 
-        # Check if Tycoon Wallet is shuffled and if max price setting is above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
+        # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if not self.options.shuffle_tycoon_wallet.value:
             # Add these when merchant prices get added
             #self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
