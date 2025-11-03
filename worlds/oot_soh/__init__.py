@@ -99,17 +99,13 @@ class SohWorld(World):
         if self.options.door_of_time.value == 0 and self.options.shuffle_dungeon_rewards.value == 0:
             self.options.starting_age.value = 0
 
-        # Check if Tycoon Wallet is shuffled and if max price setting is above what Giants Wallet can hold. Max Prices need to be adjusted to fit in Giants Wallet.
+        # Check if Tycoon Wallet is shuffled and if max price setting is above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if not self.options.shuffle_tycoon_wallet.value:
-            if self.options.shuffle_shops_maximum_price.value > wallet_capacities[Items.GIANT_WALLET]:
-                self.options.shuffle_shops_maximum_price.value = wallet_capacities[Items.GIANT_WALLET]
-                
-            if self.options.shuffle_scrubs_maximum_price.value > wallet_capacities[Items.GIANT_WALLET]:
-                self.options.shuffle_scrubs_maximum_price.value = wallet_capacities[Items.GIANT_WALLET]
-
-            # Uncomment this when merchant prices and this are merged
-            # if self.options.shuffle_merchants_minimum_price.value > wallet_capacities[Items.GIANT_WALLET]:
-            #     self.options.shuffle_merchants_maximum_price.value = wallet_capacities[Items.GIANT_WALLET]
+            # Add these when merchant prices get added
+            #self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
+            for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price):
+                if option.value > wallet_capacities[Items.GIANT_WALLET]:
+                    option.value = wallet_capacities[Items.GIANT_WALLET]
 
         # If maximum price is below minimum, set max to minimum.
         if self.options.shuffle_shops_minimum_price.value > self.options.shuffle_shops_maximum_price.value:
