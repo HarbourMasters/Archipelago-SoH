@@ -70,11 +70,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.THE_GRAVEYARD, world, [
         (Regions.GRAVEYARD_SHIELD_GRAVE,
-         lambda bundle: is_adult(bundle) or at_night(bundle)),
+         lambda bundle: is_adult(bundle) or at_night(bundle) or has_item(Items.GLITCHED, bundle)),
         (Regions.GRAVEYARD_COMPOSERS_GRAVE,
          lambda bundle: can_use(Items.ZELDAS_LULLABY, bundle)),
         (Regions.GRAVEYARD_HEART_PIECE_GRAVE,
-         lambda bundle: is_adult(bundle) or at_night(bundle)),
+         lambda bundle: is_adult(bundle) or at_night(bundle) or has_item(Items.GLITCHED, bundle)),
         (Regions.GRAVEYARD_DAMPES_GRAVE, lambda bundle: is_adult(bundle)),
         (Regions.GRAVEYARD_DAMPES_HOUSE, lambda bundle: is_adult(bundle)
          and can_open_overworld_door(Items.DAMPES_HUT_KEY, bundle)),

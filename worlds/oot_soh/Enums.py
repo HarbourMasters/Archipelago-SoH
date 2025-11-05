@@ -989,6 +989,8 @@ class Items(StrEnum):
     NUTS = "Nuts"
     EPONA = "Epona"
     MAX = "Max"
+    # Universal Tracker Required
+    GLITCHED = "Glitched Item"
 
 
 class Locations(StrEnum):

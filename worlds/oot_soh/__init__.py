@@ -60,6 +60,7 @@ class SohWorld(World):
     options: SohOptions
     options_dataclass = SohOptions
     settings: ClassVar[SohSettings]
+    glitches_item_name = Items.GLITCHED
     location_name_to_id = location_table
     item_name_to_id = item_table
     item_name_groups = item_name_groups

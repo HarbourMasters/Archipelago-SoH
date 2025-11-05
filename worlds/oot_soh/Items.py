@@ -28,7 +28,7 @@ class SohItemData(NamedTuple):
 
 
 item_data_table: dict[Items, SohItemData] = {
-    # Items commented out that can never appear in the item pool and are only used on Ship internally
+    # Items commented out that can never appear in the item pool and are only used on Ship internally or Universal Tracker
 
     Items.KOKIRI_SWORD: SohItemData(1, IC.progression, 1, child_only=True, item_groups=["Swords", "Sword"]),
     Items.MASTER_SWORD: SohItemData(2, IC.progression, 0, adult_only=True, item_groups=["Swords", "Sword"]),
@@ -309,6 +309,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.NUTS: SohItemData(None),
     Items.EPONA: SohItemData(None),
     # Items.MAX: SohItemData( 279, IC.filler, 0 ),
+    Items.GLITCHED: SohItemData( 999, IC.filler, 0 ),
 }
 
 item_table = {name.value: data.item_id for name,
