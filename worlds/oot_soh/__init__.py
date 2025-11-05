@@ -60,13 +60,13 @@ class SohWorld(World):
     options: SohOptions
     options_dataclass = SohOptions
     settings: ClassVar[SohSettings]
-    glitches_item_name = Items.GLITCHED
     location_name_to_id = location_table
     item_name_to_id = item_table
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
     # Universal Tracker stuff, does not do anything in normal gen
+    glitches_item_name = Items.GLITCHED
     using_ut: bool  # so we can check if we're using UT only once
     passthrough: dict[str, Any]  # slot data that got passed through
     ut_can_gen_without_yaml = True  # class var that tells it to ignore the player yaml

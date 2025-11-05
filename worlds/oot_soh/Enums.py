@@ -3587,6 +3587,7 @@ class Tricks(StrEnum):
     BOMBCHU_BEEHIVES = "Bombchu Beehives"
     BLUE_FIRE_MUD_WALLS = "Blue Fire Mud Walls"
     OPEN_UNDERWATER_CHEST = "Open Underwater Chest"
+    TIME_WASTING = "Waste Time Without Suns Song"
     # Location Tricks
     KF_ADULT_GS = "KF Adult GS"
     LW_BRIDGE = "LW Bridge"
