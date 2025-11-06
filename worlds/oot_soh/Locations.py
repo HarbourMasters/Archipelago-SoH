@@ -3930,7 +3930,7 @@ location_name_groups: dict[str, set[str]] = {
         Locations.GERUDO_TRAINING_GROUND_BEAMOS_EAST_HEART,
         Locations.GERUDO_TRAINING_GROUND_ENTRANCE_SONG_OF_STORMS_FAIRY
     }),
-    "GanonsCastle": stringify_set({
+    "Ganons Castle": stringify_set({
         Locations.GANONS_CASTLE_FOREST_TRIAL_CHEST,
         Locations.GANONS_CASTLE_WATER_TRIAL_LEFT_CHEST,
         Locations.GANONS_CASTLE_WATER_TRIAL_RIGHT_CHEST,
