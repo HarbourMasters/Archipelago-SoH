@@ -2628,7 +2628,7 @@ location_name_groups: dict[str, set[str]] = {
         Locations.SHEIK_IN_KAKARIKO,
         Locations.SHEIK_AT_TEMPLE
     }),
-    "HeartContainers": stringify_set({
+    "Boss Heart Containers": stringify_set({
         Locations.DEKU_TREE_QUEEN_GOHMA_HEART_CONTAINER,
         Locations.DODONGOS_CAVERN_KING_DODONGO_HEART_CONTAINER,
         Locations.JABU_JABUS_BELLY_BARINADE_HEART_CONTAINER,
