@@ -52,11 +52,11 @@ def create_item_pool(world: "SohWorld") -> None:
 
     # Overworld Skull Tokens
     if world.options.shuffle_skull_tokens == "overworld" or world.options.shuffle_skull_tokens == "all":
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 56
+        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(TokenCounts.OVERWORLD)
 
     # Dungeon Skull Tokens
     if world.options.shuffle_skull_tokens == "dungeon" or world.options.shuffle_skull_tokens == "all":
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 44
+        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(TokenCounts.DUNGEON)
 
     # Master Sword
     if world.options.shuffle_master_sword:
@@ -218,14 +218,14 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.SKELETON_KEY] = 1
 
     # Add Golden Skulltula Tokens as progressive if necessary
-    if world.options.shuffle_skull_tokens.value > 0 and (world.options.rainbow_bridge.value == 6 or world.options.ganons_castle_boss_key.value == 7) and world.progressive_skulltula_count > 0:
+    if world.randomized_progressive_skulltula_count > 0:
         # We can only set progressive for whatever we shuffle
 
-        tokens = [world.create_item_specific_classification(Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.progressive_skulltula_count)]
+        tokens = [world.create_item_specific_classification(Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.randomized_progressive_skulltula_count)]
         world.item_pool += tokens
         world.multiworld.itempool += tokens
 
-        world.progressive_skulltula_count -= len(tokens)
+        world.randomized_progressive_skulltula_count = 0
         items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= len(tokens)
 
     # Add regular item pool

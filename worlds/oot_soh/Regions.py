@@ -304,16 +304,16 @@ def place_locked_items(world: "SohWorld") -> None:
     # Preplace tokens based on settings.
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
         for location_name, address in gold_skulltula_overworld_location_table.items():
-            if world.progressive_skulltula_count > 0 and world.random.randint(1,2) == 1:
+            if world.vanilla_progressive_skulltula_count > 0:
                 world.get_location(location_name).place_locked_item(token_item_progressive)
-                world.progressive_skulltula_count -= 1
+                world.vanilla_progressive_skulltula_count -= 1
             else:
                 world.get_location(location_name).place_locked_item(token_item)
 
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "overworld":
         for location_name, address in gold_skulltula_dungeon_location_table.items():
-            if world.progressive_skulltula_count > 0 and world.random.randint(1,2) == 1:
+            if world.vanilla_progressive_skulltula_count > 0:
                 world.get_location(location_name).place_locked_item(token_item_progressive)
-                world.progressive_skulltula_count -= 1
+                world.vanilla_progressive_skulltula_count -= 1
             else:
                 world.get_location(location_name).place_locked_item(token_item)
