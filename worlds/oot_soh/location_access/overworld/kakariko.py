@@ -222,7 +222,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.KAK_GRANNYS_POTION_SHOP,
          lambda bundle: is_adult(bundle) and can_open_overworld_door(Items.GRANNYS_POTION_SHOP_KEY, bundle)),
         (Regions.KAK_POTION_SHOP_BACK,
-         lambda bundle: is_adult(bundle) and at_day(bundle) and can_open_overworld_door(Items.GRANNYS_POTION_SHOP_KEY,
+         lambda bundle: is_adult(bundle) and at_day(bundle) and can_open_overworld_door(Items.KAK_POTION_SHOP_KEY,
                                                                                         bundle)),
     ])
 

@@ -382,9 +382,8 @@ def take_damage(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
 
 
 def can_do_trick(trick: Tricks, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
-    # TODO: Implement specific trick logic based on world settings
-    # For now, return False for safety (no tricks assumed)
-    return False
+    # check if we have the trick enabled, the GLITCHED item is for Universal Tracker purposes.
+    return (bundle[2].options.enable_all_tricks.value or trick.value in bundle[2].options.tricks_in_logic.value) or has_item(Items.GLITCHED, bundle)
 
 
 def can_get_nighttime_gs(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:

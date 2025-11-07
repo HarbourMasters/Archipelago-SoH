@@ -4,7 +4,7 @@ from Fill import fill_restrictive
 from BaseClasses import CollectionState
 
 from .LogicHelpers import rule_wrapper, can_afford
-from .Locations import scrubs_location_table
+from .Locations import scrubs_location_table, merchants_items_location_table
 from .Enums import *
 
 if TYPE_CHECKING:
@@ -234,6 +234,23 @@ def generate_scrub_prices(world: "SohWorld") -> None:
             world.scrub_prices = world.passthrough["scrub_prices"]
 
 
+def generate_merchant_prices(world: "SohWorld") -> None:
+    if world.options.shuffle_merchants:
+        min_merchant_price = world.options.shuffle_merchants_minimum_price.value
+        max_merchant_price = world.options.shuffle_merchants_maximum_price.value
+
+        for slot in merchants_items_location_table.keys():
+            if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
+                continue
+            if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
+                continue
+
+            world.merchant_prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world)
+
+        if world.using_ut:
+            world.merchant_prices = world.passthrough["merchant_prices"]
+
+
 def create_random_price(min_price: int, max_price: int, world: "SohWorld") -> int:
     # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
     if min_price == max_price:
@@ -263,3 +280,16 @@ def set_price_rules(world: "SohWorld") -> None:
             # Parent region shouldn't matter at all here, so just add ROOT so we don't have to make a list of all scrubs and their regions.
             add_rule(location, rule_wrapper.wrap(
                 Regions.ROOT, price_rule, world))
+            
+    # Merchant Price Rules
+    if world.options.shuffle_merchants:
+        for slot in merchants_items_location_table.keys():
+            if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
+                continue
+            if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
+                continue
+
+            price = world.merchant_prices[slot]
+            def price_rule(bundle, p=price): return can_afford(p, bundle)
+            location = world.get_location(slot)
+            add_rule(location, rule_wrapper.wrap(location.parent_region, price_rule, world))

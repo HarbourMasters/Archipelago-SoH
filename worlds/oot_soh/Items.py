@@ -137,7 +137,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.FIRE_TEMPLE_SMALL_KEY: SohItemData(105, IC.progression, 8, item_groups=["Small Keys", "Small Key", "Fire Temple Key"]),
     Items.WATER_TEMPLE_SMALL_KEY: SohItemData(106, IC.progression, 6, item_groups=["Small Keys", "Small Key", "Water Temple Key"]),
     Items.SPIRIT_TEMPLE_SMALL_KEY: SohItemData(107, IC.progression, 5, item_groups=["Small Keys", "Small Key", "Spirit Temple Key"]),
-    Items.SHADOW_TEMPLE_SMALL_KEY: SohItemData(108, IC.progression, 6, item_groups=["Small Keys", "Small Key", "Shadow Temple Key"]),
+    Items.SHADOW_TEMPLE_SMALL_KEY: SohItemData(108, IC.progression, 5, item_groups=["Small Keys", "Small Key", "Shadow Temple Key"]),
     Items.BOTTOM_OF_THE_WELL_SMALL_KEY: SohItemData(109, IC.progression, 3, item_groups=["Small Keys", "Small Key", "Bottom of the Well Key", "BotW key"]),
     Items.TRAINING_GROUND_SMALL_KEY: SohItemData(110, IC.progression, 9, item_groups=["Small Keys", "Small Key", "Gerudo Training Ground Key", "GTG key"]),
     Items.GERUDO_FORTRESS_SMALL_KEY: SohItemData(111, IC.progression, 4, item_groups=["Small Keys", "Small Key", "Gerudo Fortress Key"]),
@@ -309,6 +309,8 @@ item_data_table: dict[Items, SohItemData] = {
     Items.NUTS: SohItemData(None),
     Items.EPONA: SohItemData(None),
     # Items.MAX: SohItemData( 279, IC.filler, 0 ),
+    # Intentionally place the glitched item without a value. Everything else should be above this.
+    Items.GLITCHED: SohItemData(None),
 }
 
 item_table = {name.value: data.item_id for name,

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup
+from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet
+from .Enums import Tricks
 
 
 class ClosedForest(Choice):
@@ -484,6 +485,27 @@ class ShuffleMerchants(Choice):
     default = 0
 
 
+class ShuffleMerchantsMinimumPrice(Range):
+    """
+    If Shuffle Merchants is on, set their minimum price. Final price will be rounded down to multiples of 5.
+    """
+    display_name = "Shuffle Merchants Minimum Price"
+    range_start = 0
+    range_end = 999
+    default = 10
+
+
+class ShuffleMerchantsMaximumPrice(Range):
+    """
+    If Shuffle Merchants is on, set their maximum price. Final price will be rounded down to multiples of 5.
+    If this is set below the minimum, this option will be set to whatever the minimum is set to.
+    """
+    display_name = "Shuffle Merchants Maximum Price"
+    range_start = 0
+    range_end = 999
+    default = 90
+
+
 class ShuffleFrogSongRupees(Toggle):
     """
     Shuffle the purple rupee rewards from the frogs in Zora's River. If this is turned off, only the Song of Storms and Frog Minigame rewards are shuffled.
@@ -835,6 +857,23 @@ class TrueNoLogic(Toggle):
     display_name = "True No Logic"
     visibility = Visibility.spoiler
 
+    
+class EnableAllTricks(Toggle):
+    """
+    Bypass the individual trick or glitch selections below and enable all of them.
+    """
+    display_name = "Enable All Tricks and Glitches"
+
+
+class TricksInLogic(OptionSet):
+    display_name = "Tricks in Logic"
+    valid_keys = [str(trick) for trick in Tricks]
+    __doc__ = ("Define what tricks or glitches are considered in logic. "
+               "For more information on what each trick does, check the Ship of Harkinian "
+               "Randomizer -> Seed Settings -> Tricks/Glitches settings.\n"
+               "Trick names: "
+               f"{", ".join(valid_keys)}")
+
 
 class ShuffleTycoonWallet(Toggle):
     """
@@ -889,6 +928,8 @@ class SohOptions(PerGameCommonOptions):
     shuffle_crates: ShuffleCrates
     shuffle_trees: ShuffleTrees
     shuffle_merchants: ShuffleMerchants
+    shuffle_merchants_minimum_price: ShuffleMerchantsMinimumPrice
+    shuffle_merchants_maximum_price: ShuffleMerchantsMaximumPrice
     shuffle_frog_song_rupees: ShuffleFrogSongRupees
     shuffle_adult_trade_items: ShuffleAdultTradeItems
     shuffle_boss_souls: ShuffleBossSouls
@@ -927,6 +968,8 @@ class SohOptions(PerGameCommonOptions):
     ice_trap_filler_replacement: IceTrapFillerReplacement
     true_no_logic: TrueNoLogic
     shuffle_tycoon_wallet: ShuffleTycoonWallet
+    tricks_in_logic: TricksInLogic
+    enable_all_tricks: EnableAllTricks
 
 
 soh_option_groups = [
@@ -938,6 +981,8 @@ soh_option_groups = [
         SleepingWaterfall,
         JabuJabu,
         LockOverworldDoors,
+        EnableAllTricks,
+        TricksInLogic
     ]),
     OptionGroup("World Settings", [
         StartingAge,
@@ -999,7 +1044,8 @@ soh_option_groups = [
         ShuffleCrates,
         ShuffleTrees,
         ShuffleMerchants,
-        # Merchant prices
+        ShuffleMerchantsMinimumPrice,
+        ShuffleMerchantsMaximumPrice,
         ShuffleFrogSongRupees,
         ShuffleAdultTradeItems,
         Shuffle100GSReward,
