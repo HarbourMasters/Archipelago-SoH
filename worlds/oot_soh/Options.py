@@ -872,7 +872,7 @@ class TricksInLogic(OptionSet):
                "For more information on what each trick does, check the Ship of Harkinian "
                "Randomizer -> Seed Settings -> Tricks/Glitches settings.\n"
                "Trick names: "
-               f"{", ".join(valid_keys)}")
+               f"{', '.join(valid_keys)}")
 
 
 @dataclass
