@@ -103,9 +103,7 @@ class SohWorld(World):
 
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if not self.options.shuffle_tycoon_wallet.value:
-            # Add these when merchant prices get added
-            #self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
-            for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price):
+            for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price, self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
                 if option.value > wallet_capacities[Items.GIANT_WALLET]:
                     option.value = wallet_capacities[Items.GIANT_WALLET]
 
