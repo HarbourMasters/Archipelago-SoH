@@ -56,11 +56,10 @@ class ZorasFountain(Choice):
 class SleepingWaterfall(Choice):
     """
     Closed:
-    Sleeping Waterfall obstructs the entrance to Zora's Domain. Zelda's Lullaby must be played in order to open
-    it (but only once; then it stays open in both time periods).
+    Sleeping Waterfall obstructs the entrance to Zora's Domain. Zelda's Lullaby must be played in order to open it.
 
     Open: 
-    Sleeping Waterfall is always open. Link may always enter Zora's Domain.
+    Sleeping Waterfall is always open. Link may always enter Zora's Domain and Zelda's Lullaby is not required to enter Zora's Domain.
     """
     display_name = "Sleeping Waterfall"
     option_closed = 0
@@ -91,8 +90,8 @@ class FortressCarpenters(Choice):
     Sets the state of the carpenters captured by Gerudo in Gerudo Fortress, and with it the number of guards that spawn.
     Normal - All 4 carpenters are required to be saved.
     Fast - Only the bottom left carpenter requires rescuing.
-    Free - The bridge is repaired from the start, and Nabooru cannot spawn. If the Gerudo Membership Card isn't shuffled, you start with it.
-    Only Normal is compatible with Gerudo Fortress Key Rings.
+    Free - The bridge is repaired from the start, and Nabooru cannot spawn.
+    Only Normal is compatible with the Gerudo Fortress Key Ring.
     """
     display_name = "Fortress Carpenters"
     option_normal = 0
@@ -857,7 +856,7 @@ class TrueNoLogic(Toggle):
     display_name = "True No Logic"
     visibility = Visibility.spoiler
 
-    
+
 class EnableAllTricks(Toggle):
     """
     Bypass the individual trick or glitch selections below and enable all of them.
