@@ -93,7 +93,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.MARKET_GUARD_HOUSE, world, [
-        (Locations.MARKET_10_BIG_POES, lambda bundle: is_adult(bundle) and has_item(Items.BOTTLE_WITH_BIG_POE, bundle)),
+        (Locations.MARKET_10_BIG_POES, lambda bundle: (is_adult(bundle) and
+                                                       ((has_bottle(bundle) and
+                                                        has_item(Events.CAN_DEFEAT_BIG_POE, bundle)) or
+                                                       has_item(Items.BOTTLE_WITH_BIG_POE, bundle, world.options.big_poe_target_count.value)))),
         (Locations.MARKET_MARKET_GS_GUARD_HOUSE, lambda bundle: (is_child(bundle))),
         (Locations.MARKET_GUARD_HOUSE_CHILD_POT1, lambda bundle: (
             is_child(bundle) and can_break_pots(bundle))),

@@ -152,9 +152,6 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
                 Items.BROKEN_GORONS_SWORD, Items.PRESCRIPTION, Items.EYEBALL_FROG, Items.WORLDS_FINEST_EYEDROPS}:
         return not world.options.shuffle_adult_trade_items or state.has(item, player)
 
-    if item == Items.BOTTLE_WITH_BIG_POE:
-        return has_bottle(bundle) and state.has(Events.CAN_DEFEAT_BIG_POE, player)
-
     if item == Items.BOTTLE_WITH_BLUE_FIRE:
         return has_bottle(bundle) and (state.has(Events.CAN_ACCESS_BLUE_FIRE, player) or state.has(Items.BUY_BLUE_FIRE, player))
 
