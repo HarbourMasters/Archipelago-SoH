@@ -221,7 +221,7 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.randomized_progressive_skulltula_count > 0:
         # We can only set progressive for whatever we shuffle
 
-        tokens = [world.create_item_specific_classification(Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.randomized_progressive_skulltula_count)]
+        tokens = [world.create_item(Items.GOLD_SKULLTULA_TOKEN, classification=ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.randomized_progressive_skulltula_count)]
         world.item_pool += tokens
         world.multiworld.itempool += tokens
 

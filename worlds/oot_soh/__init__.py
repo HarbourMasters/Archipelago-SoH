@@ -166,14 +166,9 @@ class SohWorld(World):
             for location in self.get_locations():
                 location.access_rule = lambda state: True
 
-    def create_item(self, name: str, create_as_event: bool = False) -> SohItem:
+    def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
         item_entry = Items(name)
-        return SohItem(str(name), item_data_table[item_entry].classification,
-                       None if create_as_event else item_data_table[item_entry].item_id, self.player)
-    
-    def create_item_specific_classification(self, name: str, classification: ItemClassification, create_as_event: bool = False) -> SohItem:
-        item_entry = Items(name)
-        return SohItem(str(name), classification,
+        return SohItem(str(name), item_data_table[item_entry].classification if classification == None else classification,
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
 
     def get_filler_item_name(self) -> str:

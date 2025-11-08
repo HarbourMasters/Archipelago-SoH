@@ -298,7 +298,7 @@ def place_locked_items(world: "SohWorld") -> None:
             world.create_item(Items.GANONS_CASTLE_BOSS_KEY))
 
 
-    token_item_progressive = world.create_item_specific_classification(Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing, True)
+    token_item_progressive = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.progression_deprioritized_skip_balancing)
     token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
 
     # Preplace tokens based on settings.
