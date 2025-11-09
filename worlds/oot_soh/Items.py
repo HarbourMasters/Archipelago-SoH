@@ -170,7 +170,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.PURPLE_RUPEE: SohItemData(138, IC.filler, 0),
     Items.HUGE_RUPEE: SohItemData(139, IC.filler, 0),
     Items.PIECE_OF_HEART: SohItemData(140, IC.useful, 35, item_groups=["Hearts", "Heart"]),
-    Items.HEART_CONTAINER: SohItemData(141, IC.progression, 8, item_groups=["Hearts", "Heart"]),
+    Items.HEART_CONTAINER: SohItemData(141, IC.useful | IC.skip_balancing | IC.deprioritized, 8, item_groups=["Hearts", "Heart"]),
     Items.ICE_TRAP: SohItemData(142, IC.trap, 0, item_groups=["Traps", "Trap"]),
     # Items.MILK: SohItemData( 143, ),
     # Items.FISH: SohItemData( 144, ),
