@@ -217,25 +217,29 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.skeleton_key:
         items_to_create[Items.SKELETON_KEY] = 1
 
+    # Item Pool Modifications should go here so the below can figure out what to make progressive correctly. Mostly important for Heart Containers.
+
     # Add Golden Skulltula Tokens as progressive if necessary
     if world.randomized_progressive_skulltula_count > 0:
         # We can only set progressive for whatever we shuffle
-
-        tokens = [world.create_item(Items.GOLD_SKULLTULA_TOKEN, classification=ItemClassification.progression_deprioritized_skip_balancing) for _ in range(world.randomized_progressive_skulltula_count)]
-        world.item_pool += tokens
-        world.multiworld.itempool += tokens
-
+        items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= create_special_progression_item(world, Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing, world.randomized_progressive_skulltula_count)
         world.randomized_progressive_skulltula_count = 0
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= len(tokens)
-
+        
     # Create progressive Heart Pieces if Fewer Tunic Requirements is enabled
-    if world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value:
-        hearts = [world.create_item(Items.HEART_CONTAINER, classification=ItemClassification.progression_deprioritized_skip_balancing) for _ in range(5)]
+    if (world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value) and items_to_create[Items.HEART_CONTAINER] > 5:
+            items_to_create[Items.HEART_CONTAINER] -= create_special_progression_item(world, Items.HEART_CONTAINER, ItemClassification.progression_skip_balancing, 5)
 
-        world.item_pool += hearts
-        world.multiworld.itempool += hearts
-
-        items_to_create[Items.HEART_CONTAINER] -= len(hearts)
+    # Only create Greg as a Progressive Item if he is required to win
+    if world.options.rainbow_bridge == "greg" or (world.options.rainbow_bridge and world.options.rainbow_bridge_greg_modifier) or (world.options.ganons_castle_boss_key and world.options.ganons_castle_boss_key_greg_modifier):
+        items_to_create[Items.GREG_THE_GREEN_RUPEE] -= create_special_progression_item(world, Items.GREG_THE_GREEN_RUPEE, ItemClassification.progression_skip_balancing)
+    
+    # Only create Stone of Agony as Progressive if it is required for grottos
+    if world.options.enable_all_tricks or str(Tricks.GROTTOS_WITHOUT_AGONY) in world.options.tricks_in_logic:
+        items_to_create[Items.STONE_OF_AGONY] -= create_special_progression_item(world, Items.STONE_OF_AGONY, ItemClassification.filler)
+    
+    # Only create Ice Arrows as Progressive if blue fire arrows is enabled
+    if world.options.blue_fire_arrows:
+        items_to_create[Items.ICE_ARROW] -= create_special_progression_item(world, Items.ICE_ARROW, ItemClassification.progression | ItemClassification.useful)
 
     # Add regular item pool
     for item, quantity in items_to_create.items():
@@ -256,17 +260,27 @@ def create_item_pool(world: "SohWorld") -> None:
     world.item_pool += filler_bottle_items
 
 
+def create_special_progression_item(world: "SohWorld", item: Items, classification: ItemClassification, amount: int = 1) -> int:
+    items = [world.create_item(item, classification=classification) for _ in range(amount)]
+
+    world.item_pool += items
+    world.multiworld.itempool += items
+
+    return amount
+
+
 def create_triforce_pieces(world: "SohWorld") -> None:
     total_triforce_pieces: int = min(
         get_open_location_count(world), world.options.triforce_hunt_pieces_total.value)
-
-    triforce_pieces_made = [world.create_item(
-        Items.TRIFORCE_PIECE) for _ in range(total_triforce_pieces)]
-    world.item_pool += triforce_pieces_made
-    world.multiworld.itempool += triforce_pieces_made
-
+    
     triforce_pieces_to_win: int = max(1, round(
         total_triforce_pieces * (world.options.triforce_hunt_pieces_required_percentage.value * .01)))
+    
+    triforce_pieces_made = [world.create_item(Items.TRIFORCE_PIECE, classification=ItemClassification.progression_skip_balancing) for _ in range(triforce_pieces_to_win)]
+    triforce_pieces_made += [world.create_item(Items.TRIFORCE_PIECE) for _ in range(total_triforce_pieces - triforce_pieces_to_win)]
+
+    world.item_pool += triforce_pieces_made
+    world.multiworld.itempool += triforce_pieces_made
 
     world.options.triforce_hunt_pieces_total.value = total_triforce_pieces
     world.triforce_pieces_required = triforce_pieces_to_win
