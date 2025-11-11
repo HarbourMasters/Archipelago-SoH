@@ -264,7 +264,6 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PROGRESSIVE_BOW] = 2
             items_to_create[Items.PROGRESSIVE_SLINGSHOT] = 2
             items_to_create[Items.PROGRESSIVE_BOMB_BAG] = 2
-            # This probably doesn't play nice with my changes to progressive heart containers when FEWER_TUNIC_REQUIREMENTS is enabled. Likely need to rework one or the other to fix.
             items_to_create[Items.HEART_CONTAINER] = 0
 
         elif world.options.item_pool == "minimal":
@@ -283,7 +282,6 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PIECE_OF_HEART] = 0
             # This winner POH isn't in the original code, but I don't see why it wouldn't also be removed.
             items_to_create[Items.PIECE_OF_HEART_WINNER] = 0
-            # This probably doesn't play nice with my changes to progressive heart containers when FEWER_TUNIC_REQUIREMENTS is enabled. Likely need to rework one or the other to fix.
             # We currently don't have a starting hearts option. We assume everyone starts at 3 hearts
             items_to_create[Items.HEART_CONTAINER] = 0
 
