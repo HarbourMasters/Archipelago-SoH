@@ -88,6 +88,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.shuffle_tycoon_wallet = world.passthrough["shuffle_tycoon_wallet"]
             world.options.enable_all_tricks.value = world.passthrough["enable_all_tricks"]
             world.options.tricks_in_logic.value = world.passthrough["tricks_in_logic"]
+            world.options.item_pool.value = world.passthrough["item_pool"]
             # the below do not need to be handled in UT at all, since they do not affect logic
             # shuffle_100_gs_reward, ice_trap_count, ice_trap_filler_replacement, and apworld_version
         else:
