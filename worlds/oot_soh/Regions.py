@@ -301,10 +301,7 @@ def place_locked_items(world: "SohWorld") -> None:
     token_item_progressive = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.progression_deprioritized_skip_balancing)
     token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
 
-    # Preplace tokens based on settings.
-    if world.using_ut:
-            world.vanilla_progressive_skulltula_count = world.passthrough["vanilla_progressive_skulltula_count"]
-            
+    # Preplace tokens based on settings.    
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
         for location_name, address in gold_skulltula_overworld_location_table.items():
             if world.vanilla_progressive_skulltula_count > 0:
