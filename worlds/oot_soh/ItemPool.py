@@ -220,10 +220,12 @@ def create_item_pool(world: "SohWorld") -> None:
     # Item Pool Modifications should go here so the below can figure out what to make progressive correctly. Mostly important for Heart Containers.
 
     # Add Golden Skulltula Tokens as progressive if necessary
+    if world.using_ut:
+            world.randomized_progressive_skulltula_count = world.passthrough["randomized_progressive_skulltula_count"]
+
     if world.randomized_progressive_skulltula_count > 0:
         # We can only set progressive for whatever we shuffle
         items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= create_special_progression_item(world, Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing, world.randomized_progressive_skulltula_count)
-        world.randomized_progressive_skulltula_count = 0
         
     # Create progressive Heart Pieces if Fewer Tunic Requirements is enabled
     if (world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value) and items_to_create[Items.HEART_CONTAINER] > 5:
