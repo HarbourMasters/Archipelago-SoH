@@ -81,6 +81,7 @@ class SohWorld(World):
         self.scrub_prices = dict[str, int]()
         self.merchant_prices = dict[str, int]()
         self.triforce_pieces_required: int = 0
+        self.dungeon_quest: dict[Dungeons, DungeonQuest] = {dungeon: DungeonQuest.VANILLA for dungeon in Dungeons}
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -357,5 +358,9 @@ class SohWorld(World):
             "no_logic": self.options.true_no_logic.value,
             "apworld_version": self.apworld_version,
             "enable_all_tricks": self.options.enable_all_tricks.value,
-            "tricks_in_logic": self.options.tricks_in_logic.value
+            "tricks_in_logic": self.options.tricks_in_logic.value,
+            "master_quest_dungeon_settings": self.options.master_quest_dungeon_settings.value,
+            "master_quest_dungeon_count": self.options.master_quest_dungeon_count.value,
+            "master_quest_dungeon_selection": self.options.master_quest_dungeon_selection.value,
+            "dungeon_quest": {str(dungeon): str(quest) for dungeon, quest in self.dungeon_quest.items()},
         }

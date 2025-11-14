@@ -3845,3 +3845,23 @@ class Tricks(StrEnum):
     BOTTOM_OF_THE_WELL_SKULL_PUSH = "Bottom of the Well Skull Push"
     GANONS_CASTLE_BARRIER_SKIP_HOVER = "Ganons Castle Barrier Skip Hover"
     GANONS_CASTLE_GOLD_GAUNTLET_SKIP = "Ganons Castle Gold Gauntlet Skip"
+
+
+class DungeonQuest(StrEnum):
+    VANILLA = "Vanilla"
+    MASTER_QUEST = "Master Quest"
+
+
+class Dungeons(StrEnum):
+    DEKU_TREE = "Deku Tree"
+    DODONGOS_CAVERN = "Dodongo's Cavern"
+    JABU_JABUS_BELLY = "Jabu Jabu's Belly"
+    FOREST_TEMPLE = "Forest Temple"
+    FIRE_TEMPLE = "Fire Temple"
+    WATER_TEMPLE = "Water Temple"
+    SPIRIT_TEMPLE = "Spirit Temple"
+    SHADOW_TEMPLE = "Shadow Temple"
+    BOTTOM_OF_THE_WELL = "Bottom of the Well"
+    ICE_CAVERN = "Ice Cavern"
+    GERUDO_TRAINING_GROUND = "Gerudo Training Ground"
+    GANONS_CASTLE = "Ganon's Castle"

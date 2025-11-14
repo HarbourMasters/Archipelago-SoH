@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet
-from .Enums import Tricks
+from .Enums import Tricks, Dungeons
 
 
 class ClosedForest(Choice):
@@ -98,6 +98,38 @@ class FortressCarpenters(Choice):
     option_fast = 1
     option_free = 2
     default = 1
+
+
+class MasterQuestDungeonSettings(Choice):
+    """
+    Sets the number of Master Quest Dungeons that are shuffled into the pool.
+    None - All Dungeons will be their Vanilla versions.
+    Count - Select a number of Master Quest Dungeons that are shuffled into the pool using the MQ Dungeon Count setting.
+    Select - Select which Master Quest Dungeons that are shuffled into the pool using the MQ Dungeon Selection setting.
+    """
+    display_name = "Master Quest Dungeon Settings"
+    option_none = 0
+    option_count = 1
+    option_select = 2
+    default = 0
+
+
+class MasterQuestDungeonCount(Range):
+    """
+    When MQ Dungeon Settings is set to count, this is how many dungeons will be the Master Quest variant.
+    """
+    display_name = "Master Quest Dungeon Count"
+    range_start = 0
+    range_end = 9
+    default = 0
+
+
+class MasterQuestDungeonSelection(OptionSet):
+    """
+    When MQ Dungeon Settings is set to select, this determines which dungeons are selected to be Master Quest Dungeons.
+    """
+    display_name = "MQ Dungeon Selection"
+    valid_keys = [str(dungeon) for dungeon in Dungeons]
 
 
 class RainbowBridge(Choice):
@@ -891,6 +923,9 @@ class SohOptions(PerGameCommonOptions):
     jabu_jabu: JabuJabu
     lock_overworld_doors: LockOverworldDoors
     fortress_carpenters: FortressCarpenters
+    master_quest_dungeon_settings: MasterQuestDungeonSettings
+    master_quest_dungeon_count: MasterQuestDungeonCount
+    master_quest_dungeon_selection: MasterQuestDungeonSelection
     rainbow_bridge: RainbowBridge
     rainbow_bridge_stones_required: RainbowBridgeStonesRequired
     rainbow_bridge_medallions_required: RainbowBridgeMedallionsRequired
@@ -986,6 +1021,9 @@ soh_option_groups = [
     OptionGroup("World Settings", [
         StartingAge,
         FortressCarpenters,
+        MasterQuestDungeonSettings,
+        MasterQuestDungeonCount,
+        MasterQuestDungeonSelection,
         RainbowBridge,
         RainbowBridgeStonesRequired,
         RainbowBridgeMedallionsRequired,
