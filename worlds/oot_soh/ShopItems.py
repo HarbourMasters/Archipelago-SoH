@@ -4,7 +4,7 @@ from Fill import fill_restrictive
 from BaseClasses import CollectionState
 
 from .LogicHelpers import rule_wrapper, can_afford
-from .Locations import scrubs_location_table, merchants_items_location_table
+from .Locations import scrubs_location_table, merchants_items_location_table, scrubs_one_time_only
 from .Enums import *
 
 if TYPE_CHECKING:
@@ -226,9 +226,14 @@ def generate_scrub_prices(world: "SohWorld") -> None:
         min_scrub_price = world.options.shuffle_scrubs_minimum_price.value
         max_scrub_price = world.options.shuffle_scrubs_maximum_price.value
 
-        for slot in scrubs_location_table.keys():
-            world.scrub_prices[slot] = create_random_price(
-                min_scrub_price, max_scrub_price, world)
+        if world.options.shuffle_scrubs == "all":
+            for slot in scrubs_location_table.keys():
+                world.scrub_prices[slot] = create_random_price(
+                    min_scrub_price, max_scrub_price, world)
+        else:
+            for slot in scrubs_one_time_only:
+                world.scrub_prices[slot] = create_random_price(
+                    min_scrub_price, max_scrub_price, world)
 
         if world.using_ut:
             world.scrub_prices = world.passthrough["scrub_prices"]
@@ -273,7 +278,12 @@ def set_price_rules(world: "SohWorld") -> None:
 
     # Scrub Price Rules
     if world.options.shuffle_scrubs:
-        for slot in scrubs_location_table.keys():
+        scrubs_list = list()
+        if world.options.shuffle_scrubs == "all":
+            scrubs_list = scrubs_location_table.keys()
+        else:
+            scrubs_list += [location for location in scrubs_one_time_only]
+        for slot in scrubs_list:
             price = world.scrub_prices[slot]
             def price_rule(bundle, p=price): return can_afford(p, bundle)
             location = world.get_location(slot)

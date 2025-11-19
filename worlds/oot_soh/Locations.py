@@ -712,6 +712,8 @@ shops_location_table: dict[str, int] = {
     Locations.ZD_SHOP_ITEM8: 687
 }
 
+scrubs_one_time_only: tuple = (Locations.LW_DEKU_SCRUB_NEAR_BRIDGE, Locations.LW_DEKU_SCRUB_GROTTO_FRONT, Locations.HF_DEKU_SCRUB_GROTTO)
+
 scrubs_location_table: dict[str, int] = {
     Locations.LW_DEKU_SCRUB_NEAR_BRIDGE: 688,
     Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT: 689,

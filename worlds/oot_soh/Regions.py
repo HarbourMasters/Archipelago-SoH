@@ -7,6 +7,7 @@ from .Locations import SohLocation, base_location_table, \
     gold_skulltula_dungeon_location_table, \
     shops_location_table, \
     scrubs_location_table, \
+    scrubs_one_time_only, \
     trade_items_location_table, \
     merchants_items_location_table, \
     cows_location_table, \
@@ -134,8 +135,12 @@ def create_regions_and_locations(world: "SohWorld") -> None:
         world.included_locations.update(shops_location_table)
 
         # Scrubs
-        if world.options.shuffle_scrubs:
+        if world.options.shuffle_scrubs == "all":
             world.included_locations.update(scrubs_location_table)
+        
+        if world.options.shuffle_scrubs == "one_time_only":
+            for location_name in scrubs_one_time_only:
+                world.included_locations[location_name] = scrubs_location_table[location_name]
 
         # Adult Trade Items
         if world.options.shuffle_adult_trade_items:
