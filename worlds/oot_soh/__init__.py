@@ -163,35 +163,6 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
-    def set_rules(self) -> None:
-        if self.options.true_no_logic:
-            return
-
-        # Completion condition.
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.GAME_COMPLETED.value, self.player)
-
-        # UT doesn't run pre_fill, so we're doing this here instead
-        if self.using_ut:
-            self.shop_prices = self.passthrough["shop_prices"]
-            self.shop_vanilla_items = self.passthrough["shop_vanilla_items"]
-            set_price_rules(self)
-
-    def get_pre_fill_items(self) -> List["Item"]:
-        pre_fill_items = []
-
-        if self.options.shuffle_dungeon_rewards == "dungeons":
-            dungeon_reward_items = [self.create_item(
-                item.value) for item in dungeon_reward_item_mapping.values()]
-            pre_fill_items.extend(dungeon_reward_items)
-
-        for region, shop in all_shop_locations:
-            for slot, item in shop.items():
-                pre_fill_items.append(self.create_item(item))
-
-        return pre_fill_items
-
-    def pre_fill(self):
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
         if self.options.shuffle_dungeon_rewards == "dungeons":
             # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
@@ -207,7 +178,7 @@ class SohWorld(World):
                                         for location in dungeon_reward_item_mapping.keys()]
             dungeon_reward_items = [self.create_item(
                 item.value) for item in dungeon_reward_item_mapping.values()]
-            self.multiworld.random.shuffle(dungeon_reward_items)
+            self.random.shuffle(dungeon_reward_items)
 
             # Place dungeon rewards
             fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
@@ -215,11 +186,15 @@ class SohWorld(World):
 
         fill_shop_items(self)
 
-        # if UT ever does start running pre_fill, this will stop it from overwriting the shop price rules
-        if self.using_ut or self.options.true_no_logic:
+        set_price_rules(self)
+
+    def set_rules(self) -> None:
+        if self.options.true_no_logic:
             return
 
-        set_price_rules(self)
+        # Completion condition.
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(
+            Events.GAME_COMPLETED.value, self.player)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
