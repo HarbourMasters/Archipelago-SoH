@@ -196,6 +196,11 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
+        if not self.options.true_no_logic:
+            # Completion condition.
+            self.multiworld.completion_condition[self.player] = lambda state: state.has(
+                Events.GAME_COMPLETED.value, self.player)
+
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
         if self.options.shuffle_dungeon_rewards == "dungeons":
             # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
@@ -220,14 +225,6 @@ class SohWorld(World):
         fill_shop_items(self)
 
         set_price_rules(self)
-
-    def set_rules(self) -> None:
-        if self.options.true_no_logic:
-            return
-
-        # Completion condition.
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.GAME_COMPLETED.value, self.player)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
