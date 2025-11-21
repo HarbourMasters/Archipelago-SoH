@@ -1,6 +1,6 @@
 from typing import NamedTuple, TYPE_CHECKING
 from worlds.AutoWorld import LogicMixin
-from BaseClasses import MultiWorld, Region
+from BaseClasses import MultiWorld, Region, ItemClassification
 from .Enums import *
 from .Locations import SohLocation, base_location_table, \
     gold_skulltula_overworld_location_table, \
@@ -297,13 +297,27 @@ def place_locked_items(world: "SohWorld") -> None:
         world.get_location(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST).place_locked_item(
             world.create_item(Items.GANONS_CASTLE_BOSS_KEY))
 
-    # Preplace tokens based on settings.
+
+    token_item_progressive = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.progression_deprioritized_skip_balancing)
+    token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
+
+    # Preplace tokens based on settings.    
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
-        token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN)
         for location_name, address in gold_skulltula_overworld_location_table.items():
-            world.get_location(location_name).place_locked_item(token_item)
+            if world.vanilla_progressive_skulltula_count > 0:
+                world.get_location(location_name).place_locked_item(token_item_progressive)
+                world.vanilla_progressive_skulltula_count -= 1
+            else:
+                world.get_location(location_name).place_locked_item(token_item)
+            world.get_location(location_name).address = None 
+            world.get_location(location_name).item.code = None
 
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "overworld":
-        token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN)
         for location_name, address in gold_skulltula_dungeon_location_table.items():
-            world.get_location(location_name).place_locked_item(token_item)
+            if world.vanilla_progressive_skulltula_count > 0:
+                world.get_location(location_name).place_locked_item(token_item_progressive)
+                world.vanilla_progressive_skulltula_count -= 1
+            else:
+                world.get_location(location_name).place_locked_item(token_item)
+            world.get_location(location_name).address = None 
+            world.get_location(location_name).item.code = None

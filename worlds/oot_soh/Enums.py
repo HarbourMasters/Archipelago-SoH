@@ -3845,3 +3845,8 @@ class Tricks(StrEnum):
     BOTTOM_OF_THE_WELL_SKULL_PUSH = "Bottom of the Well Skull Push"
     GANONS_CASTLE_BARRIER_SKIP_HOVER = "Ganons Castle Barrier Skip Hover"
     GANONS_CASTLE_GOLD_GAUNTLET_SKIP = "Ganons Castle Gold Gauntlet Skip"
+
+class TokenCounts(IntEnum):
+    DUNGEON = 44
+    OVERWORLD = 56
+    TOTAL = DUNGEON + OVERWORLD

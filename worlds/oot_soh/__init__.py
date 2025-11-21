@@ -3,10 +3,10 @@ import pkgutil
 
 from typing import Any, List, ClassVar
 
-from BaseClasses import CollectionState, Item, Tutorial
+from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups
+from .Locations import location_table, location_name_groups, token_amounts
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping
 from .Enums import *
@@ -81,6 +81,8 @@ class SohWorld(World):
         self.scrub_prices = dict[str, int]()
         self.merchant_prices = dict[str, int]()
         self.triforce_pieces_required: int = 0
+        self.vanilla_progressive_skulltula_count: int = 0
+        self.randomized_progressive_skulltula_count: int = 0
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -117,6 +119,37 @@ class SohWorld(World):
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
             self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value 
 
+
+        # Figure out how many Skulltula tokens need to be progressive
+        # Max amount from KAK turn ins
+        turn_in_amount: int = 0
+        
+        if self.options.shuffle_100_gs_reward:
+            turn_in_amount = 100 
+        else:
+            for location, amount in token_amounts.items():
+                if location not in self.options.exclude_locations:
+                    turn_in_amount = amount
+                    break
+
+        progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
+
+
+        if self.options.shuffle_skull_tokens:
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count
+        
+            if self.options.shuffle_skull_tokens == "dungeon":
+                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
+            
+            if self.options.shuffle_skull_tokens == "overworld":
+                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+        else:
+            self.vanilla_progressive_skulltula_count = progressive_skulltula_count
+
+        if self.using_ut:
+            self.vanilla_progressive_skulltula_count = self.passthrough["vanilla_progressive_skulltula_count"]
+            self.randomized_progressive_skulltula_count = self.passthrough["randomized_progressive_skulltula_count"]
+
     def create_regions(self) -> None:
         create_regions_and_locations(self)
         place_locked_items(self)
@@ -133,9 +166,9 @@ class SohWorld(World):
             for location in self.get_locations():
                 location.access_rule = lambda state: True
 
-    def create_item(self, name: str, create_as_event: bool = False) -> SohItem:
+    def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
         item_entry = Items(name)
-        return SohItem(str(name), item_data_table[item_entry].classification,
+        return SohItem(str(name), item_data_table[item_entry].classification if classification == None else classification,
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
 
     def get_filler_item_name(self) -> str:
