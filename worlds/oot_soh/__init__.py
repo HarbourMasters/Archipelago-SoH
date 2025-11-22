@@ -3,10 +3,10 @@ import pkgutil
 
 from typing import Any, List, ClassVar
 
-from BaseClasses import CollectionState, Item, Tutorial
+from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups
+from .Locations import location_table, location_name_groups, token_amounts
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping
 from .Enums import *
@@ -81,6 +81,8 @@ class SohWorld(World):
         self.scrub_prices = dict[str, int]()
         self.merchant_prices = dict[str, int]()
         self.triforce_pieces_required: int = 0
+        self.vanilla_progressive_skulltula_count: int = 0
+        self.randomized_progressive_skulltula_count: int = 0
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -117,6 +119,37 @@ class SohWorld(World):
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
             self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value 
 
+
+        # Figure out how many Skulltula tokens need to be progressive
+        # Max amount from KAK turn ins
+        turn_in_amount: int = 0
+        
+        if self.options.shuffle_100_gs_reward:
+            turn_in_amount = 100 
+        else:
+            for location, amount in token_amounts.items():
+                if location not in self.options.exclude_locations:
+                    turn_in_amount = amount
+                    break
+
+        progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
+
+
+        if self.options.shuffle_skull_tokens:
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count
+        
+            if self.options.shuffle_skull_tokens == "dungeon":
+                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
+            
+            if self.options.shuffle_skull_tokens == "overworld":
+                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+        else:
+            self.vanilla_progressive_skulltula_count = progressive_skulltula_count
+
+        if self.using_ut:
+            self.vanilla_progressive_skulltula_count = self.passthrough["vanilla_progressive_skulltula_count"]
+            self.randomized_progressive_skulltula_count = self.passthrough["randomized_progressive_skulltula_count"]
+
     def create_regions(self) -> None:
         create_regions_and_locations(self)
         place_locked_items(self)
@@ -133,9 +166,9 @@ class SohWorld(World):
             for location in self.get_locations():
                 location.access_rule = lambda state: True
 
-    def create_item(self, name: str, create_as_event: bool = False) -> SohItem:
+    def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
         item_entry = Items(name)
-        return SohItem(str(name), item_data_table[item_entry].classification,
+        return SohItem(str(name), item_data_table[item_entry].classification if classification == None else classification,
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
 
     def get_filler_item_name(self) -> str:
@@ -163,35 +196,6 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
-    def set_rules(self) -> None:
-        if self.options.true_no_logic:
-            return
-
-        # Completion condition.
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.GAME_COMPLETED.value, self.player)
-
-        # UT doesn't run pre_fill, so we're doing this here instead
-        if self.using_ut:
-            self.shop_prices = self.passthrough["shop_prices"]
-            self.shop_vanilla_items = self.passthrough["shop_vanilla_items"]
-            set_price_rules(self)
-
-    def get_pre_fill_items(self) -> List["Item"]:
-        pre_fill_items = []
-
-        if self.options.shuffle_dungeon_rewards == "dungeons":
-            dungeon_reward_items = [self.create_item(
-                item.value) for item in dungeon_reward_item_mapping.values()]
-            pre_fill_items.extend(dungeon_reward_items)
-
-        for region, shop in all_shop_locations:
-            for slot, item in shop.items():
-                pre_fill_items.append(self.create_item(item))
-
-        return pre_fill_items
-
-    def pre_fill(self):
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
         if self.options.shuffle_dungeon_rewards == "dungeons":
             # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
@@ -207,7 +211,7 @@ class SohWorld(World):
                                         for location in dungeon_reward_item_mapping.keys()]
             dungeon_reward_items = [self.create_item(
                 item.value) for item in dungeon_reward_item_mapping.values()]
-            self.multiworld.random.shuffle(dungeon_reward_items)
+            self.random.shuffle(dungeon_reward_items)
 
             # Place dungeon rewards
             fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
@@ -215,11 +219,15 @@ class SohWorld(World):
 
         fill_shop_items(self)
 
-        # if UT ever does start running pre_fill, this will stop it from overwriting the shop price rules
-        if self.using_ut or self.options.true_no_logic:
+        set_price_rules(self)
+
+    def set_rules(self) -> None:
+        if self.options.true_no_logic:
             return
 
-        set_price_rules(self)
+        # Completion condition.
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(
+            Events.GAME_COMPLETED.value, self.player)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)

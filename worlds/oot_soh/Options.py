@@ -383,11 +383,18 @@ class ShuffleFish(Choice):
     default = 0
 
 
-class ShuffleScrubs(Toggle):
+class ShuffleScrubs(Choice):
     """
-    Shuffles all Deku Scrub merchants in the game.
+    Shuffles Deku Scrub merchants in the game.
+    Off - Scrubs will not be shuffled. The 3 Scrubs that give one-time items in the vanilla game (POH, Deku Nut capacity, and Deku Stick capacity) will not spawn.
+    One-Time Only - Only the 3 Scrubs that give one-time items in the vanilla game are shuffled.
+    All- All Scrubs are shuffled.
     """
     display_name = "Shuffle Scrubs"
+    option_off = 0
+    option_one_time_only = 1
+    option_all = 2
+    default = 0
 
 
 class ShuffleScrubsMinimumPrice(Range):

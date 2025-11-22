@@ -68,7 +68,7 @@ def set_region_rules(world: "SohWorld") -> None:
     if world.options.shuffle_merchants.value == 0 or world.options.shuffle_merchants.value == 2:
         add_events(Regions.ZORA_RIVER, world, [
             (EventLocations.MAGIC_BEAN_SALESMAN_SHOP, Events.CAN_BUY_BEANS,
-             lambda bundle: has_item(Items.CHILD_WALLET, bundle))
+             lambda bundle: is_child(bundle) and has_item(Items.CHILD_WALLET, bundle))
         ])
     # Locations
     add_locations(Regions.ZORA_RIVER, world, [
