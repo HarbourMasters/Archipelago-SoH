@@ -174,6 +174,33 @@ class SohWorld(World):
     def get_filler_item_name(self) -> str:
         return get_filler_item(self)
 
+    def set_completion_rule(self) -> None:
+        if not self.options.true_no_logic:
+            # Completion condition.
+            self.multiworld.completion_condition[self.player] = lambda state: state.has(
+                Events.GAME_COMPLETED.value, self.player)
+
+    def pre_fill_dungeon(self) -> None:
+        # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
+        # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
+        prefill_state = CollectionState(self.multiworld)
+        for item in self.item_pool:
+            prefill_state.collect(item, True)
+        for region, shop in all_shop_locations:
+            for slot, item in shop.items():
+                prefill_state.collect(self.create_item(item), True)
+        prefill_state.sweep_for_advancements()
+
+        dungeon_reward_locations = [self.get_location(location.value)
+                                    for location in dungeon_reward_item_mapping.keys()]
+        dungeon_reward_items = [self.create_item(
+            item.value) for item in dungeon_reward_item_mapping.values()]
+        self.random.shuffle(dungeon_reward_items)
+
+        # Place dungeon rewards
+        fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
+                         dungeon_reward_items, single_player_placement=True, lock=True)
+
     def create_items(self) -> None:
         # these are for making the progressive items collect/remove work properly
         if not self.options.shuffle_swim:
@@ -196,34 +223,15 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
-        if not self.options.true_no_logic:
-            # Completion condition.
-            self.multiworld.completion_condition[self.player] = lambda state: state.has(
-                Events.GAME_COMPLETED.value, self.player)
+        self.set_completion_rule()
 
-        # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
+        # these place items, so they should be done during create_items
         if self.options.shuffle_dungeon_rewards == "dungeons":
-            # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
-            prefill_state = CollectionState(self.multiworld)
-            for item in self.item_pool:
-                prefill_state.collect(item, True)
-            for region, shop in all_shop_locations:
-                for slot, item in shop.items():
-                    prefill_state.collect(self.create_item(item), True)
-            prefill_state.sweep_for_advancements()
-
-            dungeon_reward_locations = [self.get_location(location.value)
-                                        for location in dungeon_reward_item_mapping.keys()]
-            dungeon_reward_items = [self.create_item(
-                item.value) for item in dungeon_reward_item_mapping.values()]
-            self.random.shuffle(dungeon_reward_items)
-
-            # Place dungeon rewards
-            fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
-                             dungeon_reward_items, single_player_placement=True, lock=True)
+            self.pre_fill_dungeon()
 
         fill_shop_items(self)
 
+        # this one technically could be done later but why bother at this point
         set_price_rules(self)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
