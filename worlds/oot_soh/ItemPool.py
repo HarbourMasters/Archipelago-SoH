@@ -171,26 +171,41 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GANONS_CASTLE_BOSS_KEY] = 1
 
     # Key Rings
-    if world.options.key_rings:
+    if world.options.forest_temple_key_ring:
         items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
-        items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
-        items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
         items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
+
+    if world.options.fire_temple_key_ring:
+        items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
         items_to_create[Items.FIRE_TEMPLE_KEY_RING] = 1
+
+    if world.options.water_temple_key_ring:
+        items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
         items_to_create[Items.WATER_TEMPLE_KEY_RING] = 1
+
+    if world.options.spirit_temple_key_ring:
+        items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
         items_to_create[Items.SPIRIT_TEMPLE_KEY_RING] = 1
+
+    if world.options.shadow_temple_key_ring:
+        items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
         items_to_create[Items.SHADOW_TEMPLE_KEY_RING] = 1
+
+    if world.options.bottom_of_the_well_key_ring:
+        items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
         items_to_create[Items.BOTTOM_OF_THE_WELL_KEY_RING] = 1
+
+    if world.options.gerudo_training_ground_key_ring:
+        items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
         items_to_create[Items.TRAINING_GROUND_KEY_RING] = 1
+
+    if world.options.ganons_castle_key_ring:
+        items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
         items_to_create[Items.GANONS_CASTLE_KEY_RING] = 1
-        if world.options.fortress_carpenters == "normal":
-            items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
-            items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
+
+    if world.options.gerudo_fortress_key_ring:
+        items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
+        items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
 
     # Big Poe Bottle
     if world.options.big_poe_target_count == 0:

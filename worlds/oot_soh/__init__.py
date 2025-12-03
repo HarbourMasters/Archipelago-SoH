@@ -150,6 +150,41 @@ class SohWorld(World):
             self.vanilla_progressive_skulltula_count = self.passthrough["vanilla_progressive_skulltula_count"]
             self.randomized_progressive_skulltula_count = self.passthrough["randomized_progressive_skulltula_count"]
 
+        # Figure out Keyring Situation
+        if self.options.key_rings == "count":
+            key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring, self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
+            
+            for index in range(len(key_ring_options)):
+                    key_ring_options[index].value = False
+            
+            # Fix count if Gerudo Fortress Keys aren't allowed
+            # TODO Add check for gerudo fortress keys option
+            if not self.options.fortress_carpenters == "normal":
+                if self.options.key_rings_count.value > 8:
+                    self.options.key_rings_count.value = 8
+                key_ring_options.remove(self.options.gerudo_fortress_key_ring)
+
+            self.random.shuffle(key_ring_options)
+
+            # Set only the chosen 
+            for index in range(self.options.key_rings_count.value):
+                key_ring_options[index].value = True
+
+        # TODO Gerudo Fortress Key Options
+        if self.options.key_rings == "selection" and not self.options.fortress_carpenters == "normal":
+            self.options.gerudo_fortress_key_ring.value = False
+
+        if self.using_ut:
+            self.options.gerudo_fortress_key_ring.value = self.passthrough["gerudo_fortress_key_ring"]
+            self.options.forest_temple_key_ring.value = self.passthrough["forest_temple_key_ring"]
+            self.options.fire_temple_key_ring.value = self.passthrough["fire_temple_key_ring"]
+            self.options.water_temple_key_ring.value = self.passthrough["water_temple_key_ring"]
+            self.options.spirit_temple_key_ring.value = self.passthrough["spirit_temple_key_ring"]
+            self.options.shadow_temple_key_ring.value = self.passthrough["shadow_temple_key_ring"]
+            self.options.bottom_of_the_well_key_ring.value = self.passthrough["bottom_of_the_well_key_ring"]
+            self.options.gerudo_training_ground_key_ring.value = self.passthrough["gerudo_training_ground_key_ring"]
+            self.options.ganons_castle_key_ring.value = self.passthrough["ganons_castle_key_ring"]
+            
     def create_regions(self) -> None:
         create_regions_and_locations(self)
         place_locked_items(self)

@@ -702,11 +702,97 @@ class GanonsCastleBossKeySkullTokensRequired(Range):
     default = 50
 
 
-class KeyRings(Toggle):
+class KeyRings(Choice):
     """
     Keyrings will replace all small keys from a particular dungeon with a single keyring that awards all keys for its associated dungeon.
+    
+    Off - No dungeons will have their keys replaced with keyrings.
+
+    Count - A specified amount of randomly selected dungeons will have their keys replaced with keyrings.
+    
+    Selection - Hand select which dungeons will have their keys replaced with keyrings (can also be left as random, in which case each one will have a 50% chance of being a keyring).
+    
+    Selecting key ring for dungeons will have no effect if Small Keys are set to Start With or Vanilla.
+    
+    If Gerudo Fortress Carpenters is set to Normal, and Gerudo Fortress Keys is set to anything other than Vanilla, then the maximum amount of Key Rings that can be selected by Count will be 9. Otherwise, the maximum amount of Key Rings will be 8.
     """
     display_name = "Key Rings"
+    option_off = 0
+    option_count = 1
+    option_selection = 2
+
+
+class KeyRingsCount(Range):
+    """
+    If "Count" is selected for the Key Rings option, this is the count that will be used. If 9 is selected and Gerudo Fortress Keys don't meet the specified requirements, this option will be set to 8.
+    """
+    display_name = "Key Rings Count"
+    range_start = 0
+    range_end = 9
+    default = 0
+
+
+class GerudoFortressKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection". Will only work if Gerudo Fortress Keys meet the specified requirements.
+    """
+    display_name = "Gerudo Fortress Keyring"
+
+
+class ForestTempleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Forest Temple Keyring"
+
+
+class FireTempleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Fire Temple Keyring"
+
+
+class WaterTempleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Water Temple Keyring"
+
+
+class SpiritTempleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Spirit Temple Keyring"
+
+
+class ShadowTempleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Shadow Temple Keyring"
+
+
+class BottomOfTheWellKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Bottom of the Well Keyring"
+
+
+class GerudoTrainingGroundKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Gerudo Training Ground Keyring"
+
+
+class GanonsCastleKeyring(Toggle):
+    """
+    Only used if Key Rings option is set to "Selection"
+    """
+    display_name = "Ganon's Castle Keyring"
 
 
 class BigPoeTargetCount(Range):
@@ -954,6 +1040,16 @@ class SohOptions(PerGameCommonOptions):
     ganons_castle_boss_key_skull_tokens_required: GanonsCastleBossKeySkullTokensRequired
     ganons_castle_boss_key_greg_modifier: GanonsCastleBossKeyGregModifier
     key_rings: KeyRings
+    key_rings_count: KeyRingsCount
+    gerudo_fortress_key_ring: GerudoFortressKeyring
+    forest_temple_key_ring: ForestTempleKeyring
+    fire_temple_key_ring: FireTempleKeyring
+    water_temple_key_ring: WaterTempleKeyring
+    spirit_temple_key_ring: SpiritTempleKeyring
+    shadow_temple_key_ring: ShadowTempleKeyring
+    bottom_of_the_well_key_ring: BottomOfTheWellKeyring
+    gerudo_training_ground_key_ring: GerudoTrainingGroundKeyring
+    ganons_castle_key_ring: GanonsCastleKeyring
     big_poe_target_count: BigPoeTargetCount
     skip_child_zelda: SkipChildZelda
     skip_epona_race: SkipEponaRace
@@ -1076,7 +1172,16 @@ soh_option_groups = [
         GanonsCastleBossKeySkullTokensRequired,
         GanonsCastleBossKeyGregModifier,
         KeyRings,
-        # Key Ring Dungeon Count
+        KeyRingsCount,
+        GerudoFortressKeyring,
+        ForestTempleKeyring,
+        FireTempleKeyring,
+        WaterTempleKeyring,
+        SpiritTempleKeyring,
+        ShadowTempleKeyring,
+        BottomOfTheWellKeyring,
+        GerudoTrainingGroundKeyring,
+        GanonsCastleKeyring
     ]),
     # todo: decide whether these should be in the yaml or just let you change them locally on the fly
     OptionGroup("Timesavers", [
