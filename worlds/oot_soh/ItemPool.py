@@ -401,11 +401,11 @@ def get_open_location_count(world: "SohWorld") -> int:
         else:
             open_location_count -= item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool
 
-    if world.options.gerudo_fortress_key_shuffle == "any_dungeon":
-            if world.options.gerudo_fortress_key_ring or world.options.fortress_carpenters == "fast":
-                open_location_count -= 1
-            else:
-                open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
+    if world.options.gerudo_fortress_key_shuffle != "anywhere":
+        if (world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla") or world.options.fortress_carpenters == "fast":
+            open_location_count -= 1
+        elif world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle == "vanilla":
+            open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
 
     return open_location_count
 

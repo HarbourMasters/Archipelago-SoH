@@ -158,7 +158,7 @@ class SohWorld(World):
                     key_ring_options[index].value = False
             
             # Fix count if Gerudo Fortress Keys aren't allowed
-            if not self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
+            if self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
                 if self.options.key_rings_count.value > 8:
                     self.options.key_rings_count.value = 8
                 key_ring_options.remove(self.options.gerudo_fortress_key_ring)
@@ -169,7 +169,7 @@ class SohWorld(World):
             for index in range(self.options.key_rings_count.value):
                 key_ring_options[index].value = True
 
-        if self.options.key_rings == "selection" and not self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
+        if self.options.key_rings == "selection" and self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
             self.options.gerudo_fortress_key_ring.value = False
 
         if self.using_ut:
@@ -330,12 +330,19 @@ class SohWorld(World):
 
 
         # Gerudo Fortress Keys
-        if self.options.gerudo_fortress_key_shuffle == "any_dungeon":
-            if self.options.gerudo_fortress_key_ring:
-                key_any_dungeon.append(Items.GERUDO_FORTRESS_KEY_RING)
-            else:
-                for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if self.options.fortress_carpenters == "normal" else 1):
-                    key_any_dungeon.append(Items.GERUDO_FORTRESS_SMALL_KEY)
+        if self.options.fortress_carpenters != "free":
+            if self.options.gerudo_fortress_key_shuffle == "vanilla": 
+                if self.options.fortress_carpenters != "fast":
+                    for location in (Locations.TH_1_TORCH_CARPENTER, Locations.TH_DEAD_END_CARPENTER, Locations.TH_DOUBLE_CELL_CARPENTER, Locations.TH_STEEP_SLOPE_CARPENTER):
+                        self.get_location(str(location)).place_locked_item(self.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
+                else:
+                    self.get_location(str(Locations.TH_1_TORCH_CARPENTER)).place_locked_item(self.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
+            elif self.options.gerudo_fortress_key_shuffle == "any_dungeon":
+                if self.options.gerudo_fortress_key_ring and self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle != "vanilla":
+                    key_any_dungeon.append(Items.GERUDO_FORTRESS_KEY_RING)
+                else:
+                    for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if self.options.fortress_carpenters == "normal" else 1):
+                        key_any_dungeon.append(Items.GERUDO_FORTRESS_SMALL_KEY)
 
         # Resolve own_dungeon and any_dungeon options
         if own_dungeon:
