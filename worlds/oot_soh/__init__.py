@@ -8,7 +8,7 @@ from worlds.AutoWorld import WebWorld, World
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts
 from .Options import SohOptions, soh_option_groups
-from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping
+from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, dungeon_boss_key_vanilla_mapping, small_key_vanilla_mapping, forest_temple_chests, fire_temple_chests, water_temple_chests, spirit_temple_chests, shadow_temple_chests, botw_chests, gtg_chests, ganons_castle_chests
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
@@ -18,7 +18,7 @@ from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
 from Options import OptionError
-from .LogicHelpers import wallet_capacities
+from .LogicHelpers import wallet_capacities, key_to_ring
 
 import logging
 logger = logging.getLogger("SOH_OOT")
@@ -158,8 +158,7 @@ class SohWorld(World):
                     key_ring_options[index].value = False
             
             # Fix count if Gerudo Fortress Keys aren't allowed
-            # TODO Add check for gerudo fortress keys option
-            if not self.options.fortress_carpenters == "normal":
+            if not self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
                 if self.options.key_rings_count.value > 8:
                     self.options.key_rings_count.value = 8
                 key_ring_options.remove(self.options.gerudo_fortress_key_ring)
@@ -170,8 +169,7 @@ class SohWorld(World):
             for index in range(self.options.key_rings_count.value):
                 key_ring_options[index].value = True
 
-        # TODO Gerudo Fortress Key Options
-        if self.options.key_rings == "selection" and not self.options.fortress_carpenters == "normal":
+        if self.options.key_rings == "selection" and not self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
             self.options.gerudo_fortress_key_ring.value = False
 
         if self.using_ut:
@@ -231,17 +229,138 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
+        # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
+        prefill_state = CollectionState(self.multiworld)
+        for item in self.item_pool:
+            prefill_state.collect(item, True)
+        for _, shop in all_shop_locations:
+            for _, item in shop.items():
+                prefill_state.collect(self.create_item(item), True)
+        prefill_state.sweep_for_advancements()
+
+        own_dungeon: bool = False
+
+        key_own_dungeon = {
+            Dungeons.FOREST_TEMPLE: [],
+            Dungeons.FIRE_TEMPLE: [],
+            Dungeons.WATER_TEMPLE: [],
+            Dungeons.SPIRIT_TEMPLE: [],
+            Dungeons.SHADOW_TEMPLE: [],
+            Dungeons.BOTW: [],
+            Dungeons.GTG: [],
+            Dungeons.GANONS_CASTLE: []
+        }
+        # TODO This should be changed over to pull data from LocData or equivilent eventually
+        locations_own_dungeon = {
+            Dungeons.FOREST_TEMPLE: forest_temple_chests,
+            Dungeons.FIRE_TEMPLE: fire_temple_chests,
+            Dungeons.WATER_TEMPLE: water_temple_chests,
+            Dungeons.SPIRIT_TEMPLE: spirit_temple_chests,
+            Dungeons.SHADOW_TEMPLE: shadow_temple_chests,
+            Dungeons.BOTW: botw_chests,
+            Dungeons.GTG: gtg_chests,
+            Dungeons.GANONS_CASTLE: ganons_castle_chests
+        }
+
+        key_any_dungeon = []
+        # TODO This should be changed over to pull data from LocData or equivilent eventually
+        locations_any_dungeon = forest_temple_chests + fire_temple_chests + water_temple_chests + spirit_temple_chests + shadow_temple_chests + botw_chests + gtg_chests + ganons_castle_chests
+
+        # Boss Keys
+        if self.options.boss_key_shuffle == "vanilla":
+            for location, key in dungeon_boss_key_vanilla_mapping.items():
+                self.get_location(str(location)).place_locked_item(self.create_item(str(key)))
+                if location in locations_any_dungeon:
+                    locations_any_dungeon.remove(location)
+
+            locations_own_dungeon[Dungeons.FOREST_TEMPLE].remove(Locations.FOREST_TEMPLE_BOSS_KEY_CHEST)
+            locations_own_dungeon[Dungeons.FIRE_TEMPLE].remove(Locations.FIRE_TEMPLE_BOSS_KEY_CHEST)
+            locations_own_dungeon[Dungeons.WATER_TEMPLE].remove(Locations.WATER_TEMPLE_BOSS_KEY_CHEST)
+            locations_own_dungeon[Dungeons.SPIRIT_TEMPLE].remove(Locations.SPIRIT_TEMPLE_BOSS_KEY_CHEST)
+            locations_own_dungeon[Dungeons.SHADOW_TEMPLE].remove(Locations.SHADOW_TEMPLE_BOSS_KEY_CHEST)
+
+        elif self.options.boss_key_shuffle == "own_dungeon":
+            own_dungeon = True
+            key_own_dungeon[Dungeons.FOREST_TEMPLE].append(Items.FOREST_TEMPLE_BOSS_KEY)
+            key_own_dungeon[Dungeons.FIRE_TEMPLE].append(Items.FIRE_TEMPLE_BOSS_KEY)
+            key_own_dungeon[Dungeons.WATER_TEMPLE].append(Items.WATER_TEMPLE_BOSS_KEY)
+            key_own_dungeon[Dungeons.SPIRIT_TEMPLE].append(Items.SPIRIT_TEMPLE_BOSS_KEY)
+            key_own_dungeon[Dungeons.SHADOW_TEMPLE].append(Items.SHADOW_TEMPLE_BOSS_KEY)
+
+        elif self.options.boss_key_shuffle == "any_dungeon":
+            key_any_dungeon += [key for key in (Items.FOREST_TEMPLE_BOSS_KEY, Items.FIRE_TEMPLE_BOSS_KEY, Items.WATER_TEMPLE_BOSS_KEY, Items.SPIRIT_TEMPLE_BOSS_KEY,Items.SHADOW_TEMPLE_BOSS_KEY)]
+
+
+        small_key_option_mapping = {
+            Items.FOREST_TEMPLE_SMALL_KEY: (Dungeons.FOREST_TEMPLE, self.options.forest_temple_key_ring.value, item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.FIRE_TEMPLE_SMALL_KEY: (Dungeons.FIRE_TEMPLE, self.options.fire_temple_key_ring.value, item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.WATER_TEMPLE_SMALL_KEY: (Dungeons.WATER_TEMPLE, self.options.water_temple_key_ring.value, item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.SPIRIT_TEMPLE_SMALL_KEY: (Dungeons.SPIRIT_TEMPLE, self.options.spirit_temple_key_ring.value, item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.SHADOW_TEMPLE_SMALL_KEY: (Dungeons.SHADOW_TEMPLE, self.options.shadow_temple_key_ring.value, item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: (Dungeons.BOTW, self.options.bottom_of_the_well_key_ring.value, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
+            Items.GANONS_CASTLE_SMALL_KEY: (Dungeons.GANONS_CASTLE, self.options.ganons_castle_key_ring.value, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
+            Items.TRAINING_GROUND_SMALL_KEY: (Dungeons.GTG, self.options.gerudo_training_ground_key_ring.value, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
+        }
+        
+
+        # Small Keys
+        if self.options.small_key_shuffle == "vanilla":
+            # TODO For logic to work we need to give an extra key, but the game actually unlocks one of the doors. Need to see if there is a way to not actually send this to the player or something
+            # Techincally we could force this spare key to the Boss Key Chest if vanilla boss keys aren't on
+            self.multiworld.push_precollected(self.multiworld.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), self.player))
+
+            for key, locations in small_key_vanilla_mapping.items():
+                for location in locations:
+                    self.get_location(str(location)).place_locked_item(self.create_item(str(key)))
+                    if location in locations_any_dungeon:
+                        locations_any_dungeon.remove(location)
+
+        elif self.options.small_key_shuffle in ("own_dungeon", "any_dungeon"):
+            if self.options.small_key_shuffle == "own_dungeon":
+                own_dungeon = True
+
+            for key, data in small_key_option_mapping.items():
+                item = key_to_ring[key] if data[1] else key
+                if self.options.small_key_shuffle == "own_dungeon":
+                    for _ in range(1 if data[1] else data[2]):
+                        key_own_dungeon[data[0]].append(item)
+                else:
+                    for _ in range(1 if data[1] else data[2]):
+                        key_any_dungeon.append(item)
+
+
+        # Gerudo Fortress Keys
+        if self.options.gerudo_fortress_key_shuffle == "any_dungeon":
+            if self.options.gerudo_fortress_key_ring:
+                key_any_dungeon.append(Items.GERUDO_FORTRESS_KEY_RING)
+            else:
+                for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if self.options.fortress_carpenters == "normal" else 1):
+                    key_any_dungeon.append(Items.GERUDO_FORTRESS_SMALL_KEY)
+
+        # Resolve own_dungeon and any_dungeon options
+        if own_dungeon:
+            for dungeon, keys in key_own_dungeon.items():
+                dungeon_locations = locations_own_dungeon[dungeon]
+                self.random.shuffle(dungeon_locations)
+
+                fill_restrictive(self.multiworld, prefill_state, [self.get_location(str(location)) for location in dungeon_locations],
+                                [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
+                
+        if key_any_dungeon:
+            locations = []
+            for location in locations_any_dungeon:
+                loc = self.get_location(str(location))
+                if loc.item != None:
+                    locations_any_dungeon.remove(location)
+                    continue
+                locations.append(loc)
+            self.random.shuffle(locations)
+
+            fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_any_dungeon], single_player_placement=True, lock=True)
+        
+
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
         if self.options.shuffle_dungeon_rewards == "dungeons":
-            # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
-            prefill_state = CollectionState(self.multiworld)
-            for item in self.item_pool:
-                prefill_state.collect(item, True)
-            for region, shop in all_shop_locations:
-                for slot, item in shop.items():
-                    prefill_state.collect(self.create_item(item), True)
-            prefill_state.sweep_for_advancements()
-
             dungeon_reward_locations = [self.get_location(location.value)
                                         for location in dungeon_reward_item_mapping.keys()]
             dungeon_reward_items = [self.create_item(

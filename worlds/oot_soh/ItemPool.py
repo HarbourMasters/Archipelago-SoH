@@ -170,42 +170,65 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:
         items_to_create[Items.GANONS_CASTLE_BOSS_KEY] = 1
 
-    # Key Rings
-    if world.options.forest_temple_key_ring:
+    # Keys
+    if world.options.small_key_shuffle == "anywhere":
+        if world.options.forest_temple_key_ring:
+            items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
+            items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
+
+        if world.options.fire_temple_key_ring:
+            items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
+            items_to_create[Items.FIRE_TEMPLE_KEY_RING] = 1
+
+        if world.options.water_temple_key_ring:
+            items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
+            items_to_create[Items.WATER_TEMPLE_KEY_RING] = 1
+
+        if world.options.spirit_temple_key_ring:
+            items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
+            items_to_create[Items.SPIRIT_TEMPLE_KEY_RING] = 1
+
+        if world.options.shadow_temple_key_ring:
+            items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
+            items_to_create[Items.SHADOW_TEMPLE_KEY_RING] = 1
+
+        if world.options.bottom_of_the_well_key_ring:
+            items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
+            items_to_create[Items.BOTTOM_OF_THE_WELL_KEY_RING] = 1
+
+        if world.options.gerudo_training_ground_key_ring:
+            items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
+            items_to_create[Items.TRAINING_GROUND_KEY_RING] = 1
+
+        if world.options.ganons_castle_key_ring:
+            items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
+            items_to_create[Items.GANONS_CASTLE_KEY_RING] = 1
+
+    else:
         items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
-
-    if world.options.fire_temple_key_ring:
         items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.FIRE_TEMPLE_KEY_RING] = 1
-
-    if world.options.water_temple_key_ring:
         items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.WATER_TEMPLE_KEY_RING] = 1
-
-    if world.options.spirit_temple_key_ring:
         items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.SPIRIT_TEMPLE_KEY_RING] = 1
-
-    if world.options.shadow_temple_key_ring:
         items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
-        items_to_create[Items.SHADOW_TEMPLE_KEY_RING] = 1
-
-    if world.options.bottom_of_the_well_key_ring:
         items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
-        items_to_create[Items.BOTTOM_OF_THE_WELL_KEY_RING] = 1
-
-    if world.options.gerudo_training_ground_key_ring:
         items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
-        items_to_create[Items.TRAINING_GROUND_KEY_RING] = 1
-
-    if world.options.ganons_castle_key_ring:
         items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
-        items_to_create[Items.GANONS_CASTLE_KEY_RING] = 1
 
-    if world.options.gerudo_fortress_key_ring:
+    # Gerudo Fortress Keys
+    if world.options.gerudo_fortress_key_shuffle == "anywhere":
+        if world.options.gerudo_fortress_key_ring:
+            items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
+            items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
+    else:
         items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
-        items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
+
+    # Boss Keys
+    if world.options.boss_key_shuffle != "anywhere":
+        items_to_create[Items.FOREST_TEMPLE_BOSS_KEY] = 0
+        items_to_create[Items.FIRE_TEMPLE_BOSS_KEY] = 0
+        items_to_create[Items.WATER_TEMPLE_BOSS_KEY] = 0
+        items_to_create[Items.SPIRIT_TEMPLE_BOSS_KEY] = 0
+        items_to_create[Items.SHADOW_TEMPLE_BOSS_KEY] = 0
 
     # Big Poe Bottle
     if world.options.big_poe_target_count == 0:
@@ -338,6 +361,52 @@ def get_open_location_count(world: "SohWorld") -> int:
     # Subtract dungeon rewards when set to dungeons as they're prefilled later.
     if world.options.shuffle_dungeon_rewards == "dungeons":
         open_location_count -= 9
+
+    if world.options.boss_key_shuffle != "anywhere":
+        open_location_count -= 5
+        
+    if world.options.small_key_shuffle == "vanilla":
+        open_location_count -= 43
+    elif world.options.small_key_shuffle in ("own_dungeon", "any_dungeon"):
+        if world.options.forest_temple_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.fire_temple_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.water_temple_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.spirit_temple_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.shadow_temple_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.bottom_of_the_well_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool
+        if world.options.ganons_castle_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool
+        if world.options.gerudo_training_ground_key_ring:
+            open_location_count -= 1
+        else:
+            open_location_count -= item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool
+
+    if world.options.gerudo_fortress_key_shuffle == "any_dungeon":
+            if world.options.gerudo_fortress_key_ring or world.options.fortress_carpenters == "fast":
+                open_location_count -= 1
+            else:
+                open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
+
     return open_location_count
 
 

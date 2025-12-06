@@ -702,6 +702,32 @@ class GanonsCastleBossKeySkullTokensRequired(Range):
     default = 50
 
 
+class SmallKeyShuffle(Choice):
+    display_name = "Small Key Shuffle"
+    option_vanilla = 0
+    option_own_dungeon = 1
+    option_any_dungeon = 2
+    option_anywhere = 3
+    default = 1
+
+
+class GerudoFortressKeyShuffle(Choice):
+    display_name = "Gerudo Fortress Key Shuffle"
+    option_vanilla = 0
+    option_any_dungeon = 1
+    option_anywhere = 2
+    default = 1
+
+
+class BossKeyShuffle(Choice):
+    display_name = "Boss Key Shuffle"
+    option_vanilla = 0
+    option_own_dungeon = 1
+    option_any_dungeon = 2
+    option_anywhere = 3
+    default = 0
+
+
 class KeyRings(Choice):
     """
     Keyrings will replace all small keys from a particular dungeon with a single keyring that awards all keys for its associated dungeon.
@@ -1039,6 +1065,9 @@ class SohOptions(PerGameCommonOptions):
     ganons_castle_boss_key_dungeons_required: GanonsCastleBossKeyDungeonsRequired
     ganons_castle_boss_key_skull_tokens_required: GanonsCastleBossKeySkullTokensRequired
     ganons_castle_boss_key_greg_modifier: GanonsCastleBossKeyGregModifier
+    small_key_shuffle: SmallKeyShuffle
+    gerudo_fortress_key_shuffle: GerudoFortressKeyShuffle
+    boss_key_shuffle: BossKeyShuffle
     key_rings: KeyRings
     key_rings_count: KeyRingsCount
     gerudo_fortress_key_ring: GerudoFortressKeyring
@@ -1161,9 +1190,9 @@ soh_option_groups = [
     OptionGroup("Shuffle Dungeon Items", [
         ShuffleDungeonRewards,
         MapsAndCompasses,
-        # Small Key Shuffle
-        # Gerudo Fortress Keys
-        # Boss Key Shuffle
+        SmallKeyShuffle,
+        GerudoFortressKeyShuffle,
+        BossKeyShuffle,
         GanonsCastleBossKey,
         GanonsCastleBossKeyStonesRequired,
         GanonsCastleBossKeyMedallionsRequired,

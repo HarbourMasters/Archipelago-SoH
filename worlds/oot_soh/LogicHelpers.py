@@ -1015,9 +1015,9 @@ def effective_health(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> int
     return 2
 
 
-# TODO implement when shuffling keys within a dungeon is implemented
 def is_fire_loop_locked(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
-    return True
+    # TODO Add overworld
+    return bundle[2].options.small_key_shuffle == "anywhere" or bundle[2].options.small_key_shuffle == "any_dungeon"
 
 
 def can_ground_jump(bundle: tuple[CollectionState, Regions, "SohWorld"], hasBombFlower: bool = False) -> bool:

@@ -3850,3 +3850,13 @@ class TokenCounts(IntEnum):
     DUNGEON = 44
     OVERWORLD = 56
     TOTAL = DUNGEON + OVERWORLD
+
+class Dungeons(StrEnum):
+    FOREST_TEMPLE = " Forest Temple"
+    FIRE_TEMPLE = "Fire Temple"
+    WATER_TEMPLE = "Water Temple"
+    SPIRIT_TEMPLE = "Spirit Temple"
+    SHADOW_TEMPLE = "Shadow Temple"
+    BOTW = "BOTW"
+    GTG = "GTG"
+    GANONS_CASTLE = "Ganons Castle"
