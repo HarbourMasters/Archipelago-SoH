@@ -1,7 +1,23 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.THIEVES_HIDEOUT_1_TORCH_CELL,
+    Regions.THIEVES_HIDEOUT_DOUBLE_CELL,
+    Regions.THIEVES_HIDEOUT_DEAD_END_CELL,
+    Regions.THIEVES_HIDEOUT_STEEP_SLOPE_CELL,
+    Regions.THIEVES_HIDEOUT_KITCHEN_CORRIDOR,
+    Regions.THIEVES_HIDEOUT_KITCHEN_BOTTOM,
+    Regions.THIEVES_HIDEOUT_KITCHEN_TOP,
+    Regions.THIEVES_HIDEOUT_BREAK_ROOM,
+    Regions.THIEVES_HIDEOUT_BREAK_ROOM_CORRIDOR,
+    Regions.THIEVES_HIDEOUT_RESCUE_CARPENTERS,
+    Regions.THIEVES_HIDEOUT_KITCHEN_POTS,
+]
 
 
 class EventsLocations(StrEnum):
@@ -239,3 +255,9 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_use(Items.HOOKSHOT, bundle)),
         (Regions.GF_ABOVE_JAIL, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

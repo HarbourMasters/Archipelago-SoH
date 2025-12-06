@@ -1,7 +1,20 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.LAKE_HYLIA,
+    Regions.LH_FROM_SHORTCUT,
+    Regions.LH_FROM_WATER_TEMPLE,
+    Regions.LH_FISHING_ISLAND,
+    Regions.LH_OWL_FLIGHT,
+    Regions.LH_LAB,
+    Regions.LH_FISHING_HOLE,
+    Regions.LH_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -335,3 +348,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.LH_GROTTO, world, [
         (Regions.LAKE_HYLIA, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

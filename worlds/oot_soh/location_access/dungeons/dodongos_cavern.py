@@ -1,7 +1,40 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.DODONGOS_CAVERN_ENTRYWAY,
+    Regions.DODONGOS_CAVERN_BEGINNING,
+    Regions.DODONGOS_CAVERN_LOBBY,
+    Regions.DODONGOS_CAVERN_LOBBY_SWITCH,
+    Regions.DODONGOS_CAVERN_SE_CORRIDOR,
+    Regions.DODONGOS_CAVERN_SE_ROOM,
+    Regions.DODONGOS_CAVERN_NEAR_LOWER_LIZALFOS,
+    Regions.DODONGOS_CAVERN_LOWER_LIZALFOS,
+    Regions.DODONGOS_CAVERN_LOWER_LIZALFOS_LOCATIONS,
+    Regions.DODONGOS_CAVERN_DODONGO_ROOM,
+    Regions.DODONGOS_CAVERN_NEAR_DODONGO_ROOM,
+    Regions.DODONGOS_CAVERN_STAIRS_LOWER,
+    Regions.DODONGOS_CAVERN_STAIRS_UPPER,
+    Regions.DODONGOS_CAVERN_VINES_ABOVE_STAIRS_GS,
+    Regions.DODONGOS_CAVERN_COMPASS_ROOM,
+    Regions.DODONGOS_CAVERN_ARMOS_ROOM,
+    Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER,
+    Regions.DODONGOS_CAVERN_2F_SIDE_ROOM,
+    Regions.DODONGOS_CAVERN_FIRST_SLINGSHOT_ROOM,
+    Regions.DODONGOS_CAVERN_UPPER_LIZALFOS,
+    Regions.DODONGOS_CAVERN_SECOND_SLINGSHOT_ROOM,
+    Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER,
+    Regions.DODONGOS_CAVERN_FAR_BRIDGE,
+    Regions.DODONGOS_CAVERN_BOSS_REGION,
+    Regions.DODONGOS_CAVERN_BACK_ROOM,
+    Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY,
+    Regions.DODONGOS_CAVERN_BOSS_EXIT,
+    Regions.DODONGOS_CAVERN_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -455,3 +488,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: has_item(
             Events.DODONGOS_CAVERN_COMPLETED, bundle)),
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

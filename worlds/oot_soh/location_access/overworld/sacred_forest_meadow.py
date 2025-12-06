@@ -1,7 +1,17 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.SFM_ENTRYWAY,
+    Regions.SACRED_FOREST_MEADOW,
+    Regions.SFM_WOLFOS_GROTTO,
+    Regions.SFM_FAIRY_GROTTO,
+    Regions.SFM_STORMS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -101,3 +111,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.SFM_STORMS_GROTTO, world, [
         (Regions.SACRED_FOREST_MEADOW, lambda bundle: True),
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

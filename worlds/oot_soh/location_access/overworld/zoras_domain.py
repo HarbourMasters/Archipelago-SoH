@@ -1,7 +1,17 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.ZORAS_DOMAIN,
+    Regions.ZORAS_DOMAIN_ISLAND,
+    Regions.ZD_BEHIND_KING_ZORA,
+    Regions.ZD_SHOP,
+    Regions.ZD_STORMS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -158,3 +168,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.ZD_STORMS_GROTTO, world, [
         (Regions.ZORAS_DOMAIN_ISLAND, lambda bundle: True),
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

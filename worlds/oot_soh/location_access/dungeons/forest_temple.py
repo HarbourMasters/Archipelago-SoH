@@ -1,7 +1,46 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.FOREST_TEMPLE_ENTRYWAY,
+    Regions.FOREST_TEMPLE_FIRST_ROOM,
+    Regions.FOREST_TEMPLE_SOUTH_CORRIDOR,
+    Regions.FOREST_TEMPLE_LOBBY,
+    Regions.FOREST_TEMPLE_NORTH_CORRIDOR,
+    Regions.FOREST_TEMPLE_LOWER_STALFOS,
+    Regions.FOREST_TEMPLE_NW_OUTDOORS_LOWER,
+    Regions.FOREST_TEMPLE_NW_OUTDOORS_UPPER,
+    Regions.FOREST_TEMPLE_NW_COURTYARD_HEARTS,
+    Regions.FOREST_TEMPLE_NW_COURTYARD_SKULLTULA_ISLAND,
+    Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER,
+    Regions.FOREST_TEMPLE_NE_OUTDOORS_UPPER,
+    Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND,
+    Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND_GS,
+    Regions.FOREST_TEMPLE_MAP_ROOM,
+    Regions.FOREST_TEMPLE_WELL,
+    Regions.FOREST_TEMPLE_BELOW_BOSS_KEY_CHEST,
+    Regions.FOREST_TEMPLE_FLOORMASTER_ROOM,
+    Regions.FOREST_TEMPLE_WEST_CORRIDOR,
+    Regions.FOREST_TEMPLE_BLOCK_PUSH_ROOM,
+    Regions.FOREST_TEMPLE_NW_CORRIDOR_TWISTED,
+    Regions.FOREST_TEMPLE_NW_CORRIDOR_STRAIGHTENED,
+    Regions.FOREST_TEMPLE_RED_POE_ROOM,
+    Regions.FOREST_TEMPLE_UPPER_STALFOS,
+    Regions.FOREST_TEMPLE_BLUE_POE_ROOM,
+    Regions.FOREST_TEMPLE_NE_CORRIDOR_STRAIGHTENED,
+    Regions.FOREST_TEMPLE_NE_CORRIDOR_TWISTED,
+    Regions.FOREST_TEMPLE_FROZEN_EYE_ROOM,
+    Regions.FOREST_TEMPLE_FALLING_ROOM,
+    Regions.FOREST_TEMPLE_GREEN_POE_ROOM,
+    Regions.FOREST_TEMPLE_EAST_CORRIDOR,
+    Regions.FOREST_TEMPLE_BOSS_REGION,
+    Regions.FOREST_TEMPLE_BOSS_ENTRYWAY,
+    Regions.FOREST_TEMPLE_BOSS_ROOM
+]
 
 
 class EventLocations(StrEnum):
@@ -541,3 +580,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.SACRED_FOREST_MEADOW, lambda bundle: has_item(
             Events.FOREST_TEMPLE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

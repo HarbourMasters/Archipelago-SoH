@@ -1,7 +1,29 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions: list[Regions] = [
+    Regions.DEKU_TREE_ENTRYWAY,
+    Regions.DEKU_TREE_LOBBY,
+    Regions.DEKU_TREE_2F_MIDDLE_ROOM,
+    Regions.DEKU_TREE_SLINGSHOT_ROOM,
+    Regions.DEKU_TREE_COMPASS_ROOM,
+    Regions.DEKU_TREE_BASEMENT_LOWER,
+    Regions.DEKU_TREE_BASEMENT_SCRUB_ROOM,
+    Regions.DEKU_TREE_BASEMENT_WATER_ROOM_FRONT,
+    Regions.DEKU_TREE_BASEMENT_WATER_ROOM_BACK,
+    Regions.DEKU_TREE_BASEMENT_TORCH_ROOM,
+    Regions.DEKU_TREE_BASEMENT_BACK_LOBBY,
+    Regions.DEKU_TREE_BASEMENT_TORCH_ROOM,
+    Regions.DEKU_TREE_BASEMENT_UPPER,
+    Regions.DEKU_TREE_OUTSIDE_BOSS_ROOM,
+    Regions.DEKU_TREE_BOSS_ENTRYWAY,
+    Regions.DEKU_TREE_BOSS_EXIT,
+    Regions.DEKU_TREE_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -330,3 +352,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: has_item(
             Events.DEKU_TREE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

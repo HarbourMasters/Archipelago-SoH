@@ -1,7 +1,20 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.SHADOW_TEMPLE_ENTRYWAY,
+    Regions.SHADOW_TEMPLE_BEGINNING,
+    Regions.SHADOW_TEMPLE_FIRST_BEAMOS,
+    Regions.SHADOW_TEMPLE_HUGE_PIT,
+    Regions.SHADOW_TEMPLE_WIND_TUNNEL,
+    Regions.SHADOW_TEMPLE_BEYOND_BOAT,
+    Regions.SHADOW_TEMPLE_BOSS_ENTRYWAY,
+    Regions.SHADOW_TEMPLE_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -208,3 +221,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.GRAVEYARD_WARP_PAD_REGION, lambda bundle: has_item(
             Events.SHADOW_TEMPLE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

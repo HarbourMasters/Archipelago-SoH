@@ -1,7 +1,21 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.KOKIRI_FOREST,
+    Regions.KF_LINKS_HOUSE,
+    Regions.KF_MIDOS_HOUSE,
+    Regions.KF_SARIAS_HOUSE,
+    Regions.KF_HOUSE_OF_TWINS,
+    Regions.KF_KNOW_IT_ALL_HOUSE,
+    Regions.KF_KOKIRI_SHOP,
+    Regions.KF_OUTSIDE_DEKU_TREE,
+    Regions.KF_STORMS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -335,3 +349,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.KF_STORMS_GROTTO, world, [
         (Regions.KOKIRI_FOREST, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

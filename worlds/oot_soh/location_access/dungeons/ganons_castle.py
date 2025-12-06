@@ -1,7 +1,29 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.GANONS_CASTLE_ENTRYWAY,
+    Regions.GANONS_CASTLE_LOBBY,
+    Regions.GANONS_CASTLE_DEKU_SCRUBS,
+    Regions.GANONS_CASTLE_FOREST_TRIAL,
+    Regions.GANONS_CASTLE_FIRE_TRIAL,
+    Regions.GANONS_CASTLE_WATER_TRIAL,
+    Regions.GANONS_CASTLE_SHADOW_TRIAL,
+    Regions.GANONS_CASTLE_SPIRIT_TRIAL,
+    Regions.GANONS_CASTLE_LIGHT_TRIAL,
+    Regions.GANONS_TOWER_ENTRYWAY,
+    Regions.GANONS_TOWER_FLOOR_1,
+    Regions.GANONS_TOWER_FLOOR_2,
+    Regions.GANONS_TOWER_FLOOR_3,
+    Regions.GANONS_TOWER_BEFORE_GANONDORFS_LAIR,
+    Regions.GANONDORFS_LAIR,
+    Regions.GANONS_CASTLE_ESCAPE,
+    Regions.GANONS_ARENA,
+]
 
 
 class EventLocations(StrEnum):
@@ -389,3 +411,10 @@ def set_region_rules(world: "SohWorld") -> None:
             (EventLocations.GANON_DEFEATED, Events.GAME_COMPLETED, lambda bundle:
              (can_kill_enemy(bundle, Enemies.GANON)))
         ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

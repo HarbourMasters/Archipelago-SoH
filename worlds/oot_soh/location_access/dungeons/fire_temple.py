@@ -1,7 +1,50 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.FIRE_TEMPLE_ENTRYWAY,
+    Regions.FIRE_TEMPLE_FIRST_ROOM,
+    Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM,
+    Regions.FIRE_TEMPLE_LOOP_ENEMIES,
+    Regions.FIRE_TEMPLE_LOOP_TILES,
+    Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER,
+    Regions.FIRE_TEMPLE_LOOP_HAMMER_SWITCH,
+    Regions.FIRE_TEMPLE_LOOP_GORON_ROOM,
+    Regions.FIRE_TEMPLE_LOOP_EXIT,
+    Regions.FIRE_TEMPLE_BIG_LAVA_ROOM,
+    Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_GORON,
+    Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_TILES,
+    Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_SOUTH_GORON,
+    Regions.FIRE_TEMPLE_FIRE_PILLAR_ROOM,
+    Regions.FIRE_TEMPLE_SHORTCUT_ROOM,
+    Regions.FIRE_TEMPLE_SHORTCUT_CLIMB,
+    Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER,
+    Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER_SIDE_ROOM,
+    Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM,
+    Regions.FIRE_TEMPLE_FIRE_WALL_CHASE,
+    Regions.FIRE_TEMPLE_MAP_REGION,
+    Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER,
+    Regions.FIRE_TEMPLE_SCARECROW_ROOM,
+    Regions.FIRE_TEMPLE_EAST_PEAK,
+    Regions.FIRE_TEMPLE_CORRIDOR,
+    Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM,
+    Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER,
+    Regions.FIRE_TEMPLE_FIRE_MAZE_SIDE_ROOM,
+    Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER,
+    Regions.FIRE_TEMPLE_WEST_CENTRAL_UPPER,
+    Regions.FIRE_TEMPLE_LATE_FIRE_MAZE,
+    Regions.FIRE_TEMPLE_UPPER_FLARE_DANCER,
+    Regions.FIRE_TEMPLE_WEST_CLIMB,
+    Regions.FIRE_TEMPLE_WEST_PEAK,
+    Regions.FIRE_TEMPLE_HAMMER_RETURN_PATH,
+    Regions.FIRE_TEMPLE_ABOVE_FIRE_MAZE,
+    Regions.FIRE_TEMPLE_BOSS_ENTRYWAY,
+    Regions.FIRE_TEMPLE_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -556,3 +599,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.DMC_CENTRAL_LOCAL, lambda bundle: has_item(
             Events.FIRE_TEMPLE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

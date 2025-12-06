@@ -1,7 +1,21 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.GERUDO_VALLEY,
+    Regions.GV_UPPER_STREAM,
+    Regions.GV_LOWER_STREAM,
+    Regions.GV_GROTTO_LEDGE,
+    Regions.GV_CRATE_LEDGE,
+    Regions.GV_OCTOROK_GROTTO,
+    Regions.GV_FORTRESS_SIDE,
+    Regions.GV_CARPENTER_TENT,
+    Regions.GV_STORMS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -210,3 +224,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.GV_STORMS_GROTTO, world, [
         (Regions.GV_FORTRESS_SIDE, lambda bundle: True),
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

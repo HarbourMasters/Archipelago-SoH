@@ -1,7 +1,44 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_dungeons = [
+    Regions.WATER_TEMPLE_ENTRYWAY,
+    Regions.WATER_TEMPLE_LOBBY,
+    Regions.WATER_TEMPLE_EAST_LOWER,
+    Regions.WATER_TEMPLE_MAP_ROOM,
+    Regions.WATER_TEMPLE_CRACKED_WALL,
+    Regions.WATER_TEMPLE_TORCH_ROOM,
+    Regions.WATER_TEMPLE_NORTH_LOWER,
+    Regions.WATER_TEMPLE_BOULDERS_LOWER,
+    Regions.WATER_TEMPLE_BLOCK_ROOM,
+    Regions.WATER_TEMPLE_JETS_ROOM,
+    Regions.WATER_TEMPLE_BOULDERS_UPPER,
+    Regions.WATER_TEMPLE_BOSS_KEY_ROOM,
+    Regions.WATER_TEMPLE_NEAR_BOSS_KEY_CHEST_GS,
+    Regions.WATER_TEMPLE_SOUTH_LOWER,
+    Regions.WATER_TEMPLE_WEST_LOWER,
+    Regions.WATER_TEMPLE_DRAGON_ROOM,
+    Regions.WATER_TEMPLE_DRAGON_ROOM_CHEST,
+    Regions.WATER_TEMPLE_CENTRAL_PILLAR_LOWER,
+    Regions.WATER_TEMPLE_CENTRAL_PILLAR_UPPER,
+    Regions.WATER_TEMPLE_CENTRAL_PILLAR_BASEMENT,
+    Regions.WATER_TEMPLE_EAST_MIDDLE,
+    Regions.WATER_TEMPLE_WEST_MIDDLE,
+    Regions.WATER_TEMPLE_HIGH_WATER,
+    Regions.WATER_TEMPLE_BLOCK_CORRIDOR,
+    Regions.WATER_TEMPLE_FALLING_PLATFORM_ROOM,
+    Regions.WATER_TEMPLE_DRAGON_PILLARS_ROOM,
+    Regions.WATER_TEMPLE_DARK_LINK_ROOM,
+    Regions.WATER_TEMPLE_LONGSHOT_ROOM,
+    Regions.WATER_TEMPLE_RIVER,
+    Regions.WATER_TEMPLE_PRE_BOSS_ROOM,
+    Regions.WATER_TEMPLE_BOSS_ENTRYWAY,
+    Regions.WATER_TEMPLE_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -589,3 +626,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.LAKE_HYLIA, lambda bundle: has_item(
             Events.WATER_TEMPLE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

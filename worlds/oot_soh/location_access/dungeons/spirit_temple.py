@@ -1,7 +1,24 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.SPIRIT_TEMPLE_ENTRYWAY,
+    Regions.SPIRIT_TEMPLE_LOBBY,
+    Regions.SPIRIT_TEMPLE_CHILD,
+    Regions.SPIRIT_TEMPLE_CHILD_CLIMB,
+    Regions.SPIRIT_TEMPLE_EARLY_ADULT,
+    Regions.SPIRIT_TEMPLE_CENTRAL_CHAMBER,
+    Regions.SPIRIT_TEMPLE_OUTDOOR_HANDS,
+    Regions.SPIRIT_TEMPLE_BEYOND_CENTRAL_LOCKED_DOOR,
+    Regions.SPIRIT_TEMPLE_BEYOND_FINAL_LOCKED_DOOR,
+    Regions.SPIRIT_TEMPLE_INSIDE_STATUE_HEAD,
+    Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY,
+    Regions.SPIRIT_TEMPLE_BOSS_ROOM,
+]
 
 
 class EventLocations(StrEnum):
@@ -233,3 +250,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.DESERT_COLOSSUS, lambda bundle: has_item(
             Events.SPIRIT_TEMPLE_COMPLETED, bundle))
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

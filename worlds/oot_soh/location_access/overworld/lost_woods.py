@@ -1,7 +1,20 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.LOST_WOODS,
+    Regions.LW_BRIDGE_FROM_FOREST,
+    Regions.LW_BRIDGE,
+    Regions.LW_FOREST_EXIT,
+    Regions.LW_BEYOND_MIDO,
+    Regions.LW_NEAR_SHORTCUTS_GROTTO,
+    Regions.DEKU_THEATER,
+    Regions.LW_SCRUBS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -250,3 +263,9 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.HYRULE_FIELD, lambda bundle: True),
         (Regions.LOST_WOODS, lambda bundle: can_use(Items.LONGSHOT, bundle))
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

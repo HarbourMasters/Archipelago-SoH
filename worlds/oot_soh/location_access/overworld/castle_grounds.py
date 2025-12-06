@@ -1,7 +1,24 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.CASTLE_GROUNDS,
+    Regions.CASTLE_GROUNDS_FROM_GANONS_CASTLE,
+    Regions.HYRULE_CASTLE_GROUNDS,
+    Regions.HC_GARDEN_SONG_FROM_IMPA,
+    Regions.HC_GARDEN,
+    Regions.HC_GREAT_FAIRY_FOUNTAIN,
+    Regions.HC_STORMS_GROTTO,
+    Regions.HC_STORMS_GROTTO_BEHIND_WALLS,
+    Regions.HC_STORMS_SKULLTULA,
+    Regions.GANONS_CASTLE_GROUNDS,
+    Regions.OGC_GREAT_FAIRY_FOUNTAIN,
+    Regions.GANONS_CASTLE_LEDGE,
+]
 
 
 class EventLocations(StrEnum):
@@ -198,3 +215,13 @@ def set_region_rules(world: "SohWorld") -> None:
             LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT, bundle)),
         (Regions.GANONS_CASTLE_ENTRYWAY, lambda bundle: is_adult(bundle))
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    # We don't need HC Garden if child zelda is skipped
+    if world.options.skip_child_zelda:
+        regions.remove(Regions.HC_GARDEN)
+
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

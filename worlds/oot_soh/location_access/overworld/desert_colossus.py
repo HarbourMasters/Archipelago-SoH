@@ -1,7 +1,17 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.DESERT_COLOSSUS,
+    Regions.DESERT_COLOSSUS_OASIS,
+    Regions.DESERT_COLOSSUS_OUTSIDE_TEMPLE,
+    Regions.COLOSSUS_GREAT_FAIRY_FOUNTAIN,
+    Regions.COLOSSUS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -124,3 +134,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.COLOSSUS_GROTTO, world, [
         (Regions.DESERT_COLOSSUS, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

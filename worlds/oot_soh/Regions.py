@@ -98,7 +98,28 @@ class SohRegion(Region):
             return self in state._soh_child_reachable_regions[self.player] or self in state._soh_adult_reachable_regions[self.player]
 
 
+overworld_regions = [root, castle_grounds, death_mountain_crater, death_mountain_trail, desert_colossus, gerudo_fortress,
+                   gerudo_valley, goron_city, graveyard, haunted_wasteland, hyrule_field, kakariko, kokiri_forest,
+                   lake_hylia, lon_lon_ranch, lost_woods, market, sacred_forest_meadow, temple_of_time, thieves_hideout,
+                   zoras_domain, zoras_fountain, zoras_river]
+
+
+dungeoon_regions = [(bottom_of_the_well, Dungeons.BOTTOM_OF_THE_WELL), (deku_tree, Dungeons.DEKU_TREE),
+                     (dodongos_cavern, Dungeons.DODONGOS_CAVERN), (fire_temple, Dungeons.FIRE_TEMPLE),
+                     (forest_temple, Dungeons.FOREST_TEMPLE), (ganons_castle, Dungeons.GANONS_CASTLE),
+                     (gerudo_training_ground, Dungeons.GERUDO_TRAINING_GROUND),(ice_cavern, Dungeons.ICE_CAVERN),
+                     (jabujabus_belly, Dungeons.JABU_JABUS_BELLY), (shadow_temple, Dungeons.SHADOW_TEMPLE),
+                     (spirit_temple, Dungeons.SPIRIT_TEMPLE), (water_temple, Dungeons.WATER_TEMPLE)]
+
+
 def create_regions_and_locations(world: "SohWorld") -> None:
+
+    if world.options.master_quest_dungeon_settings.value != 0:
+        # Select which dungeons are master quest
+        set_master_quest_dungeons(world)
+
+    for region in overworld_regions:
+        region.init_regions(world)
 
     # Fill region data table based on the regions enum list
     region_data_table: dict[str, SohRegionData] = {}
@@ -241,14 +262,15 @@ def create_regions_and_locations(world: "SohWorld") -> None:
                 world.included_locations.update(no_logic_trees_location_table)
 
     # Set region rules and location rules after all locations are created
-    all_regions = [root, castle_grounds, death_mountain_crater, death_mountain_trail, desert_colossus, gerudo_fortress,
+    overworld_regions = [root, castle_grounds, death_mountain_crater, death_mountain_trail, desert_colossus, gerudo_fortress,
                    gerudo_valley, goron_city, graveyard, haunted_wasteland, hyrule_field, kakariko, kokiri_forest,
                    lake_hylia, lon_lon_ranch, lost_woods, market, sacred_forest_meadow, temple_of_time, thieves_hideout,
-                   zoras_domain, zoras_fountain, zoras_river, bottom_of_the_well, deku_tree, dodongos_cavern,
-                   fire_temple, forest_temple, ganons_castle, gerudo_training_ground, ice_cavern, jabujabus_belly,
-                   shadow_temple, spirit_temple, water_temple]
-    for region in all_regions:
+                   zoras_domain, zoras_fountain, zoras_river]
+    for region in overworld_regions:
         region.set_region_rules(world)
+
+    dungeoon_regions = [bottom_of_the_well, deku_tree, dodongos_cavern,fire_temple, forest_temple, ganons_castle,
+                        gerudo_training_ground, ice_cavern, jabujabus_belly, shadow_temple, spirit_temple, water_temple]
 
 
 # Create a dictionary mapping blue warp rewards to their vanilla items
@@ -307,3 +329,20 @@ def place_locked_items(world: "SohWorld") -> None:
         token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN)
         for location_name, address in gold_skulltula_dungeon_location_table.items():
             world.get_location(location_name).place_locked_item(token_item)
+
+
+def set_master_quest_dungeons(world: "SohWorld") -> None:
+    if world.options.master_quest_dungeon_settings == 1:
+        # Choose a random selection of a given value
+        target_number = world.options.master_quest_dungeon_count
+        dungeons = [dungeon for dungeon in Dungeons]
+        while target_number > 0:
+            dungeon = random.choice(dungeons)
+            world.dungeon_quest[dungeon] = DungeonQuest.MASTER_QUEST
+            dungeons.remove(dungeon)
+            target_number -= 1
+    elif world.options.master_quest_dungeon_settings == 2:
+        # Set the dungeons to the selected quest
+        for dungeon in world.options.master_quest_dungeon_selection.value:
+            world.dungeon_quest[Dungeons.from_str(dungeon)] = DungeonQuest.MASTER_QUEST
+

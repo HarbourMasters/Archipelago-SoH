@@ -1,7 +1,23 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.HYRULE_FIELD,
+    Regions.HF_SOUTHEAST_GROTTO,
+    Regions.HF_OPEN_GROTTO,
+    Regions.HF_OPEN_GROTTO,
+    Regions.HF_INSIDE_FENCE_GROTTO,
+    Regions.HF_COW_GROTTO,
+    Regions.HF_COW_GROTTO_BEHIND_WEBS,
+    Regions.HF_NEAR_MARKET_GROTTO,
+    Regions.HF_FAIRY_GROTTO,
+    Regions.HF_NEAR_KAK_GROTTO,
+    Regions.HF_TEKTITE_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -396,3 +412,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.HF_TEKTITE_GROTTO, world, [
         (Regions.HYRULE_FIELD, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

@@ -1,7 +1,22 @@
 from ..LogicHelpers import *
+from ..Regions import SohRegion
 
 if TYPE_CHECKING:
     from .. import SohWorld
+
+
+regions = [
+    Regions.ROOT,
+    Regions.ROOT_EXITS,
+    Regions.CHILD_SPAWN,
+    Regions.ADULT_SPAWN,
+    Regions.MINUET_OF_FOREST_WARP,
+    Regions.BOLERO_OF_FIRE_WARP,
+    Regions.SERENADE_OF_WATER_WARP,
+    Regions.REQUIEM_OF_SPIRIT_WARP,
+    Regions.NOCTURNE_OF_SHADOW_WARP,
+    Regions.PRELUDE_OF_LIGHT_WARP,
+]
 
 
 class EventLocations(StrEnum):
@@ -115,3 +130,9 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.TEMPLE_OF_TIME, lambda bundle: can_use(
             Items.PRELUDE_OF_LIGHT, bundle))
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

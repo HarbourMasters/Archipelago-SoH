@@ -1,7 +1,23 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.DMC_UPPER_LOCAL,
+    Regions.DMC_CENTRAL_LOCAL,
+    Regions.DMC_LOWER_LOCAL,
+    Regions.DMC_LOWER_NEARBY,
+    Regions.DMC_UPPER_NEARBY,
+    Regions.DMC_CENTRAL_NEARBY,
+    Regions.DMC_LADDER_REGION_NEARBY,
+    Regions.DMC_UPPER_GROTTO,
+    Regions.DMC_HAMMER_GROTTO,
+    Regions.DMC_GREAT_FAIRY_FOUNTAIN,
+    Regions.DMC_DISTANT_PLATFORM,
+]
 
 
 class EventLocations(StrEnum):
@@ -247,3 +263,9 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.DMC_CENTRAL_LOCAL, lambda bundle: fire_timer(
             bundle) >= 48 and can_use(Items.DISTANT_SCARECROW, bundle))
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

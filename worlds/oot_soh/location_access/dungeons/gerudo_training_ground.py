@@ -1,7 +1,22 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.GERUDO_TRAINING_GROUND_ENTRYWAY,
+    Regions.GERUDO_TRAINING_GROUND_LOBBY,
+    Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE,
+    Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE_RIGHT,
+    Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM,
+    Regions.GERUDO_TRAINING_GROUND_HAMMER_ROOM,
+    Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_LOWER,
+    Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_UPPER,
+    Regions.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_ROOM,
+    Regions.GERUDO_TRAINING_GROUND_LIKE_LIKE_ROOM,
+]
 
 
 def set_region_rules(world: "SohWorld") -> None:
@@ -161,3 +176,10 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_FOURTH_CHEST,
          lambda bundle: can_jump_slash_except_hammer(bundle)),
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

@@ -1,7 +1,20 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.THE_GRAVEYARD,
+    Regions.GRAVEYARD_DAMPES_GRAVE,
+    Regions.GRAVEYARD_DAMPES_HOUSE,
+    Regions.GRAVEYARD_SHIELD_GRAVE,
+    Regions.GRAVEYARD_SHIELD_GRAVE_BACK,
+    Regions.GRAVEYARD_COMPOSERS_GRAVE,
+    Regions.GRAVEYARD_HEART_PIECE_GRAVE,
+    Regions.GRAVEYARD_WARP_PAD_REGION,
+]
 
 
 class EventLocations(StrEnum):
@@ -203,3 +216,9 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.SHADOW_TEMPLE_ENTRYWAY, lambda bundle: can_use(Items.DINS_FIRE, bundle) or (can_do_trick(
             Tricks.GY_SHADOW_FIRE_ARROWS, bundle) and is_adult(bundle) and can_use(Items.FIRE_ARROW, bundle)))
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

@@ -3865,3 +3865,33 @@ class Dungeons(StrEnum):
     ICE_CAVERN = "Ice Cavern"
     GERUDO_TRAINING_GROUND = "Gerudo Training Ground"
     GANONS_CASTLE = "Ganon's Castle"
+
+    @classmethod
+    def from_str(cls, s: str):
+        match s:
+            case "Deku Tree":
+                return cls.DEKU_TREE
+            case "Dodongo's Cavern":
+                return cls.DODONGOS_CAVERN
+            case "Jabu Jabu's Belly":
+                return cls.JABU_JABUS_BELLY
+            case "Forest Temple":
+                return cls.FOREST_TEMPLE
+            case "Fire Temple":
+                return cls.FIRE_TEMPLE
+            case "Water Temple":
+                return cls.WATER_TEMPLE
+            case "Spirit Temple":
+                return cls.SPIRIT_TEMPLE
+            case "Shadow Temple":
+                return cls.SHADOW_TEMPLE
+            case "Bottom of the Well":
+                return cls.BOTTOM_OF_THE_WELL
+            case "Ice Cavern":
+                return cls.ICE_CAVERN
+            case "Gerudo Training Ground":
+                return cls.GERUDO_TRAINING_GROUND
+            case "Ganon's Castle":
+                return cls.GANONS_CASTLE
+            case _:
+                return None

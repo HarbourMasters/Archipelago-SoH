@@ -1,7 +1,33 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.KAKARIKO_VILLAGE,
+    Regions.KAK_CARPENTER_BOSS_HOUSE,
+    Regions.KAK_HOUSE_OF_SKULLTULA,
+    Regions.KAK_IMPAS_HOUSE,
+    Regions.KAK_COW_CAGE,
+    Regions.KAK_IMPAS_LEDGE,
+    Regions.KAK_IMPAS_HOUSE_BACK,
+    Regions.KAK_WINDMILL,
+    Regions.KAK_BAZAAR,
+    Regions.KAK_SHOOTING_GALLERY,
+    Regions.KAK_POTION_SHOP_FRONT,
+    Regions.KAK_POTION_SHOP_BACK,
+    Regions.KAK_WATCHTOWER,
+    Regions.KAK_ROOFTOP,
+    Regions.KAK_IMPAS_ROOFTOP,
+    Regions.KAK_BEHIND_GATE,
+    Regions.KAK_BACKYARD,
+    Regions.KAK_WELL,
+    Regions.KAK_GRANNYS_POTION_SHOP,
+    Regions.KAK_REDEAD_GROTTO,
+    Regions.KAK_OPEN_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -436,3 +462,9 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.BOTTOM_OF_THE_WELL_ENTRYWAY, lambda bundle: is_child(
             bundle) or has_item(Events.DRAIN_WELL, bundle)),
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

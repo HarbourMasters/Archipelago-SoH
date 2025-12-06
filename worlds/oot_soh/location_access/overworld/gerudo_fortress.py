@@ -1,7 +1,33 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+regions = [
+    Regions.GERUDO_FORTRESS_OUTSKIRTS,
+    Regions.GF_NEAR_GROTTO,
+    Regions.GF_TO_GTG,
+    Regions.GF_EXITING_GTG,
+    Regions.GF_ABOVE_GTG,
+    Regions.GF_BOTTOM_OF_LOWER_VINES,
+    Regions.GF_TOP_OF_LOWER_VINES,
+    Regions.GF_NEAR_GS,
+    Regions.GF_SLOPED_ROOF,
+    Regions.GF_BOTTOM_OF_UPPER_VINES,
+    Regions.GF_TOP_OF_UPPER_VINES,
+    Regions.GF_NEAR_CHEST,
+    Regions.GF_LONG_ROOF,
+    Regions.GF_BELOW_GS,
+    Regions.GF_GS_KILL_ZONE,
+    Regions.GF_BELOW_CHEST,
+    Regions.GF_HBA_RANGE,
+    Regions.GF_ABOVE_JAIL,
+    Regions.GF_JAIL_WINDOW,
+    Regions.GF_OUTSIDE_GATE,
+    Regions.GF_STORMS_GROTTO,
+]
 
 
 class EventLocations(StrEnum):
@@ -354,3 +380,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.GF_STORMS_GROTTO, world, [
         (Regions.GF_NEAR_GROTTO, lambda bundle: True),
     ])
+
+
+def init_regions(world: "SohWorld") -> None:
+    for region_name in regions:
+        region = SohRegion(str(region_name), world.player, world.multiworld)
+        world.multiworld.regions.append(region)

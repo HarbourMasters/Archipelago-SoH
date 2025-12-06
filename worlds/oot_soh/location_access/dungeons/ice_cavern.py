@@ -1,7 +1,22 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.ICE_CAVERN_ENTRYWAY,
+    Regions.ICE_CAVERN_BEGINNING,
+    Regions.ICE_CAVERN_HUB,
+    Regions.ICE_CAVERN_MAP_ROOM,
+    Regions.ICE_CAVERN_COMPASS_ROOM,
+    Regions.ICE_CAVERN_BLOCK_ROOM,
+    Regions.ICE_CAVERN_BEFORE_FINAL_ROOM,
+    Regions.ICE_CAVERN_FINAL_ROOM,
+    Regions.ICE_CAVERN_FINAL_ROOM_UNDERWATER,
+    Regions.ICE_CAVERN_ABOVE_BEGINNING,
+]
 
 
 class EventLocations(StrEnum):
@@ -169,3 +184,10 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_use(Items.IRON_BOOTS, bundle)),
         (Regions.ICE_CAVERN_BEGINNING, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)

@@ -1,7 +1,24 @@
 from ...LogicHelpers import *
+from ...Regions import SohRegion
 
 if TYPE_CHECKING:
     from ... import SohWorld
+
+
+vanilla_regions = [
+    Regions.BOTTOM_OF_THE_WELL_ENTRYWAY,
+    Regions.BOTTOM_OF_THE_WELL_PERIMETER,
+    Regions.BOTTOM_OF_THE_WELL_BEHIND_FAKE_WALLS,
+    Regions.BOTTOM_OF_THE_WELL_SOUTHWEST_ROOM,
+    Regions.BOTTOM_OF_THE_WELL_KEESE_BEAMOS_ROOM,
+    Regions.BOTTOM_OF_THE_WELL_LIKE_LIKE_CAGE,
+    Regions.BOTTOM_OF_THE_WELL_INNER_ROOMS,
+    Regions.BOTTOM_OF_THE_WELL_COFFIN_ROOM,
+    Regions.BOTTOM_OF_THE_WELL_DEAD_HAND_ROOM,
+    Regions.BOTTOM_OF_THE_WELL_BASEMENT,
+    Regions.BOTTOM_OF_THE_WELL_BASEMENT_USEFUL_BOMB_FLOWERS,
+    Regions.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM,
+]
 
 
 class EventLocations(StrEnum):
@@ -282,3 +299,10 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM, world, [
         (Regions.BOTTOM_OF_THE_WELL_BASEMENT, lambda bundle: True)
     ])
+
+
+def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
+    if dungeon_quest == DungeonQuest.VANILLA:
+        for region_name in vanilla_regions:
+            region = SohRegion(str(region_name), world.player, world.multiworld)
+            world.multiworld.regions.append(region)
