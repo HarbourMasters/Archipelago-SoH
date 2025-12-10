@@ -86,9 +86,49 @@ class LocalEvents(StrEnum):
 
 
 def set_region_rules(world: "SohWorld", dungeon_quest: DungeonQuest) -> None:
+    connect_regions(Regions.DEKU_TREE_ENTRYWAY, world, [
+        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: True),
+    ])
+
+    # Deku Tree boss room
+    # Events
+    add_events(Regions.DEKU_TREE_BOSS_ROOM, world, [
+        (EventLocations.DEKU_TREE_QUEEN_GOHMA, Events.DEKU_TREE_COMPLETED,
+         lambda bundle: can_kill_enemy(bundle, Enemies.GOHMA))
+    ])
+    # Locations
+    add_locations(Regions.DEKU_TREE_BOSS_ROOM, world, [
+        (Locations.QUEEN_GOHMA, lambda bundle: has_item(
+            Events.DEKU_TREE_COMPLETED, bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_HEART_CONTAINER,
+         lambda bundle: has_item(Events.DEKU_TREE_COMPLETED, bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS1,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS2,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS3,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS4,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS5,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS6,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS7,
+         lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS8,
+         lambda bundle: can_cut_shrubs(bundle))
+    ])
+    # Connections
+    connect_regions(Regions.DEKU_TREE_BOSS_ROOM, world, [
+        (Regions.DEKU_TREE_BOSS_EXIT, lambda bundle: True),
+        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: has_item(
+            Events.DEKU_TREE_COMPLETED, bundle))
+    ])
+
     if dungeon_quest == DungeonQuest.VANILLA:
         set_vanilla_rules(world)
-    elif dungeon_quest.MASTER_QUEST:
+    else:
         set_master_quest_rules(world)
 
 
@@ -97,7 +137,6 @@ def set_vanilla_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.DEKU_TREE_ENTRYWAY, world, [
         (Regions.DEKU_TREE_LOBBY, lambda bundle: True),
-        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: True)
     ])
 
     # Deku Lobby
@@ -347,55 +386,11 @@ def set_vanilla_rules(world: "SohWorld") -> None:
             and can_reflect_nuts(bundle))
     ])
 
-    # Skipping master quest for now
-
-    # Deku Boss room entryway
-    # Connections
-    connect_regions(Regions.DEKU_TREE_BOSS_ENTRYWAY, world, [
-        (Regions.DEKU_TREE_BOSS_ROOM, lambda bundle: True)
-    ])
-
     # Deku boss exit
     # Connections
     connect_regions(Regions.DEKU_TREE_BOSS_EXIT, world, [
         (Regions.DEKU_TREE_OUTSIDE_BOSS_ROOM, lambda bundle: True),
         # skipping mq connection
-    ])
-
-    # Deku Tree boss room
-    # Events
-    add_events(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (EventLocations.DEKU_TREE_QUEEN_GOHMA, Events.DEKU_TREE_COMPLETED,
-         lambda bundle: can_kill_enemy(bundle, Enemies.GOHMA))
-    ])
-    # Locations
-    add_locations(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (Locations.QUEEN_GOHMA, lambda bundle: has_item(
-            Events.DEKU_TREE_COMPLETED, bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_HEART_CONTAINER,
-         lambda bundle: has_item(Events.DEKU_TREE_COMPLETED, bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS1,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS2,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS3,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS4,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS5,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS6,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS7,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS8,
-         lambda bundle: can_cut_shrubs(bundle))
-    ])
-    # Connections
-    connect_regions(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (Regions.DEKU_TREE_BOSS_EXIT, lambda bundle: True),
-        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: has_item(
-            Events.DEKU_TREE_COMPLETED, bundle))
     ])
 
 
@@ -404,7 +399,6 @@ def set_master_quest_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.DEKU_TREE_ENTRYWAY, world, [
         (Regions.DEKU_TREE_MQ_1F, lambda bundle: True),
-        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: True),
     ])
 
     # Deku Tree MQ 1F
@@ -674,57 +668,12 @@ def set_master_quest_rules(world: "SohWorld") -> None:
         (Regions.DEKU_TREE_BOSS_ENTRYWAY, lambda bundle: can_reflect_nuts(bundle)),
     ])
 
-    # Deku Boss room entryway
-    # Connections
-    connect_regions(Regions.DEKU_TREE_BOSS_ENTRYWAY, world, [
-        (Regions.DEKU_TREE_BOSS_ROOM, lambda bundle: True)
-    ])
-
     # Deku boss exit
     # Connections
     connect_regions(Regions.DEKU_TREE_BOSS_EXIT, world, [
         (Regions.DEKU_TREE_MQ_OUTSIDE_BOSS_ROOM, lambda bundle: True),
         # skipping mq connection
     ])
-
-    # Deku Tree boss room
-    # Events
-    add_events(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (EventLocations.DEKU_TREE_QUEEN_GOHMA, Events.DEKU_TREE_COMPLETED,
-         lambda bundle: can_kill_enemy(bundle, Enemies.GOHMA))
-    ])
-    # Locations
-    add_locations(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (Locations.QUEEN_GOHMA, lambda bundle: has_item(
-            Events.DEKU_TREE_COMPLETED, bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_HEART_CONTAINER,
-         lambda bundle: has_item(Events.DEKU_TREE_COMPLETED, bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS1,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS2,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS3,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS4,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS5,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS6,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS7,
-         lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_QUEEN_GOHMA_GRASS8,
-         lambda bundle: can_cut_shrubs(bundle))
-    ])
-    # Connections
-    connect_regions(Regions.DEKU_TREE_BOSS_ROOM, world, [
-        (Regions.DEKU_TREE_BOSS_EXIT, lambda bundle: True),
-        (Regions.KF_OUTSIDE_DEKU_TREE, lambda bundle: has_item(
-            Events.DEKU_TREE_COMPLETED, bundle))
-    ])
-
-
-
 
 
 def init_regions(world: "SohWorld", dungeon_quest: DungeonQuest = DungeonQuest.VANILLA) -> None:
