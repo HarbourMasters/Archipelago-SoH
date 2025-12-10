@@ -136,6 +136,12 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
     if item == Items.HYLIAN_SHIELD:
         return state.has(Items.BUY_HYLIAN_SHIELD, player)
 
+    if item == Items.GORON_TUNIC:
+        return state.has_any({Items.BUY_GORON_TUNIC, Items.GORON_TUNIC}, player)
+
+    if item == Items.ZORA_TUNIC:
+        return state.has_any({Items.BUY_ZORA_TUNIC, Items.ZORA_TUNIC}, player)
+
     if item == Items.SCARECROW:
         return scarecrows_song(bundle) and can_use(Items.HOOKSHOT, bundle)
 
@@ -151,9 +157,6 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
     if item in {Items.POCKET_EGG, Items.COJIRO, Items.ODD_MUSHROOM, Items.ODD_POTION, Items.POACHERS_SAW,
                 Items.BROKEN_GORONS_SWORD, Items.PRESCRIPTION, Items.EYEBALL_FROG, Items.WORLDS_FINEST_EYEDROPS}:
         return not world.options.shuffle_adult_trade_items or state.has(item, player)
-
-    if item == Items.BOTTLE_WITH_BIG_POE:
-        return has_bottle(bundle) and state.has(Events.CAN_DEFEAT_BIG_POE, player)
 
     if item == Items.BOTTLE_WITH_BLUE_FIRE:
         return has_bottle(bundle) and (state.has(Events.CAN_ACCESS_BLUE_FIRE, player) or state.has(Items.BUY_BLUE_FIRE, player))

@@ -3895,3 +3895,8 @@ class Dungeons(StrEnum):
                 return cls.GANONS_CASTLE
             case _:
                 return None
+
+class TokenCounts(IntEnum):
+    DUNGEON = 44
+    OVERWORLD = 56
+    TOTAL = DUNGEON + OVERWORLD
