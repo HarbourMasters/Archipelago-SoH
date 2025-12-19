@@ -6,9 +6,9 @@ from typing import Any, List, ClassVar
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups, token_amounts
+from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
-from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, dungeon_boss_key_vanilla_mapping, small_key_vanilla_mapping, forest_temple_chests, fire_temple_chests, water_temple_chests, spirit_temple_chests, shadow_temple_chests, botw_chests, gtg_chests, ganons_castle_chests
+from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, dungeon_boss_key_vanilla_mapping, small_key_vanilla_mapping
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
@@ -75,7 +75,7 @@ class SohWorld(World):
     def __init__(self, multiworld, player):
         super().__init__(multiworld, player)
         self.item_pool = list[SohItem]()
-        self.included_locations = dict[str, int]()
+        self.included_locations = dict[str, SohLocData]()
         self.shop_prices = dict[str, int]()
         self.shop_vanilla_items = dict[str, str]()
         self.scrub_prices = dict[str, int]()
@@ -250,21 +250,27 @@ class SohWorld(World):
             Dungeons.GTG: [],
             Dungeons.GANONS_CASTLE: []
         }
-        # TODO This should be changed over to pull data from LocData or equivilent eventually
         locations_own_dungeon = {
-            Dungeons.FOREST_TEMPLE: forest_temple_chests,
-            Dungeons.FIRE_TEMPLE: fire_temple_chests,
-            Dungeons.WATER_TEMPLE: water_temple_chests,
-            Dungeons.SPIRIT_TEMPLE: spirit_temple_chests,
-            Dungeons.SHADOW_TEMPLE: shadow_temple_chests,
-            Dungeons.BOTW: botw_chests,
-            Dungeons.GTG: gtg_chests,
-            Dungeons.GANONS_CASTLE: ganons_castle_chests
+            Dungeons.FOREST_TEMPLE: [],
+            Dungeons.FIRE_TEMPLE: [],
+            Dungeons.WATER_TEMPLE: [],
+            Dungeons.SPIRIT_TEMPLE: [],
+            Dungeons.SHADOW_TEMPLE: [],
+            Dungeons.BOTW: [],
+            Dungeons.GTG: [],
+            Dungeons.GANONS_CASTLE: []
         }
 
         key_any_dungeon = []
-        # TODO This should be changed over to pull data from LocData or equivilent eventually
-        locations_any_dungeon = forest_temple_chests + fire_temple_chests + water_temple_chests + spirit_temple_chests + shadow_temple_chests + botw_chests + gtg_chests + ganons_castle_chests
+        locations_any_dungeon = []
+
+        all_locations =[location.name for location in self.multiworld.get_unfilled_locations(self.player)]
+        for name, data in location_data_table.items():
+            if data.dungeon != None and str(name) in all_locations:
+                locations_any_dungeon.append(name)
+
+                if data.dungeon in locations_own_dungeon.keys():
+                    locations_own_dungeon[data.dungeon].append(name)
 
         # Boss Keys
         if self.options.boss_key_shuffle == "vanilla":
@@ -301,7 +307,6 @@ class SohWorld(World):
             Items.GANONS_CASTLE_SMALL_KEY: (Dungeons.GANONS_CASTLE, self.options.ganons_castle_key_ring.value, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
             Items.TRAINING_GROUND_SMALL_KEY: (Dungeons.GTG, self.options.gerudo_training_ground_key_ring.value, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
         }
-        
 
         # Small Keys
         if self.options.small_key_shuffle == "vanilla":
@@ -314,6 +319,8 @@ class SohWorld(World):
                     self.get_location(str(location)).place_locked_item(self.create_item(str(key)))
                     if location in locations_any_dungeon:
                         locations_any_dungeon.remove(location)
+                    if location in locations_own_dungeon[small_key_option_mapping[key][0]]:
+                        locations_own_dungeon[small_key_option_mapping[key][0]].remove(location)
 
         elif self.options.small_key_shuffle in ("own_dungeon", "any_dungeon"):
             if self.options.small_key_shuffle == "own_dungeon":
@@ -327,7 +334,6 @@ class SohWorld(World):
                 else:
                     for _ in range(1 if data[1] else data[2]):
                         key_any_dungeon.append(item)
-
 
         # Gerudo Fortress Keys
         if self.options.fortress_carpenters != "free":
@@ -352,7 +358,7 @@ class SohWorld(World):
 
                 fill_restrictive(self.multiworld, prefill_state, [self.get_location(str(location)) for location in dungeon_locations],
                                 [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
-                
+
         if key_any_dungeon:
             locations = []
             for location in locations_any_dungeon:

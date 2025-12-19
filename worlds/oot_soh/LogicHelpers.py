@@ -39,7 +39,7 @@ def add_locations(parent_region: Regions, world: "SohWorld",
         if len(location) > 1:
             locationRule = location[1]  # type: ignore # noqa
         if locationName in world.included_locations:
-            locationAddress = world.included_locations.pop(location[0])
+            locationAddress = world.included_locations.pop(location[0]).loc_id
             world.get_region(parent_region).add_locations(
                 {str(locationName): locationAddress}, SohLocation)
             set_rule(world.get_location(locationName),

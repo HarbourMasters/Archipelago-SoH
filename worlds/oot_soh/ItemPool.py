@@ -366,36 +366,47 @@ def get_open_location_count(world: "SohWorld") -> int:
         open_location_count -= 5
         
     if world.options.small_key_shuffle == "vanilla":
-        open_location_count -= 43
+        count = 0
+        for key in (Items.FOREST_TEMPLE_SMALL_KEY, Items.FIRE_TEMPLE_SMALL_KEY, Items.WATER_TEMPLE_SMALL_KEY, Items.SPIRIT_TEMPLE_SMALL_KEY, Items.SHADOW_TEMPLE_SMALL_KEY, Items.BOTTOM_OF_THE_WELL_SMALL_KEY, Items.GANONS_CASTLE_SMALL_KEY, Items.TRAINING_GROUND_SMALL_KEY):
+            count += item_data_table[key].quantity_in_item_pool
+        open_location_count -= count
+
     elif world.options.small_key_shuffle in ("own_dungeon", "any_dungeon"):
         if world.options.forest_temple_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool
+
         if world.options.fire_temple_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool
+
         if world.options.water_temple_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool
+
         if world.options.spirit_temple_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool
+
         if world.options.shadow_temple_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool
+
         if world.options.bottom_of_the_well_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool
+
         if world.options.ganons_castle_key_ring:
             open_location_count -= 1
         else:
             open_location_count -= item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool
+            
         if world.options.gerudo_training_ground_key_ring:
             open_location_count -= 1
         else:

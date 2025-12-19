@@ -117,133 +117,133 @@ def create_regions_and_locations(world: "SohWorld") -> None:
         world.multiworld.regions.append(region)
         region.add_exits(region_data_table[region_name].connecting_regions)
 
-        # Create locations
+    # Create locations
 
-        # Base locations
-        world.included_locations.update(base_location_table)
+    # Base locations
+    world.included_locations.update(base_location_table)
 
-        # Gold Skulltulas (Overworld)
+    # Gold Skulltulas (Overworld)
+    world.included_locations.update(
+        gold_skulltula_overworld_location_table)
+
+    # Gold Skulltulas (Dungeon)
+    world.included_locations.update(gold_skulltula_dungeon_location_table)
+
+    # Shops, Add all shop locations vanilla items will get prefilled and locked
+    # Todo: maybe we have to add the vanilla locations as events (id = None)
+    # check if vanilla items show up in the list of checks
+    world.included_locations.update(shops_location_table)
+
+    # Scrubs
+    if world.options.shuffle_scrubs == "all":
+        world.included_locations.update(scrubs_location_table)
+    
+    if world.options.shuffle_scrubs == "one_time_only":
+        for location_name in scrubs_one_time_only:
+            world.included_locations[location_name] = scrubs_location_table[location_name]
+
+    # Adult Trade Items
+    if world.options.shuffle_adult_trade_items:
+        world.included_locations.update(trade_items_location_table)
+
+    # Merchants
+    if world.options.shuffle_merchants == "bean_merchant_only" or world.options.shuffle_merchants == "all":
+        world.included_locations[Locations.ZR_MAGIC_BEAN_SALESMAN] \
+            = merchants_items_location_table[Locations.ZR_MAGIC_BEAN_SALESMAN]
+
+    if world.options.shuffle_merchants == "all_but_beans" or world.options.shuffle_merchants == "all":
+        for location_name in (Locations.KAK_GRANNYS_SHOP, Locations.GC_MEDIGORON,
+                                Locations.WASTELAND_CARPET_SALESMAN):
+            world.included_locations[location_name] = merchants_items_location_table[location_name]
+
+    # Cows
+    if world.options.shuffle_cows:
+        world.included_locations.update(cows_location_table)
+
+    # Frogs
+    if world.options.shuffle_frog_song_rupees:
+        world.included_locations.update(frogs_location_table)
+
+    # Beehives
+    if world.options.shuffle_beehives:
+        world.included_locations.update(beehives_location_table)
+
+    # Pots (Overworld)
+    if world.options.shuffle_pots == "overworld" or world.options.shuffle_pots == "all":
+        world.included_locations.update(pots_overworld_location_table)
+
+    # Pots (Dungeon)
+    if world.options.shuffle_pots == "dungeon" or world.options.shuffle_pots == "all":
+        world.included_locations.update(pots_dungeon_location_table)
+
+    # Crates (Overworld)
+    if world.options.shuffle_crates == "overworld" or world.options.shuffle_crates == "all":
+        world.included_locations.update(crates_overworld_location_table)
+
+    # Crates (Dungeon)
+    if world.options.shuffle_crates == "dungeon" or world.options.shuffle_crates == "all":
+        world.included_locations.update(crates_dungeon_location_table)
+
+    # Trees
+    if world.options.shuffle_trees:
+        world.included_locations.update(tree_location_table)
+
+    # Freestanding (Overworld)
+    if world.options.shuffle_freestanding_items == "overworld" or world.options.shuffle_freestanding_items == "all":
         world.included_locations.update(
-            gold_skulltula_overworld_location_table)
+            freestanding_overworld_location_table)
 
-        # Gold Skulltulas (Dungeon)
-        world.included_locations.update(gold_skulltula_dungeon_location_table)
+    # Freestanding (Dungeon)
+    if world.options.shuffle_freestanding_items == "dungeon" or world.options.shuffle_freestanding_items == "all":
+        world.included_locations.update(
+            freestanding_dungeon_location_table)
 
-        # Shops, Add all shop locations vanilla items will get prefilled and locked
-        # Todo: maybe we have to add the vanilla locations as events (id = None)
-        # check if vanilla items show up in the list of checks
-        world.included_locations.update(shops_location_table)
+    # Fairies
+    if world.options.shuffle_fountain_fairies:
+        world.included_locations.update(fairies_fountain_location_table)
+    if world.options.shuffle_stone_fairies:
+        world.included_locations.update(fairies_stone_location_table)
+    if world.options.shuffle_bean_fairies:
+        world.included_locations.update(fairies_bean_location_table)
+    if world.options.shuffle_song_fairies:
+        world.included_locations.update(fairies_song_location_table)
 
-        # Scrubs
-        if world.options.shuffle_scrubs == "all":
-            world.included_locations.update(scrubs_location_table)
-        
-        if world.options.shuffle_scrubs == "one_time_only":
-            for location_name in scrubs_one_time_only:
-                world.included_locations[location_name] = scrubs_location_table[location_name]
+    # Grass (Overworld)
+    if world.options.shuffle_grass == "overworld" or world.options.shuffle_grass == "all":
+        world.included_locations.update(grass_overworld_location_table)
 
-        # Adult Trade Items
-        if world.options.shuffle_adult_trade_items:
-            world.included_locations.update(trade_items_location_table)
+    # Grass (Dungeon)
+    if world.options.shuffle_grass == "dungeon" or world.options.shuffle_grass == "all":
+        world.included_locations.update(grass_dungeon_location_table)
 
-        # Merchants
-        if world.options.shuffle_merchants == "bean_merchant_only" or world.options.shuffle_merchants == "all":
-            world.included_locations[Locations.ZR_MAGIC_BEAN_SALESMAN] \
-                = merchants_items_location_table[Locations.ZR_MAGIC_BEAN_SALESMAN]
+    # Fish (Pond)
+    if world.options.shuffle_fish == "pond" or world.options.shuffle_fish == "all":
+        world.included_locations.update(fish_pond_location_table)
 
-        if world.options.shuffle_merchants == "all_but_beans" or world.options.shuffle_merchants == "all":
-            for location_name in (Locations.KAK_GRANNYS_SHOP, Locations.GC_MEDIGORON,
-                                  Locations.WASTELAND_CARPET_SALESMAN):
-                world.included_locations[location_name] = merchants_items_location_table[location_name]
+    # Fish (Overworld)
+    if world.options.shuffle_fish == "overworld" or world.options.shuffle_fish == "all":
+        world.included_locations.update(fish_overworld_location_table)
 
-        # Cows
-        if world.options.shuffle_cows:
-            world.included_locations.update(cows_location_table)
+    # Child Zelda
+    if not world.options.skip_child_zelda:
+        world.included_locations.update(child_zelda_location_table)
 
-        # Frogs
-        if world.options.shuffle_frog_song_rupees:
-            world.included_locations.update(frogs_location_table)
+    # Carpenters
+    if world.options.fortress_carpenters == "normal":
+        world.included_locations.update(carpenters_location_table)
 
-        # Beehives
-        if world.options.shuffle_beehives:
-            world.included_locations.update(beehives_location_table)
+    if world.options.fortress_carpenters == "fast":
+        for location_name in (Locations.GF_GERUDO_MEMBERSHIP_CARD, Locations.TH_1_TORCH_CARPENTER):
+            world.included_locations[location_name] = carpenters_location_table[location_name]
 
-        # Pots (Overworld)
-        if world.options.shuffle_pots == "overworld" or world.options.shuffle_pots == "all":
-            world.included_locations.update(pots_overworld_location_table)
+    if world.options.shuffle_100_gs_reward:
+        world.included_locations.update(hundred_skulls_location_table)
 
-        # Pots (Dungeon)
-        if world.options.shuffle_pots == "dungeon" or world.options.shuffle_pots == "all":
-            world.included_locations.update(pots_dungeon_location_table)
-
-        # Crates (Overworld)
+    if world.options.true_no_logic:
         if world.options.shuffle_crates == "overworld" or world.options.shuffle_crates == "all":
-            world.included_locations.update(crates_overworld_location_table)
-
-        # Crates (Dungeon)
-        if world.options.shuffle_crates == "dungeon" or world.options.shuffle_crates == "all":
-            world.included_locations.update(crates_dungeon_location_table)
-
-        # Trees
+            world.included_locations.update(no_logic_crates_location_table)
         if world.options.shuffle_trees:
-            world.included_locations.update(tree_location_table)
-
-        # Freestanding (Overworld)
-        if world.options.shuffle_freestanding_items == "overworld" or world.options.shuffle_freestanding_items == "all":
-            world.included_locations.update(
-                freestanding_overworld_location_table)
-
-        # Freestanding (Dungeon)
-        if world.options.shuffle_freestanding_items == "dungeon" or world.options.shuffle_freestanding_items == "all":
-            world.included_locations.update(
-                freestanding_dungeon_location_table)
-
-        # Fairies
-        if world.options.shuffle_fountain_fairies:
-            world.included_locations.update(fairies_fountain_location_table)
-        if world.options.shuffle_stone_fairies:
-            world.included_locations.update(fairies_stone_location_table)
-        if world.options.shuffle_bean_fairies:
-            world.included_locations.update(fairies_bean_location_table)
-        if world.options.shuffle_song_fairies:
-            world.included_locations.update(fairies_song_location_table)
-
-        # Grass (Overworld)
-        if world.options.shuffle_grass == "overworld" or world.options.shuffle_grass == "all":
-            world.included_locations.update(grass_overworld_location_table)
-
-        # Grass (Dungeon)
-        if world.options.shuffle_grass == "dungeon" or world.options.shuffle_grass == "all":
-            world.included_locations.update(grass_dungeon_location_table)
-
-        # Fish (Pond)
-        if world.options.shuffle_fish == "pond" or world.options.shuffle_fish == "all":
-            world.included_locations.update(fish_pond_location_table)
-
-        # Fish (Overworld)
-        if world.options.shuffle_fish == "overworld" or world.options.shuffle_fish == "all":
-            world.included_locations.update(fish_overworld_location_table)
-
-        # Child Zelda
-        if not world.options.skip_child_zelda:
-            world.included_locations.update(child_zelda_location_table)
-
-        # Carpenters
-        if world.options.fortress_carpenters == "normal":
-            world.included_locations.update(carpenters_location_table)
-
-        if world.options.fortress_carpenters == "fast":
-            for location_name in (Locations.GF_GERUDO_MEMBERSHIP_CARD, Locations.TH_1_TORCH_CARPENTER):
-                world.included_locations[location_name] = carpenters_location_table[location_name]
-
-        if world.options.shuffle_100_gs_reward:
-            world.included_locations.update(hundred_skulls_location_table)
-
-        if world.options.true_no_logic:
-            if world.options.shuffle_crates == "overworld" or world.options.shuffle_crates == "all":
-                world.included_locations.update(no_logic_crates_location_table)
-            if world.options.shuffle_trees:
-                world.included_locations.update(no_logic_trees_location_table)
+            world.included_locations.update(no_logic_trees_location_table)
 
     # Set region rules and location rules after all locations are created
     all_regions = [root, castle_grounds, death_mountain_crater, death_mountain_trail, desert_colossus, gerudo_fortress,
@@ -279,18 +279,6 @@ forest_temple_small_key_chests = [
 ]
 
 
-forest_temple_chests = [
-    Locations.FOREST_TEMPLE_RAISED_ISLAND_COURTYARD_CHEST,
-    Locations.FOREST_TEMPLE_MAP_CHEST,
-    Locations.FOREST_TEMPLE_EYE_SWITCH_CHEST,
-    Locations.FOREST_TEMPLE_BOSS_KEY_CHEST,
-    Locations.FOREST_TEMPLE_BLUE_POE_CHEST,
-    Locations.FOREST_TEMPLE_BOW_CHEST,
-    Locations.FOREST_TEMPLE_FALLING_CEILING_ROOM_CHEST,
-    Locations.FOREST_TEMPLE_BASEMENT_CHEST
-] + forest_temple_small_key_chests
-
-
 fire_temple_small_key_chests = [
     Locations.FIRE_TEMPLE_NEAR_BOSS_CHEST,
     Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_LOWER_OPEN_DOOR_CHEST,
@@ -303,16 +291,6 @@ fire_temple_small_key_chests = [
 ]
 
 
-fire_temple_chests = [
-    Locations.FIRE_TEMPLE_BOSS_KEY_CHEST,
-    Locations.FIRE_TEMPLE_MAP_CHEST,
-    Locations.FIRE_TEMPLE_SCARECROW_CHEST,
-    Locations.FIRE_TEMPLE_COMPASS_CHEST,
-    Locations.FIRE_TEMPLE_MEGATON_HAMMER_CHEST,
-    Locations.FIRE_TEMPLE_FLARE_DANCER_CHEST
-] + fire_temple_small_key_chests
-
-
 water_temple_small_key_chests = [
     Locations.WATER_TEMPLE_TORCHES_CHEST,
     Locations.WATER_TEMPLE_CRACKED_WALL_CHEST,
@@ -321,13 +299,6 @@ water_temple_small_key_chests = [
     Locations.WATER_TEMPLE_RIVER_CHEST,
     Locations.WATER_TEMPLE_CENTRAL_BOW_TARGET_CHEST
 ]
-
-water_temple_chests = [
-    Locations.WATER_TEMPLE_COMPASS_CHEST,
-    Locations.WATER_TEMPLE_MAP_CHEST,
-    Locations.WATER_TEMPLE_BOSS_KEY_CHEST,
-    Locations.WATER_TEMPLE_LONGSHOT_CHEST
-] + water_temple_small_key_chests
 
 
 spirit_temple_small_key_chests = [
@@ -339,46 +310,12 @@ spirit_temple_small_key_chests = [
 ]
 
 
-spirit_temple_chests = [
-    Locations.SPIRIT_TEMPLE_CHILD_BRIDGE_CHEST,
-    Locations.SPIRIT_TEMPLE_CHILD_CLIMB_NORTH_CHEST,
-    Locations.SPIRIT_TEMPLE_CHILD_CLIMB_EAST_CHEST,
-    Locations.SPIRIT_TEMPLE_MAP_CHEST,
-    Locations.SPIRIT_TEMPLE_SILVER_GAUNTLETS_CHEST,
-    Locations.SPIRIT_TEMPLE_COMPASS_CHEST,
-    Locations.SPIRIT_TEMPLE_FIRST_MIRROR_LEFT_CHEST,
-    Locations.SPIRIT_TEMPLE_FIRST_MIRROR_RIGHT_CHEST,
-    Locations.SPIRIT_TEMPLE_STATUE_ROOM_NORTHEAST_CHEST,
-    Locations.SPIRIT_TEMPLE_HALLWAY_RIGHT_INVISIBLE_CHEST,
-    Locations.SPIRIT_TEMPLE_HALLWAY_LEFT_INVISIBLE_CHEST,
-    Locations.SPIRIT_TEMPLE_MIRROR_SHIELD_CHEST,
-    Locations.SPIRIT_TEMPLE_BOSS_KEY_CHEST,
-    Locations.SPIRIT_TEMPLE_TOPMOST_CHEST
-] + spirit_temple_small_key_chests
-
-
 shadow_temple_small_key_chests = [
     Locations.SHADOW_TEMPLE_EARLY_SILVER_RUPEE_CHEST,
     Locations.SHADOW_TEMPLE_FREESTANDING_KEY,
     Locations.SHADOW_TEMPLE_FALLING_SPIKES_SWITCH_CHEST,
     Locations.SHADOW_TEMPLE_AFTER_WIND_HIDDEN_CHEST,
     Locations.SHADOW_TEMPLE_INVISIBLE_FLOORMASTER_CHEST
-]
-
-
-shadow_temple_chests = [
-    Locations.SHADOW_TEMPLE_MAP_CHEST,
-    Locations.SHADOW_TEMPLE_HOVER_BOOTS_CHEST,
-    Locations.SHADOW_TEMPLE_COMPASS_CHEST,
-    Locations.SHADOW_TEMPLE_INVISIBLE_BLADES_VISIBLE_CHEST,
-    Locations.SHADOW_TEMPLE_INVISIBLE_BLADES_INVISIBLE_CHEST,
-    Locations.SHADOW_TEMPLE_FALLING_SPIKES_LOWER_CHEST,
-    Locations.SHADOW_TEMPLE_FALLING_SPIKES_UPPER_CHEST,
-    Locations.SHADOW_TEMPLE_INVISIBLE_SPIKES_CHEST,
-    Locations.SHADOW_TEMPLE_WIND_HINT_CHEST,
-    Locations.SHADOW_TEMPLE_AFTER_WIND_ENEMY_CHEST,
-    Locations.SHADOW_TEMPLE_SPIKE_WALLS_LEFT_CHEST,
-    Locations.SHADOW_TEMPLE_BOSS_KEY_CHEST
 ]
 
 
@@ -389,42 +326,11 @@ botw_small_key_chests = [
 ]
 
 
-botw_chests = [
-    Locations.BOTTOM_OF_THE_WELL_FRONT_CENTER_BOMBABLE_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_BACK_LEFT_BOMBABLE_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_UNDERWATER_LEFT_CHEST, 
-    Locations.BOTTOM_OF_THE_WELL_COMPASS_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_CENTER_SKULLTULA_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_FIRE_KEESE_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_LIKE_LIKE_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_MAP_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_UNDERWATER_FRONT_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_INVISIBLE_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_LENS_OF_TRUTH_CHEST
-] + botw_small_key_chests
-
-
 ganons_castle_small_key_chests = [
     Locations.GANONS_CASTLE_LIGHT_TRIAL_INVISIBLE_ENEMIES_CHEST,
     Locations.GANONS_CASTLE_LIGHT_TRIAL_LULLABY_CHEST,
 ]
 
-
-ganons_castle_chests = [
-    Locations.GANONS_CASTLE_FOREST_TRIAL_CHEST,
-    Locations.GANONS_CASTLE_WATER_TRIAL_LEFT_CHEST,
-    Locations.GANONS_CASTLE_WATER_TRIAL_RIGHT_CHEST,
-    Locations.GANONS_CASTLE_SHADOW_TRIAL_FRONT_CHEST,
-    Locations.GANONS_CASTLE_SHADOW_TRIAL_GOLDEN_GAUNTLETS_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_LEFT_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_LEFT_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_LEFT_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_RIGHT_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_RIGHT_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_RIGHT_CHEST,
-    Locations.GANONS_CASTLE_SPIRIT_TRIAL_CRYSTAL_SWITCH_CHEST,
-    Locations.GANONS_CASTLE_SPIRIT_TRIAL_INVISIBLE_CHEST
-] + ganons_castle_small_key_chests
 
 gtg_small_key_chests = [
     Locations.GERUDO_TRAINING_GROUND_STALFOS_CHEST,
@@ -439,38 +345,12 @@ gtg_small_key_chests = [
 ]
 
 
-gtg_chests = [
-    Locations.GERUDO_TRAINING_GROUND_LOBBY_LEFT_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_LOBBY_RIGHT_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_BEFORE_HEAVY_BLOCK_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_FIRST_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_SECOND_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_FOURTH_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HAMMER_ROOM_CLEAR_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_CENTRAL_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_SIDE_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_FIRST_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_SECOND_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_THIRD_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_FINAL_CHEST
-] + gtg_small_key_chests
-
-
 dungeon_boss_key_vanilla_mapping = {
     Locations.FOREST_TEMPLE_BOSS_KEY_CHEST: Items.FOREST_TEMPLE_BOSS_KEY,
     Locations.FIRE_TEMPLE_BOSS_KEY_CHEST: Items.FIRE_TEMPLE_BOSS_KEY,
     Locations.WATER_TEMPLE_BOSS_KEY_CHEST: Items.WATER_TEMPLE_BOSS_KEY,
     Locations.SPIRIT_TEMPLE_BOSS_KEY_CHEST: Items.SPIRIT_TEMPLE_BOSS_KEY,
     Locations.SHADOW_TEMPLE_BOSS_KEY_CHEST: Items.SHADOW_TEMPLE_BOSS_KEY
-}
-
-
-boss_key_dungeon_mapping = {
-    Items.FOREST_TEMPLE_BOSS_KEY: forest_temple_chests,
-    Items.FIRE_TEMPLE_BOSS_KEY: fire_temple_chests,
-    Items.WATER_TEMPLE_BOSS_KEY: water_temple_chests,
-    Items.SPIRIT_TEMPLE_BOSS_KEY: spirit_temple_chests,
-    Items.SHADOW_TEMPLE_BOSS_KEY: shadow_temple_chests
 }
 
 
@@ -483,18 +363,6 @@ small_key_vanilla_mapping = {
     Items.BOTTOM_OF_THE_WELL_SMALL_KEY: botw_small_key_chests,
     Items.GANONS_CASTLE_SMALL_KEY: ganons_castle_small_key_chests,
     Items.TRAINING_GROUND_SMALL_KEY: gtg_small_key_chests
-}
-
-
-small_key_dungeon_mapping = {
-    Items.FOREST_TEMPLE_SMALL_KEY: forest_temple_chests,
-    Items.FIRE_TEMPLE_SMALL_KEY: fire_temple_chests,
-    Items.WATER_TEMPLE_SMALL_KEY: water_temple_chests,
-    Items.SPIRIT_TEMPLE_SMALL_KEY: spirit_temple_chests,
-    Items.SHADOW_TEMPLE_SMALL_KEY: shadow_temple_chests,
-    Items.BOTTOM_OF_THE_WELL_SMALL_KEY: botw_chests,
-    Items.GANONS_CASTLE_SMALL_KEY: ganons_castle_chests,
-    Items.TRAINING_GROUND_SMALL_KEY: gtg_chests
 }
 
 

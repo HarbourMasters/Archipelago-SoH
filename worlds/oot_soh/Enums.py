@@ -3852,7 +3852,7 @@ class TokenCounts(IntEnum):
     TOTAL = DUNGEON + OVERWORLD
 
 class Dungeons(StrEnum):
-    FOREST_TEMPLE = " Forest Temple"
+    FOREST_TEMPLE = "Forest Temple"
     FIRE_TEMPLE = "Fire Temple"
     WATER_TEMPLE = "Water Temple"
     SPIRIT_TEMPLE = "Spirit Temple"
