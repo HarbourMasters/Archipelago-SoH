@@ -207,29 +207,13 @@ class SohWorld(World):
     def get_filler_item_name(self) -> str:
         return get_filler_item(self)
 
-    def create_items(self) -> None:
-        # these are for making the progressive items collect/remove work properly
-        if not self.options.shuffle_swim:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_SCALE, create_as_event=True))
-        if not self.options.shuffle_deku_stick_bag:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_STICK_CAPACITY, create_as_event=True))
-        if not self.options.shuffle_deku_nut_bag:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_NUT_CAPACITY, create_as_event=True))
-        if not self.options.shuffle_childs_wallet:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_WALLET, create_as_event=True))
-
-        create_item_pool(self)
-
-        if self.options.triforce_hunt:
-            create_triforce_pieces(self)
-
-        create_filler_item_pool(self)
-
-        # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
+    def set_completion_rule(self) -> None:
+        if not self.options.true_no_logic:
+            # Completion condition.
+            self.multiworld.completion_condition[self.player] = lambda state: state.has(
+                Events.GAME_COMPLETED.value, self.player)
+            
+    def pre_fill_keys(self) -> None:
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
             prefill_state.collect(item, True)
@@ -370,31 +354,62 @@ class SohWorld(World):
             self.random.shuffle(locations)
 
             fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_any_dungeon], single_player_placement=True, lock=True)
-        
 
+    def pre_fill_dungeon(self) -> None:
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
-        if self.options.shuffle_dungeon_rewards == "dungeons":
-            dungeon_reward_locations = [self.get_location(location.value)
-                                        for location in dungeon_reward_item_mapping.keys()]
-            dungeon_reward_items = [self.create_item(
-                item.value) for item in dungeon_reward_item_mapping.values()]
-            self.random.shuffle(dungeon_reward_items)
+        # Create a filled copy of the state so the multiworld can place the dungeon rewards using logic
+        prefill_state = CollectionState(self.multiworld)
+        for item in self.item_pool:
+            prefill_state.collect(item, True)
+        for region, shop in all_shop_locations:
+            for slot, item in shop.items():
+                prefill_state.collect(self.create_item(item), True)
+        prefill_state.sweep_for_advancements()
 
-            # Place dungeon rewards
-            fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
-                             dungeon_reward_items, single_player_placement=True, lock=True)
+        dungeon_reward_locations = [self.get_location(location.value)
+                                    for location in dungeon_reward_item_mapping.keys()]
+        dungeon_reward_items = [self.create_item(
+            item.value) for item in dungeon_reward_item_mapping.values()]
+        self.random.shuffle(dungeon_reward_items)
+
+        # Place dungeon rewards
+        fill_restrictive(self.multiworld, prefill_state, dungeon_reward_locations,
+                         dungeon_reward_items, single_player_placement=True, lock=True)
+
+    def create_items(self) -> None:
+        # these are for making the progressive items collect/remove work properly
+        if not self.options.shuffle_swim:
+            self.push_precollected(self.create_item(
+                Items.PROGRESSIVE_SCALE, create_as_event=True))
+        if not self.options.shuffle_deku_stick_bag:
+            self.push_precollected(self.create_item(
+                Items.PROGRESSIVE_STICK_CAPACITY, create_as_event=True))
+        if not self.options.shuffle_deku_nut_bag:
+            self.push_precollected(self.create_item(
+                Items.PROGRESSIVE_NUT_CAPACITY, create_as_event=True))
+        if not self.options.shuffle_childs_wallet:
+            self.push_precollected(self.create_item(
+                Items.PROGRESSIVE_WALLET, create_as_event=True))
+
+        create_item_pool(self)
+
+        if self.options.triforce_hunt:
+            create_triforce_pieces(self)
+
+        create_filler_item_pool(self)
+
+        self.set_completion_rule()
+
+        self.pre_fill_keys()
+
+        # these place items, so they should be done during create_items
+        if self.options.shuffle_dungeon_rewards == "dungeons":
+            self.pre_fill_dungeon()
 
         fill_shop_items(self)
 
+        # this one technically could be done later but why bother at this point
         set_price_rules(self)
-
-    def set_rules(self) -> None:
-        if self.options.true_no_logic:
-            return
-
-        # Completion condition.
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.GAME_COMPLETED.value, self.player)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
