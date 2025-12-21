@@ -371,7 +371,7 @@ def get_open_location_count(world: "SohWorld") -> int:
             count += item_data_table[key].quantity_in_item_pool
         open_location_count -= count
 
-    elif world.options.small_key_shuffle in ("own_dungeon", "any_dungeon"):
+    elif world.options.small_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
         if world.options.forest_temple_key_ring:
             open_location_count -= 1
         else:
@@ -415,7 +415,7 @@ def get_open_location_count(world: "SohWorld") -> int:
     if world.options.gerudo_fortress_key_shuffle != "anywhere":
         if (world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla") or world.options.fortress_carpenters == "fast":
             open_location_count -= 1
-        elif world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle == "vanilla":
+        elif world.options.fortress_carpenters == "normal":
             open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
 
     return open_location_count

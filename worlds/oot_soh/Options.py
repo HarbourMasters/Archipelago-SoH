@@ -707,7 +707,8 @@ class SmallKeyShuffle(Choice):
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
-    option_anywhere = 3
+    option_overworld = 3
+    option_anywhere = 4
     default = 0
 
 
@@ -715,7 +716,8 @@ class GerudoFortressKeyShuffle(Choice):
     display_name = "Gerudo Fortress Key Shuffle"
     option_vanilla = 0
     option_any_dungeon = 1
-    option_anywhere = 2
+    option_overworld = 2
+    option_anywhere = 3
     default = 0
 
 
@@ -724,7 +726,8 @@ class BossKeyShuffle(Choice):
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
-    option_anywhere = 3
+    option_overworld = 3
+    option_anywhere = 4
     default = 0
 
 

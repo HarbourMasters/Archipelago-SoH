@@ -3852,8 +3852,12 @@ class TokenCounts(IntEnum):
     TOTAL = DUNGEON + OVERWORLD
 
 class Dungeons(StrEnum):
+    DEKU_TREE = "Deku Tree"
+    DODONGOS_CAVERN = "Dodongos Cavern"
+    JABU_JABUS_BELLY = "Jabu Jabus Belly"
     FOREST_TEMPLE = "Forest Temple"
     FIRE_TEMPLE = "Fire Temple"
+    ICE_CAVERN = "Ice Cavern"
     WATER_TEMPLE = "Water Temple"
     SPIRIT_TEMPLE = "Spirit Temple"
     SHADOW_TEMPLE = "Shadow Temple"
