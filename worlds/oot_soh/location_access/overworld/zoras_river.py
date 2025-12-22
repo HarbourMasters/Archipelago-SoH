@@ -23,7 +23,7 @@ class LocalEvents(StrEnum):
 def set_region_rules(world: "SohWorld") -> None:
     # ZR Front
     # Events
-    add_events(Regions.HYRULE_FIELD, world, [
+    add_events(Regions.ZR_FRONT, world, [
         (EventLocations.ZR_DAY_NIGHT_CYCLE_CHILD,
          Events.CHILD_CAN_PASS_TIME, lambda bundle: is_child(bundle)),
         (EventLocations.ZR_DAY_NIGHT_CYCLE_ADULT,
