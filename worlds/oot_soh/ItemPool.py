@@ -255,7 +255,74 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.skeleton_key:
         items_to_create[Items.SKELETON_KEY] = 1
 
-    # Item Pool Modifications should go here so the below can figure out what to make progressive correctly. Mostly important for Heart Containers.
+    # Item Pool Modifications
+    if world.options.item_pool.value:
+        if world.options.item_pool == "plentiful":
+            # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
+            # TODO We don't have an option for shuffle ocarina
+            items_to_create[Items.PROGRESSIVE_OCARINA] += 1
+
+            if world.options.shuffle_merchants == "all" or world.options.shuffle_merchants == "bean_merchant_only":
+                items_to_create[Items.MAGIC_BEAN_PACK] += 1
+
+            if world.options.shuffle_100_gs_reward and world.options.shuffle_skull_tokens:
+                items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 10
+
+            # TODO We don't have key options for Theives Hideout Key options or key options in general
+            if  world.options.key_rings and world.options.fortress_carpenters == "normal":
+                items_to_create[Items.GERUDO_FORTRESS_KEY_RING] += 1
+            else:
+                items_to_create[Items.GERUDO_FORTRESS_KEY_RING] += 1
+
+            # TODO we don't have an option for membership card shuffle
+            items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+
+            # TODO we don't have options for shuffling songs
+            items_to_create[Items.ZELDAS_LULLABY] += 1
+            items_to_create[Items.EPONAS_SONG] += 1
+            items_to_create[Items.SARIAS_SONG] += 1
+            items_to_create[Items.SUNS_SONG] += 1
+            items_to_create[Items.SONG_OF_TIME] += 1
+            items_to_create[Items.SONG_OF_STORMS] += 1
+            items_to_create[Items.MINUET_OF_FOREST] += 1
+            items_to_create[Items.BOLERO_OF_FIRE] += 1
+            items_to_create[Items.SERENADE_OF_WATER] += 1
+            items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
+            items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
+            items_to_create[Items.PRELUDE_OF_LIGHT] += 1
+
+        elif world.options.item_pool == "scarce":
+            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 3
+            items_to_create[Items.BOMBCHUS_5] = 1
+            items_to_create[Items.BOMBCHUS_10] = 2
+            items_to_create[Items.BOMBCHUS_20] = 0
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] = 1
+            items_to_create[Items.DOUBLE_DEFENSE] = 0
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] = 2 if world.options.shuffle_deku_stick_bag else 1
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] = 2 if world.options.shuffle_deku_nut_bag else 1
+            items_to_create[Items.PROGRESSIVE_BOW] = 2
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] = 2
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] = 2
+            items_to_create[Items.HEART_CONTAINER] = 0
+
+        elif world.options.item_pool == "minimal":
+            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 1
+            items_to_create[Items.BOMBCHUS_5] = 1
+            items_to_create[Items.BOMBCHUS_10] = 0
+            items_to_create[Items.BOMBCHUS_20] = 0
+            items_to_create[Items.NAYRUS_LOVE] = 0
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] = 1
+            items_to_create[Items.DOUBLE_DEFENSE] = 0
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] = 1 if world.options.shuffle_deku_stick_bag else 0
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] = 1 if world.options.shuffle_deku_nut_bag else 0
+            items_to_create[Items.PROGRESSIVE_BOW] = 1
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] = 1
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] = 1
+            items_to_create[Items.PIECE_OF_HEART] = 0
+            # This winner POH isn't in the original code, but I don't see why it wouldn't also be removed.
+            items_to_create[Items.PIECE_OF_HEART_WINNER] = 0
+            # We currently don't have a starting hearts option. We assume everyone starts at 3 hearts
+            items_to_create[Items.HEART_CONTAINER] = 0
 
     # Add Golden Skulltula Tokens as progressive if necessary
     if world.randomized_progressive_skulltula_count > 0:

@@ -88,6 +88,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.shuffle_tycoon_wallet.value = world.passthrough.get("shuffle_tycoon_wallet", 1)
             world.options.enable_all_tricks.value = world.passthrough.get("enable_all_tricks", 0)
             world.options.tricks_in_logic.value = world.passthrough.get("tricks_in_logic", set())
+            world.options.item_pool.value = world.passthrough.get("item_pool", 0)
             # when adding new options to this, use .get, and set the default to whatever was before the option was made
             # this will make it back-compatible with seeds generated on earlier versions
             # the below do not need to be handled in UT at all, since they do not affect logic

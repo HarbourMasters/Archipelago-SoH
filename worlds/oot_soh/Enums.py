@@ -3742,7 +3742,7 @@ class Tricks(StrEnum):
     SPIRIT_SUN_CHEST = "Spirit Sun Chest"
     SPIRIT_WALL = "Spirit Wall"
     LENS_SPIRIT_MQ = "Lens Spirit MQ"
-    SPIRIT_MQ_SUN_BLOCK_SOT = " Spirit MQ Sun Block SoT"
+    SPIRIT_MQ_SUN_BLOCK_SOT = "Spirit MQ Sun Block SoT"
     SPIRIT_MQ_SUN_BLOCK_GS = "Spirit MQ Sun Block GS"
     SPIRIT_MQ_LOWER_ADULT = "Spirit MQ Lower Adult"
     SPIRIT_MQ_FROZEN_EYE = "Spirit MQ Frozen Eye"

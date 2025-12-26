@@ -52,7 +52,7 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: is_child(bundle) and can_get_nighttime_gs(bundle) and can_bonk_trees(bundle)),
         (Locations.KAK_GS_WATCHTOWER, lambda bundle: is_child(bundle) and (
             can_kill_enemy(bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.LONGSHOT) or (
-                can_do_trick(Tricks.KAK_TOWER_GS, bundle) and can_jump_slash(bundle)) and can_get_nighttime_gs(bundle))),
+                can_do_trick(Tricks.KAK_TOWER_GS, bundle) and can_jump_slash_except_hammer(bundle))) and can_get_nighttime_gs(bundle)),
         (Locations.KAK_NEAR_POTION_SHOP_POT1, lambda bundle: is_child(
             bundle) and can_break_pots(bundle)),
         (Locations.KAK_NEAR_POTION_SHOP_POT2, lambda bundle: is_child(

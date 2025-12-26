@@ -1003,6 +1003,22 @@ class ShuffleTycoonWallet(Toggle):
     display_name = "Shuffle Tycoon Wallet"
 
 
+class ItemPool(Choice):
+    """
+    Sets how many major items appear in the item pool.
+    Balanced - Original item pool.
+    Plentiful - Extra major items are added to the pool.
+    Scarce - Some excess items are removed, including health upgrades.
+    Minimal - Most excess items are removed.
+    """
+    display_name = "Item Pool"
+    option_balanced = 0
+    option_plentiful = 1
+    option_scarce = 2
+    option_minimal = 3
+    default = 0
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1104,6 +1120,7 @@ class SohOptions(PerGameCommonOptions):
     shuffle_tycoon_wallet: ShuffleTycoonWallet
     tricks_in_logic: TricksInLogic
     enable_all_tricks: EnableAllTricks
+    item_pool: ItemPool
 
 
 soh_option_groups = [
@@ -1223,9 +1240,11 @@ soh_option_groups = [
         CompleteMaskQuest,
         SkipScarecrowsSong,
     ]),
-    # OptionGroup("Item Pool & Hints", [
-    # none of these are implemented, so just leaving this placeholder
-    # ]),
+    OptionGroup("Item Pool & Hints", [
+        ItemPool,
+        IceTrapCount,
+        IceTrapFillerReplacement
+    ]),
     OptionGroup("Additional Features", [
         FullWallets,  # another one that should maybe just be a locally changeable setting instead of in the yaml
         BombchuBag,
@@ -1234,8 +1253,6 @@ soh_option_groups = [
         SunlightArrows,
         InfiniteUpgrades,
         SkeletonKey,
-        SlingbowBreakBeehives,
-        IceTrapCount,
-        IceTrapFillerReplacement
+        SlingbowBreakBeehives
     ])
 ]
