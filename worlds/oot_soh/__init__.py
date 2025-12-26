@@ -328,7 +328,7 @@ class SohWorld(World):
         if self.options.small_key_shuffle == "vanilla":
             # TODO For logic to work we need to give an extra key, but the game actually unlocks one of the doors. Need to see if there is a way to not actually send this to the player or something
             # Techincally we could force this spare key to the Boss Key Chest if vanilla boss keys aren't on
-            self.multiworld.push_precollected(self.multiworld.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), self.player))
+            self.multiworld.push_precollected(self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
 
             for key, locations in small_key_vanilla_mapping.items():
                 for location in locations:
