@@ -151,8 +151,13 @@ class SohWorld(World):
             self.randomized_progressive_skulltula_count = self.passthrough["randomized_progressive_skulltula_count"]
 
         # Figure out Keyring Situation
+        key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring, self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
+
+        if self.options.key_rings == "off":
+            for index in range(len(key_ring_options)):
+                    key_ring_options[index].value = False
+
         if self.options.key_rings == "count":
-            key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring, self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
             
             for index in range(len(key_ring_options)):
                     key_ring_options[index].value = False
@@ -220,6 +225,8 @@ class SohWorld(World):
         for _, shop in all_shop_locations:
             for _, item in shop.items():
                 prefill_state.collect(self.create_item(item), True)
+        for reward in [self.create_item(item.value) for item in dungeon_reward_item_mapping.values()]:
+            prefill_state.collect(reward, True)
         prefill_state.sweep_for_advancements()
 
         own_dungeon: bool = False
@@ -373,11 +380,17 @@ class SohWorld(World):
         # Resolve own_dungeon, any_dungeon and overworld options
         if own_dungeon:
             for dungeon, keys in key_own_dungeon.items():
-                dungeon_locations = locations_own_dungeon[dungeon]
-                self.random.shuffle(dungeon_locations)
+                locations = []
+                for location in locations_own_dungeon[dungeon]:
+                    loc = self.get_location(str(location))
+                    if loc.item != None:
+                        locations_own_dungeon.remove(location)
+                        locations_any_dungeon.remove(location)
+                        continue
+                    locations.append(loc)
+                self.random.shuffle(locations)
 
-                fill_restrictive(self.multiworld, prefill_state, [self.get_location(str(location)) for location in dungeon_locations],
-                                [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
+                fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
 
         if key_any_dungeon:
             locations = []

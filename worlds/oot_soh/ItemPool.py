@@ -330,8 +330,8 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= create_special_progression_item(world, Items.GOLD_SKULLTULA_TOKEN, ItemClassification.progression_deprioritized_skip_balancing, world.randomized_progressive_skulltula_count)
         
     # Create progressive Heart Pieces if Fewer Tunic Requirements is enabled
-    if (world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value) and items_to_create[Items.HEART_CONTAINER] > 5:
-            items_to_create[Items.HEART_CONTAINER] -= create_special_progression_item(world, Items.HEART_CONTAINER, ItemClassification.progression_skip_balancing, 5)
+    if world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value:
+            items_to_create[Items.HEART_CONTAINER] -= min(create_special_progression_item(world, Items.HEART_CONTAINER, ItemClassification.progression_skip_balancing, 5), items_to_create[Items.HEART_CONTAINER])
 
     # Only create Greg as a Progressive Item if he is required to win
     if world.options.rainbow_bridge == "greg" or (world.options.rainbow_bridge and world.options.rainbow_bridge_greg_modifier) or (world.options.ganons_castle_boss_key and world.options.ganons_castle_boss_key_greg_modifier):
