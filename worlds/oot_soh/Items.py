@@ -30,7 +30,7 @@ class SohItemData(NamedTuple):
 item_data_table: dict[Items, SohItemData] = {
     # Items commented out that can never appear in the item pool and are only used on Ship internally
 
-    Items.KOKIRI_SWORD: SohItemData(1, IC.progression | IC.useful, 1, child_only=True, item_groups=["Swords", "Sword"]),
+    Items.KOKIRI_SWORD: SohItemData(1, IC.progression | IC.useful, 0, child_only=True, item_groups=["Swords", "Sword"]),
     Items.MASTER_SWORD: SohItemData(2, IC.progression | IC.useful, 0, adult_only=True, item_groups=["Swords", "Sword"]),
     Items.GIANTS_KNIFE: SohItemData(3, IC.progression, 0, adult_only=True, item_groups=["Swords", "Sword"]),
     Items.BIGGORONS_SWORD: SohItemData(4, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Swords", "Sword"]),
@@ -51,7 +51,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.FIRE_ARROW: SohItemData(19, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
     Items.ICE_ARROW: SohItemData(20, IC.filler, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
     Items.LIGHT_ARROW: SohItemData(21, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
-    Items.GERUDO_MEMBERSHIP_CARD: SohItemData(22, IC.progression, 1),
+    Items.GERUDO_MEMBERSHIP_CARD: SohItemData(22, IC.progression, 0),
     Items.MAGIC_BEAN: SohItemData(23, IC.progression, 0, child_only=True, item_groups=["Beans", "Bean"]),
     Items.MAGIC_BEAN_PACK: SohItemData(24, IC.progression, 0, child_only=True, item_groups=["Beans", "Bean"]),
     Items.DOUBLE_DEFENSE: SohItemData(25, IC.useful, 1),
@@ -81,7 +81,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.PROGRESSIVE_MAGIC_METER: SohItemData(49, IC.progression | IC.useful, 2, item_groups=["Magic Meter"]),
     # Items.MAGIC_SINGLE: SohItemData( 50, IC.filler, 0 ),
     # Items.MAGIC_DOUBLE: SohItemData( 51, IC.filler, 0 ),
-    Items.PROGRESSIVE_OCARINA: SohItemData(52, IC.progression | IC.useful, 2, item_groups=["Ocarinas", "Ocarina"]),
+    Items.PROGRESSIVE_OCARINA: SohItemData(52, IC.progression | IC.useful, 0, item_groups=["Ocarinas", "Ocarina"]),
     # Items.PROGRESSIVE_GORON_SWORD: SohItemData(53, IC.progression, 0),
     Items.EMPTY_BOTTLE: SohItemData(54, IC.progression | IC.useful, 0, item_groups=["Bottles", "Bottle"]),
     Items.BOTTLE_WITH_MILK: SohItemData(55, IC.progression | IC.useful, 0, item_groups=["Bottles", "Bottle"]),

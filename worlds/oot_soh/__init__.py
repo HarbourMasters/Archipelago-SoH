@@ -99,8 +99,8 @@ class SohWorld(World):
                               "setting has not been enabled. Either have them disable that option, or enable it in "
                               "your host.yaml settings.")
 
-        # If door of time is set to closed and dungeon rewards aren't shuffled, force child spawn
-        if self.options.door_of_time.value == 0 and self.options.shuffle_dungeon_rewards.value == 0:
+        # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
+        if self.options.door_of_time.value == 0 and (self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0):
             self.options.starting_age.value = 0
 
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
@@ -545,10 +545,14 @@ class SohWorld(World):
             "triforce_hunt_pieces_required": self.triforce_pieces_required,
             "shuffle_skull_tokens": self.options.shuffle_skull_tokens.value,
             "skulls_sun_song": self.options.skulls_sun_song.value,
+            "shuffle_kokiri_sword": self.options.shuffle_kokiri_sword.value,
             "shuffle_master_sword": self.options.shuffle_master_sword.value,
             "shuffle_childs_wallet": self.options.shuffle_childs_wallet.value,
+            "shuffle_tycoon_wallet": self.options.shuffle_tycoon_wallet.value,
+            "shuffle_ocarinas": self.options.shuffle_ocarina_buttons.value,
             "shuffle_ocarina_buttons": self.options.shuffle_ocarina_buttons.value,
             "shuffle_swim": self.options.shuffle_swim.value,
+            "shuffle_gerudo_membership_card": self.options.shuffle_gerudo_membership_card.value,
             "shuffle_weird_egg": self.options.shuffle_weird_egg.value,
             "shuffle_fishing_pole": self.options.shuffle_fishing_pole.value,
             "shuffle_deku_stick_bag": self.options.shuffle_deku_stick_bag.value,

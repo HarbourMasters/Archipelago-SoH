@@ -377,10 +377,36 @@ def place_locked_items(world: "SohWorld") -> None:
         world.get_location(Locations.HC_ZELDAS_LETTER).place_locked_item(
             world.create_item(Items.ZELDAS_LETTER))
 
+    # Place Kokiri Sword on vanilla location if not shuffled
+    if not world.options.shuffle_kokiri_sword:
+        world.get_location(Locations.KF_KOKIRI_SWORD_CHEST).place_locked_item(
+            world.create_item(Items.KOKIRI_SWORD))
+
     # Place Master Sword on vanilla location if not shuffled
     if not world.options.shuffle_master_sword:
-        world.get_location(Locations.MARKET_TOT_MASTER_SWORD).place_locked_item(
-            world.create_item(Items.MASTER_SWORD))
+        if world.options.starting_age == "adult":
+            # Start with the master sword in your starting inventory
+            world.multiworld.push_precollected(world.create_item(Items.MASTER_SWORD, create_as_event=True))
+        else:
+            world.get_location(Locations.MARKET_TOT_MASTER_SWORD).place_locked_item(
+                world.create_item(Items.MASTER_SWORD))
+        
+    # Place the Ocarinas on their vanilla locations if not shuffled
+    if not world.options.shuffle_ocarinas:
+        world.get_location(Locations.LW_GIFT_FROM_SARIA).place_locked_item(
+            world.create_item(Items.PROGRESSIVE_OCARINA))
+        world.get_location(Locations.HF_OCARINA_OF_TIME_ITEM).place_locked_item(
+            world.create_item(Items.PROGRESSIVE_OCARINA))
+        
+    # place the gerudo membership card
+    if not world.options.shuffle_gerudo_membership_card:
+        if world.options.fortress_carpenters == "free":
+            # start with the membership card
+            world.multiworld.push_precollected(world.create_item(Items.GERUDO_MEMBERSHIP_CARD, create_as_event=True))
+        else:
+            # Place the Gerudo Membership Card on vanilla location if not shuffled
+            world.get_location(Locations.GF_GERUDO_MEMBERSHIP_CARD).place_locked_item(
+                world.create_item(Items.GERUDO_MEMBERSHIP_CARD))
 
     # Preplace dungeon rewards in vanilla locations when not shuffled
     if world.options.shuffle_dungeon_rewards == "off":

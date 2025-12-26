@@ -246,6 +246,12 @@ class SkullsSunSong(Toggle):
     """
     display_name = "Night Skulltulas Expect Sun's Song"
 
+class ShuffleKokiriSword(Toggle):
+    """
+    Shuffles the Kokiri Sword into the item pool.
+    This will require the use of sticks until hte Kokiri Sword is found.
+    """
+    display_name = "Shuffle Kokiri Sword"
 
 class ShuffleMasterSword(Toggle):
     """
@@ -262,6 +268,12 @@ class ShuffleChildsWallet(Toggle):
     """
     display_name = "Shuffle Child's Wallet"
 
+class ShuffleOcarinas(Toggle):
+    """
+    Enabling this shuffles the Fairy Ocarina and the Ocarina of Time into the item pool.
+    This will require finding an Ocarina before being able to play songs.
+    """
+    display_name = "Shuffle Ocarinas"
 
 class ShuffleOcarinaButtons(Toggle):
     """
@@ -293,6 +305,12 @@ class ShuffleWeirdEgg(Toggle):
     """
     display_name = "Shuffle Weird Egg"
 
+class ShuffleGerudoMembershipCard(Toggle):
+    """
+    Shuffles the Gerudo Membership Card into the item pool.
+    The gerudo Card is required to enter the Gerudo Training Ground, opening the gate to Haunted Wasteland and the Horseback Archery minigame.
+    """
+    display_name = "Shuffle Gerudo Membership Card"
 
 class ShuffleFishingPole(Toggle):
     """
@@ -1042,11 +1060,14 @@ class SohOptions(PerGameCommonOptions):
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
     shuffle_skull_tokens: ShuffleTokens
     skulls_sun_song: SkullsSunSong
+    shuffle_kokiri_sword: ShuffleKokiriSword
     shuffle_master_sword: ShuffleMasterSword
     shuffle_childs_wallet: ShuffleChildsWallet
+    shuffle_ocarinas: ShuffleOcarinas
     shuffle_ocarina_buttons: ShuffleOcarinaButtons
     shuffle_swim: ShuffleSwim
     shuffle_weird_egg: ShuffleWeirdEgg
+    shuffle_gerudo_membership_card: ShuffleGerudoMembershipCard
     shuffle_fishing_pole: ShuffleFishingPole
     shuffle_deku_stick_bag: ShuffleDekuStickBag
     shuffle_deku_nut_bag: ShuffleDekuNutBag
@@ -1165,15 +1186,15 @@ soh_option_groups = [
         # Shuffle Songs -- idk if this or the other ones here will be an actual option here, delete if not
         ShuffleTokens,
         SkullsSunSong,
-        # Shuffle Kokiri Sword
+        ShuffleKokiriSword,
         ShuffleMasterSword,
         ShuffleChildsWallet,
         ShuffleTycoonWallet,
-        # Shuffle Ocarinas
+        ShuffleOcarinas,
         ShuffleOcarinaButtons,
         ShuffleSwim,
         ShuffleWeirdEgg,
-        # Shuffle Gerudu Membership Card
+        ShuffleGerudoMembershipCard,
         ShuffleFishingPole,
         ShuffleDekuStickBag,
         ShuffleDekuNutBag,

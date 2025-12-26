@@ -58,6 +58,10 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.shuffle_skull_tokens == "dungeon" or world.options.shuffle_skull_tokens == "all":
         items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(TokenCounts.DUNGEON)
 
+    # Kokiri Sword
+    if world.options.shuffle_kokiri_sword:
+        items_to_create[Items.KOKIRI_SWORD] = 1
+
     # Master Sword
     if world.options.shuffle_master_sword:
         items_to_create[Items.MASTER_SWORD] = 1
@@ -69,6 +73,10 @@ def create_item_pool(world: "SohWorld") -> None:
     # Tycoon Wallet
     if world.options.shuffle_tycoon_wallet:
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
+
+    # Fiary Ocarina and Ocarina of time
+    if world.options.shuffle_ocarinas:
+        items_to_create[Items.PROGRESSIVE_OCARINA] = 2
 
     # Ocarina Buttons
     if world.options.shuffle_ocarina_buttons:
@@ -85,6 +93,10 @@ def create_item_pool(world: "SohWorld") -> None:
     # Weird Egg
     if not world.options.skip_child_zelda and world.options.shuffle_weird_egg:
         items_to_create[Items.WEIRD_EGG] = 1
+
+    # Gerudo Membership Card
+    if world.options.shuffle_gerudo_membership_card:
+        items_to_create[Items.GERUDO_MEMBERSHIP_CARD] = 1
 
     # Fishing Pole
     if world.options.shuffle_fishing_pole:
@@ -259,8 +271,8 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
-            # TODO We don't have an option for shuffle ocarina
-            items_to_create[Items.PROGRESSIVE_OCARINA] += 1
+            if world.options.shuffle_ocarinas:
+                items_to_create[Items.PROGRESSIVE_OCARINA] += 1
 
             if world.options.shuffle_merchants == "all" or world.options.shuffle_merchants == "bean_merchant_only":
                 items_to_create[Items.MAGIC_BEAN_PACK] += 1
