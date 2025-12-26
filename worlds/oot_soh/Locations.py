@@ -52,7 +52,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.BARINADE: SohLocData(4, [LocTag.standard], Dungeons.JABU_JABUS_BELLY),
     Locations.PHANTOM_GANON: SohLocData(5, [LocTag.standard], Dungeons.FOREST_TEMPLE),
     Locations.VOLVAGIA: SohLocData(6, [LocTag.standard], Dungeons.FIRE_TEMPLE),
-    Locations.MORPHA: SohLocData(7, [LocTag.standard], Dungeons.FIRE_TEMPLE),
+    Locations.MORPHA: SohLocData(7, [LocTag.standard], Dungeons.WATER_TEMPLE),
     Locations.BONGO_BONGO: SohLocData(8, [LocTag.standard], Dungeons.SHADOW_TEMPLE),
     Locations.TWINROVA: SohLocData(9, [LocTag.standard], Dungeons.SPIRIT_TEMPLE),
     # Locations.GANON: SohLocData(10),

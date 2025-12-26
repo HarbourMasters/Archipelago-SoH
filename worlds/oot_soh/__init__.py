@@ -272,11 +272,10 @@ class SohWorld(World):
 
 
         for name, data in location_data_table.items():
-            if str(name) in all_locations:
+
+            if str(name) in all_locations and str(name) not in reserved_locations:
                 if data.dungeon == None:
-                    
-                    if str(name) not in reserved_locations:
-                        locations_overworld.append(name)
+                    locations_overworld.append(name)
                 else:
                     locations_any_dungeon.append(name)
 
@@ -384,7 +383,6 @@ class SohWorld(World):
                 for location in locations_own_dungeon[dungeon]:
                     loc = self.get_location(str(location))
                     if loc.item != None:
-                        locations_own_dungeon.remove(location)
                         locations_any_dungeon.remove(location)
                         continue
                     locations.append(loc)
