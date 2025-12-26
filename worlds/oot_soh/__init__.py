@@ -5,6 +5,7 @@ from typing import Any, List, ClassVar
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
+from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
@@ -227,6 +228,9 @@ class SohWorld(World):
                 prefill_state.collect(self.create_item(item), True)
         for reward in [self.create_item(item.value) for item in dungeon_reward_item_mapping.values()]:
             prefill_state.collect(reward, True)
+        for event in Events:
+            prefill_state.collect(Item(str(event), ItemClassification.progression, None, self.player), True)
+        prefill_state.collect(Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player), True)
         prefill_state.sweep_for_advancements()
 
         own_dungeon: bool = False

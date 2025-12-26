@@ -280,11 +280,10 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.shuffle_100_gs_reward and world.options.shuffle_skull_tokens:
                 items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 10
 
-            # TODO We don't have key options for Theives Hideout Key options or key options in general
-            if  world.options.key_rings and world.options.fortress_carpenters == "normal":
+            if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal":
                 items_to_create[Items.GERUDO_FORTRESS_KEY_RING] += 1
             else:
-                items_to_create[Items.GERUDO_FORTRESS_KEY_RING] += 1
+                items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] += 1
 
             # TODO we don't have an option for membership card shuffle
             items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
