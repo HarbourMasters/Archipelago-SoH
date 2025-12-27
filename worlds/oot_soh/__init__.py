@@ -118,15 +118,15 @@ class SohWorld(World):
             self.options.shuffle_scrubs_maximum_price.value = self.options.shuffle_scrubs_minimum_price.value
 
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
-            self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value 
+            self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
 
 
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
-        
+
         if self.options.shuffle_100_gs_reward:
-            turn_in_amount = 100 
+            turn_in_amount = 100
         else:
             for location, amount in token_amounts.items():
                 if location not in self.options.exclude_locations:
@@ -138,10 +138,10 @@ class SohWorld(World):
 
         if self.options.shuffle_skull_tokens:
             self.randomized_progressive_skulltula_count = progressive_skulltula_count
-        
+
             if self.options.shuffle_skull_tokens == "dungeon":
                 self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
-            
+
             if self.options.shuffle_skull_tokens == "overworld":
                 self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
         else:
@@ -159,10 +159,10 @@ class SohWorld(World):
                     key_ring_options[index].value = False
 
         if self.options.key_rings == "count":
-            
+
             for index in range(len(key_ring_options)):
                     key_ring_options[index].value = False
-            
+
             # Fix count if Gerudo Fortress Keys aren't allowed
             if self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
                 if self.options.key_rings_count.value > 8:
@@ -171,7 +171,7 @@ class SohWorld(World):
 
             self.random.shuffle(key_ring_options)
 
-            # Set only the chosen 
+            # Set only the chosen
             for index in range(self.options.key_rings_count.value):
                 key_ring_options[index].value = True
 
@@ -188,7 +188,7 @@ class SohWorld(World):
             self.options.bottom_of_the_well_key_ring.value = self.passthrough["bottom_of_the_well_key_ring"]
             self.options.gerudo_training_ground_key_ring.value = self.passthrough["gerudo_training_ground_key_ring"]
             self.options.ganons_castle_key_ring.value = self.passthrough["ganons_castle_key_ring"]
-            
+
     def create_regions(self) -> None:
         create_regions_and_locations(self)
         place_locked_items(self)
@@ -218,7 +218,7 @@ class SohWorld(World):
             # Completion condition.
             self.multiworld.completion_condition[self.player] = lambda state: state.has(
                 Events.GAME_COMPLETED.value, self.player)
-            
+
     def pre_fill_keys(self) -> None:
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
@@ -227,13 +227,17 @@ class SohWorld(World):
         for _, shop in all_shop_locations:
             for _, item in shop.items():
                 prefill_state.collect(self.create_item(item), True)
-        # for reward in [self.create_item(item.value) for item in dungeon_reward_item_mapping.values()]:
-        #     prefill_state.collect(reward, True)
         for event in Events:
             if event not in (Events.GAME_COMPLETED, Events.DEKU_TREE_COMPLETED, Events.DODONGOS_CAVERN_COMPLETED, Events.JABU_JABUS_BELLY_COMPLETED, Events.FOREST_TEMPLE_COMPLETED, Events.FIRE_TEMPLE_COMPLETED, Events.WATER_TEMPLE_COMPLETED, Events.SPIRIT_TEMPLE_COMPLETED, Events.SHADOW_TEMPLE_COMPLETED):
                 prefill_state.collect(Item(str(event), ItemClassification.progression, None, self.player), True)
-        prefill_state.collect(Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player), True)
         prefill_state.sweep_for_advancements()
+
+        # Remove gcbk and completion goal so minimal works
+        if prefill_state.has(str(Events.GAME_COMPLETED), self.player):
+                    # all_state_base.remove(multiworld.worlds[player].create_item("Triforce"))
+            prefill_state.remove(SohItem(str(Events.GAME_COMPLETED), ItemClassification.progression, None, self.player))
+        if prefill_state.has(Items.GANONS_CASTLE_BOSS_KEY, self.player):
+            prefill_state.remove(self.multiworld.worlds[self.player].create_item(str(Items.GANONS_CASTLE_BOSS_KEY)))
 
         own_dungeon: bool = False
 
@@ -266,7 +270,7 @@ class SohWorld(World):
 
         all_locations =[location.name for location in self.multiworld.get_unfilled_locations(self.player)]
         reserved_locations = []
-        
+
         # Reserve dungeon reward locations if a dungeon reward should be there
         if self.options.shuffle_dungeon_rewards != "anywhere":
             reserved_locations += [location.value for location in dungeon_reward_item_mapping.keys()]
@@ -332,7 +336,6 @@ class SohWorld(World):
         # Small Keys
         if self.options.small_key_shuffle == "vanilla":
             # TODO For logic to work we need to give an extra key, but the game actually unlocks one of the doors. Need to see if there is a way to not actually send this to the player or something
-            # Techincally we could force this spare key to the Boss Key Chest if vanilla boss keys aren't on
             self.multiworld.push_precollected(self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
 
             for key, locations in small_key_vanilla_mapping.items():
@@ -344,6 +347,7 @@ class SohWorld(World):
                         locations_own_dungeon[small_key_option_mapping[key][0]].remove(location)
 
         elif self.options.small_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
+            self.multiworld.push_precollected(self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
             if self.options.small_key_shuffle == "own_dungeon":
                 own_dungeon = True
 
@@ -361,7 +365,7 @@ class SohWorld(World):
 
         # Gerudo Fortress Keys
         if self.options.fortress_carpenters != "free":
-            if self.options.gerudo_fortress_key_shuffle == "vanilla": 
+            if self.options.gerudo_fortress_key_shuffle == "vanilla":
                 if self.options.fortress_carpenters != "fast":
                     for location in (Locations.TH_1_TORCH_CARPENTER, Locations.TH_DEAD_END_CARPENTER, Locations.TH_DOUBLE_CELL_CARPENTER, Locations.TH_STEEP_SLOPE_CARPENTER):
                         self.get_location(str(location)).place_locked_item(self.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
@@ -394,9 +398,40 @@ class SohWorld(World):
                     locations.append(loc)
                 self.random.shuffle(locations)
 
+                if dungeon == Dungeons.GANONS_CASTLE:
+                    bridge = Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player)
+                    prefill_state.collect(bridge, True)
                 fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
+                if dungeon == Dungeons.GANONS_CASTLE:
+                    prefill_state.remove(bridge)
+
 
         if key_any_dungeon:
+            # Must handle GF Keys separately if membership card is vanilla
+            # Have to prevent GF key from GTG
+            if not self.options.shuffle_gerudo_membership_card and self.options.gerudo_fortress_key_shuffle == "any_dungeon":
+                locations = []
+                for location in locations_any_dungeon:
+                    loc = self.get_location(str(location))
+                    if loc.item != None or location_data_table[str(location)].dungeon == Dungeons.GTG:
+                        locations_any_dungeon.remove(location)
+                        continue
+                    locations.append(loc)
+                self.random.shuffle(locations)
+
+                special_keys = []
+
+                if self.options.gerudo_fortress_key_ring and Items.GERUDO_FORTRESS_KEY_RING in key_any_dungeon:
+                    key_any_dungeon.remove(Items.GERUDO_FORTRESS_KEY_RING)
+                    special_keys.append(Items.GERUDO_FORTRESS_KEY_RING)
+                elif Items.GERUDO_FORTRESS_SMALL_KEY in key_any_dungeon:
+                    for key in key_any_dungeon:
+                        if key == Items.GERUDO_FORTRESS_SMALL_KEY:
+                            key_any_dungeon.remove(Items.GERUDO_FORTRESS_SMALL_KEY)
+                            special_keys.append(key)
+
+                fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in special_keys], single_player_placement=True, lock=True)
+
             locations = []
             for location in locations_any_dungeon:
                 loc = self.get_location(str(location))
