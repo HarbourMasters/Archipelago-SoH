@@ -414,31 +414,6 @@ class SohWorld(World):
 
 
         if key_any_dungeon:
-            # Must handle GF Keys separately if membership card is vanilla
-            # Have to prevent GF key from GTG
-            # if not self.options.shuffle_gerudo_membership_card and self.options.gerudo_fortress_key_shuffle == "any_dungeon":
-            #     locations = []
-            #     for location in locations_any_dungeon:
-            #         loc = self.get_location(str(location))
-            #         if loc.item != None or location_data_table[str(location)].dungeon == Dungeons.GTG:
-            #             locations_any_dungeon.remove(location)
-            #             continue
-            #         locations.append(loc)
-            #     self.random.shuffle(locations)
-
-            #     special_keys = []
-
-            #     if self.options.gerudo_fortress_key_ring and Items.GERUDO_FORTRESS_KEY_RING in key_any_dungeon:
-            #         key_any_dungeon.remove(Items.GERUDO_FORTRESS_KEY_RING)
-            #         special_keys.append(Items.GERUDO_FORTRESS_KEY_RING)
-            #     elif Items.GERUDO_FORTRESS_SMALL_KEY in key_any_dungeon:
-            #         for key in key_any_dungeon:
-            #             if key == Items.GERUDO_FORTRESS_SMALL_KEY:
-            #                 key_any_dungeon.remove(Items.GERUDO_FORTRESS_SMALL_KEY)
-            #                 special_keys.append(key)
-
-            #     fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in special_keys], single_player_placement=True, lock=True)
-
             locations = []
             for location in locations_any_dungeon:
                 loc = self.get_location(str(location))
