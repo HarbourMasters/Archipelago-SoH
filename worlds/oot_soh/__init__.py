@@ -228,7 +228,7 @@ class SohWorld(World):
             for _, item in shop.items():
                 prefill_state.collect(self.create_item(item), True)
         for event in Events:
-            if event not in (Events.GAME_COMPLETED, Events.DEKU_TREE_COMPLETED, Events.DODONGOS_CAVERN_COMPLETED, Events.JABU_JABUS_BELLY_COMPLETED, Events.FOREST_TEMPLE_COMPLETED, Events.FIRE_TEMPLE_COMPLETED, Events.WATER_TEMPLE_COMPLETED, Events.SPIRIT_TEMPLE_COMPLETED, Events.SHADOW_TEMPLE_COMPLETED):
+            if event not in (Events.GAME_COMPLETED, Events.RESCUED_ALL_CARPENTERS, Events.DEKU_TREE_COMPLETED, Events.DODONGOS_CAVERN_COMPLETED, Events.JABU_JABUS_BELLY_COMPLETED, Events.FOREST_TEMPLE_COMPLETED, Events.FIRE_TEMPLE_COMPLETED, Events.WATER_TEMPLE_COMPLETED, Events.SPIRIT_TEMPLE_COMPLETED, Events.SHADOW_TEMPLE_COMPLETED):
                 prefill_state.collect(Item(str(event), ItemClassification.progression, None, self.player), True)
         prefill_state.sweep_for_advancements()
 
@@ -401,36 +401,43 @@ class SohWorld(World):
                 if dungeon == Dungeons.GANONS_CASTLE:
                     bridge = Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player)
                     prefill_state.collect(bridge, True)
+                if dungeon == Dungeons.GTG:
+                    carpenters = Item(str(Events.RESCUED_ALL_CARPENTERS), ItemClassification.progression, None, self.player)
+                    prefill_state.collect(carpenters, True)
+
                 fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
+
                 if dungeon == Dungeons.GANONS_CASTLE:
                     prefill_state.remove(bridge)
+                if dungeon == Dungeons.GTG:
+                    prefill_state.remove(carpenters)
 
 
         if key_any_dungeon:
             # Must handle GF Keys separately if membership card is vanilla
             # Have to prevent GF key from GTG
-            if not self.options.shuffle_gerudo_membership_card and self.options.gerudo_fortress_key_shuffle == "any_dungeon":
-                locations = []
-                for location in locations_any_dungeon:
-                    loc = self.get_location(str(location))
-                    if loc.item != None or location_data_table[str(location)].dungeon == Dungeons.GTG:
-                        locations_any_dungeon.remove(location)
-                        continue
-                    locations.append(loc)
-                self.random.shuffle(locations)
+            # if not self.options.shuffle_gerudo_membership_card and self.options.gerudo_fortress_key_shuffle == "any_dungeon":
+            #     locations = []
+            #     for location in locations_any_dungeon:
+            #         loc = self.get_location(str(location))
+            #         if loc.item != None or location_data_table[str(location)].dungeon == Dungeons.GTG:
+            #             locations_any_dungeon.remove(location)
+            #             continue
+            #         locations.append(loc)
+            #     self.random.shuffle(locations)
 
-                special_keys = []
+            #     special_keys = []
 
-                if self.options.gerudo_fortress_key_ring and Items.GERUDO_FORTRESS_KEY_RING in key_any_dungeon:
-                    key_any_dungeon.remove(Items.GERUDO_FORTRESS_KEY_RING)
-                    special_keys.append(Items.GERUDO_FORTRESS_KEY_RING)
-                elif Items.GERUDO_FORTRESS_SMALL_KEY in key_any_dungeon:
-                    for key in key_any_dungeon:
-                        if key == Items.GERUDO_FORTRESS_SMALL_KEY:
-                            key_any_dungeon.remove(Items.GERUDO_FORTRESS_SMALL_KEY)
-                            special_keys.append(key)
+            #     if self.options.gerudo_fortress_key_ring and Items.GERUDO_FORTRESS_KEY_RING in key_any_dungeon:
+            #         key_any_dungeon.remove(Items.GERUDO_FORTRESS_KEY_RING)
+            #         special_keys.append(Items.GERUDO_FORTRESS_KEY_RING)
+            #     elif Items.GERUDO_FORTRESS_SMALL_KEY in key_any_dungeon:
+            #         for key in key_any_dungeon:
+            #             if key == Items.GERUDO_FORTRESS_SMALL_KEY:
+            #                 key_any_dungeon.remove(Items.GERUDO_FORTRESS_SMALL_KEY)
+            #                 special_keys.append(key)
 
-                fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in special_keys], single_player_placement=True, lock=True)
+            #     fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in special_keys], single_player_placement=True, lock=True)
 
             locations = []
             for location in locations_any_dungeon:
