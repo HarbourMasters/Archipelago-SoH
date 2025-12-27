@@ -222,14 +222,16 @@ class SohWorld(World):
     def pre_fill_keys(self) -> None:
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
-            prefill_state.collect(item, True)
+            if item.name not in (Items.GANONS_CASTLE_BOSS_KEY, Items.GOLD_SKULLTULA_TOKEN, Items.GREG_THE_GREEN_RUPEE):
+                prefill_state.collect(item, True)
         for _, shop in all_shop_locations:
             for _, item in shop.items():
                 prefill_state.collect(self.create_item(item), True)
-        for reward in [self.create_item(item.value) for item in dungeon_reward_item_mapping.values()]:
-            prefill_state.collect(reward, True)
+        # for reward in [self.create_item(item.value) for item in dungeon_reward_item_mapping.values()]:
+        #     prefill_state.collect(reward, True)
         for event in Events:
-            prefill_state.collect(Item(str(event), ItemClassification.progression, None, self.player), True)
+            if event not in (Events.GAME_COMPLETED, Events.DEKU_TREE_COMPLETED, Events.DODONGOS_CAVERN_COMPLETED, Events.JABU_JABUS_BELLY_COMPLETED, Events.FOREST_TEMPLE_COMPLETED, Events.FIRE_TEMPLE_COMPLETED, Events.WATER_TEMPLE_COMPLETED, Events.SPIRIT_TEMPLE_COMPLETED, Events.SHADOW_TEMPLE_COMPLETED):
+                prefill_state.collect(Item(str(event), ItemClassification.progression, None, self.player), True)
         prefill_state.collect(Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player), True)
         prefill_state.sweep_for_advancements()
 
