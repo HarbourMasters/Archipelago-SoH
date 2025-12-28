@@ -164,7 +164,6 @@ class Regions(StrEnum):
     GRAVEYARD_COMPOSERS_GRAVE = "Graveyard Composers Grave"
     GRAVEYARD_HEART_PIECE_GRAVE = "Graveyard Heart Piece Grave"
     GRAVEYARD_WARP_PAD_REGION = "Graveyard Warp Pad Region"
-    DEATH_MOUNTAIN = "Death Mountain"
     DEATH_MOUNTAIN_SUMMIT = "Death Mountain Summit"
     DEATH_MOUNTAIN_TRAIL = "Death Mountain Trail"
     DMT_OWL_FLIGHT = "DMT Owl Flight"
