@@ -44,7 +44,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.BOOMERANG: SohItemData(12, IC.progression | IC.useful, 1, child_only=True),
     Items.LENS_OF_TRUTH: SohItemData(13, IC.progression | IC.useful, 1, item_type=ItemType.magic, item_groups=["Lens"]),
     Items.MEGATON_HAMMER: SohItemData(14, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Hammer"]),
-    Items.STONE_OF_AGONY: SohItemData(15, IC.progression, 1 | IC.useful, 1),
+    Items.STONE_OF_AGONY: SohItemData(15, IC.progression | IC.useful, 1),
     Items.DINS_FIRE: SohItemData(16, IC.progression, 1, item_type=ItemType.magic),
     Items.FARORES_WIND: SohItemData(17, IC.progression, 1, item_type=ItemType.magic),
     Items.NAYRUS_LOVE: SohItemData(18, IC.progression, 1, item_type=ItemType.magic),
