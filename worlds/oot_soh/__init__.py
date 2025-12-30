@@ -268,7 +268,7 @@ class SohWorld(World):
         key_overworld = []
         locations_overworld = []
 
-        all_locations =[location.name for location in self.multiworld.get_unfilled_locations(self.player)]
+        all_locations = [location.name for location in self.multiworld.get_unfilled_locations(self.player)]
         reserved_locations = []
 
         # Reserve dungeon reward locations if a dungeon reward should be there
@@ -282,7 +282,6 @@ class SohWorld(World):
 
 
         for name, data in location_data_table.items():
-
             if str(name) in all_locations and str(name) not in reserved_locations:
                 if data.dungeon == None:
                     locations_overworld.append(name)
@@ -411,7 +410,6 @@ class SohWorld(World):
                     prefill_state.remove(bridge)
                 if dungeon == Dungeons.GTG:
                     prefill_state.remove(carpenters)
-
 
         if key_any_dungeon:
             locations = []
