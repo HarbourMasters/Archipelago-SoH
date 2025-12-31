@@ -146,11 +146,7 @@ class SohWorld(World):
                 self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
         else:
             self.vanilla_progressive_skulltula_count = progressive_skulltula_count
-
-        if self.using_ut:
-            self.vanilla_progressive_skulltula_count = self.passthrough["vanilla_progressive_skulltula_count"]
-            self.randomized_progressive_skulltula_count = self.passthrough["randomized_progressive_skulltula_count"]
-
+            
         # Figure out Keyring Situation
         key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring, self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
 
