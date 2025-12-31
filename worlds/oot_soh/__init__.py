@@ -9,7 +9,7 @@ from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
-from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, dungeon_boss_key_vanilla_mapping, small_key_vanilla_mapping
+from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
