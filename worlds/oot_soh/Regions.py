@@ -448,3 +448,22 @@ def place_locked_items(world: "SohWorld") -> None:
                 world.get_location(location_name).place_locked_item(token_item)
             world.get_location(location_name).address = None 
             world.get_location(location_name).item.code = None
+
+    # Boss Keys
+    if world.options.boss_key_shuffle == "vanilla":
+        for location, key in dungeon_boss_key_vanilla_mapping.items():
+            world.get_location(str(location)).place_locked_item(world.create_item(str(key)))
+
+    # Small Keys
+    if world.options.small_key_shuffle == "vanilla":
+        for key, locations in small_key_vanilla_mapping.items():
+            for location in locations:
+                world.get_location(str(location)).place_locked_item(world.create_item(str(key)))
+
+    # Gerudo Fortress Keys
+    if world.options.fortress_carpenters != "free" and world.options.gerudo_fortress_key_shuffle == "vanilla":
+        if world.options.fortress_carpenters != "fast":
+            for location in (Locations.TH_1_TORCH_CARPENTER, Locations.TH_DEAD_END_CARPENTER, Locations.TH_DOUBLE_CELL_CARPENTER, Locations.TH_STEEP_SLOPE_CARPENTER):
+                world.get_location(str(location)).place_locked_item(world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
+        else:
+            world.get_location(str(Locations.TH_1_TORCH_CARPENTER)).place_locked_item(world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))

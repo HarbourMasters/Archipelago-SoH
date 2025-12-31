@@ -440,16 +440,10 @@ def get_open_location_count(world: "SohWorld") -> int:
     if world.options.shuffle_dungeon_rewards == "dungeons":
         open_location_count -= 9
 
-    if world.options.boss_key_shuffle != "anywhere":
+    if world.options.boss_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
         open_location_count -= 5
         
-    if world.options.small_key_shuffle == "vanilla":
-        count = 0
-        for key in (Items.FOREST_TEMPLE_SMALL_KEY, Items.FIRE_TEMPLE_SMALL_KEY, Items.WATER_TEMPLE_SMALL_KEY, Items.SPIRIT_TEMPLE_SMALL_KEY, Items.SHADOW_TEMPLE_SMALL_KEY, Items.BOTTOM_OF_THE_WELL_SMALL_KEY, Items.GANONS_CASTLE_SMALL_KEY, Items.TRAINING_GROUND_SMALL_KEY):
-            count += item_data_table[key].quantity_in_item_pool
-        open_location_count -= count
-
-    elif world.options.small_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
+    if world.options.small_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
         if world.options.forest_temple_key_ring:
             open_location_count -= 1
         else:
@@ -490,8 +484,8 @@ def get_open_location_count(world: "SohWorld") -> int:
         else:
             open_location_count -= item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool
 
-    if world.options.gerudo_fortress_key_shuffle != "anywhere":
-        if (world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla") or world.options.fortress_carpenters == "fast":
+    if world.options.gerudo_fortress_key_shuffle in ("any_dungeon", "overworld") and world.options.fortress_carpenters != "free":
+        if (world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal") or world.options.fortress_carpenters == "fast":
             open_location_count -= 1
         elif world.options.fortress_carpenters == "normal":
             open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
