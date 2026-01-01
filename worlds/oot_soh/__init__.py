@@ -362,8 +362,6 @@ class SohWorld(World):
         # Resolve own_dungeon, any_dungeon and overworld options
         if own_dungeon:
             for dungeon, keys in key_own_dungeon.items():
-                locations = self.get_empty_locations_from_list_shuffled(locations_own_dungeon[dungeon])
-
                 if dungeon == Dungeons.GANONS_CASTLE:
                     bridge = Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player)
                     prefill_state.collect(bridge, True)
@@ -371,7 +369,7 @@ class SohWorld(World):
                     carpenters = Item(str(Events.RESCUED_ALL_CARPENTERS), ItemClassification.progression, None, self.player)
                     prefill_state.collect(carpenters, True)
 
-                fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
+                fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_own_dungeon[dungeon]), [self.create_item(str(key)) for key in keys], single_player_placement=True, lock=True)
 
                 if dungeon == Dungeons.GANONS_CASTLE:
                     prefill_state.remove(bridge)
@@ -379,12 +377,10 @@ class SohWorld(World):
                     prefill_state.remove(carpenters)
 
         if key_any_dungeon:
-            locations = self.get_empty_locations_from_list_shuffled(locations_any_dungeon)
-            fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_any_dungeon], single_player_placement=True, lock=True)
+            fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_any_dungeon), [self.create_item(str(key)) for key in key_any_dungeon], single_player_placement=True, lock=True)
 
         if key_overworld:
-            locations = self.get_empty_locations_from_list_shuffled(locations_overworld)
-            fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_overworld], single_player_placement=True, lock=True)
+            fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_overworld), [self.create_item(str(key)) for key in key_overworld], single_player_placement=True, lock=True)
 
     def pre_fill_dungeon(self) -> None:
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.
