@@ -3,7 +3,7 @@ import pkgutil
 
 from typing import Any, List, ClassVar
 
-from BaseClasses import CollectionState, Item, Tutorial, ItemClassification
+from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld, World
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
@@ -209,6 +209,17 @@ class SohWorld(World):
             # Completion condition.
             self.multiworld.completion_condition[self.player] = lambda state: state.has(
                 Events.GAME_COMPLETED.value, self.player)
+            
+    def get_empty_locations_from_list_shuffled(self, location_list: list[Locations]) -> list[Location]:
+        locations = []
+        for location in location_list:
+            loc = self.get_location(str(location))
+            if loc.item != None or loc.locked:
+                continue
+            locations.append(loc)
+        self.random.shuffle(locations)
+
+        return locations
 
     def pre_fill_keys(self) -> None:
         prefill_state = CollectionState(self.multiworld)
@@ -351,14 +362,7 @@ class SohWorld(World):
         # Resolve own_dungeon, any_dungeon and overworld options
         if own_dungeon:
             for dungeon, keys in key_own_dungeon.items():
-                locations = []
-                for location in locations_own_dungeon[dungeon]:
-                    loc = self.get_location(str(location))
-                    if loc.item != None:
-                        locations_any_dungeon.remove(location)
-                        continue
-                    locations.append(loc)
-                self.random.shuffle(locations)
+                locations = self.get_empty_locations_from_list_shuffled(locations_own_dungeon[dungeon])
 
                 if dungeon == Dungeons.GANONS_CASTLE:
                     bridge = Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player)
@@ -375,27 +379,11 @@ class SohWorld(World):
                     prefill_state.remove(carpenters)
 
         if key_any_dungeon:
-            locations = []
-            for location in locations_any_dungeon:
-                loc = self.get_location(str(location))
-                if loc.item != None:
-                    locations_any_dungeon.remove(location)
-                    continue
-                locations.append(loc)
-            self.random.shuffle(locations)
-
+            locations = self.get_empty_locations_from_list_shuffled(locations_any_dungeon)
             fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_any_dungeon], single_player_placement=True, lock=True)
 
         if key_overworld:
-            locations = []
-            for location in locations_overworld:
-                loc = self.get_location(str(location))
-                if loc.item != None:
-                    locations_overworld.remove(location)
-                    continue
-                locations.append(loc)
-            self.random.shuffle(locations)
-
+            locations = self.get_empty_locations_from_list_shuffled(locations_overworld)
             fill_restrictive(self.multiworld, prefill_state, locations, [self.create_item(str(key)) for key in key_overworld], single_player_placement=True, lock=True)
 
     def pre_fill_dungeon(self) -> None:
