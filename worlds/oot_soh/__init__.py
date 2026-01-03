@@ -240,8 +240,8 @@ class SohWorld(World):
             Dungeons.WATER_TEMPLE: [],
             Dungeons.SPIRIT_TEMPLE: [],
             Dungeons.SHADOW_TEMPLE: [],
-            Dungeons.BOTW: [],
-            Dungeons.GTG: [],
+            Dungeons.BOTTOM_OF_THE_WELL: [],
+            Dungeons.GERUDO_TRAINING_GROUNDS: [],
             Dungeons.GANONS_CASTLE: []
         }
         locations_own_dungeon: dict[Dungeons, list[Locations]] = {
@@ -250,8 +250,8 @@ class SohWorld(World):
             Dungeons.WATER_TEMPLE: [],
             Dungeons.SPIRIT_TEMPLE: [],
             Dungeons.SHADOW_TEMPLE: [],
-            Dungeons.BOTW: [],
-            Dungeons.GTG: [],
+            Dungeons.BOTTOM_OF_THE_WELL: [],
+            Dungeons.GERUDO_TRAINING_GROUNDS: [],
             Dungeons.GANONS_CASTLE: []
         }
 
@@ -307,9 +307,9 @@ class SohWorld(World):
             Items.WATER_TEMPLE_SMALL_KEY: (Dungeons.WATER_TEMPLE, self.options.water_temple_key_ring, item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool),
             Items.SPIRIT_TEMPLE_SMALL_KEY: (Dungeons.SPIRIT_TEMPLE, self.options.spirit_temple_key_ring, item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool),
             Items.SHADOW_TEMPLE_SMALL_KEY: (Dungeons.SHADOW_TEMPLE, self.options.shadow_temple_key_ring, item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: (Dungeons.BOTW, self.options.bottom_of_the_well_key_ring, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
+            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: (Dungeons.BOTTOM_OF_THE_WELL, self.options.bottom_of_the_well_key_ring, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
             Items.GANONS_CASTLE_SMALL_KEY: (Dungeons.GANONS_CASTLE, self.options.ganons_castle_key_ring, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
-            Items.TRAINING_GROUND_SMALL_KEY: (Dungeons.GTG, self.options.gerudo_training_ground_key_ring, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
+            Items.TRAINING_GROUND_SMALL_KEY: (Dungeons.GERUDO_TRAINING_GROUNDS, self.options.gerudo_training_ground_key_ring, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
         }
 
         # Small Keys
@@ -365,7 +365,7 @@ class SohWorld(World):
                 if dungeon == Dungeons.GANONS_CASTLE:
                     bridge = Item(str(LocalEvents.HC_OGC_RAINBOW_BRIDGE_BUILT), ItemClassification.progression, None, self.player)
                     prefill_state.collect(bridge, True)
-                if dungeon == Dungeons.GTG:
+                if dungeon == Dungeons.GERUDO_TRAINING_GROUNDS:
                     carpenters = Item(str(Events.RESCUED_ALL_CARPENTERS), ItemClassification.progression, None, self.player)
                     prefill_state.collect(carpenters, True)
 
@@ -373,7 +373,7 @@ class SohWorld(World):
 
                 if dungeon == Dungeons.GANONS_CASTLE:
                     prefill_state.remove(bridge)
-                if dungeon == Dungeons.GTG:
+                if dungeon == Dungeons.GERUDO_TRAINING_GROUNDS:
                     prefill_state.remove(carpenters)
 
         if key_any_dungeon:

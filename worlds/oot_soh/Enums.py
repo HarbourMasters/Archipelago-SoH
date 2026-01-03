@@ -1,4 +1,4 @@
-from enum import StrEnum, IntEnum
+from enum import StrEnum, IntEnum, auto, Enum
 # allows defining orders with fewer functions; with this decorator only __eq__ and __lt__ is needed, and since enums implement __eq__ we can just implement __lt__
 from functools import total_ordering
 
@@ -3850,16 +3850,16 @@ class TokenCounts(IntEnum):
     OVERWORLD = 56
     TOTAL = DUNGEON + OVERWORLD
 
-class Dungeons(StrEnum):
-    DEKU_TREE = "Deku Tree"
-    DODONGOS_CAVERN = "Dodongos Cavern"
-    JABU_JABUS_BELLY = "Jabu Jabus Belly"
-    FOREST_TEMPLE = "Forest Temple"
-    FIRE_TEMPLE = "Fire Temple"
-    ICE_CAVERN = "Ice Cavern"
-    WATER_TEMPLE = "Water Temple"
-    SPIRIT_TEMPLE = "Spirit Temple"
-    SHADOW_TEMPLE = "Shadow Temple"
-    BOTW = "BOTW"
-    GTG = "GTG"
-    GANONS_CASTLE = "Ganons Castle"
+class Dungeons(Enum):
+    DEKU_TREE = auto()
+    DODONGOS_CAVERN = auto()
+    JABU_JABUS_BELLY = auto()
+    FOREST_TEMPLE = auto()
+    FIRE_TEMPLE = auto()
+    ICE_CAVERN = auto()
+    WATER_TEMPLE = auto()
+    SPIRIT_TEMPLE = auto()
+    SHADOW_TEMPLE = auto()
+    BOTTOM_OF_THE_WELL = auto()
+    GERUDO_TRAINING_GROUNDS = auto()
+    GANONS_CASTLE = auto()
