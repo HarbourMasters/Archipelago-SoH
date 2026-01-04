@@ -366,6 +366,30 @@ small_key_vanilla_mapping = {
 }
 
 
+map_and_compass_vanilla_mapping = {
+    Locations.DEKU_TREE_MAP_CHEST: Items.GREAT_DEKU_TREE_MAP,
+    Locations.DEKU_TREE_COMPASS_CHEST: Items.GREAT_DEKU_TREE_COMPASS,
+    Locations.DODONGOS_CAVERN_MAP_CHEST: Items.DODONGOS_CAVERN_MAP,
+    Locations.DODONGOS_CAVERN_COMPASS_CHEST: Items.DODONGOS_CAVERN_COMPASS,
+    Locations.JABU_JABUS_BELLY_MAP_CHEST: Items.JABU_JABUS_BELLY_MAP,
+    Locations.JABU_JABUS_BELLY_COMPASS_CHEST: Items.JABU_JABUS_BELLY_COMPASS,
+    Locations.FOREST_TEMPLE_MAP_CHEST: Items.FOREST_TEMPLE_MAP,
+    Locations.FOREST_TEMPLE_BLUE_POE_CHEST: Items.FOREST_TEMPLE_COMPASS,
+    Locations.FIRE_TEMPLE_MAP_CHEST: Items.FIRE_TEMPLE_MAP,
+    Locations.FIRE_TEMPLE_COMPASS_CHEST: Items.FIRE_TEMPLE_COMPASS,
+    Locations.WATER_TEMPLE_MAP_CHEST: Items.WATER_TEMPLE_MAP,
+    Locations.WATER_TEMPLE_COMPASS_CHEST: Items.WATER_TEMPLE_COMPASS,
+    Locations.SPIRIT_TEMPLE_MAP_CHEST: Items.SPIRIT_TEMPLE_MAP,
+    Locations.SPIRIT_TEMPLE_COMPASS_CHEST: Items.SPIRIT_TEMPLE_COMPASS,
+    Locations.SHADOW_TEMPLE_MAP_CHEST: Items.SHADOW_TEMPLE_MAP,
+    Locations.SHADOW_TEMPLE_COMPASS_CHEST: Items.SHADOW_TEMPLE_COMPASS,
+    Locations.BOTTOM_OF_THE_WELL_MAP_CHEST: Items.BOTTOM_OF_THE_WELL_MAP,
+    Locations.BOTTOM_OF_THE_WELL_COMPASS_CHEST: Items.BOTTOM_OF_THE_WELL_COMPASS,
+    Locations.ICE_CAVERN_MAP_CHEST: Items.ICE_CAVERN_MAP,
+    Locations.ICE_CAVERN_COMPASS_CHEST: Items.ICE_CAVERN_COMPASS
+}
+
+
 def place_locked_items(world: "SohWorld") -> None:
 
     # Add Weird Egg and Zelda's Letter to their vanilla locations when not shuffled
@@ -467,3 +491,8 @@ def place_locked_items(world: "SohWorld") -> None:
                 world.get_location(str(location)).place_locked_item(world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
         else:
             world.get_location(str(Locations.TH_1_TORCH_CARPENTER)).place_locked_item(world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY)))
+
+    # Maps and Compasses
+    if world.options.maps_and_compasses == "vanilla":
+        for location, item in map_and_compass_vanilla_mapping.items():
+            world.get_location(str(location)).place_locked_item(world.create_item(str(item)))

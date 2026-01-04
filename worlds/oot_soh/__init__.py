@@ -236,8 +236,12 @@ class SohWorld(World):
         prefill_state.sweep_for_advancements()
 
         key_own_dungeon: dict[Dungeons, list[Items]] = {
+            Dungeons.DEKU_TREE: [],
+            Dungeons.DODONGOS_CAVERN: [],
+            Dungeons.JABU_JABUS_BELLY: [],
             Dungeons.FOREST_TEMPLE: [],
             Dungeons.FIRE_TEMPLE: [],
+            Dungeons.ICE_CAVERN: [],
             Dungeons.WATER_TEMPLE: [],
             Dungeons.SPIRIT_TEMPLE: [],
             Dungeons.SHADOW_TEMPLE: [],
@@ -246,9 +250,13 @@ class SohWorld(World):
             Dungeons.GANONS_CASTLE: []
         }
         locations_own_dungeon: dict[Dungeons, list[Locations]] = {
+            Dungeons.DEKU_TREE: [],
+            Dungeons.DODONGOS_CAVERN: [],
+            Dungeons.JABU_JABUS_BELLY: [],
             Dungeons.FOREST_TEMPLE: [],
             Dungeons.FIRE_TEMPLE: [],
             Dungeons.WATER_TEMPLE: [],
+            Dungeons.ICE_CAVERN: [],
             Dungeons.SPIRIT_TEMPLE: [],
             Dungeons.SHADOW_TEMPLE: [],
             Dungeons.BOTTOM_OF_THE_WELL: [],
@@ -363,6 +371,12 @@ class SohWorld(World):
                     for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if self.options.fortress_carpenters == "normal" else 1):
                         key_overworld.append(Items.GERUDO_FORTRESS_SMALL_KEY)
 
+        # Maps and Compasses
+        if self.options.maps_and_compasses == "any_dungeon":
+            key_any_dungeon += [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS, Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS, Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS, Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS, Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS, Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS, Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS, Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS, Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS, Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]           
+        elif self.options.maps_and_compasses == "overworld":
+            key_overworld += [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS, Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS, Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS, Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS, Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS, Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS, Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS, Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS, Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS, Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]           
+
         # Resolve own_dungeon, any_dungeon and overworld options
         if own_dungeon:
             for dungeon, keys in key_own_dungeon.items():
@@ -385,6 +399,25 @@ class SohWorld(World):
 
         if key_overworld:
             fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_overworld), [self.create_item(str(key)) for key in key_overworld], single_player_placement=True, lock=True)
+
+        # If Maps and Compasses are shuffled to own dungeon
+        # Fixes generation error for Fire Temple to do it after all key placements
+        if self.options.maps_and_compasses == "own_dungeon" and self.options.small_key_shuffle != "own_dungeon":
+            map_and_compass_dungeon_mapping: dict[Dungeons, list[Items]] = {
+                Dungeons.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
+                Dungeons.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
+                Dungeons.JABU_JABUS_BELLY : [Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS],
+                Dungeons.FOREST_TEMPLE : [Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS],
+                Dungeons.FIRE_TEMPLE : [Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS],
+                Dungeons.WATER_TEMPLE : [Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS],
+                Dungeons.SPIRIT_TEMPLE : [Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS],
+                Dungeons.SHADOW_TEMPLE : [Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS],
+                Dungeons.BOTTOM_OF_THE_WELL : [Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS],
+                Dungeons.ICE_CAVERN : [Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]
+            }
+
+            for dungeon, items in map_and_compass_dungeon_mapping.items():
+                fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_own_dungeon[dungeon]), [self.create_item(str(item)) for item in items], single_player_placement=True, lock=True)
 
     def pre_fill_dungeon(self) -> None:
         # Prefill Dungeon Rewards. Need to collect the item pool and vanilla shop items before doing so.

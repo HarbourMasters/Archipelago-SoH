@@ -64,7 +64,7 @@ default_options = {
     "shuffle_grass":                                    ShuffleGrass.option_off,
     "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
     # Deviation from Ship. We don't have an Own Dungeon Option
-    "maps_and_compasses":                               MapsAndCompasses.option_start_with,
+    "maps_and_compasses":                               MapsAndCompasses.option_own_dungeon,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_vanilla,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,
     "ganons_castle_boss_key_medallions_required":       GanonsCastleBossKeyMedallionsRequired.default,
@@ -155,7 +155,6 @@ beginner_options = {
     "shuffle_song_fairies":                             ShuffleSongFairies.option_false,
     "shuffle_grass":                                    ShuffleGrass.option_off,
     "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
-    # Deviation from Ship. We don't have an Own Dungeon Option
     "maps_and_compasses":                               MapsAndCompasses.option_start_with,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,
@@ -248,7 +247,6 @@ advanced_options = {
     "shuffle_song_fairies":                             ShuffleSongFairies.option_false,
     "shuffle_grass":                                    ShuffleGrass.option_off,
     "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
-    # Deviation from Ship. We don't have an Own Dungeon Option
     "maps_and_compasses":                               MapsAndCompasses.option_start_with,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,
@@ -344,7 +342,7 @@ hell_mode_options = {
     "shuffle_grass":                                    ShuffleGrass.option_off,
     "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
     # Deviation from Ship. We don't have an Own Dungeon Option
-    "maps_and_compasses":                               MapsAndCompasses.option_shuffle,
+    "maps_and_compasses":                               MapsAndCompasses.option_anywhere,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,
     "ganons_castle_boss_key_medallions_required":       GanonsCastleBossKeyMedallionsRequired.default,

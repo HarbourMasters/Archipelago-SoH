@@ -620,12 +620,21 @@ class ShuffleDungeonRewards(Choice):
 class MapsAndCompasses(Choice):
     """
     Start with - You will start with Maps & Compasses from all dungeons.
-    Shuffle - Maps & Compasses can appear anywhere.
+    Vanilla - Maps & Compasses will appear in their vanilla locations.
+    Own dungeon - Maps & Compasses can only appear in their respective dungeon.
+    Any dungeon - Maps & Compasses can only appear inside of any dungeon.
+    Overworld - Maps & Compasses can only appear outside of dungeons.
+    Anywhere - Maps & Compasses can appear anywhere in the world.
     """
     display_name = "Maps and Compasses"
     option_start_with = 0
-    option_shuffle = 1
-    default = 0
+    option_vanilla = 1
+    option_own_dungeon = 2
+    option_any_dungeon = 3
+    option_overworld = 4
+    option_anywhere = 5
+    default = 2
+    alias_shuffle = 5
 
 
 class GanonsCastleBossKey(Choice):

@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from .Enums import *
 from .Items import item_data_table, filler_items, filler_bottles
+from .Regions import map_and_compass_vanilla_mapping
 from BaseClasses import ItemClassification
 
 if TYPE_CHECKING:
@@ -156,7 +157,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.LIGHT_MEDALLION] = 1
 
     # Maps and Compasses
-    if world.options.maps_and_compasses:
+    if world.options.maps_and_compasses == "anywhere":
         items_to_create[Items.GREAT_DEKU_TREE_MAP] = 1
         items_to_create[Items.DODONGOS_CAVERN_MAP] = 1
         items_to_create[Items.JABU_JABUS_BELLY_MAP] = 1
@@ -489,6 +490,9 @@ def get_open_location_count(world: "SohWorld") -> int:
             open_location_count -= 1
         elif world.options.fortress_carpenters == "normal":
             open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
+
+    if world.options.maps_and_compasses in ("own_dungeon", "any_dungeon", "overworld"):
+        open_location_count -= len(map_and_compass_vanilla_mapping)
 
     return open_location_count
 
