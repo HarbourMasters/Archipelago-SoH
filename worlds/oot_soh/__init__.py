@@ -9,7 +9,7 @@ from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
-from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping
+from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, map_and_compass_vanilla_mapping
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
@@ -373,9 +373,9 @@ class SohWorld(World):
 
         # Maps and Compasses
         if self.options.maps_and_compasses == "any_dungeon":
-            key_any_dungeon += [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS, Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS, Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS, Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS, Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS, Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS, Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS, Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS, Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS, Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]           
+            key_any_dungeon += list(map_and_compass_vanilla_mapping.values())
         elif self.options.maps_and_compasses == "overworld":
-            key_overworld += [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS, Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS, Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS, Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS, Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS, Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS, Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS, Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS, Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS, Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]           
+            key_overworld += list(map_and_compass_vanilla_mapping.values())
 
         # Resolve own_dungeon, any_dungeon and overworld options
         if own_dungeon:
@@ -401,8 +401,8 @@ class SohWorld(World):
             fill_restrictive(self.multiworld, prefill_state, self.get_empty_locations_from_list_shuffled(locations_overworld), [self.create_item(str(key)) for key in key_overworld], single_player_placement=True, lock=True)
 
         # If Maps and Compasses are shuffled to own dungeon
-        # Fixes generation error for Fire Temple to do it after all key placements
-        if self.options.maps_and_compasses == "own_dungeon" and self.options.small_key_shuffle != "own_dungeon":
+        # Fixes generation error for Fire Temple to do at least its map and compass after Fire Temple Key Placements
+        if self.options.maps_and_compasses == "own_dungeon":
             map_and_compass_dungeon_mapping: dict[Dungeons, list[Items]] = {
                 Dungeons.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
                 Dungeons.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
