@@ -8,7 +8,7 @@ class TestTime(SohTestBase):
     # test that you cannot cut the market grass if you do not have a grass cutter for child Link
     def test_wrong_age_grass(self):
         self.collect_all_but([Items.GORONS_BRACELET, Items.STRENGTH_UPGRADE, Items.BOOMERANG, Items.KOKIRI_SWORD,
-                              Items.BOMB_BAG, Items.PROGRESSIVE_BOMB_BAG, Items.PROGRESSIVE_BOMBCHU])
+                              Items.BOMB_BAG, Items.PROGRESSIVE_BOMB_BAG, Items.BOMBCHU_BAG])
         self.assertFalse(self.can_reach_location(Locations.MARKET_MARKET_GRASS1),
                          "Can access child-exclusive grass without an item that child can use to break it.")
         self.collect_by_name([Items.STRENGTH_UPGRADE])

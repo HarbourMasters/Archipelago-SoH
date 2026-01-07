@@ -897,14 +897,21 @@ class FullWallets(DefaultOnToggle):
     display_name = "Full Wallets"
 
 
-class BombchuBag(DefaultOnToggle):
+class BombchuBag(Choice):
     """
-    Bombchus require their own bag to be found before use. Without this setting, any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
-    The first Bombchu you find be a Bag containing 20 chus, and subsequent packs will have 10.
-    Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant.
-    Bombchu Bowling is opened by obtaining the Bombchu Bag.
+    None - Bombchus have vanilla behavior, any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
+
+    Single Bag - Bombchus require their own bag to be found before use. 5 of them are added to the pool (6 if the Carpet Merchant is shuffled). The first Bombchu Bag you find will be a Bag containing 20 chus, and subsequent bags will be replaced with Bombchu Ammo refills. Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant. Bombchu Bowling is opened by obtaining the Bombchu Bag.
+    
+    Progressive Bags - 3 Bombchu Bags are added to the pool, the first one will unlock Bombchus with a capacity of 20. The second one will upgrade this capacity to 30, and the final one will upgrade the capacity to the usual 50.
+    
+    Bombchu Bowling is opened by obtaining the first Bombchu bag.
     """
     display_name = "Bombchu Bag"
+    option_none = 0
+    option_single_bag = 1
+    option_progressive_bags = 2
+    default = 0
 
 
 class BombchuDrops(DefaultOnToggle):

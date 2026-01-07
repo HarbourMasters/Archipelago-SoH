@@ -248,11 +248,16 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.BOTTLE_WITH_BIG_POE] = 0
 
     # Bombchu bag
-    if world.options.bombchu_bag:
+    if world.options.bombchu_bag == "single_bag":
         items_to_create[Items.BOMBCHUS_5] = 0
         items_to_create[Items.BOMBCHUS_10] = 0
         items_to_create[Items.BOMBCHUS_20] = 0
-        items_to_create[Items.PROGRESSIVE_BOMBCHU] = 5
+        if world.options.shuffle_merchants in ("all_but_beans", "all"):
+            items_to_create[Items.BOMBCHU_BAG] = 6
+        else:
+            items_to_create[Items.BOMBCHU_BAG] = 5
+    elif world.options.bombchu_bag == "progressive_bags":
+        items_to_create[Items.BOMBCHU_BAG] = 3
 
     # Infinite Upgrades
     if world.options.infinite_upgrades == "progressive":
@@ -263,12 +268,15 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
         items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
+        if world.options.bombchu_bag == "progressive_bags":
+            items_to_create[Items.BOMBCHU_BAG] += 1
 
     # Skeleton Key
     if world.options.skeleton_key:
         items_to_create[Items.SKELETON_KEY] = 1
 
     # Item Pool Modifications
+    # TODO Item Pool Mods need to be gone through again. I guess I missed a whole bunch of things all over the place.
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
@@ -286,9 +294,20 @@ def create_item_pool(world: "SohWorld") -> None:
             else:
                 items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] += 1
 
-            # TODO we don't have an option for membership card shuffle
-            items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+            if world.options.shuffle_gerudo_membership_card:
+                items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
 
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] += 1
+
+            items_to_create[Items.PROGRESSIVE_BOW] += 1
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] += 1
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] += 1
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
+            items_to_create[Items.PROGRESSIVE_WALLET] += 1
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
+            
             # TODO we don't have options for shuffling songs
             items_to_create[Items.ZELDAS_LULLABY] += 1
             items_to_create[Items.EPONAS_SONG] += 1
@@ -304,7 +323,10 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PRELUDE_OF_LIGHT] += 1
 
         elif world.options.item_pool == "scarce":
-            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 3
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] = 3
+            elif world.options.bombchu_bag == "progressive":
+                items_to_create[Items.BOMBCHU_BAG] -= 1
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 2
             items_to_create[Items.BOMBCHUS_20] = 0
@@ -318,7 +340,10 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.HEART_CONTAINER] = 0
 
         elif world.options.item_pool == "minimal":
-            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 1
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] = 1
+            elif world.options.bombchu_bag == "progressive":
+                items_to_create[Items.BOMBCHU_BAG] -= 2
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 0
             items_to_create[Items.BOMBCHUS_20] = 0
