@@ -9,13 +9,13 @@ from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
-from .Regions import create_regions_and_locations, place_locked_items, dungeon_reward_item_mapping, map_and_compass_vanilla_mapping
+from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon, get_pre_fill_rewards
 from .KeyShuffle import pre_fill_keys, get_pre_fill_keys
-from .ShopItems import fill_shop_items, generate_scrub_prices, generate_merchant_prices, set_price_rules, all_shop_locations
+from .ShopItems import fill_shop_items, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
