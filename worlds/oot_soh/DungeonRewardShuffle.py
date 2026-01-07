@@ -8,9 +8,9 @@ if TYPE_CHECKING:
     from . import SohWorld
 
 def get_pre_fill_rewards(world: "SohWorld") -> list[Items]:
-        if world.options.shuffle_dungeon_rewards != "dungeons":
-            return list()
-        return list(dungeon_reward_item_mapping.values())
+    if world.options.shuffle_dungeon_rewards != "dungeons":
+        return list()
+    return list(dungeon_reward_item_mapping.values())
 
 def pre_fill_dungeon(world: "SohWorld") -> None:
     if world.options.shuffle_dungeon_rewards != "dungeons":

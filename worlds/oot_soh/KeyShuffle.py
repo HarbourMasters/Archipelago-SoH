@@ -4,7 +4,7 @@ from Fill import fill_restrictive
 
 from .Items import Items, item_data_table
 from .Locations import Location, location_data_table
-from .Regions import dungeon_reward_item_mapping
+from .Regions import dungeon_reward_item_mapping, map_and_compass_vanilla_mapping
 from .Enums import KeyShuffleLocations, Locations
 from .ShopItems import all_shop_locations
 from .LogicHelpers import key_to_ring
@@ -80,6 +80,28 @@ def get_pre_fill_keys(world: "SohWorld") -> dict[KeyShuffleLocations, list[Items
                 else:
                     for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if world.options.fortress_carpenters == "normal" else 1):
                         key_shuffle_locations[KeyShuffleLocations.OVERWORLD].append(Items.GERUDO_FORTRESS_SMALL_KEY)
+
+        # Maps and Compasses
+        if world.options.maps_and_compasses == "own_dungeon":
+            map_and_compass_dungeon_mapping: dict[KeyShuffleLocations, list[Items]] = {
+                KeyShuffleLocations.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
+                KeyShuffleLocations.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
+                KeyShuffleLocations.JABU_JABUS_BELLY : [Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS],
+                KeyShuffleLocations.FOREST_TEMPLE : [Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS],
+                KeyShuffleLocations.FIRE_TEMPLE : [Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS],
+                KeyShuffleLocations.WATER_TEMPLE : [Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS],
+                KeyShuffleLocations.SPIRIT_TEMPLE : [Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS],
+                KeyShuffleLocations.SHADOW_TEMPLE : [Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS],
+                KeyShuffleLocations.BOTTOM_OF_THE_WELL : [Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS],
+                KeyShuffleLocations.ICE_CAVERN : [Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]
+            }
+
+            for shuffle_location, items in map_and_compass_dungeon_mapping.items():
+                key_shuffle_locations[shuffle_location] += items
+        elif world.options.maps_and_compasses == "any_dungeon":
+            key_shuffle_locations[KeyShuffleLocations.ANY_DUNGEON] += list(map_and_compass_vanilla_mapping.values())
+        elif world.options.maps_and_compasses == "overworld":
+            key_shuffle_locations[KeyShuffleLocations.OVERWORLD] += list(map_and_compass_vanilla_mapping.values())
 
         return key_shuffle_locations
 
