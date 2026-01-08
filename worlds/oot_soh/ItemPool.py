@@ -325,7 +325,7 @@ def create_item_pool(world: "SohWorld") -> None:
         elif world.options.item_pool == "scarce":
             if world.options.bombchu_bag == "single_bag":
                 items_to_create[Items.BOMBCHU_BAG] = 3
-            elif world.options.bombchu_bag == "progressive":
+            elif world.options.bombchu_bag == "progressive_bags":
                 items_to_create[Items.BOMBCHU_BAG] -= 1
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 2
@@ -342,7 +342,7 @@ def create_item_pool(world: "SohWorld") -> None:
         elif world.options.item_pool == "minimal":
             if world.options.bombchu_bag == "single_bag":
                 items_to_create[Items.BOMBCHU_BAG] = 1
-            elif world.options.bombchu_bag == "progressive":
+            elif world.options.bombchu_bag == "progressive_bags":
                 items_to_create[Items.BOMBCHU_BAG] -= 2
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 0
