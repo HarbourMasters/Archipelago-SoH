@@ -6,7 +6,7 @@ from .Items import Items, item_data_table
 from .Locations import Location, location_data_table
 from .Regions import dungeon_reward_item_mapping, map_and_compass_vanilla_mapping
 from .Enums import KeyShuffleLocations, Locations
-from .ShopItems import all_shop_locations
+from .ShopItems import get_vanilla_shop_locations
 from .LogicHelpers import key_to_ring
 
 if TYPE_CHECKING:
@@ -115,10 +115,9 @@ def pre_fill_keys(world: "SohWorld") -> None:
         if world.options.shuffle_dungeon_rewards != "anywhere":
             reserved_locations += [location for location in dungeon_reward_item_mapping.keys()]
 
-        # Reserve Shop Locations       # todo, only reserve vanilla shop slots
-        for data in all_shop_locations:
-            for location in data[1].keys():
-                reserved_locations.append(location)
+        # Reserve Shop Locations
+        for shop_loc in get_vanilla_shop_locations(world):
+            reserved_locations.append(Locations(shop_loc))
 
         key_shuffle_keys = get_pre_fill_keys(world)
         key_shuffle_locations = dict[KeyShuffleLocations, list[Locations]]()

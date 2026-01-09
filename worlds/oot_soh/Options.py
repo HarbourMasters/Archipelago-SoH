@@ -224,6 +224,26 @@ class TriforceHuntPiecesRequiredPercentage(Range):
     default = 60
 
 
+class ShuffleSongs(Choice):
+    """
+    Shuffles songs into the item pool.
+    Off - Songs will appear at their vanilla locations.
+    Song Locations - Songs will only appear at locations that normally teach songs.
+    Dungeon rewards - Songs appear after beating a major dungeon boss.
+        The 4 remaining songs are located at:
+        - Zelda's lullaby location
+        - Ice Cavern's Serenade of Water location
+        - Bottom of the Well Lens of Truth location
+        - Gerudo Training Ground's Ice Arrows Location
+    Anywhere - Songs can appear at any location.
+    """
+    display_name = "Shuffle Songs"
+    option_off = 0
+    option_song_locations = 1
+    option_dungeon_rewards = 2
+    option_anywhere = 3
+    default = 0
+
 class ShuffleTokens(Choice):
     """
     Shuffles Golden Skulltula Tokens into the item pool. This means Golden Skulltulas can contain other items as well.
@@ -1074,6 +1094,7 @@ class SohOptions(PerGameCommonOptions):
     triforce_hunt: TriforceHunt
     triforce_hunt_pieces_total: TriforceHuntPiecesTotal
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
+    shuffle_songs: ShuffleSongs
     shuffle_skull_tokens: ShuffleTokens
     skulls_sun_song: SkullsSunSong
     shuffle_kokiri_sword: ShuffleKokiriSword
@@ -1199,7 +1220,7 @@ soh_option_groups = [
     #     # Decouple Entrances
     # ]),
     OptionGroup("Shuffle Items", [
-        # Shuffle Songs -- idk if this or the other ones here will be an actual option here, delete if not
+        ShuffleSongs,
         ShuffleTokens,
         SkullsSunSong,
         ShuffleKokiriSword,

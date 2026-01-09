@@ -4,6 +4,7 @@ from .Enums import *
 from .Items import item_data_table, filler_items, filler_bottles
 from .Regions import map_and_compass_vanilla_mapping
 from BaseClasses import ItemClassification
+from .SongShuffle import song_vanilla_locations
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -78,6 +79,11 @@ def create_item_pool(world: "SohWorld") -> None:
     # Fiary Ocarina and Ocarina of time
     if world.options.shuffle_ocarinas:
         items_to_create[Items.PROGRESSIVE_OCARINA] = 2
+
+    # Songs
+    if world.options.shuffle_songs == "anywhere":
+        for song in song_vanilla_locations.values():
+            items_to_create[song] = 1
 
     # Ocarina Buttons
     if world.options.shuffle_ocarina_buttons:
@@ -307,20 +313,20 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PROGRESSIVE_WALLET] += 1
             items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
             items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
-            
-            # TODO we don't have options for shuffling songs
-            items_to_create[Items.ZELDAS_LULLABY] += 1
-            items_to_create[Items.EPONAS_SONG] += 1
-            items_to_create[Items.SARIAS_SONG] += 1
-            items_to_create[Items.SUNS_SONG] += 1
-            items_to_create[Items.SONG_OF_TIME] += 1
-            items_to_create[Items.SONG_OF_STORMS] += 1
-            items_to_create[Items.MINUET_OF_FOREST] += 1
-            items_to_create[Items.BOLERO_OF_FIRE] += 1
-            items_to_create[Items.SERENADE_OF_WATER] += 1
-            items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
-            items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
-            items_to_create[Items.PRELUDE_OF_LIGHT] += 1
+
+            if world.options.shuffle_songs == "anywhere":
+                items_to_create[Items.ZELDAS_LULLABY] += 1
+                items_to_create[Items.EPONAS_SONG] += 1
+                items_to_create[Items.SARIAS_SONG] += 1
+                items_to_create[Items.SUNS_SONG] += 1
+                items_to_create[Items.SONG_OF_TIME] += 1
+                items_to_create[Items.SONG_OF_STORMS] += 1
+                items_to_create[Items.MINUET_OF_FOREST] += 1
+                items_to_create[Items.BOLERO_OF_FIRE] += 1
+                items_to_create[Items.SERENADE_OF_WATER] += 1
+                items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
+                items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
+                items_to_create[Items.PRELUDE_OF_LIGHT] += 1
 
         elif world.options.item_pool == "scarce":
             if world.options.bombchu_bag == "single_bag":
