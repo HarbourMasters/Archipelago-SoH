@@ -2,7 +2,9 @@ from typing import TYPE_CHECKING
 
 from .Enums import *
 from .Items import item_data_table, filler_items, filler_bottles
-from .Regions import map_and_compass_vanilla_mapping
+from .Regions import map_and_compass_vanilla_mapping, small_key_vanilla_mapping, dungeon_boss_key_vanilla_mapping
+from .LogicHelpers import key_to_ring, hearts
+from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
 
 if TYPE_CHECKING:
@@ -268,6 +270,29 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.skeleton_key:
         items_to_create[Items.SKELETON_KEY] = 1
 
+    # Max Hearts logic for Item Pool
+    max_hearts: int = 20
+    if world.options.item_pool == "scarce":
+        max_hearts = 12
+    elif world.options.item_pool == "minimal":
+        max_hearts = 3
+
+    starting_hearts: int = hearts((world.multiworld.state, None, world)) + 1
+    if starting_hearts < max_hearts:
+        items_to_create[Items.PIECE_OF_HEART_WINNER] = 1
+        items_to_create[Items.PIECE_OF_HEART] = 3
+        starting_hearts += 1
+        if starting_hearts < max_hearts:
+            hearts_to_place: int = max_hearts - starting_hearts
+            if world.options.item_pool in ("plentiful", "minimal"):
+                items_to_create[Items.HEART_CONTAINER] = hearts_to_place
+            elif world.options.item_pool == "balanced":
+                half_hearts: int = max_hearts >> 2
+                items_to_create[Items.HEART_CONTAINER] = hearts_to_place - half_hearts
+                items_to_create[Items.PIECE_OF_HEART] += half_hearts * 4
+            elif world.options.item_pool == "scarce":
+                items_to_create[Items.HEART_CONTAINER] += (max_hearts - starting_hearts) * 4
+
     # Item Pool Modifications
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
@@ -275,10 +300,10 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.shuffle_ocarinas:
                 items_to_create[Items.PROGRESSIVE_OCARINA] += 1
 
-            if world.options.shuffle_merchants == "all" or world.options.shuffle_merchants == "bean_merchant_only":
+            if world.options.shuffle_merchants in ("all", "bean_merchant_only"):
                 items_to_create[Items.MAGIC_BEAN_PACK] += 1
 
-            if world.options.shuffle_100_gs_reward and world.options.shuffle_skull_tokens:
+            if world.options.shuffle_skull_tokens:
                 items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 10
 
             if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal":
@@ -288,6 +313,118 @@ def create_item_pool(world: "SohWorld") -> None:
 
             # TODO we don't have an option for membership card shuffle
             items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+
+            items_to_create[Items.BOOMERANG] += 1
+            items_to_create[Items.LENS_OF_TRUTH] += 1
+            items_to_create[Items.MEGATON_HAMMER] += 1
+            items_to_create[Items.IRON_BOOTS] += 1
+            items_to_create[Items.GORON_TUNIC] += 1
+            items_to_create[Items.ZORA_TUNIC] += 1
+            items_to_create[Items.HOVER_BOOTS] += 1
+            items_to_create[Items.MIRROR_SHIELD] += 1
+            items_to_create[Items.STONE_OF_AGONY] += 1
+            items_to_create[Items.FIRE_ARROW] += 1
+            items_to_create[Items.ICE_ARROW] += 1
+            items_to_create[Items.LIGHT_ARROW] += 1
+            items_to_create[Items.DINS_FIRE] += 1
+            items_to_create[Items.NAYRUS_LOVE] += 1
+            items_to_create[Items.STRENGTH_UPGRADE] += 1
+            items_to_create[Items.DOUBLE_DEFENSE] += 1
+            items_to_create[Items.PROGRESSIVE_BOW] += 1
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] += 1
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] += 1
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
+            items_to_create[Items.PROGRESSIVE_WALLET] += 1
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
+
+            if world.options.shuffle_kokiri_sword:
+                items_to_create[Items.KOKIRI_SWORD] += 1
+
+            if world.options.shuffle_master_sword:
+                items_to_create[Items.MASTER_SWORD] += 1
+
+            if world.options.shuffle_weird_egg:
+                items_to_create[Items.WEIRD_EGG] += 1
+
+            if world.options.shuffle_ocarina_buttons:
+                items_to_create[Items.OCARINA_A_BUTTON] += 1
+                items_to_create[Items.OCARINA_CUP_BUTTON] += 1
+                items_to_create[Items.OCARINA_CDOWN_BUTTON] += 1
+                items_to_create[Items.OCARINA_CLEFT_BUTTON] += 1
+                items_to_create[Items.OCARINA_CRIGHT_BUTTON] += 1
+
+            items_to_create[Items.PROGRESSIVE_SCALE] += 1
+            
+            if world.options.shuffle_fishing_pole:
+                items_to_create[Items.FISHING_POLE] += 1
+
+            if world.options.shuffle_adult_trade_items:
+                items_to_create[Items.POCKET_EGG] += 1
+                items_to_create[Items.COJIRO] += 1
+                items_to_create[Items.ODD_MUSHROOM] += 1
+                items_to_create[Items.POACHERS_SAW] += 1
+                items_to_create[Items.BROKEN_GORONS_SWORD] += 1
+                items_to_create[Items.PRESCRIPTION] += 1
+                items_to_create[Items.EYEBALL_FROG] += 1
+                items_to_create[Items.WORLDS_FINEST_EYEDROPS] += 1
+
+            items_to_create[Items.CLAIM_CHECK] += 1
+
+            # TODO Bean Souls
+
+            if world.options.shuffle_boss_souls:
+                items_to_create[Items.GOHMAS_SOUL] += 1
+                items_to_create[Items.KING_DODONGOS_SOUL] += 1
+                items_to_create[Items.BARINADES_SOUL] += 1
+                items_to_create[Items.PHANTOM_GANONS_SOUL] += 1
+                items_to_create[Items.VOLVAGIAS_SOUL] += 1
+                items_to_create[Items.MORPHAS_SOUL] += 1
+                items_to_create[Items.BONGO_BONGOS_SOUL] += 1
+                items_to_create[Items.TWINROVAS_SOUL] += 1
+                if world.options.shuffle_boss_souls == "on_plus_ganons":
+                    items_to_create[Items.GANONS_SOUL] += 1
+
+            if world.options.lock_overworld_doors:
+                items_to_create[Items.GUARD_HOUSE_KEY] += 1
+                items_to_create[Items.MARKET_BAZAAR_KEY] += 1
+                items_to_create[Items.MARKET_POTION_SHOP_KEY] += 1
+                items_to_create[Items.MASK_SHOP_KEY] += 1
+                items_to_create[Items.MARKET_SHOOTING_GALLERY_KEY] += 1
+                items_to_create[Items.BOMBCHU_BOWLING_KEY] += 1
+                items_to_create[Items.TREASURE_CHEST_GAME_BUILDING_KEY] += 1
+                items_to_create[Items.BOMBCHU_SHOP_KEY] += 1
+                items_to_create[Items.RICHARDS_HOUSE_KEY] += 1
+                items_to_create[Items.ALLEY_HOUSE_KEY] += 1
+                items_to_create[Items.KAK_BAZAAR_KEY] += 1
+                items_to_create[Items.KAK_POTION_SHOP_KEY] += 1
+                items_to_create[Items.BOSS_HOUSE_KEY] += 1
+                items_to_create[Items.GRANNYS_POTION_SHOP_KEY] += 1
+                items_to_create[Items.SKULLTULA_HOUSE_KEY] += 1
+                items_to_create[Items.IMPAS_HOUSE_KEY] += 1
+                items_to_create[Items.WINDMILL_KEY] += 1
+                items_to_create[Items.KAK_SHOOTING_GALLERY_KEY] += 1
+                items_to_create[Items.DAMPES_HUT_KEY] += 1
+                items_to_create[Items.TALONS_HOUSE_KEY] += 1
+                items_to_create[Items.STABLES_KEY] += 1
+                items_to_create[Items.BACK_TOWER_KEY] += 1
+                items_to_create[Items.HYLIA_LAB_KEY] += 1
+                items_to_create[Items.FISHING_HOLE_KEY] += 1
+
+            if world.options.small_key_shuffle == "anywhere":
+                small_key_mapping = small_key_option_matching(world)
+                for key in small_key_vanilla_mapping.keys():
+                    if small_key_mapping[key].Option:
+                        items_to_create[key_to_ring[key]] += 1
+                    else:
+                        items_to_create[key] += 1
+                        
+            if world.options.boss_key_shuffle == "anywhere":
+                for key in dungeon_boss_key_vanilla_mapping.values():
+                    items_to_create[key] += 1
+
+            if world.options.ganons_castle_boss_key == "anywhere":
+                items_to_create[Items.GANONS_CASTLE_BOSS_KEY] += 1
 
             # TODO we don't have options for shuffling songs
             items_to_create[Items.ZELDAS_LULLABY] += 1
@@ -305,36 +442,35 @@ def create_item_pool(world: "SohWorld") -> None:
 
         elif world.options.item_pool == "scarce":
             items_to_create[Items.PROGRESSIVE_BOMBCHU] = 3
+            
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 2
             items_to_create[Items.BOMBCHUS_20] = 0
-            items_to_create[Items.PROGRESSIVE_MAGIC_METER] = 1
+            items_to_create[Items.NAYRUS_LOVE] = 0
             items_to_create[Items.DOUBLE_DEFENSE] = 0
-            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] = 2 if world.options.shuffle_deku_stick_bag else 1
-            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] = 2 if world.options.shuffle_deku_nut_bag else 1
-            items_to_create[Items.PROGRESSIVE_BOW] = 2
-            items_to_create[Items.PROGRESSIVE_SLINGSHOT] = 2
-            items_to_create[Items.PROGRESSIVE_BOMB_BAG] = 2
-            items_to_create[Items.HEART_CONTAINER] = 0
+
+            items_to_create[Items.PROGRESSIVE_BOW] -= 1
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] -= 1
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] -= 1
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] -= 1
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] -= 1
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 1
 
         elif world.options.item_pool == "minimal":
             items_to_create[Items.PROGRESSIVE_BOMBCHU] = 1
+
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 0
             items_to_create[Items.BOMBCHUS_20] = 0
             items_to_create[Items.NAYRUS_LOVE] = 0
-            items_to_create[Items.PROGRESSIVE_MAGIC_METER] = 1
             items_to_create[Items.DOUBLE_DEFENSE] = 0
-            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] = 1 if world.options.shuffle_deku_stick_bag else 0
-            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] = 1 if world.options.shuffle_deku_nut_bag else 0
-            items_to_create[Items.PROGRESSIVE_BOW] = 1
-            items_to_create[Items.PROGRESSIVE_SLINGSHOT] = 1
-            items_to_create[Items.PROGRESSIVE_BOMB_BAG] = 1
-            items_to_create[Items.PIECE_OF_HEART] = 0
-            # This winner POH isn't in the original code, but I don't see why it wouldn't also be removed.
-            items_to_create[Items.PIECE_OF_HEART_WINNER] = 0
-            # We currently don't have a starting hearts option. We assume everyone starts at 3 hearts
-            items_to_create[Items.HEART_CONTAINER] = 0
+
+            items_to_create[Items.PROGRESSIVE_BOW] -= 2
+            items_to_create[Items.PROGRESSIVE_SLINGSHOT] -= 2
+            items_to_create[Items.PROGRESSIVE_BOMB_BAG] -= 2
+            items_to_create[Items.PROGRESSIVE_MAGIC_METER] -= 1
+            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] -= 2
+            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 2
 
     # Add Golden Skulltula Tokens as progressive if necessary
     if world.randomized_progressive_skulltula_count > 0:
@@ -343,7 +479,7 @@ def create_item_pool(world: "SohWorld") -> None:
         
     # Create progressive Heart Pieces if Fewer Tunic Requirements is enabled
     if world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value:
-            items_to_create[Items.HEART_CONTAINER] -= min(create_special_progression_item(world, Items.HEART_CONTAINER, ItemClassification.progression_skip_balancing, 5), items_to_create[Items.HEART_CONTAINER])
+            items_to_create[Items.HEART_CONTAINER] -= create_special_progression_item(world, Items.HEART_CONTAINER, ItemClassification.progression_skip_balancing, items_to_create[Items.HEART_CONTAINER])
 
     # Only create Greg as a Progressive Item if he is required to win
     if world.options.rainbow_bridge == "greg" or (world.options.rainbow_bridge and world.options.rainbow_bridge_greg_modifier) or (world.options.ganons_castle_boss_key and world.options.ganons_castle_boss_key_greg_modifier):
