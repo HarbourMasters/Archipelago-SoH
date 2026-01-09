@@ -327,7 +327,7 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.shuffle_gerudo_membership_card:
                 items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
 
-            if world.options.bombchu_bag == "single_bag":
+            if world.options.bombchu_bag in ("single_bag", "progressive_bags"):
                 items_to_create[Items.BOMBCHU_BAG] += 1
 
             items_to_create[Items.BOOMERANG] += 1
