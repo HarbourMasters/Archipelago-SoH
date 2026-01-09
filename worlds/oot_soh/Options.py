@@ -224,6 +224,26 @@ class TriforceHuntPiecesRequiredPercentage(Range):
     default = 60
 
 
+class ShuffleSongs(Choice):
+    """
+    Shuffles songs into the item pool.
+    Off - Songs will appear at their vanilla locations.
+    Song Locations - Songs will only appear at locations that normally teach songs.
+    Dungeon rewards - Songs appear after beating a major dungeon boss.
+        The 4 remaining songs are located at:
+        - Zelda's lullaby location
+        - Ice Cavern's Serenade of Water location
+        - Bottom of the Well Lens of Truth location
+        - Gerudo Training Ground's Ice Arrows Location
+    Anywhere - Songs can appear at any location.
+    """
+    display_name = "Shuffle Songs"
+    option_off = 0
+    option_song_locations = 1
+    option_dungeon_rewards = 2
+    option_anywhere = 3
+    default = 0
+
 class ShuffleTokens(Choice):
     """
     Shuffles Golden Skulltula Tokens into the item pool. This means Golden Skulltulas can contain other items as well.
@@ -897,14 +917,21 @@ class FullWallets(DefaultOnToggle):
     display_name = "Full Wallets"
 
 
-class BombchuBag(DefaultOnToggle):
+class BombchuBag(Choice):
     """
-    Bombchus require their own bag to be found before use. Without this setting, any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
-    The first Bombchu you find be a Bag containing 20 chus, and subsequent packs will have 10.
-    Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant.
-    Bombchu Bowling is opened by obtaining the Bombchu Bag.
+    None - Bombchus have vanilla behavior, any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
+
+    Single Bag - Bombchus require their own bag to be found before use. 5 of them are added to the pool (6 if the Carpet Merchant is shuffled). The first Bombchu Bag you find will be a Bag containing 20 chus, and subsequent bags will be replaced with Bombchu Ammo refills. Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant. Bombchu Bowling is opened by obtaining the Bombchu Bag.
+    
+    Progressive Bags - 3 Bombchu Bags are added to the pool, the first one will unlock Bombchus with a capacity of 20. The second one will upgrade this capacity to 30, and the final one will upgrade the capacity to the usual 50.
+    
+    Bombchu Bowling is opened by obtaining the first Bombchu bag.
     """
     display_name = "Bombchu Bag"
+    option_none = 0
+    option_single_bag = 1
+    option_progressive_bags = 2
+    default = 0
 
 
 class BombchuDrops(DefaultOnToggle):
@@ -1067,6 +1094,7 @@ class SohOptions(PerGameCommonOptions):
     triforce_hunt: TriforceHunt
     triforce_hunt_pieces_total: TriforceHuntPiecesTotal
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
+    shuffle_songs: ShuffleSongs
     shuffle_skull_tokens: ShuffleTokens
     skulls_sun_song: SkullsSunSong
     shuffle_kokiri_sword: ShuffleKokiriSword
@@ -1192,7 +1220,7 @@ soh_option_groups = [
     #     # Decouple Entrances
     # ]),
     OptionGroup("Shuffle Items", [
-        # Shuffle Songs -- idk if this or the other ones here will be an actual option here, delete if not
+        ShuffleSongs,
         ShuffleTokens,
         SkullsSunSong,
         ShuffleKokiriSword,

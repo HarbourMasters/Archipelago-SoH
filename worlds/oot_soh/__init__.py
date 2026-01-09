@@ -15,6 +15,7 @@ from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce
 from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon, get_pre_fill_rewards
 from .KeyShuffle import pre_fill_keys, get_pre_fill_keys
+from .SongShuffle import pre_fill_songs, get_prefill_songs
 from .ShopItems import fill_shop_items, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
@@ -103,7 +104,12 @@ class SohWorld(World):
                               "your host.yaml settings.")
 
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
-        if self.options.door_of_time.value == 0 and (self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0):
+        if self.options.door_of_time.value == 0 and (
+            self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0 or self.options.shuffle_songs == "off"):
+            self.options.starting_age.value = 0
+
+        # If the door of time is set to song only, and the songs aren't shuffled, force child spawn
+        if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
             self.options.starting_age.value = 0
 
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
@@ -173,6 +179,7 @@ class SohWorld(World):
 
         # generate the prefill pool
         self.pre_fill_pool += get_pre_fill_rewards(self)
+        self.pre_fill_pool += get_prefill_songs(self)
         for key_shuffle in get_pre_fill_keys(self).values():
             self.pre_fill_pool += key_shuffle
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
@@ -267,6 +274,8 @@ class SohWorld(World):
         # these place items, so they should be done during create_items
         pre_fill_dungeon(self)
 
+        pre_fill_songs(self)
+
         pre_fill_keys(self)
 
         fill_shop_items(self)
@@ -349,6 +358,7 @@ class SohWorld(World):
             "triforce_hunt": self.options.triforce_hunt.value,
             "triforce_hunt_pieces_total": self.options.triforce_hunt_pieces_total.value,
             "triforce_hunt_pieces_required": self.triforce_pieces_required,
+            "shuffle_songs": self.options.shuffle_songs.value,
             "shuffle_skull_tokens": self.options.shuffle_skull_tokens.value,
             "skulls_sun_song": self.options.skulls_sun_song.value,
             "shuffle_kokiri_sword": self.options.shuffle_kokiri_sword.value,

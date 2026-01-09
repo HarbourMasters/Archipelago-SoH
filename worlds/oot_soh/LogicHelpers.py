@@ -94,7 +94,7 @@ def can_use(item: Items, bundle: tuple[CollectionState, Regions, "SohWorld"]) ->
     if item in (Items.FIRE_ARROW, Items.ICE_ARROW, Items.LIGHT_ARROW):
         return can_use(Items.FAIRY_BOW, bundle)
 
-    if item in (Items.PROGRESSIVE_BOMBCHU, Items.BOMBCHUS_5, Items.BOMBCHUS_10, Items.BOMBCHUS_20):
+    if item in (Items.BOMBCHU_BAG, Items.BOMBCHUS_5, Items.BOMBCHUS_10, Items.BOMBCHUS_20):
         return bombchu_refill(bundle)
 
     if item == Items.FISHING_POLE:
@@ -121,7 +121,7 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
     if item == Items.STICKS:
         return state.has_all((Events.CAN_FARM_STICKS, Items.DEKU_STICK_BAG), player)
 
-    if item in (Items.PROGRESSIVE_BOMBCHU, Items.BOMBCHUS_5, Items.BOMBCHUS_10, Items.BOMBCHUS_20):
+    if item in (Items.BOMBCHU_BAG, Items.BOMBCHUS_5, Items.BOMBCHUS_10, Items.BOMBCHUS_20):
         return bombchus_enabled(bundle)
 
     if item == Items.NUTS:
@@ -239,7 +239,7 @@ def bombchus_enabled(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> boo
     state = bundle[0]
     world = bundle[2]
     if world.options.bombchu_bag:
-        return state.has(Items.PROGRESSIVE_BOMBCHU, world.player)
+        return state.has(Items.BOMBCHU_BAG, world.player)
     return state.has(Items.BOMB_BAG, world.player)
 
 
@@ -272,7 +272,7 @@ def can_play_song(song: StrEnum, bundle: tuple[CollectionState, Regions, "SohWor
 
 def has_explosives(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
     """Check if Link has access to explosives (bombs or bombchus)."""
-    return can_use_any([Items.BOMB_BAG, Items.PROGRESSIVE_BOMBCHU], bundle)
+    return can_use_any([Items.BOMB_BAG, Items.BOMBCHU_BAG], bundle)
 
 
 def blast_or_smash(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
@@ -465,7 +465,7 @@ def can_break_lower_hives(bundle: tuple[CollectionState, Regions, "SohWorld"]) -
 def can_break_upper_beehives(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
     world = bundle[2]
     return (hookshot_or_boomerang(bundle) or
-            (can_do_trick(Tricks.BOMBCHU_BEEHIVES, bundle) and can_use(Items.PROGRESSIVE_BOMBCHU, bundle)) or
+            (can_do_trick(Tricks.BOMBCHU_BEEHIVES, bundle) and can_use(Items.BOMBCHU_BAG, bundle)) or
             (bool(world.options.slingbow_break_beehives) and (can_use_any([Items.FAIRY_BOW, Items.FAIRY_SLINGSHOT], bundle))))
 
 

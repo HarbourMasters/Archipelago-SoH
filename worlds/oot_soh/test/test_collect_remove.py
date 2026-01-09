@@ -8,7 +8,7 @@ class TestCollectRemoveAllOff(SohTestBase):
                "shuffle_deku_nut_bag": False, "bombchu_bag": False}
     world: SohWorld
     optional_prog_item_set = {Items.PROGRESSIVE_SCALE, Items.PROGRESSIVE_WALLET, Items.PROGRESSIVE_STICK_CAPACITY,
-                              Items.PROGRESSIVE_NUT_CAPACITY, Items.PROGRESSIVE_BOMBCHU}
+                              Items.PROGRESSIVE_NUT_CAPACITY, Items.BOMBCHU_BAG}
 
     def test_single_of_each(self):
         """

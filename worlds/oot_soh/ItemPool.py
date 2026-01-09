@@ -6,6 +6,7 @@ from .Regions import map_and_compass_vanilla_mapping, small_key_vanilla_mapping,
 from .LogicHelpers import key_to_ring, hearts
 from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
+from .SongShuffle import song_vanilla_locations
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -80,6 +81,11 @@ def create_item_pool(world: "SohWorld") -> None:
     # Fiary Ocarina and Ocarina of time
     if world.options.shuffle_ocarinas:
         items_to_create[Items.PROGRESSIVE_OCARINA] = 2
+
+    # Songs
+    if world.options.shuffle_songs == "anywhere":
+        for song in song_vanilla_locations.values():
+            items_to_create[song] = 1
 
     # Ocarina Buttons
     if world.options.shuffle_ocarina_buttons:
@@ -250,11 +256,16 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.BOTTLE_WITH_BIG_POE] = 0
 
     # Bombchu bag
-    if world.options.bombchu_bag:
+    if world.options.bombchu_bag == "single_bag":
         items_to_create[Items.BOMBCHUS_5] = 0
         items_to_create[Items.BOMBCHUS_10] = 0
         items_to_create[Items.BOMBCHUS_20] = 0
-        items_to_create[Items.PROGRESSIVE_BOMBCHU] = 5
+        if world.options.shuffle_merchants in ("all_but_beans", "all"):
+            items_to_create[Items.BOMBCHU_BAG] = 6
+        else:
+            items_to_create[Items.BOMBCHU_BAG] = 5
+    elif world.options.bombchu_bag == "progressive_bags":
+        items_to_create[Items.BOMBCHU_BAG] = 3
 
     # Infinite Upgrades
     if world.options.infinite_upgrades == "progressive":
@@ -265,6 +276,8 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
         items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
+        if world.options.bombchu_bag == "progressive_bags":
+            items_to_create[Items.BOMBCHU_BAG] += 1
 
     # Skeleton Key
     if world.options.skeleton_key:
@@ -294,6 +307,7 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.HEART_CONTAINER] += (max_hearts - starting_hearts) * 4
 
     # Item Pool Modifications
+    # TODO Item Pool Mods need to be gone through again. I guess I missed a whole bunch of things all over the place.
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
@@ -311,8 +325,8 @@ def create_item_pool(world: "SohWorld") -> None:
             else:
                 items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] += 1
 
-            # TODO we don't have an option for membership card shuffle
-            items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+            if world.options.shuffle_gerudo_membership_card:
+                items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
 
             items_to_create[Items.BOOMERANG] += 1
             items_to_create[Items.LENS_OF_TRUTH] += 1
@@ -426,23 +440,26 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.ganons_castle_boss_key == "anywhere":
                 items_to_create[Items.GANONS_CASTLE_BOSS_KEY] += 1
 
-            # TODO we don't have options for shuffling songs
-            items_to_create[Items.ZELDAS_LULLABY] += 1
-            items_to_create[Items.EPONAS_SONG] += 1
-            items_to_create[Items.SARIAS_SONG] += 1
-            items_to_create[Items.SUNS_SONG] += 1
-            items_to_create[Items.SONG_OF_TIME] += 1
-            items_to_create[Items.SONG_OF_STORMS] += 1
-            items_to_create[Items.MINUET_OF_FOREST] += 1
-            items_to_create[Items.BOLERO_OF_FIRE] += 1
-            items_to_create[Items.SERENADE_OF_WATER] += 1
-            items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
-            items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
-            items_to_create[Items.PRELUDE_OF_LIGHT] += 1
+            if world.options.shuffle_songs == "anywhere":
+                items_to_create[Items.ZELDAS_LULLABY] += 1
+                items_to_create[Items.EPONAS_SONG] += 1
+                items_to_create[Items.SARIAS_SONG] += 1
+                items_to_create[Items.SUNS_SONG] += 1
+                items_to_create[Items.SONG_OF_TIME] += 1
+                items_to_create[Items.SONG_OF_STORMS] += 1
+                items_to_create[Items.MINUET_OF_FOREST] += 1
+                items_to_create[Items.BOLERO_OF_FIRE] += 1
+                items_to_create[Items.SERENADE_OF_WATER] += 1
+                items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
+                items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
+                items_to_create[Items.PRELUDE_OF_LIGHT] += 1
 
         elif world.options.item_pool == "scarce":
-            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 3
-            
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] = 3
+            elif world.options.bombchu_bag == "progressive_bags":
+                items_to_create[Items.BOMBCHU_BAG] -= 1
+                
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 2
             items_to_create[Items.BOMBCHUS_20] = 0
@@ -457,8 +474,10 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 1
 
         elif world.options.item_pool == "minimal":
-            items_to_create[Items.PROGRESSIVE_BOMBCHU] = 1
-
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] = 1
+            elif world.options.bombchu_bag == "progressive_bags":
+                items_to_create[Items.BOMBCHU_BAG] -= 2
             items_to_create[Items.BOMBCHUS_5] = 1
             items_to_create[Items.BOMBCHUS_10] = 0
             items_to_create[Items.BOMBCHUS_20] = 0

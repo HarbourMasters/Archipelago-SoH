@@ -70,6 +70,7 @@ from .location_access.dungeons import \
     shadow_temple, \
     spirit_temple, \
     water_temple
+from .SongShuffle import song_vanilla_locations
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -400,6 +401,11 @@ def place_locked_items(world: "SohWorld") -> None:
     if not world.options.skip_child_zelda:
         world.get_location(Locations.HC_ZELDAS_LETTER).place_locked_item(
             world.create_item(Items.ZELDAS_LETTER))
+        
+    if world.options.shuffle_songs == "off":
+        for location, song in song_vanilla_locations.items():
+            world.get_location(location).place_locked_item(
+                world.create_item(song))
 
     # Place Kokiri Sword on vanilla location if not shuffled
     if not world.options.shuffle_kokiri_sword:
