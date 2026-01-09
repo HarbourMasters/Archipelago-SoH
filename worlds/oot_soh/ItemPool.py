@@ -307,7 +307,6 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.HEART_CONTAINER] += (max_hearts - starting_hearts) * 4
 
     # Item Pool Modifications
-    # TODO Item Pool Mods need to be gone through again. I guess I missed a whole bunch of things all over the place.
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
@@ -327,6 +326,9 @@ def create_item_pool(world: "SohWorld") -> None:
 
             if world.options.shuffle_gerudo_membership_card:
                 items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+
+            if world.options.bombchu_bag == "single_bag":
+                items_to_create[Items.BOMBCHU_BAG] += 1
 
             items_to_create[Items.BOOMERANG] += 1
             items_to_create[Items.LENS_OF_TRUTH] += 1
