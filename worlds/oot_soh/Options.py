@@ -244,6 +244,7 @@ class ShuffleSongs(Choice):
     option_anywhere = 3
     default = 0
 
+
 class ShuffleTokens(Choice):
     """
     Shuffles Golden Skulltula Tokens into the item pool. This means Golden Skulltulas can contain other items as well.
@@ -266,12 +267,14 @@ class SkullsSunSong(Toggle):
     """
     display_name = "Night Skulltulas Expect Sun's Song"
 
+
 class ShuffleKokiriSword(Toggle):
     """
     Shuffles the Kokiri Sword into the item pool.
     This will require the use of sticks until hte Kokiri Sword is found.
     """
     display_name = "Shuffle Kokiri Sword"
+
 
 class ShuffleMasterSword(Toggle):
     """
@@ -288,12 +291,14 @@ class ShuffleChildsWallet(Toggle):
     """
     display_name = "Shuffle Child's Wallet"
 
+
 class ShuffleOcarinas(Toggle):
     """
     Enabling this shuffles the Fairy Ocarina and the Ocarina of Time into the item pool.
     This will require finding an Ocarina before being able to play songs.
     """
     display_name = "Shuffle Ocarinas"
+
 
 class ShuffleOcarinaButtons(Toggle):
     """
@@ -325,12 +330,14 @@ class ShuffleWeirdEgg(Toggle):
     """
     display_name = "Shuffle Weird Egg"
 
+
 class ShuffleGerudoMembershipCard(Toggle):
     """
     Shuffles the Gerudo Membership Card into the item pool.
     The gerudo Card is required to enter the Gerudo Training Ground, opening the gate to Haunted Wasteland and the Horseback Archery minigame.
     """
     display_name = "Shuffle Gerudo Membership Card"
+
 
 class ShuffleFishingPole(Toggle):
     """
@@ -781,15 +788,15 @@ class BossKeyShuffle(Choice):
 class KeyRings(Choice):
     """
     Keyrings will replace all small keys from a particular dungeon with a single keyring that awards all keys for its associated dungeon.
-    
+
     Off - No dungeons will have their keys replaced with keyrings.
 
     Count - A specified amount of randomly selected dungeons will have their keys replaced with keyrings.
-    
+
     Selection - Hand select which dungeons will have their keys replaced with keyrings (can also be left as random, in which case each one will have a 50% chance of being a keyring).
-    
+
     Selecting key ring for dungeons will have no effect if Small Keys are set to Start With or Vanilla.
-    
+
     If Gerudo Fortress Carpenters is set to Normal, and Gerudo Fortress Keys is set to anything other than Vanilla, then the maximum amount of Key Rings that can be selected by Count will be 9. Otherwise, the maximum amount of Key Rings will be 8.
     """
     display_name = "Key Rings"
@@ -922,9 +929,9 @@ class BombchuBag(Choice):
     None - Bombchus have vanilla behavior, any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
 
     Single Bag - Bombchus require their own bag to be found before use. 5 of them are added to the pool (6 if the Carpet Merchant is shuffled). The first Bombchu Bag you find will be a Bag containing 20 chus, and subsequent bags will be replaced with Bombchu Ammo refills. Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant. Bombchu Bowling is opened by obtaining the Bombchu Bag.
-    
+
     Progressive Bags - 3 Bombchu Bags are added to the pool, the first one will unlock Bombchus with a capacity of 20. The second one will upgrade this capacity to 30, and the final one will upgrade the capacity to the usual 50.
-    
+
     Bombchu Bowling is opened by obtaining the first Bombchu bag.
     """
     display_name = "Bombchu Bag"
@@ -954,6 +961,14 @@ class SunlightArrows(DefaultOnToggle):
     Light Arrows can be used to light up the sun switches instead of using the Mirror Shield.
     """
     display_name = "Sunlight Arrows"
+
+
+class RocsFeather(Toggle):
+    """
+    Adds Roc's Feather to the item pool. Roc's Feather is a custom item granting the player a jump on demand. 
+    The jump can also be used when already in mid-air. Roc's Feather is not considered by logic.
+    """
+    display_name = "Roc's Feather"
 
 
 class InfiniteUpgrades(Choice):
@@ -1167,6 +1182,7 @@ class SohOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     blue_fire_arrows: BlueFireArrows
     sunlight_arrows: SunlightArrows
+    rocs_feather: RocsFeather
     infinite_upgrades: InfiniteUpgrades
     skeleton_key: SkeletonKey
     slingbow_break_beehives: SlingbowBreakBeehives

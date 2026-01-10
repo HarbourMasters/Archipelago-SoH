@@ -169,8 +169,10 @@ item_data_table: dict[Items, SohItemData] = {
     Items.RED_RUPEE: SohItemData(137, IC.filler, 0),
     Items.PURPLE_RUPEE: SohItemData(138, IC.filler, 0),
     Items.HUGE_RUPEE: SohItemData(139, IC.filler, 0),
-    Items.PIECE_OF_HEART: SohItemData(140, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]), #35
-    Items.HEART_CONTAINER: SohItemData(141, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]), #8
+    # 35
+    Items.PIECE_OF_HEART: SohItemData(140, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]),
+    # 8
+    Items.HEART_CONTAINER: SohItemData(141, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]),
     Items.ICE_TRAP: SohItemData(142, IC.trap, 0, item_groups=["Traps", "Trap"]),
     # Items.MILK: SohItemData( 143, ),
     # Items.FISH: SohItemData( 144, ),
@@ -190,7 +192,8 @@ item_data_table: dict[Items, SohItemData] = {
     # Items.RED_POTION_REFILL: SohItemData( 158, IC.filler, 0 ),
     # Items.GREEN_POTION_REFILL: SohItemData( 159, IC.filler, 0 ),
     # Items.BLUE_POTION_REFILL: SohItemData( 160, IC.filler, 0 ),
-    Items.PIECE_OF_HEART_WINNER: SohItemData(161, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]), #1
+    # 1
+    Items.PIECE_OF_HEART_WINNER: SohItemData(161, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts", "Heart"]),
     # Items.TREASURE_GAME_GREEN_RUPEE: SohItemData( 162, IC.filler, 0 ),
     Items.BUY_DEKU_NUTS5: SohItemData(None, IC.progression, 0),
     Items.BUY_ARROWS30: SohItemData(None, IC.progression, 0),
@@ -305,6 +308,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.HYLIA_LAB_KEY: SohItemData(273, IC.progression, 0, item_groups=["Overworld Keys"]),
     Items.FISHING_HOLE_KEY: SohItemData(274, IC.progression, 0, item_groups=["Overworld Keys"]),
     Items.DISTANT_SCARECROW: SohItemData(275, IC.progression, 0, adult_only=True),
+    Items.ROCS_FEATHER: SohItemData(276, IC.progression, 0),
     Items.STICKS: SohItemData(None, child_only=True),
     Items.NUTS: SohItemData(None),
     Items.EPONA: SohItemData(None),

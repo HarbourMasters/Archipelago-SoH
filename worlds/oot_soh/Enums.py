@@ -984,6 +984,7 @@ class Items(StrEnum):
     HYLIA_LAB_KEY = "Hylia Laboratory Key"
     FISHING_HOLE_KEY = "Fishing Hole Key"
     DISTANT_SCARECROW = "Distant Scarecrow"
+    ROCS_FEATHER = "Roc's Feather"
     STICKS = "Sticks"
     NUTS = "Nuts"
     EPONA = "Epona"
@@ -3845,10 +3846,12 @@ class Tricks(StrEnum):
     GANONS_CASTLE_BARRIER_SKIP_HOVER = "Ganons Castle Barrier Skip Hover"
     GANONS_CASTLE_GOLD_GAUNTLET_SKIP = "Ganons Castle Gold Gauntlet Skip"
 
+
 class TokenCounts(IntEnum):
     DUNGEON = 44
     OVERWORLD = 56
     TOTAL = DUNGEON + OVERWORLD
+
 
 class KeyShuffleLocations(Enum):
     DEKU_TREE = auto()

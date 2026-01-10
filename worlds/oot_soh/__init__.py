@@ -105,7 +105,7 @@ class SohWorld(World):
 
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
         if self.options.door_of_time.value == 0 and (
-            self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0 or self.options.shuffle_songs == "off"):
+                self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0 or self.options.shuffle_songs == "off"):
             self.options.starting_age.value = 0
 
         # If the door of time is set to song only, and the songs aren't shuffled, force child spawn
@@ -128,7 +128,6 @@ class SohWorld(World):
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
             self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
 
-
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
@@ -141,22 +140,25 @@ class SohWorld(World):
                     turn_in_amount = amount
                     break
 
-        progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
-
+        progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0,
+                                               self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
         if self.options.shuffle_skull_tokens:
             self.randomized_progressive_skulltula_count = progressive_skulltula_count
 
             if self.options.shuffle_skull_tokens == "dungeon":
-                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
+                self.vanilla_progressive_skulltula_count = max(
+                    self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
 
             if self.options.shuffle_skull_tokens == "overworld":
-                self.vanilla_progressive_skulltula_count = max(self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+                self.vanilla_progressive_skulltula_count = max(
+                    self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
         else:
             self.vanilla_progressive_skulltula_count = progressive_skulltula_count
-            
+
         # Figure out Keyring Situation
-        key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring, self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
+        key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring,
+                                  self.options.spirit_temple_key_ring, self.options.shadow_temple_key_ring, self.options.bottom_of_the_well_key_ring, self.options.gerudo_training_ground_key_ring, self.options.ganons_castle_key_ring]
 
         if self.options.key_rings != "selection":
             for option in key_ring_options:
@@ -185,14 +187,17 @@ class SohWorld(World):
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:
-            self.options.gerudo_fortress_key_ring.value = self.passthrough["gerudo_fortress_key_ring"]
+            self.options.gerudo_fortress_key_ring.value = self.passthrough[
+                "gerudo_fortress_key_ring"]
             self.options.forest_temple_key_ring.value = self.passthrough["forest_temple_key_ring"]
             self.options.fire_temple_key_ring.value = self.passthrough["fire_temple_key_ring"]
             self.options.water_temple_key_ring.value = self.passthrough["water_temple_key_ring"]
             self.options.spirit_temple_key_ring.value = self.passthrough["spirit_temple_key_ring"]
             self.options.shadow_temple_key_ring.value = self.passthrough["shadow_temple_key_ring"]
-            self.options.bottom_of_the_well_key_ring.value = self.passthrough["bottom_of_the_well_key_ring"]
-            self.options.gerudo_training_ground_key_ring.value = self.passthrough["gerudo_training_ground_key_ring"]
+            self.options.bottom_of_the_well_key_ring.value = self.passthrough[
+                "bottom_of_the_well_key_ring"]
+            self.options.gerudo_training_ground_key_ring.value = self.passthrough[
+                "gerudo_training_ground_key_ring"]
             self.options.ganons_castle_key_ring.value = self.passthrough["ganons_castle_key_ring"]
 
     def create_regions(self) -> None:
@@ -224,7 +229,7 @@ class SohWorld(World):
             # Actual completion condition.
             self.multiworld.completion_condition[self.player] = lambda state: state.has(
                 Events.GAME_COMPLETED.value, self.player)
-            
+
     def get_empty_locations_from_list_shuffled(self, location_list: list[Locations]) -> list[Location]:
         locations = []
         for location in location_list:
@@ -235,7 +240,7 @@ class SohWorld(World):
         self.random.shuffle(locations)
 
         return locations
-    
+
     def get_pre_fill_state(self) -> CollectionState:
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
@@ -259,10 +264,11 @@ class SohWorld(World):
         if not self.options.shuffle_childs_wallet:
             self.push_precollected(self.create_item(
                 Items.PROGRESSIVE_WALLET, create_as_event=True))
-            
+
         # Pre-Collect Extra Fire Temple Small Key
         if self.options.small_key_shuffle in ("vanilla", "own_dungeon"):
-                self.multiworld.push_precollected(self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
+            self.multiworld.push_precollected(
+                self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
 
         create_item_pool(self)
 
@@ -302,7 +308,8 @@ class SohWorld(World):
 
         if item.name in (Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER):
             state.soh_piece_of_heart_count[self.player] += 1  # type: ignore
-            if state.soh_piece_of_heart_count[self.player] == 4:  # type: ignore
+            # type: ignore
+            if state.soh_piece_of_heart_count[self.player] == 4:
                 state.soh_piece_of_heart_count[self.player] = 0  # type: ignore
                 state.soh_heart_count[self.player] += 1  # type: ignore
 
@@ -324,7 +331,8 @@ class SohWorld(World):
 
         if item.name in (Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER):
             state.soh_piece_of_heart_count[self.player] -= 1  # type: ignore
-            if state.soh_piece_of_heart_count[self.player] == -1:  # type: ignore
+            # type: ignore
+            if state.soh_piece_of_heart_count[self.player] == -1:
                 state.soh_piece_of_heart_count[self.player] = 3  # type: ignore
                 state.soh_heart_count[self.player] -= 1  # type: ignore
 
@@ -416,6 +424,7 @@ class SohWorld(World):
             "bombchu_drops": self.options.bombchu_drops.value,
             "blue_fire_arrows": self.options.blue_fire_arrows.value,
             "sunlight_arrows": self.options.sunlight_arrows.value,
+            "rocs_feather": self.options.rocs_feather.value,
             "infinite_upgrades": self.options.infinite_upgrades.value,
             "skeleton_key": self.options.skeleton_key.value,
             "slingbow_break_beehives": self.options.slingbow_break_beehives.value,
