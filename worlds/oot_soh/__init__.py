@@ -140,8 +140,8 @@ class SohWorld(World):
         else:
             for location, amount in token_amounts.items():
                 if str(location) not in self.options.exclude_locations:
-                        turn_in_amount = amount
-                        break
+                    turn_in_amount = amount
+                    break
 
         progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
