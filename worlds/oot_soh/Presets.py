@@ -2,6 +2,33 @@ from typing import Any
 from .Options import *
 from .Enums import Locations, Items
 
+default_options: dict[str, Any] = {
+    "closed_forest":            ClosedForest.option_on,
+    "kakariko_gate":            KakarikoGate.option_closed,
+    "door_of_time":             DoorOfTime.option_closed,
+    "zoras_fountain":           ZorasFountain.option_closed,
+    "sleeping_waterfall":       SleepingWaterfall.option_closed,
+    "jabu_jabu":                JabuJabu.option_closed,
+    "lock_overworld_doors":     Toggle.option_false,
+    "fortress_carpenters":      FortressCarpenters.option_normal,
+    "rainbow_bridge":           RainbowBridge.option_vanilla,
+    "skip_ganons_trials":       SkipGanonsTrials.option_true,
+    "shuffle_songs":            ShuffleSongs.option_song_locations,
+    "shuffle_dungeon_rewards":  ShuffleDungeonRewards.option_dungeons,
+    "maps_and_compasses":       MapsAndCompasses.option_own_dungeon,
+    "ganons_castle_boss_key":   GanonsCastleBossKey.option_vanilla,
+    "big_poe_target_count":     10,
+    "skip_child_zelda":         Toggle.option_false,
+    "skip_epona_race":          Toggle.option_false,
+    "complete_mask_quest":      Toggle.option_false,
+    "skip_scarecrows_song":     Toggle.option_false,
+    "full_wallets":             Toggle.option_false,
+    "bombchu_bag":              BombchuBag.option_none,
+    "blue_fire_arrows":         Toggle.option_false,
+    "sunlight_arrows":          Toggle.option_false,
+    "starting_age":             StartingAge.option_child
+}
+
 beginner_options = {
     "kakariko_gate":                                    KakarikoGate.option_open,
     "door_of_time":                                     DoorOfTime.option_open,
@@ -183,8 +210,9 @@ hell_mode_options = {
 }
 
 oot_soh_options_presets: dict[str, dict[str, Any]] = {
-    "Beginner": beginner_options,
-    "Standard": standard_options,
-    "Advanced": advanced_options,
-    "Hell Mode": hell_mode_options
+    "Ship Default": default_options,
+    "Ship Beginner": default_options | beginner_options,
+    "Ship Standard": default_options | standard_options,
+    "Ship Advanced": default_options | advanced_options,
+    "Ship Hell Mode": default_options | hell_mode_options
 }

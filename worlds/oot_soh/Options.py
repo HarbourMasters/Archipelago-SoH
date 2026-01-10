@@ -13,7 +13,7 @@ class ClosedForest(Choice):
     option_on = 0
     option_deku_only = 1
     option_off = 2
-    default = 0
+    default = 2
 
 
 class KakarikoGate(Choice):
@@ -24,7 +24,7 @@ class KakarikoGate(Choice):
     display_name = "Kakariko Gate"
     option_closed = 0
     option_open = 1
-    default = 0
+    default = 1
 
 
 class DoorOfTime(Choice):
@@ -37,7 +37,7 @@ class DoorOfTime(Choice):
     option_closed = 0
     option_song_only = 1
     option_open = 2
-    default = 0
+    default = 2
 
 
 class ZorasFountain(Choice):
@@ -50,7 +50,7 @@ class ZorasFountain(Choice):
     option_closed = 0
     option_closed_as_child = 1
     option_open = 2
-    default = 0
+    default = 1
 
 
 class SleepingWaterfall(Choice):
@@ -97,7 +97,7 @@ class FortressCarpenters(Choice):
     option_normal = 0
     option_fast = 1
     option_free = 2
-    default = 0
+    default = 1
 
 
 class RainbowBridge(Choice):
@@ -121,7 +121,7 @@ class RainbowBridge(Choice):
     option_dungeons = 5
     option_tokens = 6
     option_greg = 7
-    default = 0
+    default = 7
 
 
 class RainbowBridgeGregModifier(Choice):
@@ -634,7 +634,7 @@ class ShuffleDungeonRewards(Choice):
     option_off = 0
     option_dungeons = 1
     option_anywhere = 2
-    default = 1
+    default = 0
 
 
 class MapsAndCompasses(Choice):
@@ -653,7 +653,7 @@ class MapsAndCompasses(Choice):
     option_any_dungeon = 3
     option_overworld = 4
     option_anywhere = 5
-    default = 2
+    default = 0
     alias_shuffle = 5
 
 
@@ -678,7 +678,7 @@ class GanonsCastleBossKey(Choice):
     option_lacs_dungeon_rewards = 5
     option_lacs_dungeons = 6
     option_lacs_skull_tokens = 7
-    default = 0
+    default = 5
 
 
 class GanonsCastleBossKeyGregModifier(Choice):
@@ -764,7 +764,7 @@ class SmallKeyShuffle(Choice):
     option_any_dungeon = 2
     option_overworld = 3
     option_anywhere = 4
-    default = 2
+    default = 1
 
 
 class GerudoFortressKeyShuffle(Choice):
@@ -900,31 +900,31 @@ class BigPoeTargetCount(Range):
     display_name = "Big Poe Target Count"
     range_start = 0
     range_end = 10
-    default = 10
+    default = 1
 
 
-class SkipChildZelda(Toggle):
+class SkipChildZelda(DefaultOnToggle):
     """
     Start with Zelda's Letter and the item Impa would normally give you and skip the sequence up until after meeting Zelda. Disables the ability to shuffle Weird Egg.
     """
     display_name = "Skip Child Zelda"
 
 
-class SkipEponaRace(Toggle):
+class SkipEponaRace(DefaultOnToggle):
     """
     Epona can be summoned with Epona's Song without needing to race Ingo.
     """
     display_name = "Skip Epona Race"
 
 
-class CompleteMaskQuest(Toggle):
+class CompleteMaskQuest(DefaultOnToggle):
     """
     Once the Happy Mask Shop is opened, all masks will be available to be borrowed.
     """
     display_name = "Complete Mask Quest"
 
 
-class SkipScarecrowsSong(Toggle):
+class SkipScarecrowsSong(DefaultOnToggle):
     """
     Start with the ability to summon Pierre the Scarecrow. Pulling out an Ocarina in the usual locations will automatically summon him.
     With Shuffle Ocarina Buttons enabled, you'll need at least two Ocarina buttons to summon him.
@@ -932,7 +932,7 @@ class SkipScarecrowsSong(Toggle):
     display_name = "Skip Scarecrow's Song"
 
 
-class FullWallets(Toggle):
+class FullWallets(DefaultOnToggle):
     """
     Start with a full wallet. All wallet upgrades come filled with rupees.
     """
@@ -964,14 +964,14 @@ class BombchuDrops(DefaultOnToggle):
     display_name = "Bombchu Drops"
 
 
-class BlueFireArrows(Toggle):
+class BlueFireArrows(DefaultOnToggle):
     """
     Ice Arrows act like Blue Fire, making them able to melt red ice. 
     """
     display_name = "Blue Fire Arrows"
 
 
-class SunlightArrows(Toggle):
+class SunlightArrows(DefaultOnToggle):
     """
     Light Arrows can be used to light up the sun switches instead of using the Mirror Shield.
     """
@@ -998,7 +998,7 @@ class SkeletonKey(Toggle):
     display_name = "Skeleton Key"
 
 
-class SlingbowBreakBeehives(Toggle):
+class SlingbowBreakBeehives(DefaultOnToggle):
     """
     Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.
     """
