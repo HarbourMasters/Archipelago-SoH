@@ -13,7 +13,7 @@ class ClosedForest(Choice):
     option_on = 0
     option_deku_only = 1
     option_off = 2
-    default = 2
+    default = 0
 
 
 class KakarikoGate(Choice):
@@ -24,7 +24,7 @@ class KakarikoGate(Choice):
     display_name = "Kakariko Gate"
     option_closed = 0
     option_open = 1
-    default = 1
+    default = 0
 
 
 class DoorOfTime(Choice):
@@ -37,7 +37,7 @@ class DoorOfTime(Choice):
     option_closed = 0
     option_song_only = 1
     option_open = 2
-    default = 2
+    default = 0
 
 
 class ZorasFountain(Choice):
@@ -50,7 +50,7 @@ class ZorasFountain(Choice):
     option_closed = 0
     option_closed_as_child = 1
     option_open = 2
-    default = 1
+    default = 0
 
 
 class SleepingWaterfall(Choice):
@@ -97,7 +97,7 @@ class FortressCarpenters(Choice):
     option_normal = 0
     option_fast = 1
     option_free = 2
-    default = 1
+    default = 0
 
 
 class RainbowBridge(Choice):
@@ -121,7 +121,7 @@ class RainbowBridge(Choice):
     option_dungeons = 5
     option_tokens = 6
     option_greg = 7
-    default = 7
+    default = 0
 
 
 class RainbowBridgeGregModifier(Choice):
@@ -135,7 +135,7 @@ class RainbowBridgeGregModifier(Choice):
     option_off = 0
     option_reward = 1
     option_wildcard = 2
-
+    default = 0
 
 class RainbowBridgeStonesRequired(Range):
     """
@@ -186,7 +186,7 @@ class RainbowBridgeSkullTokensRequired(Range):
     range_end = 100
     default = 50
 
-
+# TODO This isn't a toggle in ship. It lets them choose to do a specific/random amount of trials also. There is also a toggle for preventing trials from being done until the player has the matching medallion
 class SkipGanonsTrials(DefaultOnToggle):
     """
     Choose wether or not Ganon's Trials are completed from the start.
@@ -242,7 +242,7 @@ class ShuffleSongs(Choice):
     option_song_locations = 1
     option_dungeon_rewards = 2
     option_anywhere = 3
-    default = 0
+    default = 1
 
 class ShuffleTokens(Choice):
     """
@@ -269,7 +269,7 @@ class SkullsSunSong(Toggle):
 class ShuffleKokiriSword(Toggle):
     """
     Shuffles the Kokiri Sword into the item pool.
-    This will require the use of sticks until hte Kokiri Sword is found.
+    This will require the use of sticks until the Kokiri Sword is found.
     """
     display_name = "Shuffle Kokiri Sword"
 
@@ -634,7 +634,7 @@ class ShuffleDungeonRewards(Choice):
     option_off = 0
     option_dungeons = 1
     option_anywhere = 2
-    default = 0
+    default = 1
 
 
 class MapsAndCompasses(Choice):
@@ -678,7 +678,7 @@ class GanonsCastleBossKey(Choice):
     option_lacs_dungeon_rewards = 5
     option_lacs_dungeons = 6
     option_lacs_skull_tokens = 7
-    default = 5
+    default = 0
 
 
 class GanonsCastleBossKeyGregModifier(Choice):
@@ -692,6 +692,7 @@ class GanonsCastleBossKeyGregModifier(Choice):
     option_off = 0
     option_reward = 1
     option_wildcard = 2
+    default = 0
 
 
 class GanonsCastleBossKeyStonesRequired(Range):
@@ -715,7 +716,7 @@ class GanonsCastleBossKeyMedallionsRequired(Range):
     range_end = 6
     default = 6
 
-
+# TODO This can be 10 if greg is a reward 
 class GanonsCastleBossKeyDungeonRewardsRequired(Range):
     """
     If Ganon's Boss Key is set to dungeon rewards, this is how many dungeon rewards are required to open it.
@@ -750,16 +751,29 @@ class GanonsCastleBossKeySkullTokensRequired(Range):
 
 
 class SmallKeyShuffle(Choice):
+    """
+    Vanilla - Small Keys will appear in their vanilla locations. You start with 3 keys in Spirit Temple MQ because the vanilla key layout is not beatable in logic.
+    Own dungeon - Small Keys can only appear in their respective dungeon. If Fire Temple is not a Master Quest dungeon, the door to the Boss Key chest will be unlocked.
+    Any dungeon - Small Keys can only appear inside of any dungeon.
+    Overworld - Small Keys can only appear outside of dungeons.
+    Anywhere - Small Keys can appear anywhere in the world.
+    """
     display_name = "Small Key Shuffle"
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
     option_overworld = 3
     option_anywhere = 4
-    default = 0
+    default = 2
 
 
 class GerudoFortressKeyShuffle(Choice):
+    """
+    Vanilla - Thieves' Hideout Keys will appear in their vanilla locations.
+    Any dungeon - Thieves' Hideout Keys can only appear inside of any dungon.
+    Overworld - Thieves' Hideout Keys can only appear outside of dungeons.
+    Anywhere - Thieves' Hideout Keys can appear anywhere in the world.
+    """
     display_name = "Gerudo Fortress Key Shuffle"
     option_vanilla = 0
     option_any_dungeon = 1
@@ -769,13 +783,20 @@ class GerudoFortressKeyShuffle(Choice):
 
 
 class BossKeyShuffle(Choice):
+    """
+    Vanilla - Boss Keys will appear in their vanilla locations.
+    Own dungeon - Boss Keys can only appear in their respective dungeon.
+    Any dungeon - Boss Keys can only appear inside of any dungeon.
+    Overworld - Boss Keys can only appear outside of dungeons.
+    Anywhere - Boss Keys can appear anywhere in the world.
+    """
     display_name = "Boss Key Shuffle"
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
     option_overworld = 3
     option_anywhere = 4
-    default = 0
+    default = 1
 
 
 class KeyRings(Choice):
@@ -786,9 +807,9 @@ class KeyRings(Choice):
 
     Count - A specified amount of randomly selected dungeons will have their keys replaced with keyrings.
     
-    Selection - Hand select which dungeons will have their keys replaced with keyrings (can also be left as random, in which case each one will have a 50% chance of being a keyring).
+    Selection - Hand select which dungeons will have their keys replaced with keyrings.
     
-    Selecting key ring for dungeons will have no effect if Small Keys are set to Start With or Vanilla.
+    Selecting key ring for dungeons will have no effect if Small Keys are set to Vanilla.
     
     If Gerudo Fortress Carpenters is set to Normal, and Gerudo Fortress Keys is set to anything other than Vanilla, then the maximum amount of Key Rings that can be selected by Count will be 9. Otherwise, the maximum amount of Key Rings will be 8.
     """
@@ -796,6 +817,7 @@ class KeyRings(Choice):
     option_off = 0
     option_count = 1
     option_selection = 2
+    default = 0
 
 
 class KeyRingsCount(Range):
@@ -878,31 +900,31 @@ class BigPoeTargetCount(Range):
     display_name = "Big Poe Target Count"
     range_start = 0
     range_end = 10
-    default = 1
+    default = 10
 
 
-class SkipChildZelda(DefaultOnToggle):
+class SkipChildZelda(Toggle):
     """
     Start with Zelda's Letter and the item Impa would normally give you and skip the sequence up until after meeting Zelda. Disables the ability to shuffle Weird Egg.
     """
     display_name = "Skip Child Zelda"
 
 
-class SkipEponaRace(DefaultOnToggle):
+class SkipEponaRace(Toggle):
     """
     Epona can be summoned with Epona's Song without needing to race Ingo.
     """
     display_name = "Skip Epona Race"
 
 
-class CompleteMaskQuest(DefaultOnToggle):
+class CompleteMaskQuest(Toggle):
     """
     Once the Happy Mask Shop is opened, all masks will be available to be borrowed.
     """
     display_name = "Complete Mask Quest"
 
 
-class SkipScarecrowsSong(DefaultOnToggle):
+class SkipScarecrowsSong(Toggle):
     """
     Start with the ability to summon Pierre the Scarecrow. Pulling out an Ocarina in the usual locations will automatically summon him.
     With Shuffle Ocarina Buttons enabled, you'll need at least two Ocarina buttons to summon him.
@@ -910,7 +932,7 @@ class SkipScarecrowsSong(DefaultOnToggle):
     display_name = "Skip Scarecrow's Song"
 
 
-class FullWallets(DefaultOnToggle):
+class FullWallets(Toggle):
     """
     Start with a full wallet. All wallet upgrades come filled with rupees.
     """
@@ -942,14 +964,14 @@ class BombchuDrops(DefaultOnToggle):
     display_name = "Bombchu Drops"
 
 
-class BlueFireArrows(DefaultOnToggle):
+class BlueFireArrows(Toggle):
     """
     Ice Arrows act like Blue Fire, making them able to melt red ice. 
     """
     display_name = "Blue Fire Arrows"
 
 
-class SunlightArrows(DefaultOnToggle):
+class SunlightArrows(Toggle):
     """
     Light Arrows can be used to light up the sun switches instead of using the Mirror Shield.
     """
@@ -976,7 +998,7 @@ class SkeletonKey(Toggle):
     display_name = "Skeleton Key"
 
 
-class SlingbowBreakBeehives(DefaultOnToggle):
+class SlingbowBreakBeehives(Toggle):
     """
     Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.
     """
@@ -1004,6 +1026,7 @@ class Shuffle100GSReward(Toggle):
     display_name = "Shuffle 100 GS Reward"
 
 
+# TODO Ice Trap settings in ship were changed recently. Needs its own PR to figure out
 class IceTrapCount(Range):
     """
     Specify an exact number of Ice Traps to add to the item pool. If the item pool is out of space, no more will be added.
@@ -1045,7 +1068,7 @@ class TricksInLogic(OptionSet):
     valid_keys = [str(trick) for trick in Tricks]
     __doc__ = ("Define what tricks or glitches are considered in logic. "
                "For more information on what each trick does, check the Ship of Harkinian "
-               "Randomizer -> Seed Settings -> Tricks/Glitches settings.\n"
+               "Randomizer -> Tricks/Glitches settings.\n"
                "Trick names: "
                f"{', '.join(valid_keys)}")
 

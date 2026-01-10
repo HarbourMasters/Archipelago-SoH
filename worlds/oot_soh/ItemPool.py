@@ -649,6 +649,10 @@ def get_open_location_count(world: "SohWorld") -> int:
     if world.options.maps_and_compasses in ("own_dungeon", "any_dungeon", "overworld"):
         open_location_count -= len(map_and_compass_vanilla_mapping)
 
+    if world.options.shuffle_songs in ("song_locations", "dungeon_rewards"):
+        for _ in song_vanilla_locations.values():
+            open_location_count -= 1
+
     return open_location_count
 
 

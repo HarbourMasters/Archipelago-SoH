@@ -7,7 +7,7 @@ from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Loc
 from worlds.AutoWorld import WebWorld, World
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
+from .Locations import location_table, location_name_groups, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -136,10 +136,7 @@ class SohWorld(World):
         if self.options.shuffle_100_gs_reward:
             turn_in_amount = 100
         else:
-            for location, amount in token_amounts.items():
-                if location not in self.options.exclude_locations:
-                    turn_in_amount = amount
-                    break
+            turn_in_amount = 50
 
         progressive_skulltula_count: int = max(self.options.rainbow_bridge_skull_tokens_required.value if self.options.rainbow_bridge.value == 6 else 0, self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
