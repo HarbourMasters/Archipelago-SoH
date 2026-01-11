@@ -313,7 +313,6 @@ def create_item_pool(world: "SohWorld") -> None:
                     max_hearts - starting_hearts) * 4
 
     # Item Pool Modifications
-    # TODO Item Pool Mods need to be gone through again. I guess I missed a whole bunch of things all over the place.
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
@@ -333,6 +332,9 @@ def create_item_pool(world: "SohWorld") -> None:
 
             if world.options.shuffle_gerudo_membership_card:
                 items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
+
+            if world.options.bombchu_bag in ("single_bag", "progressive_bags"):
+                items_to_create[Items.BOMBCHU_BAG] += 1
 
             items_to_create[Items.BOOMERANG] += 1
             items_to_create[Items.LENS_OF_TRUTH] += 1
@@ -662,6 +664,10 @@ def get_open_location_count(world: "SohWorld") -> int:
 
     if world.options.maps_and_compasses in ("own_dungeon", "any_dungeon", "overworld"):
         open_location_count -= len(map_and_compass_vanilla_mapping)
+
+    if world.options.shuffle_songs in ("song_locations", "dungeon_rewards"):
+        for _ in song_vanilla_locations.values():
+            open_location_count -= 1
 
     return open_location_count
 

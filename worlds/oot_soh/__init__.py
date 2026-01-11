@@ -134,9 +134,11 @@ class SohWorld(World):
 
         if self.options.shuffle_100_gs_reward:
             turn_in_amount = 100
+        elif self.options.accessibility == "full":
+                turn_in_amount = 50
         else:
             for location, amount in token_amounts.items():
-                if location not in self.options.exclude_locations:
+                if str(location) not in self.options.exclude_locations:
                     turn_in_amount = amount
                     break
 
