@@ -1111,6 +1111,16 @@ class ItemPool(Choice):
     default = 0
 
 
+class StartingHearts(Range):
+    """
+    Specify the number of starting hearts Link will have. Modifies how many Heart Containers and Heart Pieces are in the pool.
+    """
+    display_name = "Starting Hearts Count"
+    range_start = 1
+    range_end = 20
+    default = 3
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1218,6 +1228,7 @@ class SohOptions(PerGameCommonOptions):
     tricks_in_logic: TricksInLogic
     enable_all_tricks: EnableAllTricks
     item_pool: ItemPool
+    starting_hearts: StartingHearts
 
 
 soh_option_groups = [
@@ -1234,6 +1245,7 @@ soh_option_groups = [
     ]),
     OptionGroup("World Settings", [
         StartingAge,
+        StartingHearts,
         FortressCarpenters,
         RainbowBridge,
         RainbowBridgeStonesRequired,
