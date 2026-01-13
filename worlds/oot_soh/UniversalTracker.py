@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from .Options import StartingHearts
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -122,7 +123,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "tricks_in_logic", set())
             world.options.item_pool.value = world.passthrough.get(
                 "item_pool", 0)
-            world.options.starting_hearts.value = world.passthrough.get("starting_hearts", 3)
+            world.options.starting_hearts.value = world.passthrough.get("starting_hearts", StartingHearts.default)
             # when adding new options to this, use .get, and set the default to whatever was before the option was made
             # this will make it back-compatible with seeds generated on earlier versions
             # the below do not need to be handled in UT at all, since they do not affect logic
