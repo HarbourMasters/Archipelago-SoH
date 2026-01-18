@@ -1111,6 +1111,13 @@ class ItemPool(Choice):
     default = 0
 
 
+class MedallionLockedTrials(Toggle):
+    """
+    Doors to trials will be barred until their corresponding medallion is acquired.
+    """
+    display_name = "Medallion Locked Trials"
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1218,6 +1225,7 @@ class SohOptions(PerGameCommonOptions):
     tricks_in_logic: TricksInLogic
     enable_all_tricks: EnableAllTricks
     item_pool: ItemPool
+    medallion_locked_trials: MedallionLockedTrials
 
 
 soh_option_groups = [
@@ -1243,6 +1251,7 @@ soh_option_groups = [
         RainbowBridgeSkullTokensRequired,
         RainbowBridgeGregModifier,
         SkipGanonsTrials,
+        MedallionLockedTrials,
         TriforceHunt,
         TriforceHuntPiecesTotal,
         TriforceHuntPiecesRequiredPercentage,

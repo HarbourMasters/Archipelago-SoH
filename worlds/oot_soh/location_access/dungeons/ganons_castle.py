@@ -39,13 +39,12 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.GANONS_CASTLE_LOBBY, world, [
         (Regions.GANONS_CASTLE_ENTRYWAY, lambda bundle: True),
-        (Regions.GANONS_CASTLE_FOREST_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_FIRE_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_WATER_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_SHADOW_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_SPIRIT_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_LIGHT_TRIAL,
-         lambda bundle: can_use(Items.GOLDEN_GAUNTLETS, bundle)),
+        (Regions.GANONS_CASTLE_FOREST_TRIAL, lambda bundle: not world.options.medallion_locked_trials or has_item(Items.FOREST_MEDALLION, bundle)),
+        (Regions.GANONS_CASTLE_FIRE_TRIAL, lambda bundle: not world.options.medallion_locked_trials or has_item(Items.FIRE_MEDALLION, bundle)),
+        (Regions.GANONS_CASTLE_WATER_TRIAL, lambda bundle: not world.options.medallion_locked_trials or has_item(Items.WATER_MEDALLION, bundle)),
+        (Regions.GANONS_CASTLE_SHADOW_TRIAL, lambda bundle: not world.options.medallion_locked_trials or has_item(Items.SHADOW_MEDALLION, bundle)),
+        (Regions.GANONS_CASTLE_SPIRIT_TRIAL, lambda bundle: not world.options.medallion_locked_trials or has_item(Items.SPIRIT_MEDALLION, bundle)),
+        (Regions.GANONS_CASTLE_LIGHT_TRIAL, lambda bundle: can_use(Items.GOLDEN_GAUNTLETS, bundle) and (not world.options.medallion_locked_trials or has_item(Items.LIGHT_MEDALLION, bundle))),
         (Regions.GANONS_TOWER_ENTRYWAY, lambda bundle: True),
         (Regions.GANONS_CASTLE_DEKU_SCRUBS, lambda bundle: can_do_trick(Tricks.LENS_GANON, bundle) or
          can_use(Items.LENS_OF_TRUTH, bundle)),
