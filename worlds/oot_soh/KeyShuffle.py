@@ -135,7 +135,8 @@ def pre_fill_keys(world: "SohWorld") -> None:
                 continue
 
             for key in keys:
-                world.pre_fill_pool.remove(key)
+                if key in world.pre_fill_pool: 
+                    world.pre_fill_pool.remove(key)
 
             prefill_state = world.get_pre_fill_state()
             found = False
