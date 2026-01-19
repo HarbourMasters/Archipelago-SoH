@@ -52,8 +52,9 @@ beginner_options = {
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "infinite_upgrades":                                InfiniteUpgrades.option_off,
     "skeleton_key":                                     SkeletonKey.option_false,
-    "start_inventory_from_pool":                        {Items.PROGRESSIVE_OCARINA: 1},
-    "start_inventory":                                  {Items.KOKIRI_SWORD: 1},
+    "start_inventory_from_pool":                        {Items.KOKIRI_SWORD: 1, Items.PROGRESSIVE_OCARINA: 1},
+    # Enable kokiri sword shuffling to place a random item in the chest instead of a duplicated sword
+    "shuffle_kokiri_sword":                             ShuffleKokiriSword.option_true,
     "exclude_locations":                                [Locations.GF_HBA_1500_POINTS, Locations.KAK_40_GOLD_SKULLTULA_REWARD, Locations.KAK_50_GOLD_SKULLTULA_REWARD, Locations.ZR_FROGS_OCARINA_GAME]
 }
 
