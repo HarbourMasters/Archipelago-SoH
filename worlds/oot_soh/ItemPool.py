@@ -309,8 +309,7 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.HEART_CONTAINER] = hearts_to_place - half_hearts
                 items_to_create[Items.PIECE_OF_HEART] += half_hearts * 4
             elif world.options.item_pool == "scarce":
-                items_to_create[Items.PIECE_OF_HEART] += (
-                    max_hearts - starting_hearts) * 4
+                items_to_create[Items.PIECE_OF_HEART] += hearts_to_place * 4
 
     # Item Pool Modifications
     if world.options.item_pool.value:
