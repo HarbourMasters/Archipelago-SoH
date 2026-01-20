@@ -203,10 +203,11 @@ class SohWorld(World):
                 "gerudo_training_ground_key_ring"]
             self.options.ganons_castle_key_ring.value = self.passthrough["ganons_castle_key_ring"]
 
-        if self.options.ganons_trials == "set_number":
+        if self.options.ganons_trials == "set_number" and self.options.ganons_trials_count.value > 0:
             self.ganons_trials = [str(trial) for trial in GanonsTrials]
-            self.random.shuffle(self.ganons_trials)
-            self.ganons_trials = self.ganons_trials[:self.options.ganons_trials_count.value]
+            if self.options.ganons_trials_count.value < 6:
+                self.random.shuffle(self.ganons_trials)
+                self.ganons_trials = self.ganons_trials[:self.options.ganons_trials_count.value]
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)
