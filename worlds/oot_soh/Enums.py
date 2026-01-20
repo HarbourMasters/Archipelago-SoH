@@ -3868,3 +3868,11 @@ class KeyShuffleLocations(Enum):
     GANONS_CASTLE = auto()
     ANY_DUNGEON = auto()
     OVERWORLD = auto()
+
+class GanonsTrials(StrEnum):
+    FOREST_TRIAL = "Forest Trial"
+    FIRE_TRIAL = "Fire Trial"
+    WATER_TRIAL = "Water Trial"
+    SHADOW_TRIAL = "Shadow Trial"
+    SPIRIT_TRIAL = "Spirit Trial"
+    LIGHT_TRIAL = "Light Trial"

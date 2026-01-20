@@ -31,7 +31,8 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "rainbow_bridge_dungeons_required"]
             world.options.rainbow_bridge_skull_tokens_required.value = world.passthrough[
                 "rainbow_bridge_skull_tokens_required"]
-            world.options.skip_ganons_trials.value = world.passthrough["skip_ganons_trials"]
+            world.options.ganons_trials.value = world.passthrough["ganons_trials"]
+            world.options.number_of_ganons_trials.value = world.passthrough.get("number_of_ganons_trials", 6)
             world.options.triforce_hunt.value = world.passthrough["triforce_hunt"]
             world.options.triforce_hunt_pieces_total.value = world.passthrough[
                 "triforce_hunt_pieces_total"]

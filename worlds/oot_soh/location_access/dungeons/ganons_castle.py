@@ -27,6 +27,16 @@ class LocalEvents(StrEnum):
     GANONS_CASTLE_LIGHT_TRIAL_CLEARED = "Ganon's Castle Light Trial Cleared"
 
 
+trial_mapping: dict[GanonsTrials: LocalEvents] = {
+    GanonsTrials.FOREST_TRIAL: LocalEvents.GANONS_CASTLE_FOREST_TRIAL_CLEARED,
+    GanonsTrials.FIRE_TRIAL: LocalEvents.GANONS_CASTLE_FIRE_TRIAL_CLEARED,
+    GanonsTrials.WATER_TRIAL: LocalEvents.GANONS_CASTLE_WATER_TRIAL_CLEARED,
+    GanonsTrials.SHADOW_TRIAL: LocalEvents.GANONS_CASTLE_SHADOW_TRIAL_CLEARED,
+    GanonsTrials.SPIRIT_TRIAL: LocalEvents.GANONS_CASTLE_SPIRIT_TRIAL_CLEARED,
+    GanonsTrials.LIGHT_TRIAL: LocalEvents.GANONS_CASTLE_LIGHT_TRIAL_CLEARED
+}
+
+
 def set_region_rules(world: "SohWorld") -> None:
     # Ganon's Castle Entryway
     # Connections
@@ -281,13 +291,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.GANONS_TOWER_ENTRYWAY, world, [
         (Regions.GANONS_CASTLE_LOBBY, lambda bundle: True),
-        (Regions.GANONS_TOWER_FLOOR_1, lambda bundle: (((has_item(LocalEvents.GANONS_CASTLE_FOREST_TRIAL_CLEARED, bundle)) and
-                                                       (has_item(LocalEvents.GANONS_CASTLE_FIRE_TRIAL_CLEARED, bundle)) and
-                                                       (has_item(LocalEvents.GANONS_CASTLE_WATER_TRIAL_CLEARED, bundle)) and
-                                                       (has_item(LocalEvents.GANONS_CASTLE_SHADOW_TRIAL_CLEARED, bundle)) and
-                                                       (has_item(LocalEvents.GANONS_CASTLE_SPIRIT_TRIAL_CLEARED, bundle)) and
-                                                       (has_item(LocalEvents.GANONS_CASTLE_LIGHT_TRIAL_CLEARED, bundle))) or
-                                                       bool(world.options.skip_ganons_trials)))
+        (Regions.GANONS_TOWER_FLOOR_1, lambda bundle: world.options.ganons_trials == "skip" 
+                                                        or bundle[0].has_all([str(trial_mapping[trial]) for trial in world.ganons_trials], world.player))
     ])
 
     # Ganon's Tower Floor 1
