@@ -193,7 +193,7 @@ class GanonsTrials(Choice):
     Skip - No Trials are required and the barriar is already dispelled.
     Set Number - Select a number of trials that will be required. It will be chosen randomly.
     """
-    display_name = "Ganon' Trials"
+    display_name = "Ganon's Trials"
     option_skip = 0
     option_set_number = 1
     default = 0
