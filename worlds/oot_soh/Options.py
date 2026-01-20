@@ -193,17 +193,17 @@ class GanonsTrials(Choice):
     Skip - No Trials are required and the barriar is already dispelled.
     Set Number - Select a number of trials that will be required. It will be chosen randomly.
     """
-    display_name = "Rainbow Bridge Greg Modifier"
+    display_name = "Ganon' Trials"
     option_skip = 0
     option_set_number = 1
     default = 0
 
 
-class NumberOfGanonsTrials(Range):
+class GanonsTrialsCount(Range):
     """
-    If Rainbow Bridge is set to tokens, this is how many Gold Skulltula Tokens are required to open it.
+    How Many of Ganon's Trials are required to dispel the barrier
     """
-    display_name = "Rainbow Bridge Skull Tokens Required"
+    display_name = "Ganon's Trials Count"
     range_start = 0
     range_end = 6
     default = 6
@@ -1144,7 +1144,7 @@ class SohOptions(PerGameCommonOptions):
     rainbow_bridge_skull_tokens_required: RainbowBridgeSkullTokensRequired
     rainbow_bridge_greg_modifier: RainbowBridgeGregModifier
     ganons_trials: GanonsTrials
-    number_of_ganons_trials: NumberOfGanonsTrials
+    ganons_trials_count: GanonsTrialsCount
     triforce_hunt: TriforceHunt
     triforce_hunt_pieces_total: TriforceHuntPiecesTotal
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
@@ -1259,7 +1259,7 @@ soh_option_groups = [
         RainbowBridgeSkullTokensRequired,
         RainbowBridgeGregModifier,
         GanonsTrials,
-        NumberOfGanonsTrials,
+        GanonsTrialsCount,
         TriforceHunt,
         TriforceHuntPiecesTotal,
         TriforceHuntPiecesRequiredPercentage,

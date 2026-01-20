@@ -13,7 +13,7 @@ default_options: dict[str, Any] = {
     "fortress_carpenters":      FortressCarpenters.option_normal,
     "rainbow_bridge":           RainbowBridge.option_vanilla,
     "ganons_trials":            GanonsTrials.option_set_number,
-    "number_of_ganons_trials":  6,
+    "ganons_trials_count":  6,
     "shuffle_songs":            ShuffleSongs.option_song_locations,
     "shuffle_dungeon_rewards":  ShuffleDungeonRewards.option_dungeons,
     "maps_and_compasses":       MapsAndCompasses.option_own_dungeon,

@@ -206,7 +206,7 @@ class SohWorld(World):
         if self.options.ganons_trials == "set_number":
             self.ganons_trials = [str(trial) for trial in GanonsTrials]
             self.random.shuffle(self.ganons_trials)
-            self.ganons_trials = self.ganons_trials[:self.options.number_of_ganons_trials.value]
+            self.ganons_trials = self.ganons_trials[:self.options.ganons_trials_count.value]
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)
@@ -371,7 +371,7 @@ class SohWorld(World):
             "rainbow_bridge_dungeons_required": self.options.rainbow_bridge_dungeons_required.value,
             "rainbow_bridge_skull_tokens_required": self.options.rainbow_bridge_skull_tokens_required.value,
             "ganons_trials": self.options.ganons_trials.value,
-            "number_of_ganons_trials": self.options.number_of_ganons_trials.value,
+            "ganons_trials_count": self.options.ganons_trials_count.value,
             "required_trials": self.ganons_trials,
             "triforce_hunt": self.options.triforce_hunt.value,
             "triforce_hunt_pieces_total": self.options.triforce_hunt_pieces_total.value,
