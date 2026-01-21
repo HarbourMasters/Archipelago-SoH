@@ -1111,6 +1111,22 @@ class ItemPool(Choice):
     default = 0
 
 
+class DamageMultiplier(Choice):
+    """
+    Sets how much damage is multiplied by
+    """
+    display_name = "Damage Multiplier"
+    option_half = 0
+    option_1X = 1
+    option_2x = 2
+    option_4X = 3
+    option_8X = 4
+    option_16X = 5
+    option_OHKO = 6
+    default = 1
+    visibility = Visibility.none
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1218,6 +1234,7 @@ class SohOptions(PerGameCommonOptions):
     tricks_in_logic: TricksInLogic
     enable_all_tricks: EnableAllTricks
     item_pool: ItemPool
+    damage_multiplier: DamageMultiplier
 
 
 soh_option_groups = [

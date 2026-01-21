@@ -21,7 +21,7 @@ from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
 from Options import OptionError
-from .LogicHelpers import wallet_capacities
+from .LogicHelpers import wallet_capacities, SohHeartState
 
 import logging
 logger = logging.getLogger("SOH_OOT")
@@ -307,6 +307,7 @@ class SohWorld(World):
 
         if item.name == Items.HEART_CONTAINER:
             state.soh_heart_count[self.player] += 1  # type: ignore
+            state.soh_effective_health[self.player] = SohHeartState.calculate_effective_health(None, self) # type: ignore
 
         if item.name in (Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER):
             state.soh_piece_of_heart_count[self.player] += 1  # type: ignore
@@ -314,6 +315,7 @@ class SohWorld(World):
             if state.soh_piece_of_heart_count[self.player] == 4:
                 state.soh_piece_of_heart_count[self.player] = 0  # type: ignore
                 state.soh_heart_count[self.player] += 1  # type: ignore
+                state.soh_effective_health[self.player] = SohHeartState.calculate_effective_health(None, self) # type: ignore
 
         return changed
 
@@ -330,6 +332,7 @@ class SohWorld(World):
 
         if item.name == Items.HEART_CONTAINER:
             state.soh_heart_count[self.player] -= 1  # type: ignore
+            state.soh_effective_health[self.player] = SohHeartState.calculate_effective_health(SohHeartState, self) # type: ignore
 
         if item.name in (Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER):
             state.soh_piece_of_heart_count[self.player] -= 1  # type: ignore
@@ -337,6 +340,7 @@ class SohWorld(World):
             if state.soh_piece_of_heart_count[self.player] == -1:
                 state.soh_piece_of_heart_count[self.player] = 3  # type: ignore
                 state.soh_heart_count[self.player] -= 1  # type: ignore
+                state.soh_effective_health[self.player] = SohHeartState.calculate_effective_health(SohHeartState, self) # type: ignore
 
         return changed
 

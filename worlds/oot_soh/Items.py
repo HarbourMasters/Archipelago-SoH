@@ -77,7 +77,7 @@ item_data_table: dict[Items, SohItemData] = {
     Items.PROGRESSIVE_SCALE: SohItemData(45, IC.progression | IC.useful, 2, item_groups=["Bronze Scale", "Silver Scale", "Golden Scale", "Scale"]),
     Items.PROGRESSIVE_NUT_CAPACITY: SohItemData(46, IC.progression | IC.useful, 2, item_groups=["Deku Nut Bag"]),
     Items.PROGRESSIVE_STICK_CAPACITY: SohItemData(47, IC.progression | IC.useful, 2, item_groups=["Stick Bag"]),
-    Items.BOMBCHU_BAG: SohItemData(48, IC.progression | IC.useful, 0, item_groups=["Bombchu Bag", "Bombs"]),
+    Items.BOMBCHU_BAG: SohItemData(48, IC.progression | IC.useful, 0, item_groups=["Bombs"]),
     Items.PROGRESSIVE_MAGIC_METER: SohItemData(49, IC.progression | IC.useful, 2, item_groups=["Magic Meter"]),
     # Items.MAGIC_SINGLE: SohItemData( 50, IC.filler, 0 ),
     # Items.MAGIC_DOUBLE: SohItemData( 51, IC.filler, 0 ),

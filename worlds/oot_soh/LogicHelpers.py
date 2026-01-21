@@ -727,9 +727,8 @@ def can_kill_enemy(bundle: tuple[CollectionState, Regions, "SohWorld"], enemy: E
                 or (take_damage(bundle) and can_use_sword(bundle)))
 
     if enemy == Enemies.SHABOM:
-        # RANDOTODO when you add better damage logic, you can kill this by taking hits
         return (can_use_any([Items.BOOMERANG, Items.NUTS, Items.DINS_FIRE, Items.ICE_ARROW], bundle)
-                or can_jump_slash(bundle))
+                or can_jump_slash(bundle) or effective_health(bundle) * 2 > quantity)
 
     if enemy == Enemies.OCTOROK:
         return (can_reflect_nuts(bundle) or hookshot_or_boomerang(bundle)
@@ -1010,9 +1009,10 @@ def can_trigger_lacs(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> boo
             (gbk_setting == "lacs_skull_tokens" and (get_gs_count(bundle) >= world.options.ganons_castle_boss_key_skull_tokens_required)))
 
 
-# TODO implement EffectiveHealth(); Returns 2 for now. Requires implementing a damage multiplier option
 def effective_health(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> int:
-    return 2
+    state = bundle[0]
+    world = bundle[2]
+    return state.soh_effective_health[world.player]  # type: ignore
 
 
 def is_fire_loop_locked(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
@@ -1033,14 +1033,35 @@ class SohHeartState(LogicMixin):
     # tracking how many hearts the player has instead of checking the collection state every time
     soh_piece_of_heart_count: Counter[int]
     soh_heart_count: Counter[int]
+    soh_effective_health: Counter[int]
 
     def init_mixin(self, parent: MultiWorld):
         soh_players = list(parent.get_game_players(
             "Ship of Harkinian") + parent.get_game_groups("Ship of Harkinian"))
         self.soh_piece_of_heart_count = Counter()
         self.soh_heart_count = Counter({player: 3 for player in soh_players})
+        self.soh_effective_health = Counter({player: self.calculate_effective_health(parent.worlds[player]) for player in soh_players})
 
     def copy_mixin(self, ret: CollectionState) -> CollectionState:
         ret.soh_piece_of_heart_count = Counter(self.soh_piece_of_heart_count)  # type: ignore # noqa
         ret.soh_heart_count = Counter(self.soh_heart_count)  # type: ignore # noqa
+        ret.soh_effective_health = Counter(self.soh_effective_health) # type: ignore # noqa
         return ret
+    
+    def calculate_effective_health(self, world: "SohWorld") -> int:
+        # Multiplier will be:
+        # 0 for half daamge
+        # 1 for normal damage
+        # 2 for double damage
+        # 3 for quad damage
+        # 4 for 8* damage
+        # 5 for 16* damage
+        # 10 for OHKO.
+        # This is the number of shifts to apply, not a real multiplier
+       
+        multiplier: int = world.options.damage_multiplier.value if world.options.damage_multiplier.value < 6 else 10
+        double_defense: bool = world.multiworld.state.has(str(Items.DOUBLE_DEFENSE), world.player) if hasattr(world.multiworld, "state") else False
+        # TODO change below 3 when starting_health is in
+        heart_count: int = world.multiworld.state.soh_heart_count[world.player] if hasattr(world.multiworld, "state") else 3 #world.options.starting_health.value # type: ignore # noqa
+
+        return ((heart_count << (2 + double_defense)) >> multiplier) + ((heart_count << (2 + double_defense)) % (1 << multiplier))
