@@ -190,6 +190,9 @@ class Regions(StrEnum):
     DMC_DISTANT_PLATFORM = "DMC Distant Platform"
     ZR_FRONT = "ZR Front"
     ZORA_RIVER = "Zora River"
+    ZR_ATOP_LADDER = "ZR Atop Ladder"
+    ZR_PILLAR = "ZR Pillar"
+    ZR_OPEN_GROTTO_GS = "ZR Open Grotto GS"
     ZR_FROM_SHORTCUT = "ZR From Shortcut"
     ZR_BEHIND_WATERFALL = "ZR Behind Waterfall"
     ZR_OPEN_GROTTO = "ZR Open Grotto"
@@ -989,6 +992,8 @@ class Items(StrEnum):
     NUTS = "Nuts"
     EPONA = "Epona"
     MAX = "Max"
+    CLIMB = "Climb"
+    POWER_BRACELET = "Power Bracelet"
     # Universal Tracker Required
     GLITCHED = "Glitched Item"
 

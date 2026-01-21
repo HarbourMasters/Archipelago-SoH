@@ -14,6 +14,9 @@ class EventLocations(StrEnum):
     ZR_BEAN_PATCH = "ZR Bean Patch"
     ZR_DAY_NIGHT_CYCLE_CHILD = "ZR Day Night Cycle Child"
     ZR_DAY_NIGHT_CYCLE_ADULT = "ZR Day Night Cycle Adult"
+    ZR_ATOP_LADDER_FAIRY = "ZR Atop Ladder Fairy"
+    ZR_FAIRY_GROTTO_FAIRY_ACCESS = "ZR Fairy Grotto Fairy Access"
+    ZR_GOSSIP_STONE_FAIRY_ACCESS = "ZR Gossip Stone Fairy Access" 
 
 
 class LocalEvents(StrEnum):
@@ -59,8 +62,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Zora River
     # Events
     add_events(Regions.ZORA_RIVER, world, [
-        (EventLocations.ZR_BUG_GRASS, Events.CAN_ACCESS_BUGS,
-         lambda bundle: can_cut_shrubs(bundle) and (is_child(bundle) or can_use(Items.HOVER_BOOTS, bundle) or can_do_trick(Tricks.ZR_LOWER, bundle))),
+        (EventLocations.ZR_GOSSIP_STONE_FAIRY_ACCESS, Events.CAN_ACCESS_FAIRIES, lambda bundle: call_gossip_fairy(bundle) or (is_child(bundle) and can_use(Items.STICKS, bundle)) or (is_child(bundle) and has_item(LocalEvents.ZR_BEAN_PLANTED, bundle) and can_use(Items.SONG_OF_STORMS, bundle))),
         (EventLocations.ZR_BEAN_PATCH, LocalEvents.ZR_BEAN_PLANTED,
          lambda bundle: is_child(bundle) and can_use(Items.MAGIC_BEAN, bundle)),
     ])
@@ -93,24 +95,9 @@ def set_region_rules(world: "SohWorld") -> None:
          can_use(Items.SUNS_SONG, bundle)),
         (Locations.ZR_FROGS_SONG_OF_TIME, lambda bundle: is_child(bundle) and
          can_use(Items.SONG_OF_TIME, bundle)),
-        (Locations.ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH, lambda bundle: is_child(bundle) or
-         can_use(Items.HOVER_BOOTS, bundle)
-         or (is_adult(bundle)
-             and can_do_trick(Tricks.ZR_LOWER, bundle))),
-        (Locations.ZR_NEAR_DOMAIN_FREESTANDING_POH, lambda bundle: is_child(bundle) or
-         can_use(Items.HOVER_BOOTS, bundle)
-         or (is_adult(bundle)
-             and can_do_trick(Tricks.ZR_UPPER, bundle))),
-        (Locations.ZR_GS_LADDER, lambda bundle: is_child(bundle)
-         and can_attack(bundle)
-         and can_get_nighttime_gs(bundle)),
-        (Locations.ZR_GS_NEAR_RAISED_GROTTOS, lambda bundle: is_adult(bundle) and
-         (can_use(Items.HOOKSHOT, bundle)
-          or can_use(Items.BOOMERANG, bundle)) and
-         can_get_nighttime_gs(bundle)),
-        (Locations.ZR_GS_ABOVE_BRIDGE, lambda bundle: is_adult(bundle) and
-         can_use(Items.HOOKSHOT, bundle) and
-         can_get_nighttime_gs(bundle)),
+        (Locations.ZR_NEAR_DOMAIN_FREESTANDING_POH, lambda bundle: (is_child(bundle) and has_item(Items.POWER_BRACELET, bundle)) or can_use_any([Items.BOOMERANG, Items.HOVER_BOOTS], bundle) or (is_adult(bundle) and can_do_trick(Tricks.ZR_UPPER, bundle))),
+        (Locations.ZR_GS_LADDER, lambda bundle: is_child(bundle) and can_kill_enemy(bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.SHORT_JUMPSLASH) and can_get_nighttime_gs(bundle)),
+        (Locations.ZR_GS_ABOVE_BRIDGE, lambda bundle: is_adult(bundle) and can_get_enemy_drop(bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.HOOKSHOT) and can_get_nighttime_gs(bundle)),
         (Locations.ZR_BEAN_SPROUT_FAIRY1, lambda bundle: is_child(bundle)
          and can_use(Items.MAGIC_BEAN, bundle)
          and can_use(Items.SONG_OF_STORMS, bundle)),
@@ -120,56 +107,68 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.ZR_BEAN_SPROUT_FAIRY3, lambda bundle: is_child(bundle)
          and can_use(Items.MAGIC_BEAN, bundle)
          and can_use(Items.SONG_OF_STORMS, bundle)),
-        (Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_FAIRY,
-         lambda bundle: call_gossip_fairy(bundle)),
-        (Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_BIG_FAIRY,
-         lambda bundle: can_use(Items.SONG_OF_STORMS, bundle)),
         (Locations.ZR_NEAR_DOMAIN_GOSSIP_STONE_FAIRY,
          lambda bundle: call_gossip_fairy(bundle)),
         (Locations.ZR_NEAR_DOMAIN_GOSSIP_STONE_BIG_FAIRY,
          lambda bundle: can_use(Items.SONG_OF_STORMS, bundle)),
-        (Locations.ZR_BENEATH_DOMAIN_RED_LEFT_RUPEE, lambda bundle: is_adult(bundle) and
-         (has_item(Items.BRONZE_SCALE, bundle) or
-          can_use(Items.IRON_BOOTS, bundle) or
-          can_use(Items.BOOMERANG, bundle))),
-        (Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_LEFT_RUPEE, lambda bundle: is_adult(bundle) and
-         (has_item(Items.BRONZE_SCALE, bundle) or
-          can_use(Items.IRON_BOOTS, bundle) or
-          can_use(Items.BOOMERANG, bundle))),
-        (Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_RIGHT_RUPEE, lambda bundle: is_adult(bundle) and
-         (has_item(Items.BRONZE_SCALE, bundle) or
-          can_use(Items.IRON_BOOTS, bundle) or
-          can_use(Items.BOOMERANG, bundle))),
-        (Locations.ZR_BENEATH_DOMAIN_RED_RIGHT_RUPEE, lambda bundle: is_adult(bundle) and
-         (has_item(Items.BRONZE_SCALE, bundle) or
-          can_use(Items.IRON_BOOTS, bundle) or
-          can_use(Items.BOOMERANG, bundle))),
-        (Locations.ZR_NEAR_FREESTANDING_POH_GRASS,
-         lambda bundle: can_cut_shrubs(bundle)
-            and (is_child(bundle)
-                 or can_use(Items.HOVER_BOOTS, bundle)
-                 or can_do_trick(Tricks.ZR_LOWER, bundle)
-                 or can_use(Items.BOOMERANG, bundle))),
+        (Locations.ZR_BENEATH_DOMAIN_RED_LEFT_RUPEE, lambda bundle: is_adult(bundle) and (has_item(Items.BRONZE_SCALE, bundle) or can_use_any([Items.IRON_BOOTS, Items.BOOMERANG], bundle))),
+        (Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_LEFT_RUPEE, lambda bundle: is_adult(bundle) and (has_item(Items.BRONZE_SCALE, bundle) or can_use_any([Items.IRON_BOOTS, Items.BOOMERANG], bundle))),
+        (Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_RIGHT_RUPEE, lambda bundle: is_adult(bundle) and (has_item(Items.BRONZE_SCALE, bundle) or can_use_any([Items.IRON_BOOTS, Items.BOOMERANG], bundle))),
+        (Locations.ZR_BENEATH_DOMAIN_RED_RIGHT_RUPEE, lambda bundle: is_adult(bundle) and (has_item(Items.BRONZE_SCALE, bundle) or can_use_any([Items.IRON_BOOTS, Items.BOOMERANG], bundle)))
     ])
     # Connections
     connect_regions(Regions.ZORA_RIVER, world, [
         (Regions.ZR_FRONT, lambda bundle: True),
-        (Regions.ZR_OPEN_GROTTO, lambda bundle: True),
-        # I am not sure that there's any scenario where blast or smash wouldn't apply to here, not sure why this needs here (which checks if the other age opened it, basically)?
-        (Regions.ZR_FAIRY_GROTTO, lambda bundle: blast_or_smash(bundle)),
+        (Regions.ZR_ATOP_LADDER, lambda bundle: (is_adult(bundle) or has_item(Items.POWER_BRACELET, bundle)) and (has_item(Items.CLIMB, bundle) or (is_adult(bundle) and can_use(Items.HOOKSHOT, bundle)) or has_item(LocalEvents.ZR_BEAN_PLANTED, bundle))),
+        # Added Boomerang check here for accessing the pillar logically with just the boomerang. It can get the Freestanding POH and Grass
+        (Regions.ZR_PILLAR, lambda bundle: (is_child(bundle) and has_item(Items.POWER_BRACELET, bundle)) or can_use(Items.HOVER_BOOTS, bundle) or (is_adult(bundle) and can_do_trick(Tricks.ZR_LOWER, bundle)) or can_use(Items.BOOMERANG, bundle)),
         (Regions.ZR_FROM_SHORTCUT, lambda bundle: has_item(
             Items.SILVER_SCALE, bundle) or can_use(Items.IRON_BOOTS, bundle)),
         (Regions.ZR_STORMS_GROTTO, lambda bundle: can_open_storms_grotto(bundle)),
-        (Regions.ZR_BEHIND_WATERFALL, lambda bundle: world.options.sleeping_waterfall.value == 1 or
-         can_use(Items.ZELDAS_LULLABY, bundle) or
-         (is_child(bundle) and
-          can_do_trick(Tricks.ZR_CUCCO, bundle)) or
-         (is_adult(bundle) and
-          can_use(Items.HOVER_BOOTS, bundle) and
-          can_do_trick(Tricks.ZR_HOVERS, bundle)))
-
+        (Regions.ZR_BEHIND_WATERFALL, lambda bundle: world.options.sleeping_waterfall.value == 1 or can_use(Items.ZELDAS_LULLABY, bundle) or (is_child(bundle) and can_do_trick(Tricks.ZR_CUCCO, bundle) and has_item(Items.POWER_BRACELET, bundle)) or (is_adult(bundle) and can_use(Items.HOVER_BOOTS, bundle) and can_do_trick(Tricks.ZR_HOVERS, bundle))),
+        (Regions.ZR_OPEN_GROTTO_GS, lambda bundle: can_get_enemy_drop(bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.LONGSHOT))
     ])
+
+    # ZR Atop Ladder
     # Events
+    add_events(Regions.ZR_ATOP_LADDER, world, [
+        (EventLocations.ZR_ATOP_LADDER_FAIRY, Events.CAN_ACCESS_FAIRIES, lambda bundle: call_gossip_fairy(bundle))
+    ])
+    # Locations
+    add_locations(Regions.ZR_ATOP_LADDER, world, [
+        (Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_FAIRY, lambda bundle: call_gossip_fairy(bundle)),
+        (Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_BIG_FAIRY, lambda bundle: can_use(Items.SONG_OF_STORMS, bundle))
+    ])
+    # Connections
+    connect_regions(Regions.ZR_ATOP_LADDER, world, [
+        (Regions.ZORA_RIVER, lambda bundle: True),
+        (Regions.ZR_PILLAR, lambda bundle: (is_child(bundle) and has_item(Items.POWER_BRACELET, bundle)) or can_use(Items.HOVER_BOOTS, bundle)),
+        (Regions.ZR_OPEN_GROTTO, lambda bundle: True),
+        (Regions.ZR_FAIRY_GROTTO, lambda bundle: blast_or_smash(bundle)),
+        (Regions.ZR_OPEN_GROTTO_GS, lambda bundle: can_get_enemy_drop(bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.BOOMERANG))
+    ])
+
+    # Deviation. This needs to be accessible from Zora's River and Atop ladder regions
+    add_locations(Regions.ZR_OPEN_GROTTO_GS, world, [
+        (Locations.ZR_GS_NEAR_RAISED_GROTTOS, lambda bundle: is_adult(bundle) and can_get_nighttime_gs(bundle)),
+    ])
+
+    # ZR Pillar
+    # Events
+    add_events(Regions.ZR_PILLAR, world, [
+        # This needs some extra logic because this grass needs to be accessible from multiple other regions, but the bugs they actually have to get here. 
+        # The boomerang check doesn't get the bugs from Zora's River -> Pillar
+        (EventLocations.ZR_BUG_GRASS, Events.CAN_ACCESS_BUGS, lambda bundle: can_cut_shrubs(bundle) and ((is_child(bundle) and has_item(Items.POWER_BRACELET, bundle)) or can_use(Items.HOVER_BOOTS, bundle) or (is_adult(bundle) and can_do_trick(Tricks.ZR_LOWER, bundle)))),
+    ])
+    # Locations
+    add_locations(Regions.ZR_PILLAR, world, [
+        (Locations.ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH, lambda bundle: True),
+        (Locations.ZR_NEAR_FREESTANDING_POH_GRASS, lambda bundle: can_cut_shrubs(bundle)),
+    ])
+    # Connections
+    connect_regions(Regions.ZR_PILLAR, world, [
+        (Regions.ZORA_RIVER, lambda bundle: True)
+    ])
 
     # ZR From Shortcut
     # Connections
@@ -179,7 +178,6 @@ def set_region_rules(world: "SohWorld") -> None:
          has_item(Items.BRONZE_SCALE, bundle)),
         (Regions.LOST_WOODS, lambda bundle: has_item(Items.SILVER_SCALE, bundle) or
          can_use(Items.IRON_BOOTS, bundle))
-
     ])
 
     # ZR Behind Waterfall
@@ -220,10 +218,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZR_OPEN_GROTTO, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True)
+        (Regions.ZR_ATOP_LADDER, lambda bundle: True)
     ])
 
     # ZR Fairy Grotto
+    # Events
+    add_events(Regions.ZR_FAIRY_GROTTO, world, [
+        (EventLocations.ZR_FAIRY_GROTTO_FAIRY_ACCESS, Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
+    ])
     # Locations
     add_locations(Regions.ZR_FAIRY_GROTTO, world, [
         (Locations.ZR_FAIRY_GROTTO_FAIRY1, lambda bundle: True),
@@ -237,7 +239,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZR_FAIRY_GROTTO, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True)
+        (Regions.ZR_ATOP_LADDER, lambda bundle: True)
     ])
 
     # ZR Storms Grotto

@@ -178,6 +178,10 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
 
     if item in (Items.BOTTLE_WITH_MILK, Items.BOTTLE_WITH_POE, Items.BOTTLE_WITH_RED_POTION, Items.EMPTY_BOTTLE):
         return has_bottle(bundle)
+    
+    # Temp to let the logic work with Climb and Grab
+    if item in (Items.CLIMB, Items.POWER_BRACELET):
+        return True
 
     return state.has(item, player, count)
 
