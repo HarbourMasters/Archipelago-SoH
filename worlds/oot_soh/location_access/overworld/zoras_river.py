@@ -15,8 +15,8 @@ class EventLocations(StrEnum):
     ZR_DAY_NIGHT_CYCLE_CHILD = "ZR Day Night Cycle Child"
     ZR_DAY_NIGHT_CYCLE_ADULT = "ZR Day Night Cycle Adult"
     ZR_ATOP_LADDER_FAIRY = "ZR Atop Ladder Fairy"
-    ZR_FAIRY_GROTTO_FAIRY_ACCESS = "ZR Fairy Grotto Fairy Access"
-    ZR_GOSSIP_STONE_FAIRY_ACCESS = "ZR Gossip Stone Fairy Access" 
+    ZR_FAIRY_GROTTO_FAIRY = "ZR Fairy Grotto Fairy"
+    ZR_GOSSIP_STONE_FAIRY = "ZR Gossip Stone Fairy" 
 
 
 class LocalEvents(StrEnum):
@@ -62,7 +62,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Zora River
     # Events
     add_events(Regions.ZORA_RIVER, world, [
-        (EventLocations.ZR_GOSSIP_STONE_FAIRY_ACCESS, Events.CAN_ACCESS_FAIRIES, lambda bundle: call_gossip_fairy(bundle) or (is_child(bundle) and can_use(Items.STICKS, bundle)) or (is_child(bundle) and has_item(LocalEvents.ZR_BEAN_PLANTED, bundle) and can_use(Items.SONG_OF_STORMS, bundle))),
+        (EventLocations.ZR_GOSSIP_STONE_FAIRY, Events.CAN_ACCESS_FAIRIES, lambda bundle: call_gossip_fairy(bundle) or (is_child(bundle) and can_use(Items.STICKS, bundle)) or (is_child(bundle) and has_item(LocalEvents.ZR_BEAN_PLANTED, bundle) and can_use(Items.SONG_OF_STORMS, bundle))),
         (EventLocations.ZR_BEAN_PATCH, LocalEvents.ZR_BEAN_PLANTED,
          lambda bundle: is_child(bundle) and can_use(Items.MAGIC_BEAN, bundle)),
     ])
@@ -224,7 +224,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # ZR Fairy Grotto
     # Events
     add_events(Regions.ZR_FAIRY_GROTTO, world, [
-        (EventLocations.ZR_FAIRY_GROTTO_FAIRY_ACCESS, Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
+        (EventLocations.ZR_FAIRY_GROTTO_FAIRY, Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
     ])
     # Locations
     add_locations(Regions.ZR_FAIRY_GROTTO, world, [
