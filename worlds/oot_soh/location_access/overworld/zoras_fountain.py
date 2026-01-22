@@ -5,23 +5,19 @@ if TYPE_CHECKING:
 
 
 class EventLocations(StrEnum):
-    ZF_GOSSIP_STONE_SONG_FAIRY = "ZF Gossip Stone Song Fairy"
-    ZF_BUTTERFLY_FAIRY = "ZF Butterfly Fairy"
+    ZF_FAIRY = "ZF Fairy"
+
 
 
 def set_region_rules(world: "SohWorld") -> None:
     # Zora's Fountain
     # Events
     add_events(Regions.ZORAS_FOUNTAIN, world, [
-        (EventLocations.ZF_GOSSIP_STONE_SONG_FAIRY, Events.CAN_ACCESS_FAIRIES,
-         lambda bundle: call_gossip_fairy_except_suns(bundle)),
-        (EventLocations.ZF_BUTTERFLY_FAIRY, Events.CAN_ACCESS_FAIRIES,
-         lambda bundle: can_use(Items.STICKS, bundle) and at_day(bundle))
+        (EventLocations.ZF_FAIRY, Events.CAN_ACCESS_FAIRIES, lambda bundle: call_gossip_fairy_except_suns(bundle) or (can_use(Items.STICKS, bundle) and at_day(bundle)))
     ])
     # Locations
     add_locations(Regions.ZORAS_FOUNTAIN, world, [
-        (Locations.ZF_GS_TREE, lambda bundle: is_child(
-            bundle) and can_bonk_trees(bundle)),
+        (Locations.ZF_GS_TREE, lambda bundle: is_child(bundle) and can_bonk_trees(bundle) and (has_item(Items.POWER_BRACELET, bundle) or can_kill_enemy(bundle, Enemies.GOLD_SKULLTULA))),
         (Locations.ZF_GS_ABOVE_THE_LOG,
          lambda bundle: is_child(bundle) and hookshot_or_boomerang(bundle) and can_get_nighttime_gs(bundle)),
         (Locations.ZF_FAIRY_GOSSIP_STONE_FAIRY,
@@ -42,6 +38,12 @@ def set_region_rules(world: "SohWorld") -> None:
             bundle) and can_break_pots(bundle)),
         (Locations.ZF_TREE, lambda bundle: is_child(
             bundle) and can_bonk_trees(bundle)),
+        (Locations.ZF_BUSH_1, lambda bundle: is_child(bundle)),
+        (Locations.ZF_BUSH_2, lambda bundle: is_child(bundle)),
+        (Locations.ZF_BUSH_3, lambda bundle: is_child(bundle)),
+        (Locations.ZF_BUSH_4, lambda bundle: is_child(bundle)),
+        (Locations.ZF_BUSH_5, lambda bundle: is_child(bundle)),
+        (Locations.ZF_BUSH_6, lambda bundle: is_child(bundle))
     ])
     # Connections
     connect_regions(Regions.ZORAS_FOUNTAIN, world, [
@@ -139,7 +141,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZF_HIDDEN_CAVE, world, [
-        (Regions.ZF_HIDDEN_LEDGE, lambda bundle: True)
+        (Regions.ZF_HIDDEN_LEDGE, lambda bundle: has_item(Items.CLIMB, bundle) or can_use(Items.LONGSHOT, bundle))
     ])
 
     # Zora's Fountain Hidden Ledge

@@ -3451,6 +3451,13 @@ class Locations(StrEnum):
     ZR_TREE = "ZR Tree in Zoras River"
     KAK_TREE = "Kak Kakariko GS Tree"
     LLR_TREE = "LLR Lon Lon Ranch GS Tree"
+    ZF_BUSH_1 = "ZF Bush 1"
+    ZF_BUSH_2 = "ZF Bush 2"
+    ZF_BUSH_3 = "ZF Bush 3"
+    ZF_BUSH_4 = "ZF Bush 4"
+    ZF_BUSH_5 = "ZF Bush 5"
+    ZF_BUSH_6 = "ZF Bush 6"
+
 
 
 class Enemies(StrEnum):
