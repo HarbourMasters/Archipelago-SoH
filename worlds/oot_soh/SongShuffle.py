@@ -89,13 +89,12 @@ def pre_fill_songs(world: "SohWorld") -> None:
     world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in reward_goal_locations])
 
     if world.options.shuffle_songs == "song_locations":
-        song_locations = [world.get_location(loc) for loc in song_vanilla_locations.keys()]
-
+        song_locations = world.get_empty_locations_from_list_shuffled(song_vanilla_locations.keys())
         fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True)
         return
 
     if world.options.shuffle_songs == "dungeon_rewards":
-        reward_locations = [world.get_location(loc) for loc in dungeon_reward_locations]
+        reward_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_locations)
         fill_restrictive(world.multiworld, prefill_state, reward_locations, songs, single_player_placement=True, lock=True)
         return
     
