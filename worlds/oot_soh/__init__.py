@@ -455,6 +455,7 @@ class SohWorld(World):
             "complete_mask_quest": self.options.complete_mask_quest.value,
             "skip_scarecrows_song": self.options.skip_scarecrows_song.value,
             "start_with_kokiri_sword": self.options.start_with_kokiri_sword.value,
+            "start_with_deku_shield": self.options.start_with_deku_shield.value,
             "full_wallets": self.options.full_wallets.value,
             "bombchu_bag": self.options.bombchu_bag.value,
             "bombchu_drops": self.options.bombchu_drops.value,

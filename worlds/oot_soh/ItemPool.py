@@ -670,4 +670,8 @@ def give_starting_items(world: "SohWorld") -> None:
     if world.options.start_with_kokiri_sword:
         world.push_precollected(world.create_item(Items.KOKIRI_SWORD))
 
+    # doesn't actually do anything logically since deku shields can be lost
+    if world.options.start_with_deku_shield:
+        world.push_precollected(world.create_item(Items.DEKU_SHIELD))
+
     

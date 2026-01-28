@@ -28,6 +28,7 @@ default_options: dict[str, Any] = {
     "sunlight_arrows":          Toggle.option_false,
     "starting_age":             StartingAge.option_child,
     "start_with_kokiri_sword":  Toggle.option_false,
+    "start_with_deku_shield":   Toggle.option_false,
 }
 
 beginner_options = {
