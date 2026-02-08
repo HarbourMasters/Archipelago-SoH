@@ -148,8 +148,7 @@ class SohWorld(World):
         if self.options.shuffle_skull_tokens:
             if self.options.shuffle_skull_tokens == "dungeon":
                 self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
-
-            if self.options.shuffle_skull_tokens == "overworld":
+            elif self.options.shuffle_skull_tokens == "overworld":
                 self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
                 
             self.randomized_progressive_skulltula_count = progressive_skulltula_count - self.vanilla_progressive_skulltula_count
