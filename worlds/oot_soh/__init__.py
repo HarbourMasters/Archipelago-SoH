@@ -146,15 +146,13 @@ class SohWorld(World):
                                                self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
         if self.options.shuffle_skull_tokens:
-            self.randomized_progressive_skulltula_count = progressive_skulltula_count
-
             if self.options.shuffle_skull_tokens == "dungeon":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
 
             if self.options.shuffle_skull_tokens == "overworld":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
+                
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count - self.vanilla_progressive_skulltula_count
         else:
             self.vanilla_progressive_skulltula_count = progressive_skulltula_count
 
