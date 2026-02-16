@@ -152,7 +152,12 @@ def pre_fill_keys(world: "SohWorld") -> None:
             empty_locations = world.get_empty_locations_from_list_shuffled(key_shuffle_locations[shuffle_location])
             key_items = [world.create_item(str(key)) for key in keys]
 
-            fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True)
+            
+            fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True, allow_partial=True)
+
+            if len(key_items) > 0:
+                world.item_pool.extend(key_items)
+                world.multiworld.itempool.extend(key_items)
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items: option_mapping]:
     return {
