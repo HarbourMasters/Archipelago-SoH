@@ -154,9 +154,8 @@ def pre_fill_keys(world: "SohWorld") -> None:
 
             fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True, allow_partial=True)
 
-            if len(key_items) > 0:
-                world.item_pool.extend(key_items)
-                world.multiworld.itempool.extend(key_items)
+            # Add any unplaced items to the item pool
+            world.add_items_to_item_pool_list(key_items)
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items: option_mapping]:
     return {

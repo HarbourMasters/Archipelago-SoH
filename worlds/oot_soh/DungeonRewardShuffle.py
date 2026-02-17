@@ -46,5 +46,7 @@ def pre_fill_dungeon(world: "SohWorld") -> None:
     prefill_state = world.get_pre_fill_state()
 
     # Place dungeon rewards
-    fill_restrictive(world.multiworld, prefill_state, dungeon_reward_locations,
-                     dungeon_reward_items, single_player_placement=True, lock=True)
+    fill_restrictive(world.multiworld, prefill_state, dungeon_reward_locations, dungeon_reward_items, single_player_placement=True, lock=True, allow_partial=True)
+
+    # Add any unplaced items to the item pool
+    world.add_items_to_item_pool_list(dungeon_reward_items)

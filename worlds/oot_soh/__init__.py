@@ -358,6 +358,11 @@ class SohWorld(World):
 
         return changed
 
+    def add_items_to_item_pool_list(self, items: list[SohItem]) -> None:
+        if len(items) > 0:
+            self.item_pool.extend(items)
+            self.multiworld.itempool.extend(items)
+
     # For debugging purposes
     # def generate_output(self, output_directory: str):
     #    from Utils import visualize_regions

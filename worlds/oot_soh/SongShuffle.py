@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule
 from Fill import fill_restrictive
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, Location
 
 from . import SohItem
 from .Locations import Locations, location_name_groups
@@ -80,6 +80,7 @@ def pre_fill_songs(world: "SohWorld") -> None:
     remove_song_reservations(world)
 
     songs = list[SohItem]()
+    song_locations = list[Location]()
     for item in get_prefill_songs(world):
         songs.append(world.create_item(item))
         world.pre_fill_pool.remove(item)
@@ -90,13 +91,10 @@ def pre_fill_songs(world: "SohWorld") -> None:
 
     if world.options.shuffle_songs == "song_locations":
         song_locations = world.get_empty_locations_from_list_shuffled(song_vanilla_locations.keys())
-        fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True)
-        return
+    elif world.options.shuffle_songs == "dungeon_rewards":
+        song_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_locations)
 
-    if world.options.shuffle_songs == "dungeon_rewards":
-        reward_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_locations)
-        fill_restrictive(world.multiworld, prefill_state, reward_locations, songs, single_player_placement=True, lock=True)
-        return
+    fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True, allow_partial=True)
     
-
-
+    # Add any unplaced items to the item pool
+    world.add_items_to_item_pool_list(songs)
