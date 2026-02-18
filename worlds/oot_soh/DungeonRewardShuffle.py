@@ -27,7 +27,7 @@ def remove_dungeon_reward_reservations(world: "SohWorld"):
             location.item = None
             location.locked = False
 
-def pre_fill_dungeon(world: "SohWorld") -> None:
+def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
     if world.options.shuffle_dungeon_rewards != "dungeons":
          return
 

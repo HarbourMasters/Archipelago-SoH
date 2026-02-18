@@ -13,8 +13,8 @@ from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
-from .DungeonRewardShuffle import pre_fill_dungeon, get_pre_fill_rewards
-from .KeyShuffle import pre_fill_keys, get_pre_fill_keys
+from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
+from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_any_dungeon_prefill_items, get_overworld_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
 from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
@@ -181,8 +181,10 @@ class SohWorld(World):
         # generate the prefill pool
         self.pre_fill_pool += get_pre_fill_rewards(self)
         self.pre_fill_pool += get_prefill_songs(self)
-        for key_shuffle in get_pre_fill_keys(self).values():
+        for key_shuffle in get_own_dungeon_prefill_items(self).values():
             self.pre_fill_pool += key_shuffle
+        self.pre_fill_pool += get_any_dungeon_prefill_items(self)
+        self.pre_fill_pool += get_overworld_prefill_items(self)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?
@@ -301,9 +303,11 @@ class SohWorld(World):
     def pre_fill(self) -> None:
         original_completion_goal = self.multiworld.completion_condition[self.player]
 
-        pre_fill_dungeon(self)
+        pre_fill_own_dungeon_items(self)
+        pre_fill_dungeon_rewards(self)
         pre_fill_songs(self)
-        pre_fill_keys(self)
+        pre_fill_any_dungeon_keys(self)
+        pre_fill_overworld_items(self)
         fill_shop_items(self)
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
