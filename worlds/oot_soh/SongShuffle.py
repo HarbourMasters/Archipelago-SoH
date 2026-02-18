@@ -94,7 +94,8 @@ def pre_fill_songs(world: "SohWorld") -> None:
     elif world.options.shuffle_songs == "dungeon_rewards":
         song_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_locations)
 
-    fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True, allow_partial=True)
+    fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True, allow_partial=world.settings.enable_plando_fixes)
     
     # Add any unplaced items to the item pool
-    world.add_items_to_item_pool_list(songs)
+    if world.settings.enable_plando_fixes:
+        world.add_items_to_item_pool_list(songs)

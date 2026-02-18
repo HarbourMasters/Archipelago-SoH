@@ -152,10 +152,11 @@ def pre_fill_keys(world: "SohWorld") -> None:
             empty_locations = world.get_empty_locations_from_list_shuffled(key_shuffle_locations[shuffle_location])
             key_items = [world.create_item(str(key)) for key in keys]
 
-            fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True, allow_partial=True)
+            fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True, allow_partial=world.settings.enable_plando_fixes)
 
             # Add any unplaced items to the item pool
-            world.add_items_to_item_pool_list(key_items)
+            if world.settings.enable_plando_fixes:
+                world.add_items_to_item_pool_list(key_items)
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items: option_mapping]:
     return {

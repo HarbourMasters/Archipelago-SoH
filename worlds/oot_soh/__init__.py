@@ -53,7 +53,15 @@ class SohSettings(Group):
         Do not enable this if you don't trust the players using it to play responsibly.
         """
 
+    class EnablePlandoFixes(Bool):
+        """
+        Attempts to prevent prefill errors from preventing generation.
+        This will take any items that couldn't be placed in prefill (Keys, Maps, Compasses, Dungeon Rewards, Songs, etc) and add them to the item pool.
+        When generating a real game this should probabaly be enabled as it prevents errors while generating. Really meant as a debugging option.
+        """
+
     allow_true_no_logic: AllowTrueNoLogic | bool = False
+    enable_plando_fixes: EnablePlandoFixes | bool = True
 
 
 class SohWorld(World):
