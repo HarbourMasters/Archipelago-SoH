@@ -51,26 +51,15 @@ def reserve_song_locations(world: "SohWorld") -> None:
     if world.options.shuffle_songs in ("off", "anywhere"):
         return
     
-    reservation_locations = list[Locations]()
-
     if world.options.shuffle_songs == "song_locations":
-        reservation_locations = list(song_vanilla_locations.keys())
+        world.reserved_pre_fill_locations += list(song_vanilla_locations.keys())
     if world.options.shuffle_songs == "dungeon_rewards":
-        reservation_locations = dungeon_reward_song_locations
-
-    for song_location in reservation_locations:
-        location = world.get_location(song_location)
-        location.place_locked_item(world.create_item(Items.RESERVATION))
+        world.reserved_pre_fill_locations += dungeon_reward_song_locations
 
 def remove_song_reservations(world: "SohWorld") -> None:
-    reservation_locations = list(song_vanilla_locations.keys())
-    reservation_locations += dungeon_reward_song_locations
-
-    for song_location in reservation_locations:
-        location = world.get_location(song_location)
-        if location.item == world.create_item(Items.RESERVATION):
-            location.item = None
-            location.locked = False
+    song_locations = list(song_vanilla_locations.keys())
+    song_locations += dungeon_reward_song_locations
+    world.reserved_pre_fill_locations = [loc for loc in world.reserved_pre_fill_locations if loc not in song_locations]
 
 def pre_fill_songs(world: "SohWorld") -> None:
     # Do not prefill songs anywhere in particular

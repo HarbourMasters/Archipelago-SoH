@@ -16,16 +16,10 @@ def reserve_dungeon_reward_locations(world: "SohWorld"):
     if world.options.shuffle_dungeon_rewards != "dungeons":
          return
 
-    for reward_location in dungeon_reward_item_mapping.keys():
-        location = world.get_location(reward_location)
-        location.place_locked_item(world.create_item(Items.RESERVATION))
+    world.reserved_pre_fill_locations += list(dungeon_reward_item_mapping.keys())
 
 def remove_dungeon_reward_reservations(world: "SohWorld"):
-    for reward_location in dungeon_reward_item_mapping.keys():
-        location = world.get_location(reward_location)
-        if location.item == world.create_item(Items.RESERVATION):
-            location.item = None
-            location.locked = False
+    world.reserved_pre_fill_locations = [loc for loc in world.reserved_pre_fill_locations if loc not in dungeon_reward_item_mapping.keys()]
 
 def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
     if world.options.shuffle_dungeon_rewards != "dungeons":

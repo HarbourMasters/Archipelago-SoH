@@ -5,6 +5,7 @@ from typing import Any, ClassVar
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld, World
+from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
@@ -87,6 +88,7 @@ class SohWorld(World):
         self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.pre_fill_pool = list[Items]()
+        self.reserved_pre_fill_locations = list[Locations]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -214,10 +216,13 @@ class SohWorld(World):
             fill_shop_items(self)
 
     def reserve_prefill_locations(self) -> None:
+        # songs and medalion locations get a soft reservation, by adding them to the reserved location list
+        # pre-fill is not allowed to place items there, but plando is allowed
         DungeonRewardShuffle.reserve_dungeon_reward_locations(self)
         SongShuffle.reserve_song_locations(self)
-        # Currently no reservations for key shuffle, 
-        # we can't know for sure what locations will get used and reserving everything is too restrictive
+
+        # vanilla shop locations get a hard reservation, by placing a RESERVATION item there
+        # pre-fill and plando are not allowed to place items there
         ShopItems.reserve_vanilla_shop_locations(self)
 
     def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
@@ -312,6 +317,27 @@ class SohWorld(World):
         fill_shop_items(self)
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
+
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None):
+        # check if we're using specific collectionstate
+        if prefill_state is None:
+            for item in item_pool:
+                if item in self.pre_fill_pool: 
+                    self.pre_fill_pool.remove(item)
+            
+            prefill_state = self.get_pre_fill_state()
+        
+        # set region accessability of locations as the goal
+        accessable_region_goal = {self.get_location(loc).parent_region for loc in locations if self.get_location(loc).parent_region != None}
+        self.multiworld.completion_condition[self.player] = lambda state: all([state.can_reach(reg) for reg in accessable_region_goal])
+
+        # get empty, non reserved locations
+        non_reserved_locations = [loc for loc in locations if loc not in self.reserved_pre_fill_locations]
+        empty_locations = self.get_empty_locations_from_list_shuffled(non_reserved_locations)
+        items = [self.create_item(str(item)) for item in item_pool]
+
+        fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
+
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)

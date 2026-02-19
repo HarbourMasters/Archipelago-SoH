@@ -600,7 +600,7 @@ def create_filler_item_pool(world: "SohWorld") -> None:
 
 def get_open_location_count(world: "SohWorld") -> int:
     open_location_count = len(world.multiworld.get_unfilled_locations(
-        world.player)) - len(world.item_pool)
+        world.player)) - len(world.item_pool) - len(world.reserved_pre_fill_locations)
 
     if world.options.boss_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
         open_location_count -= 5
