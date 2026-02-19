@@ -27,18 +27,10 @@ def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
 
     remove_dungeon_reward_reservations(world)
 
-    dungeon_reward_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_item_mapping.keys())
-    
-    dungeon_reward_items = list[SohItem]()
-    for item in get_pre_fill_rewards(world):
-        world.pre_fill_pool.remove(item)
-        dungeon_reward_items.append(world.create_item(item))
+    dungeon_reward_locations = list(dungeon_reward_item_mapping.keys())
+    dungeon_reward_items = get_pre_fill_rewards(world)
 
     completion_items = [c.name for c in dungeon_reward_items]
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all(completion_items, world.player)
+    rewards_goal = lambda state: state.has_all(completion_items, world.player)
 
-    prefill_state = world.get_pre_fill_state()
-
-    # Place dungeon rewards
-    fill_restrictive(world.multiworld, prefill_state, dungeon_reward_locations,
-                     dungeon_reward_items, single_player_placement=True, lock=True)
+    world.run_prefill(dungeon_reward_items, dungeon_reward_locations, goal=rewards_goal)
