@@ -184,15 +184,6 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
                     world.pre_fill_pool.remove(key)
 
             prefill_state = world.get_pre_fill_state()
-            found = False
-            for other_location, other_keys in key_shuffle_keys.items():
-                if shuffle_location == other_location:
-                    found = True
-                    continue
-                if found:
-                    for other_key in other_keys:
-                        prefill_state.collect(world.create_item(other_key), True)
-            prefill_state.sweep_for_advancements()
 
             empty_locations = world.get_empty_locations_from_list_shuffled(key_shuffle_locations[shuffle_location])
             key_items = [world.create_item(str(key)) for key in keys]
@@ -229,7 +220,6 @@ def pre_fill_any_dungeon_keys(world: "SohWorld") -> None:
                 world.pre_fill_pool.remove(item)
 
         prefill_state = world.get_pre_fill_state()
-        prefill_state.sweep_for_advancements()
 
         empty_locations = world.get_empty_locations_from_list_shuffled(any_dungeon_locations)
         key_items = [world.create_item(str(item)) for item in any_dungeon_items]
@@ -263,7 +253,6 @@ def pre_fill_overworld_items(world: "SohWorld") -> None:
                 world.pre_fill_pool.remove(item)
 
         prefill_state = world.get_pre_fill_state()
-        prefill_state.sweep_for_advancements()
 
         empty_locations = world.get_empty_locations_from_list_shuffled(overworld_locations)
         key_items = [world.create_item(str(item)) for item in overworld_items]
