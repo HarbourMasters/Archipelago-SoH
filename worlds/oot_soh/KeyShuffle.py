@@ -169,6 +169,14 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
                 if data.key_suffle_location != None:
                     key_shuffle_locations[data.key_suffle_location].append(Locations(name))
 
+        # remove the keys from the pre-fill pool
+        for keys in key_shuffle_keys.values():
+            for key in keys:
+                world.pre_fill_pool.remove(key)
+        
+        # get a single pre-fill state, this state is shared between the different dungeons but that's fine
+        prefill_state = world.get_pre_fill_state()
+
         # Resolve own_dungeon
         for shuffle_location, keys in key_shuffle_keys.items():
             if not keys:
@@ -177,13 +185,6 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
             # use full dungeon accessability as the goal for filling
             own_dungeon_location_goal = [world.get_location(loc) for loc in key_shuffle_locations[shuffle_location]]
             world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in own_dungeon_location_goal])
-
-            # remove items from the prefill pool
-            for key in keys:
-                if key in world.pre_fill_pool: 
-                    world.pre_fill_pool.remove(key)
-
-            prefill_state = world.get_pre_fill_state()
 
             empty_locations = world.get_empty_locations_from_list_shuffled(key_shuffle_locations[shuffle_location])
             key_items = [world.create_item(str(key)) for key in keys]
