@@ -148,117 +148,49 @@ def get_overworld_prefill_items(world: "SohWorld") -> list[Items]:
         return overworld_items
 
 def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
-        all_locations: list[str] = [location.name for location in world.multiworld.get_unfilled_locations(world.player)]
-        reserved_locations: list[Locations] = []
-
-        # Reserve dungeon reward locations if a dungeon reward should be there
-        if world.options.shuffle_dungeon_rewards != "anywhere":
-            reserved_locations += list(dungeon_reward_item_mapping.keys())
-
-        if world.options.shuffle_songs == "dungeon_rewards":
-            reserved_locations += dungeon_reward_song_locations
-
-        key_shuffle_keys = get_own_dungeon_prefill_items(world)
+        own_dungeon_items = get_own_dungeon_prefill_items(world)
         key_shuffle_locations = dict[KeyShuffleLocations, list[Locations]]()
-        for location_type in KeyShuffleLocations:
-            key_shuffle_locations[location_type] = list[Locations]()
+        for location in world.multiworld.get_unfilled_locations(world.player):
+            name = location.name
+            if name not in location_data_table:
+                continue
 
-        # This loops through all unfilled locations in the players world, removes any from our reserved list (Shops and Dungeon Rewards if applicable), then sorts them into three categories: Overworld, Any Dungeon, and Own Dungeon
-        for name, data in location_data_table.items():
-            if name in all_locations and name not in reserved_locations:
-                if data.key_suffle_location != None:
-                    key_shuffle_locations[data.key_suffle_location].append(Locations(name))
+            dungeon = location_data_table[name].key_suffle_location
+            if dungeon == None:
+                continue
 
-        # remove the keys from the pre-fill pool
-        for keys in key_shuffle_keys.values():
-            for key in keys:
-                world.pre_fill_pool.remove(key)
+            if dungeon not in key_shuffle_locations:
+                key_shuffle_locations[dungeon] = list()
+                
+            key_shuffle_locations[dungeon].append(Locations(name))
+
+        # remove the items from the pre-fill pool
+        for items in own_dungeon_items.values():
+            for item in items:
+                world.pre_fill_pool.remove(item)
         
         # get a single pre-fill state, this state is shared between the different dungeons but that's fine
         prefill_state = world.get_pre_fill_state()
 
         # Resolve own_dungeon
-        for shuffle_location, keys in key_shuffle_keys.items():
-            if not keys:
+        for dungeon, items in own_dungeon_items.items():
+            if not items:
                 continue
 
-            # use full dungeon accessability as the goal for filling
-            own_dungeon_location_goal = [world.get_location(loc) for loc in key_shuffle_locations[shuffle_location]]
-            world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in own_dungeon_location_goal])
-
-            empty_locations = world.get_empty_locations_from_list_shuffled(key_shuffle_locations[shuffle_location])
-            key_items = [world.create_item(str(key)) for key in keys]
-
-            fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True) 
+            world.run_prefill(items, key_shuffle_locations[dungeon], prefill_state)
 
 def pre_fill_any_dungeon_keys(world: "SohWorld") -> None:
-        all_locations: list[str] = [location.name for location in world.multiworld.get_unfilled_locations(world.player)]
-        reserved_locations: list[Locations] = []
-
-        # Reserve dungeon reward locations if a dungeon reward should be there
-        if world.options.shuffle_dungeon_rewards != "anywhere":
-            reserved_locations += [location for location in dungeon_reward_item_mapping.keys()]
-
-        if world.options.shuffle_songs == "dungeon_rewards":
-            reserved_locations += dungeon_reward_song_locations
-
         any_dungeon_items = get_any_dungeon_prefill_items(world)
-        any_dungeon_locations = list[Locations]()
+        all_dungeon_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
+                                                if location_data_table[loc.name].key_suffle_location != None]
 
-        # This loops through all unfilled locations in the players world, removes any from our reserved list (Shops and Dungeon Rewards if applicable), then sorts them into three categories: Overworld, Any Dungeon, and Own Dungeon
-        for name, data in location_data_table.items():
-            if name in all_locations and name not in reserved_locations:
-                if data.key_suffle_location != None:
-                    any_dungeon_locations.append(Locations(name))
-
-        # use full dungeon accessability as the goal for filling
-        all_dungeon_location_goal = [world.get_location(loc) for loc in any_dungeon_locations]
-        world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in all_dungeon_location_goal])
-
-        # Resolve any_dungeon
-        for item in any_dungeon_items:
-            if item in world.pre_fill_pool: 
-                world.pre_fill_pool.remove(item)
-
-        prefill_state = world.get_pre_fill_state()
-
-        empty_locations = world.get_empty_locations_from_list_shuffled(any_dungeon_locations)
-        key_items = [world.create_item(str(item)) for item in any_dungeon_items]
-
-        fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True)
+        world.run_prefill(any_dungeon_items, all_dungeon_locations)
 
 def pre_fill_overworld_items(world: "SohWorld") -> None:
-        all_locations: list[str] = [location.name for location in world.multiworld.get_unfilled_locations(world.player)]
-        reserved_locations: list[Locations] = []
-
-        # Reserve Shop Locations
-        for shop_loc in get_vanilla_shop_locations(world):
-            reserved_locations.append(Locations(shop_loc))
-
         overworld_items = get_overworld_prefill_items(world)
-        overworld_locations = list[Locations]()
-
-        # This loops through all unfilled locations in the players world, removes any from our reserved list (Shops and Dungeon Rewards if applicable), then sorts them into three categories: Overworld, Any Dungeon, and Own Dungeon
-        for name, data in location_data_table.items():
-            if name in all_locations and name not in reserved_locations:
-                if data.key_suffle_location == None:
-                    overworld_locations.append(Locations(name))
-
-        # use full dungeon accessability as the goal for filling
-        all_dungeon_location_goal = [world.get_location(loc) for loc in overworld_locations]
-        world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in all_dungeon_location_goal])
-
-        # Resolve overworld
-        for item in overworld_items:
-            if item in world.pre_fill_pool: 
-                world.pre_fill_pool.remove(item)
-
-        prefill_state = world.get_pre_fill_state()
-
-        empty_locations = world.get_empty_locations_from_list_shuffled(overworld_locations)
-        key_items = [world.create_item(str(item)) for item in overworld_items]
-
-        fill_restrictive(world.multiworld, prefill_state, empty_locations, key_items, single_player_placement=True, lock=True)
+        overworld_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
+                                                if location_data_table[loc.name].key_suffle_location == None ]
+        world.run_prefill(overworld_items, overworld_locations)
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items, option_mapping]:
     return {
