@@ -1,7 +1,7 @@
 import orjson
 import pkgutil
 
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Callable
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld, World
@@ -318,7 +318,7 @@ class SohWorld(World):
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
 
-    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None):
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
         # check if we're using specific collectionstate
         if prefill_state is None:
             for item in item_pool:
@@ -327,9 +327,12 @@ class SohWorld(World):
             
             prefill_state = self.get_pre_fill_state()
         
-        # set region accessability of locations as the goal
-        accessable_region_goal = {self.get_location(loc).parent_region for loc in locations if self.get_location(loc).parent_region != None}
-        self.multiworld.completion_condition[self.player] = lambda state: all([state.can_reach(reg) for reg in accessable_region_goal])
+        if goal is None:
+            # set region accessability of locations as the goal
+            accessibility_goal = {self.get_location(loc) for loc in locations}
+            goal = lambda state: all([state.can_reach(reg) for reg in accessibility_goal])
+
+        self.multiworld.completion_condition[self.player] = goal
 
         # get empty, non reserved locations
         non_reserved_locations = [loc for loc in locations if loc not in self.reserved_pre_fill_locations]
