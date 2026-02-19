@@ -249,12 +249,13 @@ class SohWorld(World):
         return locations
 
     def get_pre_fill_state(self) -> CollectionState:
+        my_locations = list(self.multiworld.get_locations(self.player))
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
             prefill_state.collect(item, True)
         for item in self.pre_fill_pool:
             prefill_state.collect(self.create_item(item), True)
-        prefill_state.sweep_for_advancements()
+        prefill_state.sweep_for_advancements(my_locations)
         return prefill_state
     
     def set_rules(self) -> None:
