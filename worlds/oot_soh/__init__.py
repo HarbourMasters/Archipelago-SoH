@@ -246,7 +246,7 @@ class SohWorld(World):
         locations = []
         for location in location_list:
             loc = self.get_location(str(location))
-            if loc.item != None or loc.locked:
+            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations:
                 continue
             locations.append(loc)
         self.random.shuffle(locations)
@@ -335,8 +335,7 @@ class SohWorld(World):
         self.multiworld.completion_condition[self.player] = goal
 
         # get empty, non reserved locations
-        non_reserved_locations = [loc for loc in locations if loc not in self.reserved_pre_fill_locations]
-        empty_locations = self.get_empty_locations_from_list_shuffled(non_reserved_locations)
+        empty_locations = self.get_empty_locations_from_list_shuffled(locations)
         items = [self.create_item(str(item)) for item in item_pool]
 
         fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
