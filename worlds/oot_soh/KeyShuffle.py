@@ -3,11 +3,9 @@ from collections import namedtuple
 from Fill import fill_restrictive
 
 from .Items import Items, item_data_table
-from .Locations import Location, location_data_table
-from .Regions import dungeon_reward_item_mapping, map_and_compass_vanilla_mapping
+from .Locations import location_data_table
+from .Regions import map_and_compass_vanilla_mapping
 from .Enums import KeyShuffleLocations, Locations
-from .ShopItems import get_vanilla_shop_locations
-from .SongShuffle import dungeon_reward_song_locations
 from .LogicHelpers import key_to_ring
 
 if TYPE_CHECKING:
@@ -67,17 +65,22 @@ def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[KeyShuffleLocations
 
         return key_shuffle_locations
 
-def get_any_dungeon_prefill_items(world: "SohWorld") -> list[Items]:
-        any_dungeon_items = list[Items]()
+
+def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -> list[Items]:
+        shuffle_items = list[Items]()
+
+        shuffle_setting = "any_dungeon"
+        if overworld_shuffle:
+             shuffle_setting = "overworld"
 
         # Boss Keys
-        if world.options.boss_key_shuffle == "any_dungeon":
-            any_dungeon_items += [Items.FOREST_TEMPLE_BOSS_KEY, Items.FIRE_TEMPLE_BOSS_KEY, Items.WATER_TEMPLE_BOSS_KEY, Items.SPIRIT_TEMPLE_BOSS_KEY, Items.SHADOW_TEMPLE_BOSS_KEY]
+        if world.options.boss_key_shuffle == shuffle_setting:
+            shuffle_items += [Items.FOREST_TEMPLE_BOSS_KEY, Items.FIRE_TEMPLE_BOSS_KEY, Items.WATER_TEMPLE_BOSS_KEY, Items.SPIRIT_TEMPLE_BOSS_KEY, Items.SHADOW_TEMPLE_BOSS_KEY]
 
         # Small Keys
         small_key_option_mapping = small_key_option_matching(world)
         
-        if world.options.small_key_shuffle == "any_dungeon":
+        if world.options.small_key_shuffle == shuffle_setting:
             # Put the small keys or keyrings in the appropriate pool
             for key, data in small_key_option_mapping.items():
                 key_ring_option = data.Option
@@ -90,62 +93,23 @@ def get_any_dungeon_prefill_items(world: "SohWorld") -> list[Items]:
                     count = data.Quantity
 
                 for _ in range(count):
-                    any_dungeon_items.append(item)
+                    shuffle_items.append(item)
 
         # Gerudo Fortress Keys
         if world.options.fortress_carpenters != "free":
-            if world.options.gerudo_fortress_key_shuffle == "any_dungeon":
+            if world.options.gerudo_fortress_key_shuffle == shuffle_setting:
                 if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla":
-                    any_dungeon_items.append(Items.GERUDO_FORTRESS_KEY_RING)
+                    shuffle_items.append(Items.GERUDO_FORTRESS_KEY_RING)
                 else:
                     for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if world.options.fortress_carpenters == "normal" else 1):
-                        any_dungeon_items.append(Items.GERUDO_FORTRESS_SMALL_KEY)
+                        shuffle_items.append(Items.GERUDO_FORTRESS_SMALL_KEY)
 
         # Maps and Compasses
-        if world.options.maps_and_compasses == "any_dungeon":
-            any_dungeon_items += list(map_and_compass_vanilla_mapping.values())
+        if world.options.maps_and_compasses == shuffle_setting:
+            shuffle_items += list(map_and_compass_vanilla_mapping.values())
 
-        return any_dungeon_items
+        return shuffle_items
         
-def get_overworld_prefill_items(world: "SohWorld") -> list[Items]:
-        overworld_items = list[Items]()
-
-        # Boss Keys
-        if world.options.boss_key_shuffle == "overworld":
-            overworld_items += [Items.FOREST_TEMPLE_BOSS_KEY, Items.FIRE_TEMPLE_BOSS_KEY, Items.WATER_TEMPLE_BOSS_KEY, Items.SPIRIT_TEMPLE_BOSS_KEY, Items.SHADOW_TEMPLE_BOSS_KEY]
-
-        # Small Keys
-        small_key_option_mapping = small_key_option_matching(world)
-        
-        if world.options.small_key_shuffle == "overworld":
-            # Put the small keys or keyrings in the appropriate pool
-            for key, data in small_key_option_mapping.items():
-                key_ring_option = data.Option
-
-                if key_ring_option:
-                    item = key_to_ring[key]
-                    count = 1
-                else:
-                    item = key
-                    count = data.Quantity
-
-                for _ in range(count):
-                    overworld_items.append(item)
-
-        # Gerudo Fortress Keys
-        if world.options.fortress_carpenters != "free":
-            if world.options.gerudo_fortress_key_shuffle == "overworld":
-                if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla":
-                    overworld_items.append(Items.GERUDO_FORTRESS_KEY_RING)
-                else:
-                    for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if world.options.fortress_carpenters == "normal" else 1):
-                        overworld_items.append(Items.GERUDO_FORTRESS_SMALL_KEY)
-
-        # Maps and Compasses
-        if world.options.maps_and_compasses == "overworld":
-            overworld_items += list(map_and_compass_vanilla_mapping.values())
-
-        return overworld_items
 
 def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
         own_dungeon_items = get_own_dungeon_prefill_items(world)
@@ -180,14 +144,14 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
             world.run_prefill(items, key_shuffle_locations[dungeon], prefill_state)
 
 def pre_fill_any_dungeon_keys(world: "SohWorld") -> None:
-        any_dungeon_items = get_any_dungeon_prefill_items(world)
+        any_dungeon_items = get_dungeon_item_prefill_items(world, False)
         all_dungeon_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
                                                 if location_data_table[loc.name].key_suffle_location != None]
 
         world.run_prefill(any_dungeon_items, all_dungeon_locations)
 
 def pre_fill_overworld_items(world: "SohWorld") -> None:
-        overworld_items = get_overworld_prefill_items(world)
+        overworld_items = get_dungeon_item_prefill_items(world, True)
         overworld_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
                                                 if location_data_table[loc.name].key_suffle_location == None ]
         world.run_prefill(overworld_items, overworld_locations)

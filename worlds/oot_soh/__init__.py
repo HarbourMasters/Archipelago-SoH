@@ -15,7 +15,7 @@ from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
-from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_any_dungeon_prefill_items, get_overworld_prefill_items
+from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
 from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
@@ -114,6 +114,9 @@ class SohWorld(World):
         if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
             self.options.starting_age.value = 0
 
+        if self.options.closed_forest == "on":
+            self.options.starting_age.value = 0
+
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if not self.options.shuffle_tycoon_wallet.value:
             for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price, self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
@@ -185,8 +188,8 @@ class SohWorld(World):
         self.pre_fill_pool += get_prefill_songs(self)
         for key_shuffle in get_own_dungeon_prefill_items(self).values():
             self.pre_fill_pool += key_shuffle
-        self.pre_fill_pool += get_any_dungeon_prefill_items(self)
-        self.pre_fill_pool += get_overworld_prefill_items(self)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, False)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?

@@ -71,14 +71,13 @@ def pre_fill_songs(world: "SohWorld") -> None:
     songs = get_prefill_songs(world)
 
     reward_goal_locations = [world.get_location(loc) for loc in location_name_groups["Bosses"]]
-    goal = lambda state: all([state.can_reach(loc) for loc in reward_goal_locations])
-
+    
     if world.options.shuffle_songs == "song_locations":
-        world.run_prefill(songs, list(song_vanilla_locations.keys()), goal=goal)
+        world.run_prefill(songs, list(song_vanilla_locations.keys()))
         return
 
     if world.options.shuffle_songs == "dungeon_rewards":
-        world.run_prefill(songs, list(dungeon_reward_song_locations), goal=goal)
+        world.run_prefill(songs, list(dungeon_reward_song_locations))
         return
     
 
