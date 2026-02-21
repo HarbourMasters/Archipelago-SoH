@@ -466,6 +466,7 @@ class SohWorld(World):
             "start_with_ocarina": self.options.start_with_ocarina.value,
             "start_with_stick_ammo": self.options.start_with_stick_ammo.value,
             "start_with_nut_ammo": self.options.start_with_nut_ammo.value,
+            "start_with_magic_beans": self.options.start_with_magic_beans.value,
             "full_wallets": self.options.full_wallets.value,
             "bombchu_bag": self.options.bombchu_bag.value,
             "bombchu_drops": self.options.bombchu_drops.value,

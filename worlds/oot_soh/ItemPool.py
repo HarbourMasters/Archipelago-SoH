@@ -124,10 +124,10 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
 
     # Merchants
-    if world.options.shuffle_merchants == "bean_merchant_only" or world.options.shuffle_merchants == "all":
+    if world.options.shuffle_merchants in ("all", "bean_merchant_only") and not world.options.start_with_magic_beans:
         items_to_create[Items.MAGIC_BEAN_PACK] = 1
 
-    if world.options.shuffle_merchants == "all_but_beans" or world.options.shuffle_merchants == "all":
+    if world.options.shuffle_merchants in ("all", "all_but_beans"):
         items_to_create[Items.GIANTS_KNIFE] = 1
 
     # Adult Trade Items
@@ -321,7 +321,7 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.shuffle_ocarinas and not world.options.start_with_ocarina == "ocarina_of_time":
                 items_to_create[Items.PROGRESSIVE_OCARINA] += 1
 
-            if world.options.shuffle_merchants in ("all", "bean_merchant_only"):
+            if world.options.shuffle_merchants in ("all", "bean_merchant_only") and not world.options.start_with_magic_beans:
                 items_to_create[Items.MAGIC_BEAN_PACK] += 1
 
             if world.options.shuffle_skull_tokens:
@@ -687,6 +687,8 @@ def give_starting_items(world: "SohWorld") -> None:
         world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
         world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
     
+    if world.options.start_with_magic_beans:
+        world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK))
     
 
     

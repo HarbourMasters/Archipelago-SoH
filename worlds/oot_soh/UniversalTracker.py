@@ -108,6 +108,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.start_with_ocarina.value = world.passthrough["start_with_ocarina"]
             world.options.start_with_stick_ammo.value = world.passthrough["start_with_stick_ammo"]
             world.options.start_with_nut_ammo.value = world.passthrough["start_with_nut_ammo"]
+            world.options.start_with_magic_beans = world.passthrough["start_with_magic_beans"]
             world.options.full_wallets.value = world.passthrough["full_wallets"]
             world.options.bombchu_bag.value = world.passthrough["bombchu_bag"]
             world.options.bombchu_drops.value = world.passthrough["bombchu_drops"]

@@ -1139,6 +1139,12 @@ class StartWithNutAmmo(Toggle):
     """
     display_name = "Start with Nut ammo"
 
+class StartWithMagicBeans(Toggle):
+    """
+    Start with a pouch of Magic Beans
+    """
+    display_name = "Start with Magic Beans"
+
 class ItemPool(Choice):
     """
     Sets how many major items appear in the item pool.
@@ -1250,7 +1256,7 @@ class SohOptions(PerGameCommonOptions):
     start_with_ocarina: StartWithOcarina
     start_with_stick_ammo: StartWithStickAmmo
     start_with_nut_ammo: StartWithNutAmmo
-    #StartWithMagicBeans
+    start_with_magic_beans: StartWithMagicBeans
     #StartWithZeldasLullaby
     #StartWithEponasSong
     #StartWithSariasSong
@@ -1417,7 +1423,7 @@ soh_option_groups = [
         StartWithOcarina,
         StartWithStickAmmo,
         StartWithNutAmmo,
-        #StartWithMagicBeans,
+        StartWithMagicBeans,
         #StartWithZeldasLullaby,
         #StartWithEponasSong,
         #StartWithSariasSong,
