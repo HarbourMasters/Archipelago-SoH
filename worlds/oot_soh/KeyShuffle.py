@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING
 from collections import namedtuple
-from Fill import fill_restrictive
 
 from .Items import Items, item_data_table
 from .Locations import location_data_table
 from .Regions import map_and_compass_vanilla_mapping
-from .Enums import KeyShuffleLocations, Locations
+from .Enums import DungeonLocations, Locations
 from .LogicHelpers import key_to_ring
 
 if TYPE_CHECKING:
@@ -13,18 +12,18 @@ if TYPE_CHECKING:
 
 option_mapping = namedtuple('Key_Mapping', ['Dungeon', 'Option', 'Quantity'])
 
-def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[KeyShuffleLocations, list[Items]]:
-        key_shuffle_locations = dict[KeyShuffleLocations, list[Items]]()
-        for location_type in KeyShuffleLocations:
+def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[DungeonLocations, list[Items]]:
+        key_shuffle_locations = dict[DungeonLocations, list[Items]]()
+        for location_type in DungeonLocations:
             key_shuffle_locations[location_type] = list[Items]()
 
         # Boss Keys
         if world.options.boss_key_shuffle == "own_dungeon":
-            key_shuffle_locations[KeyShuffleLocations.FOREST_TEMPLE].append(Items.FOREST_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[KeyShuffleLocations.FIRE_TEMPLE].append(Items.FIRE_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[KeyShuffleLocations.WATER_TEMPLE].append(Items.WATER_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[KeyShuffleLocations.SPIRIT_TEMPLE].append(Items.SPIRIT_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[KeyShuffleLocations.SHADOW_TEMPLE].append(Items.SHADOW_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[DungeonLocations.FOREST_TEMPLE].append(Items.FOREST_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[DungeonLocations.FIRE_TEMPLE].append(Items.FIRE_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[DungeonLocations.WATER_TEMPLE].append(Items.WATER_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[DungeonLocations.SPIRIT_TEMPLE].append(Items.SPIRIT_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[DungeonLocations.SHADOW_TEMPLE].append(Items.SHADOW_TEMPLE_BOSS_KEY)
 
         # Small Keys
         small_key_option_mapping = small_key_option_matching(world)
@@ -47,17 +46,17 @@ def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[KeyShuffleLocations
 
         # Maps and Compasses
         if world.options.maps_and_compasses == "own_dungeon":
-            map_and_compass_dungeon_mapping: dict[KeyShuffleLocations, list[Items]] = {
-                KeyShuffleLocations.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
-                KeyShuffleLocations.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
-                KeyShuffleLocations.JABU_JABUS_BELLY : [Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS],
-                KeyShuffleLocations.FOREST_TEMPLE : [Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS],
-                KeyShuffleLocations.FIRE_TEMPLE : [Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS],
-                KeyShuffleLocations.WATER_TEMPLE : [Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS],
-                KeyShuffleLocations.SPIRIT_TEMPLE : [Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS],
-                KeyShuffleLocations.SHADOW_TEMPLE : [Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS],
-                KeyShuffleLocations.BOTTOM_OF_THE_WELL : [Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS],
-                KeyShuffleLocations.ICE_CAVERN : [Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]
+            map_and_compass_dungeon_mapping: dict[DungeonLocations, list[Items]] = {
+                DungeonLocations.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
+                DungeonLocations.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
+                DungeonLocations.JABU_JABUS_BELLY : [Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS],
+                DungeonLocations.FOREST_TEMPLE : [Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS],
+                DungeonLocations.FIRE_TEMPLE : [Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS],
+                DungeonLocations.WATER_TEMPLE : [Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS],
+                DungeonLocations.SPIRIT_TEMPLE : [Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS],
+                DungeonLocations.SHADOW_TEMPLE : [Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS],
+                DungeonLocations.BOTTOM_OF_THE_WELL : [Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS],
+                DungeonLocations.ICE_CAVERN : [Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]
             }
 
             for shuffle_location, items in map_and_compass_dungeon_mapping.items():
@@ -113,13 +112,13 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
 
 def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
         own_dungeon_items = get_own_dungeon_prefill_items(world)
-        key_shuffle_locations = dict[KeyShuffleLocations, list[Locations]]()
+        key_shuffle_locations = dict[DungeonLocations, list[Locations]]()
         for location in world.multiworld.get_unfilled_locations(world.player):
             name = location.name
             if name not in location_data_table:
                 continue
 
-            dungeon = location_data_table[name].key_suffle_location
+            dungeon = location_data_table[name].dungeon_tag
             if dungeon == None:
                 continue
 
@@ -146,24 +145,24 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
 def pre_fill_any_dungeon_keys(world: "SohWorld") -> None:
         any_dungeon_items = get_dungeon_item_prefill_items(world, False)
         all_dungeon_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
-                                                if location_data_table[loc.name].key_suffle_location != None]
+                                                if location_data_table[loc.name].dungeon_tag != None]
 
         world.run_prefill(any_dungeon_items, all_dungeon_locations)
 
 def pre_fill_overworld_items(world: "SohWorld") -> None:
         overworld_items = get_dungeon_item_prefill_items(world, True)
         overworld_locations:list[Locations] = [Locations(loc.name) for loc in world.multiworld.get_unfilled_locations(world.player)
-                                                if location_data_table[loc.name].key_suffle_location == None ]
+                                                if location_data_table[loc.name].dungeon_tag == None ]
         world.run_prefill(overworld_items, overworld_locations)
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items, option_mapping]:
     return {
-            Items.FOREST_TEMPLE_SMALL_KEY: option_mapping(KeyShuffleLocations.FOREST_TEMPLE, world.options.forest_temple_key_ring, item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.FIRE_TEMPLE_SMALL_KEY: option_mapping(KeyShuffleLocations.FIRE_TEMPLE, world.options.fire_temple_key_ring, item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.WATER_TEMPLE_SMALL_KEY: option_mapping(KeyShuffleLocations.WATER_TEMPLE, world.options.water_temple_key_ring, item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.SPIRIT_TEMPLE_SMALL_KEY: option_mapping(KeyShuffleLocations.SPIRIT_TEMPLE, world.options.spirit_temple_key_ring, item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.SHADOW_TEMPLE_SMALL_KEY: option_mapping(KeyShuffleLocations.SHADOW_TEMPLE, world.options.shadow_temple_key_ring, item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: option_mapping(KeyShuffleLocations.BOTTOM_OF_THE_WELL, world.options.bottom_of_the_well_key_ring, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
-            Items.GANONS_CASTLE_SMALL_KEY: option_mapping(KeyShuffleLocations.GANONS_CASTLE, world.options.ganons_castle_key_ring, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
-            Items.TRAINING_GROUND_SMALL_KEY: option_mapping(KeyShuffleLocations.GERUDO_TRAINING_GROUNDS, world.options.gerudo_training_ground_key_ring, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
+            Items.FOREST_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.FOREST_TEMPLE, world.options.forest_temple_key_ring, item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.FIRE_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.FIRE_TEMPLE, world.options.fire_temple_key_ring, item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.WATER_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.WATER_TEMPLE, world.options.water_temple_key_ring, item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.SPIRIT_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.SPIRIT_TEMPLE, world.options.spirit_temple_key_ring, item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.SHADOW_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.SHADOW_TEMPLE, world.options.shadow_temple_key_ring, item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool),
+            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: option_mapping(DungeonLocations.BOTTOM_OF_THE_WELL, world.options.bottom_of_the_well_key_ring, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
+            Items.GANONS_CASTLE_SMALL_KEY: option_mapping(DungeonLocations.GANONS_CASTLE, world.options.ganons_castle_key_ring, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
+            Items.TRAINING_GROUND_SMALL_KEY: option_mapping(DungeonLocations.GERUDO_TRAINING_GROUNDS, world.options.gerudo_training_ground_key_ring, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
         }

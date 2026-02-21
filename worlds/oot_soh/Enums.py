@@ -3854,7 +3854,7 @@ class TokenCounts(IntEnum):
     TOTAL = DUNGEON + OVERWORLD
 
 
-class KeyShuffleLocations(Enum):
+class DungeonLocations(Enum):
     DEKU_TREE = auto()
     DODONGOS_CAVERN = auto()
     JABU_JABUS_BELLY = auto()

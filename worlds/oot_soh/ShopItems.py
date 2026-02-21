@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule
-from Fill import fill_restrictive
 
 from .LogicHelpers import rule_wrapper, can_afford, can_afford_slot
 from .Locations import scrubs_location_table, merchants_items_location_table, scrubs_one_time_only
