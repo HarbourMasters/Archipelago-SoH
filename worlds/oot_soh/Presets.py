@@ -31,6 +31,8 @@ default_options: dict[str, Any] = {
     "start_with_deku_shield":   Toggle.option_false,
     "start_with_master_sword":  Toggle.option_false,
     "start_with_ocarina":       StartWithOcarina.option_off,
+    "start_with_stick_ammo":    Toggle.option_false,
+    "start_with_nut_ammo":      Toggle.option_false,
 }
 
 beginner_options = {

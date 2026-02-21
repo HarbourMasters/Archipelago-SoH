@@ -1125,6 +1125,20 @@ class StartWithOcarina(Choice):
     option_ocarina_of_time = 2
     default = 0
 
+class StartWithStickAmmo(Toggle):
+    """
+    Start with some Deku Sticks
+    This option does nothing when "Shuffle Deku Stick Bag" is enabled
+    """
+    display_name = "Start with Stick ammo"
+
+class StartWithNutAmmo(Toggle):
+    """
+    Start with some Deku Nuts
+    This option does nothing when "Shuffle Deku Nut Bag" is enabled
+    """
+    display_name = "Start with Nut ammo"
+
 class ItemPool(Choice):
     """
     Sets how many major items appear in the item pool.
@@ -1234,8 +1248,8 @@ class SohOptions(PerGameCommonOptions):
     start_with_master_sword: StartWithMasterSword
     start_with_deku_shield: StartWithDekuShield
     start_with_ocarina: StartWithOcarina
-    #StartWithStickAmmo
-    #StartWithNutAmmo
+    start_with_stick_ammo: StartWithStickAmmo
+    start_with_nut_ammo: StartWithNutAmmo
     #StartWithMagicBeans
     #StartWithZeldasLullaby
     #StartWithEponasSong
@@ -1401,8 +1415,8 @@ soh_option_groups = [
         StartWithMasterSword,
         StartWithDekuShield,
         StartWithOcarina,
-        #StartWithStickAmmo,
-        #StartWithNutAmmo,
+        StartWithStickAmmo,
+        StartWithNutAmmo,
         #StartWithMagicBeans,
         #StartWithZeldasLullaby,
         #StartWithEponasSong,
