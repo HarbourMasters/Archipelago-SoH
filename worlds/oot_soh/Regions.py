@@ -415,7 +415,7 @@ def place_locked_items(world: "SohWorld") -> None:
 
     # Place Master Sword on vanilla location if not shuffled
     if not world.options.shuffle_master_sword:
-        if world.options.starting_age == "adult":
+        if world.options.starting_age == "adult" or world.options.start_with_master_sword:
             # Start with the master sword in your starting inventory
             world.multiworld.push_precollected(world.create_item(Items.MASTER_SWORD, create_as_event=True))
 

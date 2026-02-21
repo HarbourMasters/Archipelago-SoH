@@ -1095,18 +1095,25 @@ class ShuffleTycoonWallet(Toggle):
     display_name = "Shuffle Tycoon Wallet"
 
 
+class StartWithMasterSword(Toggle):
+    """
+    Start with the master sword in your inventory 
+    """
+    display_name = "Start with Master Sword"
+
+
 class StartWithKokiriSword(Toggle):
     """
-    Start with kokiri sword in your inventory
+    Start with the kokiri sword in your inventory
     """
     display_name = "Start with Kokiri Sword"
 
 
 class StartWithDekuShield(Toggle):
     """
-    Start with Deku Shield
+    Start with a Deku Shield in your inventory
     """
-    display_name = "Start with a Deku Shield"
+    display_name = "Start with Deku Shield"
 
 
 class ItemPool(Choice):
@@ -1215,7 +1222,7 @@ class SohOptions(PerGameCommonOptions):
     skip_scarecrows_song: SkipScarecrowsSong
     #StartWithLinksPocket
     start_with_kokiri_sword: StartWithKokiriSword
-    #StartWithMasterSword   # isn't this always on if sword isn't shuffled?
+    start_with_master_sword: StartWithMasterSword
     start_with_deku_shield: StartWithDekuShield
     #StartWithOcarina
     #StartWithStickAmmo
@@ -1382,7 +1389,7 @@ soh_option_groups = [
     OptionGroup("Starting Items", [
         #StartWithLinksPocket,
         StartWithKokiriSword,
-        #StartWithMasterSword,   # isn't this always on if sword isn't shuffled?
+        StartWithMasterSword,
         StartWithDekuShield,
         #StartWithOcarina,
         #StartWithStickAmmo,

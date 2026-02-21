@@ -68,7 +68,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.KOKIRI_SWORD] = 1
 
     # Master Sword
-    if world.options.shuffle_master_sword:
+    if world.options.shuffle_master_sword and not world.options.start_with_master_sword:
         items_to_create[Items.MASTER_SWORD] = 1
 
     # Child's Wallet
@@ -362,7 +362,7 @@ def create_item_pool(world: "SohWorld") -> None:
             if world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
                 items_to_create[Items.KOKIRI_SWORD] += 1
 
-            if world.options.shuffle_master_sword:
+            if world.options.shuffle_master_sword and not world.options.start_with_master_sword:
                 items_to_create[Items.MASTER_SWORD] += 1
 
             if world.options.shuffle_weird_egg:
@@ -669,6 +669,9 @@ def get_filler_bottle(world: "SohWorld") -> str:
 def give_starting_items(world: "SohWorld") -> None:
     if world.options.start_with_kokiri_sword:
         world.push_precollected(world.create_item(Items.KOKIRI_SWORD))
+
+    if world.options.start_with_master_sword and world.options.shuffle_master_sword:
+        world.push_precollected(world.create_item(Items.MASTER_SWORD))
 
     # doesn't actually do anything logically since deku shields can be lost
     if world.options.start_with_deku_shield:
