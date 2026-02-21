@@ -1115,6 +1115,15 @@ class StartWithDekuShield(Toggle):
     """
     display_name = "Start with Deku Shield"
 
+class StartWithOcarina(Choice):
+    """
+    Start with an Ocarina
+    """
+    display_name = "Start with Ocarina"
+    option_off = 0
+    option_fairy_ocarina = 1
+    option_ocarina_of_time = 2
+    default = 0
 
 class ItemPool(Choice):
     """
@@ -1224,7 +1233,7 @@ class SohOptions(PerGameCommonOptions):
     start_with_kokiri_sword: StartWithKokiriSword
     start_with_master_sword: StartWithMasterSword
     start_with_deku_shield: StartWithDekuShield
-    #StartWithOcarina
+    start_with_ocarina: StartWithOcarina
     #StartWithStickAmmo
     #StartWithNutAmmo
     #StartWithMagicBeans
@@ -1391,7 +1400,7 @@ soh_option_groups = [
         StartWithKokiriSword,
         StartWithMasterSword,
         StartWithDekuShield,
-        #StartWithOcarina,
+        StartWithOcarina,
         #StartWithStickAmmo,
         #StartWithNutAmmo,
         #StartWithMagicBeans,

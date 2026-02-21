@@ -30,6 +30,7 @@ default_options: dict[str, Any] = {
     "start_with_kokiri_sword":  Toggle.option_false,
     "start_with_deku_shield":   Toggle.option_false,
     "start_with_master_sword":  Toggle.option_false,
+    "start_with_ocarina":       StartWithOcarina.option_off,
 }
 
 beginner_options = {
@@ -55,8 +56,8 @@ beginner_options = {
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "infinite_upgrades":                                InfiniteUpgrades.option_off,
     "skeleton_key":                                     SkeletonKey.option_false,
-    "start_inventory_from_pool":                        {Items.PROGRESSIVE_OCARINA: 1},
     "start_with_kokiri_sword":                          Toggle.option_true,
+    "start_with_ocarina":                               StartWithOcarina.option_fairy_ocarina,
     "exclude_locations":                                [Locations.GF_HBA_1500_POINTS, Locations.KAK_40_GOLD_SKULLTULA_REWARD, Locations.KAK_50_GOLD_SKULLTULA_REWARD, Locations.ZR_FROGS_OCARINA_GAME]
 }
 
@@ -97,7 +98,7 @@ standard_options = {
     "blue_fire_arrows":                                 BlueFireArrows.option_true,
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "small_key_shuffle":                                SmallKeyShuffle.option_anywhere,
-    "start_inventory_from_pool":                        {Items.PROGRESSIVE_OCARINA: 1}
+    "start_with_ocarina":                               StartWithOcarina.option_fairy_ocarina,
 }
 
 # Missing ER

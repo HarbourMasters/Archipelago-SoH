@@ -426,10 +426,12 @@ def place_locked_items(world: "SohWorld") -> None:
         
     # Place the Ocarinas on their vanilla locations if not shuffled
     if not world.options.shuffle_ocarinas:
-        world.get_location(Locations.LW_GIFT_FROM_SARIA).place_locked_item(
-            world.create_item(Items.PROGRESSIVE_OCARINA))
-        world.get_location(Locations.HF_OCARINA_OF_TIME_ITEM).place_locked_item(
-            world.create_item(Items.PROGRESSIVE_OCARINA))
+        if world.options.start_with_ocarina != "fairy_ocarina":
+            world.get_location(Locations.LW_GIFT_FROM_SARIA).place_locked_item(
+                world.create_item(Items.PROGRESSIVE_OCARINA))
+        if world.options.start_with_ocarina != "fairy_ocarina" and world.options.start_with_ocarina != "ocarina_of_time":
+            world.get_location(Locations.HF_OCARINA_OF_TIME_ITEM).place_locked_item(
+                world.create_item(Items.PROGRESSIVE_OCARINA))
         
     # place the gerudo membership card
     if not world.options.shuffle_gerudo_membership_card:

@@ -81,7 +81,10 @@ def create_item_pool(world: "SohWorld") -> None:
 
     # Fiary Ocarina and Ocarina of time
     if world.options.shuffle_ocarinas:
-        items_to_create[Items.PROGRESSIVE_OCARINA] = 2
+        if world.options.start_with_ocarina == "off":
+            items_to_create[Items.PROGRESSIVE_OCARINA] = 2
+        if world.options.start_with_ocarina == "fairy_ocarina":
+            items_to_create[Items.PROGRESSIVE_OCARINA] = 1
 
     # Songs
     if world.options.shuffle_songs == "anywhere":
@@ -315,7 +318,7 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.item_pool.value:
         if world.options.item_pool == "plentiful":
             # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
-            if world.options.shuffle_ocarinas:
+            if world.options.shuffle_ocarinas and not world.options.start_with_ocarina == "ocarina_of_time":
                 items_to_create[Items.PROGRESSIVE_OCARINA] += 1
 
             if world.options.shuffle_merchants in ("all", "bean_merchant_only"):
@@ -676,5 +679,14 @@ def give_starting_items(world: "SohWorld") -> None:
     # doesn't actually do anything logically since deku shields can be lost
     if world.options.start_with_deku_shield:
         world.push_precollected(world.create_item(Items.DEKU_SHIELD))
+
+    if world.options.start_with_ocarina == "fairy_ocarina":
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
+
+    if world.options.start_with_ocarina == "ocarina_of_time":
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
+    
+    
 
     

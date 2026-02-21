@@ -128,6 +128,12 @@ class SohWorld(World):
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
             self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
 
+        if self.options.shuffle_deku_stick_bag.value:
+            self.options.start_with_stick_ammo.value = 0
+
+        if self.options.shuffle_deku_nut_bag.value:
+            self.options.start_with_nut_ammo.value = 0
+
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
@@ -457,6 +463,7 @@ class SohWorld(World):
             "start_with_kokiri_sword": self.options.start_with_kokiri_sword.value,
             "start_with_deku_shield": self.options.start_with_deku_shield.value,
             "start_with_master_sword": self.options.start_with_master_sword.value,
+            "start_with_ocarina": self.options.start_with_ocarina.value,
             "full_wallets": self.options.full_wallets.value,
             "bombchu_bag": self.options.bombchu_bag.value,
             "bombchu_drops": self.options.bombchu_drops.value,
