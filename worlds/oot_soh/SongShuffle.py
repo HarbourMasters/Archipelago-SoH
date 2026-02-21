@@ -66,16 +66,11 @@ def pre_fill_songs(world: "SohWorld") -> None:
     remove_song_reservations(world)
 
     songs = get_prefill_songs(world)
+    song_locations = list[Locations]()
 
-    reward_goal_locations = [world.get_location(loc) for loc in location_name_groups["Bosses"]]
-    
     if world.options.shuffle_songs == "song_locations":
-        world.run_prefill(songs, list(song_vanilla_locations.keys()))
-        return
-
-    if world.options.shuffle_songs == "dungeon_rewards":
-        world.run_prefill(songs, list(dungeon_reward_song_locations))
-        return
+        song_locations.extend(song_vanilla_locations.keys())
+    elif world.options.shuffle_songs == "dungeon_rewards":
+        song_locations.extend(dungeon_reward_song_locations)
     
-
-
+    world.run_prefill(songs, song_locations)

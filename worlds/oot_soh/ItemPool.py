@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from .Enums import *
-from .Items import item_data_table, filler_items, filler_bottles
+from .Items import item_data_table, filler_items, filler_bottles, SohItem
 from .Regions import map_and_compass_vanilla_mapping, small_key_vanilla_mapping, dungeon_boss_key_vanilla_mapping
 from .LogicHelpers import key_to_ring, hearts
 from .KeyShuffle import small_key_option_matching
@@ -524,11 +524,10 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.ICE_ARROW] -= create_special_progression_item(
             world, Items.ICE_ARROW, ItemClassification.progression | ItemClassification.useful)
 
+    items: list[SohItem] = list()
     # Add regular item pool
     for item, quantity in items_to_create.items():
-        new_items = [world.create_item(item) for _ in range(quantity)]
-        world.multiworld.itempool += new_items
-        world.item_pool += [world.create_item(item) for _ in range(quantity)]
+        items.extend([world.create_item(item) for _ in range(quantity)])
 
     filler_bottle_amount: int = 2
     if world.options.zoras_fountain == "open":
@@ -537,18 +536,16 @@ def create_item_pool(world: "SohWorld") -> None:
         filler_bottle_amount += 1
 
     # Add random filler bottles
-    filler_bottle_items = [world.create_item(
-        get_filler_bottle(world)) for _ in range(filler_bottle_amount)]
-    world.multiworld.itempool += filler_bottle_items
-    world.item_pool += filler_bottle_items
+    items.extend([world.create_item(get_filler_bottle(world)) for _ in range(filler_bottle_amount)])
+
+    world.add_items_to_item_pool_list(items)
 
 
 def create_special_progression_item(world: "SohWorld", item: Items, classification: ItemClassification, amount: int = 1) -> int:
     items = [world.create_item(item, classification=classification)
              for _ in range(amount)]
 
-    world.item_pool += items
-    world.multiworld.itempool += items
+    world.add_items_to_item_pool_list(items)
 
     return amount
 
@@ -565,8 +562,7 @@ def create_triforce_pieces(world: "SohWorld") -> None:
     triforce_pieces_made += [world.create_item(Items.TRIFORCE_PIECE)
                              for _ in range(total_triforce_pieces - triforce_pieces_to_win)]
 
-    world.item_pool += triforce_pieces_made
-    world.multiworld.itempool += triforce_pieces_made
+    world.add_items_to_item_pool_list(triforce_pieces_made)
 
     world.options.triforce_hunt_pieces_total.value = total_triforce_pieces
     world.triforce_pieces_required = triforce_pieces_to_win
