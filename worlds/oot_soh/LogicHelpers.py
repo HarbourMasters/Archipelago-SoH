@@ -1,8 +1,8 @@
 from collections import Counter
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, Callable, Mapping
 from collections import Counter
 
-from BaseClasses import CollectionState, ItemClassification as IC, MultiWorld
+from BaseClasses import CollectionState, ItemClassification as IC, MultiWorld, Location, Region
 from .Locations import SohLocation
 from worlds.generic.Rules import set_rule
 from worlds.AutoWorld import LogicMixin
@@ -31,45 +31,59 @@ class rule_wrapper:
         return self.rule((state, self.parent_region, self.world))
 
 
-def add_locations(parent_region: Regions, world: "SohWorld",
-                  locations: list[tuple[Locations, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
-    for location in locations:
-        locationName = location[0]
-        def locationRule(bundle): return True
-        if len(location) > 1:
-            locationRule = location[1]  # type: ignore # noqa
+def add_locations(parent_region: Regions, world: "SohWorld", locations: list[tuple[Locations, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
+    # Rulebuild _True()
+    def defaultLocationRule(bundle): return True
+
+    mLocations : list[tuple[str, int | None, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]] = list()
+    for loc in locations:
+        locationName = str(loc)
         if locationName in world.included_locations:
-            locationAddress = world.included_locations.pop(location[0]).loc_id
-            world.get_region(parent_region).add_locations(
-                {str(locationName): locationAddress}, SohLocation)
-            set_rule(world.get_location(locationName),
-                     rule_wrapper.wrap(parent_region, locationRule, world))
+            locationAddress = world.included_locations.pop(loc[0]).loc_id
+            
+            if len(loc) > 1:
+                locationRule = loc[1]
+            else:
+                locationRule = defaultLocationRule
+
+            mLocations.append(locationName, locationAddress, locationRule)
+
+    if len(mLocations) > 0:
+        # Create the whole batch of locations at once
+        world.get_region(str(parent_region)).add_locations({mLoc[0]: mLoc[1] for mLoc in mLocations}, SohLocation)
+
+        # Set rules
+        for mLocation in mLocations:
+            locationRule = mLocation[2]
+            location: Location = world.get_location(mLocation[0])
+            world.set_rule(location, locationRule)
 
 
-def connect_regions(parent_region: Regions, world: "SohWorld",
-                    child_regions: list[tuple[Regions, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
+def connect_regions(parent_region: Regions, world: "SohWorld", child_regions: list[tuple[Regions, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
+    # Rulebuild _True()
+    def defaultRegionRule(bundle): return True
+    parentRegion: Region = world.get_region(str(parent_region))
+
     for region in child_regions:
-        regionName = region[0]
-        def regionRule(bundle): return True
+        childRegion = world.get_region(region[0])
+        
         if len(region) > 1:
             regionRule = region[1]  # type: ignore # noqa
-        world.get_region(parent_region).connect(world.get_region(regionName),
-                                                rule=rule_wrapper.wrap(parent_region, regionRule, world))
+        else:
+            regionRule = defaultRegionRule
+
+        world.create_entrance(parentRegion, childRegion, regionRule)
 
 
-def add_events(parent_region: Regions, world: "SohWorld",
-               events: list[tuple[StrEnum, Events | StrEnum, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
+def add_events(parent_region: Regions, world: "SohWorld", events: list[tuple[StrEnum, Events | StrEnum, Callable[[tuple[CollectionState, Regions, "SohWorld"]], bool]]]) -> None:
+    parentRegion: Region = world.get_region(str(parent_region))
+
     for event in events:
-        event_location = event[0]
-        event_item = event[1]
-        event_rule = event[2]
-
-        world.get_region(parent_region).add_locations(
-            {event_location: None}, SohLocation)
-        world.get_location(event_location).place_locked_item(
-            SohItem(event_item, IC.progression, None, world.player))
-        set_rule(world.get_location(event_location),
-                 rule_wrapper.wrap(parent_region, event_rule, world))
+        eventName = str(event[0])
+        eventItemName = str(event[1])
+        eventRule = event[2]
+        
+        parentRegion.add_event(eventName, eventItemName, eventRule, SohLocation, SohItem)
 
 
 def can_use(item: Items, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
