@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule
-from Fill import fill_restrictive
 
 from .LogicHelpers import rule_wrapper, can_afford, can_afford_slot
 from .Locations import scrubs_location_table, merchants_items_location_table, scrubs_one_time_only
@@ -223,26 +222,12 @@ def fill_shop_items(world: "SohWorld") -> None:
         return
     
     # select what shop slots to and vanilla items to shuffle
-    num_vanilla = 8 - world.options.shuffle_shops_item_amount
     vanilla_pool = get_vanilla_shop_pool(world)
-    vanilla_items = list[SohItem]()
-    for item in vanilla_pool:
-        world.pre_fill_pool.remove(item)
-        vanilla_items.append(world.create_item(item))
-
-    vanilla_shop_slots = get_vanilla_shop_locations(world)
-    vanilla_shop_locations = [world.get_location(slot) for slot in vanilla_shop_slots]
-    world.random.shuffle(vanilla_items)
-
-    goal_locations = [loc for loc in vanilla_shop_locations]
-    world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in goal_locations])
-
-    prefill_state = world.get_pre_fill_state()
-
-    # place the vanilla shop items
-    fill_restrictive(world.multiworld, prefill_state, vanilla_shop_locations,
-                     vanilla_items, single_player_placement=True, lock=True)
+    vanilla_shop_slots = [Locations(slot) for slot in get_vanilla_shop_locations(world)]
     
+    world.run_prefill(vanilla_pool, vanilla_shop_slots)
+    
+    # set the prices for our shuffled slots
     for slot in vanilla_shop_slots:
         location = world.get_location(slot)
         location.address = None

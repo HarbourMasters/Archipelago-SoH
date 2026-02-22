@@ -3854,7 +3854,7 @@ class TokenCounts(IntEnum):
     TOTAL = DUNGEON + OVERWORLD
 
 
-class KeyShuffleLocations(Enum):
+class DungeonLocations(Enum):
     DEKU_TREE = auto()
     DODONGOS_CAVERN = auto()
     JABU_JABUS_BELLY = auto()
@@ -3867,5 +3867,3 @@ class KeyShuffleLocations(Enum):
     BOTTOM_OF_THE_WELL = auto()
     GERUDO_TRAINING_GROUNDS = auto()
     GANONS_CASTLE = auto()
-    ANY_DUNGEON = auto()
-    OVERWORLD = auto()

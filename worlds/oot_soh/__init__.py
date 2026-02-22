@@ -1,10 +1,11 @@
 import orjson
 import pkgutil
 
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Callable
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld, World
+from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
@@ -13,8 +14,8 @@ from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item, give_starting_items
 from . import RegionAgeAccess
-from .DungeonRewardShuffle import pre_fill_dungeon, get_pre_fill_rewards
-from .KeyShuffle import pre_fill_keys, get_pre_fill_keys
+from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
+from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
 from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
@@ -87,6 +88,7 @@ class SohWorld(World):
         self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.pre_fill_pool = list[Items]()
+        self.reserved_pre_fill_locations = list[Locations]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -110,6 +112,9 @@ class SohWorld(World):
 
         # If the door of time is set to song only, and the songs aren't shuffled, force child spawn
         if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
+            self.options.starting_age.value = 0
+
+        if self.options.closed_forest == "on":
             self.options.starting_age.value = 0
 
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
@@ -152,15 +157,12 @@ class SohWorld(World):
                                                self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
         if self.options.shuffle_skull_tokens:
-            self.randomized_progressive_skulltula_count = progressive_skulltula_count
-
             if self.options.shuffle_skull_tokens == "dungeon":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
-
-            if self.options.shuffle_skull_tokens == "overworld":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
+            elif self.options.shuffle_skull_tokens == "overworld":
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
+                
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count - self.vanilla_progressive_skulltula_count
         else:
             self.vanilla_progressive_skulltula_count = progressive_skulltula_count
 
@@ -190,8 +192,10 @@ class SohWorld(World):
         # generate the prefill pool
         self.pre_fill_pool += get_pre_fill_rewards(self)
         self.pre_fill_pool += get_prefill_songs(self)
-        for key_shuffle in get_pre_fill_keys(self).values():
+        for key_shuffle in get_own_dungeon_prefill_items(self).values():
             self.pre_fill_pool += key_shuffle
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, False)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?
@@ -221,10 +225,13 @@ class SohWorld(World):
             fill_shop_items(self)
 
     def reserve_prefill_locations(self) -> None:
+        # songs and medalion locations get a soft reservation, by adding them to the reserved location list
+        # pre-fill is not allowed to place items there, but plando is allowed
         DungeonRewardShuffle.reserve_dungeon_reward_locations(self)
         SongShuffle.reserve_song_locations(self)
-        # Currently no reservations for key shuffle, 
-        # we can't know for sure what locations will get used and reserving everything is too restrictive
+
+        # vanilla shop locations get a hard reservation, by placing a RESERVATION item there
+        # pre-fill and plando are not allowed to place items there
         ShopItems.reserve_vanilla_shop_locations(self)
 
     def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
@@ -248,7 +255,7 @@ class SohWorld(World):
         locations = []
         for location in location_list:
             loc = self.get_location(str(location))
-            if loc.item != None or loc.locked:
+            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations:
                 continue
             locations.append(loc)
         self.random.shuffle(locations)
@@ -256,12 +263,13 @@ class SohWorld(World):
         return locations
 
     def get_pre_fill_state(self) -> CollectionState:
+        my_locations = list(self.multiworld.get_locations(self.player))
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
             prefill_state.collect(item, True)
         for item in self.pre_fill_pool:
             prefill_state.collect(self.create_item(item), True)
-        prefill_state.sweep_for_advancements()
+        prefill_state.sweep_for_advancements(my_locations)
         return prefill_state
     
     def set_rules(self) -> None:
@@ -312,12 +320,37 @@ class SohWorld(World):
     def pre_fill(self) -> None:
         original_completion_goal = self.multiworld.completion_condition[self.player]
 
-        pre_fill_dungeon(self)
+        pre_fill_own_dungeon_items(self)
+        pre_fill_dungeon_rewards(self)
         pre_fill_songs(self)
-        pre_fill_keys(self)
+        pre_fill_any_dungeon_keys(self)
+        pre_fill_overworld_items(self)
         fill_shop_items(self)
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
+
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
+        # check if we're using specific collectionstate
+        if prefill_state is None:
+            for item in item_pool:
+                if item in self.pre_fill_pool: 
+                    self.pre_fill_pool.remove(item)
+            
+            prefill_state = self.get_pre_fill_state()
+        
+        if goal is None:
+            # set region accessability of locations as the goal
+            accessibility_goal = {self.get_location(loc) for loc in locations}
+            goal = lambda state: all([state.can_reach(reg) for reg in accessibility_goal])
+
+        self.multiworld.completion_condition[self.player] = goal
+
+        # get empty, non reserved locations
+        empty_locations = self.get_empty_locations_from_list_shuffled(locations)
+        items = [self.create_item(str(item)) for item in item_pool]
+
+        fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
+
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
