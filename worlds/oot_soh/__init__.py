@@ -56,9 +56,8 @@ class SohSettings(Group):
 
     class DisableFillOverflow(Bool):
         """
-        Attempts to prevent prefill errors from preventing generation.
-        This will take any items that couldn't be placed in prefill (Keys, Maps, Compasses, Dungeon Rewards, Songs, etc) and add them to the item pool.
-        When generating a real game this should probabaly be enabled as it prevents errors while generating. Really meant as a debugging option.
+        A debugging option for disabling our fill overflow for prefills. Typcal users likely shouldn't enable this as it allows for generation failures.
+        By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
         """
 
     allow_true_no_logic: AllowTrueNoLogic | bool = False
