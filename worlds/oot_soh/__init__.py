@@ -56,7 +56,7 @@ class SohSettings(Group):
 
     class DisableFillOverflow(Bool):
         """
-        A debugging option for disabling our fill overflow for prefills. Typcal users likely shouldn't enable this as it allows for generation failures.
+        A debugging option for disabling our fill overflow for prefills. Typical users likely shouldn't enable this as it allows for generation failures.
         By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
         """
 
@@ -348,10 +348,12 @@ class SohWorld(World):
         empty_locations = self.get_empty_locations_from_list_shuffled(locations)
         items = [self.create_item(str(item)) for item in item_pool]
 
-        fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=(not self.settings.disable_fill_overflow))
 
-        # Add any unplaced items to the item pool
-        if not self.settings.disable_fill_overflow:
+        if self.settings.disable_fill_overflow:
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
+        else:
+            # Add any unplaced items to the item pool
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=True)
             self.add_items_to_item_pool_list(items)
 
 
