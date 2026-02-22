@@ -34,6 +34,18 @@ default_options: dict[str, Any] = {
     "start_with_stick_ammo":    Toggle.option_false,
     "start_with_nut_ammo":      Toggle.option_false,
     "start_with_magic_beans":   Toggle.option_false,
+    "start_with_zeldas_lullaby":    Toggle.option_false,
+    "start_with_eponas_song":   Toggle.option_false,
+    "start_with_sarias_song":   Toggle.option_false,
+    "start_with_suns_song":     Toggle.option_false,
+    "start_with_song_of_time":  Toggle.option_false,
+    "start_with_song_of_storms":    Toggle.option_false,
+    "start_with_minuet":        Toggle.option_false,
+    "start_with_bolero":        Toggle.option_false,
+    "start_with_serenade":      Toggle.option_false,
+    "start_with_requiem":       Toggle.option_false,
+    "start_with_nocturne":      Toggle.option_false,
+    "start_with_prelude":       Toggle.option_false,
 }
 
 beginner_options = {

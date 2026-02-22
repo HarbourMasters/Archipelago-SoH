@@ -6,7 +6,8 @@ from .Regions import map_and_compass_vanilla_mapping, small_key_vanilla_mapping,
 from .LogicHelpers import key_to_ring, hearts
 from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
-from .SongShuffle import song_vanilla_locations
+from .SongShuffle import song_vanilla_locations, get_shuffled_songs
+from .ShopItems import get_vanilla_shop_pool
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -88,7 +89,7 @@ def create_item_pool(world: "SohWorld") -> None:
 
     # Songs
     if world.options.shuffle_songs == "anywhere":
-        for song in song_vanilla_locations.values():
+        for song in get_shuffled_songs(world):
             items_to_create[song] = 1
 
     # Ocarina Buttons
@@ -451,18 +452,8 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.GANONS_CASTLE_BOSS_KEY] += 1
 
             if world.options.shuffle_songs == "anywhere":
-                items_to_create[Items.ZELDAS_LULLABY] += 1
-                items_to_create[Items.EPONAS_SONG] += 1
-                items_to_create[Items.SARIAS_SONG] += 1
-                items_to_create[Items.SUNS_SONG] += 1
-                items_to_create[Items.SONG_OF_TIME] += 1
-                items_to_create[Items.SONG_OF_STORMS] += 1
-                items_to_create[Items.MINUET_OF_FOREST] += 1
-                items_to_create[Items.BOLERO_OF_FIRE] += 1
-                items_to_create[Items.SERENADE_OF_WATER] += 1
-                items_to_create[Items.REQUIEM_OF_SPIRIT] += 1
-                items_to_create[Items.NOCTURNE_OF_SHADOW] += 1
-                items_to_create[Items.PRELUDE_OF_LIGHT] += 1
+                for song in get_shuffled_songs(world):
+                    items_to_create[song] += 1
 
         elif world.options.item_pool == "scarce":
             if world.options.bombchu_bag == "single_bag":
@@ -603,60 +594,7 @@ def create_filler_item_pool(world: "SohWorld") -> None:
 
 def get_open_location_count(world: "SohWorld") -> int:
     open_location_count = len(world.multiworld.get_unfilled_locations(
-        world.player)) - len(world.item_pool) - len(world.reserved_pre_fill_locations)
-
-    if world.options.boss_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
-        open_location_count -= 5
-
-    if world.options.small_key_shuffle in ("own_dungeon", "any_dungeon", "overworld"):
-        if world.options.forest_temple_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.fire_temple_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.water_temple_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.spirit_temple_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.shadow_temple_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.bottom_of_the_well_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.ganons_castle_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool
-
-        if world.options.gerudo_training_ground_key_ring:
-            open_location_count -= 1
-        else:
-            open_location_count -= item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool
-
-    if world.options.gerudo_fortress_key_shuffle in ("any_dungeon", "overworld") and world.options.fortress_carpenters != "free":
-        if (world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal") or world.options.fortress_carpenters == "fast":
-            open_location_count -= 1
-        elif world.options.fortress_carpenters == "normal":
-            open_location_count -= item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool
-
-    if world.options.maps_and_compasses in ("own_dungeon", "any_dungeon", "overworld"):
-        open_location_count -= len(map_and_compass_vanilla_mapping)
+        world.player)) - len(world.item_pool) - len(world.pre_fill_pool) + len(get_vanilla_shop_pool(world))
 
     return open_location_count
 
@@ -690,5 +628,10 @@ def give_starting_items(world: "SohWorld") -> None:
     if world.options.start_with_magic_beans:
         world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK))
     
+        # Songs
+    starting_songs =  set(song_vanilla_locations.values()) - get_shuffled_songs(world)
+    for song in starting_songs:
+        world.push_precollected(world.create_item(song))
 
+    pass
     

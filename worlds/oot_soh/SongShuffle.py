@@ -37,12 +37,47 @@ dungeon_reward_song_locations: list[Locations] = [
     Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_FINAL_CHEST # todo MQ ice arrow chest
 ]
 
+def get_shuffled_songs(world: "SohWorld") -> set[Items]:
+    included_songs = set[Items]()
+    if not world.options.start_with_zeldas_lullaby:
+        included_songs.add(Items.ZELDAS_LULLABY)
+    if not world.options.start_with_eponas_song:
+        included_songs.add(Items.EPONAS_SONG)
+    if not world.options.start_with_sarias_song:
+        included_songs.add(Items.SARIAS_SONG)
+    if not world.options.start_with_suns_song:
+        included_songs.add(Items.SUNS_SONG)
+    if not world.options.start_with_song_of_time:
+        included_songs.add(Items.SONG_OF_TIME)
+    if not world.options.start_with_song_of_storms:
+        included_songs.add(Items.SONG_OF_STORMS)
+    if not world.options.start_with_minuet:
+        included_songs.add(Items.MINUET_OF_FOREST)
+    if not world.options.start_with_bolero:
+        included_songs.add(Items.BOLERO_OF_FIRE)
+    if not world.options.start_with_serenade:
+        included_songs.add(Items.SERENADE_OF_WATER)
+    if not world.options.start_with_requiem:
+        included_songs.add(Items.REQUIEM_OF_SPIRIT)
+    if not world.options.start_with_nocturne:
+        included_songs.add(Items.NOCTURNE_OF_SHADOW)
+    if not world.options.start_with_prelude:
+        included_songs.add(Items.PRELUDE_OF_LIGHT)
+    return included_songs
+
 def get_prefill_songs(world: "SohWorld") -> list[Items]:
     # Do not prefill songs anywhere in particular
     if world.options.shuffle_songs in ("off", "anywhere"):
         return list()
     
-    return list(song_vanilla_locations.values())
+    pre_fill_songs = list[Items]()
+    included_songs = get_shuffled_songs(world)
+    for song in song_vanilla_locations.values():
+        if song not in included_songs:
+            continue
+        pre_fill_songs.append(song)
+
+    return list(pre_fill_songs)
 
 def reserve_song_locations(world: "SohWorld") -> None:
     if world.options.shuffle_songs in ("off", "anywhere"):

@@ -1145,6 +1145,67 @@ class StartWithMagicBeans(Toggle):
     """
     display_name = "Start with Magic Beans"
 
+class StartWithZeldasLullaby(Toggle):
+    """
+    Start with Zelda's Lullaby
+    """
+    display_name = "Start with Zelda's Lullaby"
+class StartWithEponasSong(Toggle):
+    """
+    Start with Epona's Song
+    """
+    display_name = "Start with Epona's Song"
+class StartWithSariasSong(Toggle):
+    """
+    Start with Saria's Song
+    """
+    display_name = "Start with Saria's Song"
+class StartWithSunsSong(Toggle):
+    """
+    Start with Sun's Song
+    """
+    display_name = "Start with Sun's Song"
+class StartWithSongOfTime(Toggle):
+    """
+    Start with Song of Time
+    """
+    display_name = "Start with Song of Time"
+class StartWithSongOfStorms(Toggle):
+    """
+    Start with Song of Storms
+    """
+    display_name = "Start with Song of Storms"
+class StartWithMinuet(Toggle):
+    """
+    Start with Minuet of the Forest
+    """
+    display_name = "Start with Minuet of the Forest"
+class StartWithBolero(Toggle):
+    """
+    Start with Bolero of Fire
+    """
+    display_name = "Start with Bolero of Fire"
+class StartWithSerenade(Toggle):
+    """
+    Start with Serenade of Water
+    """
+    display_name = "Start with Serenade of Water"
+class StartWithRequiem(Toggle):
+    """
+    Start with Requiem of Spirit
+    """
+    display_name = "Start with Requiem of Spirit"
+class StartWithNocturne(Toggle):
+    """
+    Start with Nocturne of Shadow
+    """
+    display_name = "Start with Nocturne of Shadow"
+class StartWithPrelude(Toggle):
+    """
+    Start with Prelude of Light
+    """
+    display_name = "Start with Prelude of Light"
+
 class ItemPool(Choice):
     """
     Sets how many major items appear in the item pool.
@@ -1257,18 +1318,18 @@ class SohOptions(PerGameCommonOptions):
     start_with_stick_ammo: StartWithStickAmmo
     start_with_nut_ammo: StartWithNutAmmo
     start_with_magic_beans: StartWithMagicBeans
-    #StartWithZeldasLullaby
-    #StartWithEponasSong
-    #StartWithSariasSong
-    #StartWithSunsSong
-    #StartWithSongOfTime
-    #StartWithSongOfStomrs
-    #StartWithMinuet
-    #StartWithBolero
-    #StartWithSerenade
-    #StartWithRequiem
-    #StartWithNocturne
-    #StartWithPrelude
+    start_with_zeldas_lullaby :StartWithZeldasLullaby
+    start_with_eponas_song :StartWithEponasSong
+    start_with_sarias_song :StartWithSariasSong
+    start_with_suns_song :StartWithSunsSong
+    start_with_song_of_time :StartWithSongOfTime
+    start_with_song_of_storms :StartWithSongOfStorms
+    start_with_minuet :StartWithMinuet
+    start_with_bolero :StartWithBolero
+    start_with_serenade :StartWithSerenade
+    start_with_requiem :StartWithRequiem
+    start_with_nocturne :StartWithNocturne
+    start_with_prelude :StartWithPrelude
     #StartingTokens
     #StartingHearts
     full_wallets: FullWallets
@@ -1424,18 +1485,18 @@ soh_option_groups = [
         StartWithStickAmmo,
         StartWithNutAmmo,
         StartWithMagicBeans,
-        #StartWithZeldasLullaby,
-        #StartWithEponasSong,
-        #StartWithSariasSong,
-        #StartWithSunsSong,
-        #StartWithSongOfTime,
-        #StartWithSongOfStomrs,
-        #StartWithMinuet,
-        #StartWithBolero,
-        #StartWithSerenade,
-        #StartWithRequiem,
-        #StartWithNocturne,
-        #StartWithPrelude,
+        StartWithZeldasLullaby,
+        StartWithEponasSong,
+        StartWithSariasSong,
+        StartWithSunsSong,
+        StartWithSongOfTime,
+        StartWithSongOfStorms,
+        StartWithMinuet,
+        StartWithBolero,
+        StartWithSerenade,
+        StartWithRequiem,
+        StartWithNocturne,
+        StartWithPrelude,
         #StartingTokens,
         #StartingHearts,
     ]),

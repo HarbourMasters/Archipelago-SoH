@@ -30,6 +30,5 @@ def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
     dungeon_reward_items = get_pre_fill_rewards(world)
 
     completion_items = [c.name for c in dungeon_reward_items]
-    rewards_goal = lambda state: state.has_all(completion_items, world.player)
 
-    world.run_prefill(dungeon_reward_items, dungeon_reward_locations, goal=rewards_goal)
+    world.run_prefill(dungeon_reward_items, dungeon_reward_locations)
