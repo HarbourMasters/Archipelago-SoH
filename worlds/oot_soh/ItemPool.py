@@ -633,5 +633,10 @@ def give_starting_items(world: "SohWorld") -> None:
     for song in starting_songs:
         world.push_precollected(world.create_item(song))
 
-    pass
-    
+    if world.options.small_key_shuffle == "start_with":
+        for key_ring in key_to_ring.values():
+            world.push_precollected(world.create_item(key_ring))
+        
+    if world.options.boss_key_shuffle == "start_with":
+        for boss_key in dungeon_boss_key_vanilla_mapping.values():
+            world.push_precollected(world.create_item(boss_key))

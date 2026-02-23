@@ -766,12 +766,13 @@ class SmallKeyShuffle(Choice):
     Anywhere - Small Keys can appear anywhere in the world.
     """
     display_name = "Small Key Shuffle"
-    option_vanilla = 0
-    option_own_dungeon = 1
-    option_any_dungeon = 2
-    option_overworld = 3
-    option_anywhere = 4
-    default = 1
+    option_start_with = 0
+    option_vanilla = 1
+    option_own_dungeon = 2
+    option_any_dungeon = 3
+    option_overworld = 4
+    option_anywhere = 5
+    default = 2
 
 
 class GerudoFortressKeyShuffle(Choice):
@@ -798,12 +799,13 @@ class BossKeyShuffle(Choice):
     Anywhere - Boss Keys can appear anywhere in the world.
     """
     display_name = "Boss Key Shuffle"
-    option_vanilla = 0
-    option_own_dungeon = 1
-    option_any_dungeon = 2
-    option_overworld = 3
-    option_anywhere = 4
-    default = 1
+    option_start_with = 0
+    option_vanilla = 1
+    option_own_dungeon = 2
+    option_any_dungeon = 3
+    option_overworld = 4
+    option_anywhere = 5
+    default = 2
 
 
 class KeyRings(Choice):
