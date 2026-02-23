@@ -82,14 +82,16 @@ within the Randomizer section of the ESC menu.
 
 ## Is there an option for no logic?
 
-There is a no option logic. The `allow_true_no_logic` option needs to be set to `true` in the hosts `host.yaml` to allow for it. By default it is disabled. Please only enable this if you understand that it will al
+Yes there is. There is a two step process to allow for generating a no logic seed.
+
+First the `allow_true_no_logic` option needs to be set to `true` in the hosts `host.yaml`. By default it is disabled. Please only enable this if you understand that it will make all locations and regions in this world accessible from sphere 1 logically. It will majorly affect the entire multiworld.
 
 ```yaml
 oot_soh_options:
   allow_true_no_logic: true
 ```
 
-In the players `.yaml` options file add this option somewhere to enable it for their world.
+Second, in the players `.yaml` options file add this option somewhere to enable it for their world.
 
 ```yaml
 Ship of Harkinian:
