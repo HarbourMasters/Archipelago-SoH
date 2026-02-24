@@ -1,7 +1,7 @@
 import orjson
 import pkgutil
 
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Callable
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld
@@ -14,7 +14,7 @@ from .Enums import *
 from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
 from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
-from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_any_dungeon_prefill_items, get_overworld_prefill_items
+from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
 from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
@@ -55,7 +55,14 @@ class SohSettings(Group):
         Do not enable this if you don't trust the players using it to play responsibly.
         """
 
+    class DisableFillOverflow(Bool):
+        """
+        A debugging option for disabling our fill overflow for prefills. Typical users likely shouldn't enable this as it allows for generation failures.
+        By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
+        """
+
     allow_true_no_logic: AllowTrueNoLogic | bool = False
+    disable_fill_overflow: DisableFillOverflow | bool = False
 
 
 class SohWorld(CachedRuleBuilderWorld):
@@ -89,6 +96,7 @@ class SohWorld(CachedRuleBuilderWorld):
         self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.pre_fill_pool = list[Items]()
+        self.reserved_pre_fill_locations = list[Locations]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -112,6 +120,9 @@ class SohWorld(CachedRuleBuilderWorld):
 
         # If the door of time is set to song only, and the songs aren't shuffled, force child spawn
         if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
+            self.options.starting_age.value = 0
+
+        if self.options.closed_forest == "on":
             self.options.starting_age.value = 0
 
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
@@ -185,8 +196,8 @@ class SohWorld(CachedRuleBuilderWorld):
         self.pre_fill_pool += get_prefill_songs(self)
         for key_shuffle in get_own_dungeon_prefill_items(self).values():
             self.pre_fill_pool += key_shuffle
-        self.pre_fill_pool += get_any_dungeon_prefill_items(self)
-        self.pre_fill_pool += get_overworld_prefill_items(self)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, False)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?
@@ -216,10 +227,13 @@ class SohWorld(CachedRuleBuilderWorld):
             fill_shop_items(self)
 
     def reserve_prefill_locations(self) -> None:
+        # songs and medalion locations get a soft reservation, by adding them to the reserved location list
+        # pre-fill is not allowed to place items there, but plando is allowed
         DungeonRewardShuffle.reserve_dungeon_reward_locations(self)
         SongShuffle.reserve_song_locations(self)
-        # Currently no reservations for key shuffle, 
-        # we can't know for sure what locations will get used and reserving everything is too restrictive
+
+        # vanilla shop locations get a hard reservation, by placing a RESERVATION item there
+        # pre-fill and plando are not allowed to place items there
         ShopItems.reserve_vanilla_shop_locations(self)
 
     def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
@@ -243,7 +257,7 @@ class SohWorld(CachedRuleBuilderWorld):
         locations = []
         for location in location_list:
             loc = self.get_location(str(location))
-            if loc.item != None or loc.locked:
+            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations:
                 continue
             locations.append(loc)
         self.random.shuffle(locations)
@@ -315,6 +329,35 @@ class SohWorld(CachedRuleBuilderWorld):
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
 
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
+        # check if we're using specific collectionstate
+        if prefill_state is None:
+            for item in item_pool:
+                if item in self.pre_fill_pool: 
+                    self.pre_fill_pool.remove(item)
+            
+            prefill_state = self.get_pre_fill_state()
+        
+        if goal is None:
+            # set region accessability of locations as the goal
+            accessibility_goal = {self.get_location(loc) for loc in locations}
+            goal = lambda state: all([state.can_reach(reg) for reg in accessibility_goal])
+
+        self.multiworld.completion_condition[self.player] = goal
+
+        # get empty, non reserved locations
+        empty_locations = self.get_empty_locations_from_list_shuffled(locations)
+        items = [self.create_item(str(item)) for item in item_pool]
+
+
+        if self.settings.disable_fill_overflow:
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
+        else:
+            # Add any unplaced items to the item pool
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=True)
+            self.add_items_to_item_pool_list(items)
+
+
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
         state._soh_stale[self.player] = True  # type: ignore
@@ -338,6 +381,11 @@ class SohWorld(CachedRuleBuilderWorld):
                 state.soh_heart_count[self.player] += 1  # type: ignore
 
         return changed
+    
+    def add_items_to_item_pool_list(self, items: list[SohItem]) -> None:
+        if len(items) > 0:
+            self.item_pool.extend(items)
+            self.multiworld.itempool.extend(items)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         changed = super().remove(state, item)

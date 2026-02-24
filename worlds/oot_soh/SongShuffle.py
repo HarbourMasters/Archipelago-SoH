@@ -1,7 +1,4 @@
 from typing import TYPE_CHECKING
-from worlds.generic.Rules import add_rule
-from Fill import fill_restrictive
-from BaseClasses import CollectionState
 
 from . import SohItem
 from .Locations import Locations, location_name_groups
@@ -51,26 +48,15 @@ def reserve_song_locations(world: "SohWorld") -> None:
     if world.options.shuffle_songs in ("off", "anywhere"):
         return
     
-    reservation_locations = list[Locations]()
-
     if world.options.shuffle_songs == "song_locations":
-        reservation_locations = list(song_vanilla_locations.keys())
+        world.reserved_pre_fill_locations += list(song_vanilla_locations.keys())
     if world.options.shuffle_songs == "dungeon_rewards":
-        reservation_locations = dungeon_reward_song_locations
-
-    for song_location in reservation_locations:
-        location = world.get_location(song_location)
-        location.place_locked_item(world.create_item(Items.RESERVATION))
+        world.reserved_pre_fill_locations += dungeon_reward_song_locations
 
 def remove_song_reservations(world: "SohWorld") -> None:
-    reservation_locations = list(song_vanilla_locations.keys())
-    reservation_locations += dungeon_reward_song_locations
-
-    for song_location in reservation_locations:
-        location = world.get_location(song_location)
-        if location.item == world.create_item(Items.RESERVATION):
-            location.item = None
-            location.locked = False
+    song_locations = list(song_vanilla_locations.keys())
+    song_locations += dungeon_reward_song_locations
+    world.reserved_pre_fill_locations = [loc for loc in world.reserved_pre_fill_locations if loc not in song_locations]
 
 def pre_fill_songs(world: "SohWorld") -> None:
     # Do not prefill songs anywhere in particular
@@ -79,24 +65,12 @@ def pre_fill_songs(world: "SohWorld") -> None:
     
     remove_song_reservations(world)
 
-    songs = list[SohItem]()
-    for item in get_prefill_songs(world):
-        songs.append(world.create_item(item))
-        world.pre_fill_pool.remove(item)
-
-    prefill_state = world.get_pre_fill_state()
-    reward_goal_locations = [world.get_location(loc) for loc in location_name_groups["Bosses"]]
-    world.multiworld.completion_condition[world.player] = lambda state: all([state.can_reach(loc) for loc in reward_goal_locations])
+    songs = get_prefill_songs(world)
+    song_locations = list[Locations]()
 
     if world.options.shuffle_songs == "song_locations":
-        song_locations = world.get_empty_locations_from_list_shuffled(list(song_vanilla_locations.keys()))
-        fill_restrictive(world.multiworld, prefill_state, song_locations, songs, single_player_placement=True, lock=True)
-        return
-
-    if world.options.shuffle_songs == "dungeon_rewards":
-        reward_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_song_locations)
-        fill_restrictive(world.multiworld, prefill_state, reward_locations, songs, single_player_placement=True, lock=True)
-        return
+        song_locations.extend(song_vanilla_locations.keys())
+    elif world.options.shuffle_songs == "dungeon_rewards":
+        song_locations.extend(dungeon_reward_song_locations)
     
-
-
+    world.run_prefill(songs, song_locations)

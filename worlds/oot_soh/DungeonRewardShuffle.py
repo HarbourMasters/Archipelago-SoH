@@ -1,5 +1,4 @@
 from typing import TYPE_CHECKING
-from Fill import fill_restrictive
 
 from .Regions import dungeon_reward_item_mapping
 from .Items import SohItem, Items
@@ -16,16 +15,10 @@ def reserve_dungeon_reward_locations(world: "SohWorld"):
     if world.options.shuffle_dungeon_rewards != "dungeons":
          return
 
-    for reward_location in dungeon_reward_item_mapping.keys():
-        location = world.get_location(reward_location)
-        location.place_locked_item(world.create_item(Items.RESERVATION))
+    world.reserved_pre_fill_locations += list(dungeon_reward_item_mapping.keys())
 
 def remove_dungeon_reward_reservations(world: "SohWorld"):
-    for reward_location in dungeon_reward_item_mapping.keys():
-        location = world.get_location(reward_location)
-        if location.item == world.create_item(Items.RESERVATION):
-            location.item = None
-            location.locked = False
+    world.reserved_pre_fill_locations = [loc for loc in world.reserved_pre_fill_locations if loc not in dungeon_reward_item_mapping.keys()]
 
 def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
     if world.options.shuffle_dungeon_rewards != "dungeons":
@@ -33,18 +26,10 @@ def pre_fill_dungeon_rewards(world: "SohWorld") -> None:
 
     remove_dungeon_reward_reservations(world)
 
-    dungeon_reward_locations = world.get_empty_locations_from_list_shuffled(dungeon_reward_item_mapping.keys())
-    
-    dungeon_reward_items = list[SohItem]()
-    for item in get_pre_fill_rewards(world):
-        world.pre_fill_pool.remove(item)
-        dungeon_reward_items.append(world.create_item(item))
+    dungeon_reward_locations = list(dungeon_reward_item_mapping.keys())
+    dungeon_reward_items = get_pre_fill_rewards(world)
 
     completion_items = [c.name for c in dungeon_reward_items]
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all(completion_items, world.player)
+    rewards_goal = lambda state: state.has_all(completion_items, world.player)
 
-    prefill_state = world.get_pre_fill_state()
-
-    # Place dungeon rewards
-    fill_restrictive(world.multiworld, prefill_state, dungeon_reward_locations,
-                     dungeon_reward_items, single_player_placement=True, lock=True)
+    world.run_prefill(dungeon_reward_items, dungeon_reward_locations, goal=rewards_goal)
