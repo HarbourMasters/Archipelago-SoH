@@ -139,6 +139,9 @@ class SohWorld(World):
         if self.options.shuffle_deku_nut_bag.value:
             self.options.start_with_nut_ammo.value = 0
 
+        if self.options.shuffle_dungeon_rewards in ("off", "dungeons"):
+            self.options.start_with_links_pocket.value = 0
+
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
@@ -493,6 +496,7 @@ class SohWorld(World):
             "skip_epona_race": self.options.skip_epona_race.value,
             "complete_mask_quest": self.options.complete_mask_quest.value,
             "skip_scarecrows_song": self.options.skip_scarecrows_song.value,
+            "start_with_links_pocket": self.options.start_with_links_pocket.value,
             "start_with_kokiri_sword": self.options.start_with_kokiri_sword.value,
             "start_with_deku_shield": self.options.start_with_deku_shield.value,
             "start_with_master_sword": self.options.start_with_master_sword.value,

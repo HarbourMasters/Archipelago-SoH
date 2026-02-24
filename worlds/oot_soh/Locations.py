@@ -46,7 +46,6 @@ base_location_table: dict[str, SohLocData] = {
     # Commented out locations that aren't added as shuffle options yet, or are MQ locations.
     # Some are disabled because they're not real locations (ex Ganon and hint locations).
 
-    Locations.LINKS_POCKET: SohLocData(1, [LocTag.standard]),
     Locations.QUEEN_GOHMA: SohLocData(2, [LocTag.standard], DungeonLocations.DEKU_TREE),
     Locations.KING_DODONGO: SohLocData(3, [LocTag.standard], DungeonLocations.DODONGOS_CAVERN),
     Locations.BARINADE: SohLocData(4, [LocTag.standard], DungeonLocations.JABU_JABUS_BELLY),
@@ -2561,6 +2560,10 @@ fish_overworld_location_table: dict[str, SohLocData] = {
     Locations.ZD_FISH5: SohLocData(2392)
 }
 
+links_pocket_location_table: dict[str, SohLocData] = {
+    Locations.LINKS_POCKET: SohLocData(1, [LocTag.standard]),
+}
+
 child_zelda_location_table: dict[str, SohLocData] = {
     Locations.HC_MALON_EGG: SohLocData(61),
     Locations.HC_ZELDAS_LETTER: SohLocData(62)
@@ -2617,6 +2620,7 @@ location_data_table: dict[str, SohLocData] = {
     **tree_location_table,
     **fish_pond_location_table,
     **fish_overworld_location_table,
+    **links_pocket_location_table,
     **child_zelda_location_table,
     **carpenters_location_table,
     **hundred_skulls_location_table,

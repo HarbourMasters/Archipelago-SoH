@@ -1,6 +1,6 @@
 from typing import NamedTuple, TYPE_CHECKING
 from worlds.AutoWorld import LogicMixin
-from BaseClasses import MultiWorld, Region, ItemClassification
+from BaseClasses import MultiWorld, Region, ItemClassification, LocationProgressType
 from .Enums import *
 from .Locations import SohLocation, base_location_table, \
     gold_skulltula_overworld_location_table, \
@@ -28,11 +28,14 @@ from .Locations import SohLocation, base_location_table, \
     grass_dungeon_location_table, \
     fish_pond_location_table, \
     fish_overworld_location_table, \
+    links_pocket_location_table,\
     child_zelda_location_table, \
     carpenters_location_table, \
     hundred_skulls_location_table, \
     no_logic_crates_location_table, \
-    no_logic_trees_location_table
+    no_logic_trees_location_table, \
+    SohLocData, \
+    LocTag
 from .location_access import root
 from .location_access.overworld import \
     castle_grounds, \
@@ -226,6 +229,10 @@ def create_regions_and_locations(world: "SohWorld") -> None:
     if world.options.shuffle_fish == "overworld" or world.options.shuffle_fish == "all":
         world.included_locations.update(fish_overworld_location_table)
 
+    # Link's Pocket
+    if world.options.start_with_links_pocket != "nothing":
+        world.included_locations.update(links_pocket_location_table)
+
     # Child Zelda
     if not world.options.skip_child_zelda:
         world.included_locations.update(child_zelda_location_table)
@@ -393,6 +400,8 @@ map_and_compass_vanilla_mapping = {
 
 
 def place_locked_items(world: "SohWorld") -> None:
+    if world.options.start_with_links_pocket == "advancement":
+        world.get_location(Locations.LINKS_POCKET).progress_type = LocationProgressType.PRIORITY
 
     # Add Weird Egg and Zelda's Letter to their vanilla locations when not shuffled
     if not world.options.skip_child_zelda and not world.options.shuffle_weird_egg:
@@ -452,6 +461,13 @@ def place_locked_items(world: "SohWorld") -> None:
         for location_name, reward_name in zip(dungeon_reward_item_mapping.keys(), dungeon_reward_item_mapping.values()):
             world.get_location(location_name.value).place_locked_item(
                 world.create_item(reward_name.value))
+    elif world.options.shuffle_dungeon_rewards != "dungeons":
+        if world.options.start_with_links_pocket == "dungeon_reward":
+            dungeon_rewards = list(dungeon_reward_item_mapping.values())
+            world.random.shuffle(dungeon_rewards)
+            reward = dungeon_rewards[0]
+            world.get_location(Locations.LINKS_POCKET).place_locked_item(
+                world.create_item(reward))
 
     # Place Ganons Boss Key
     if not world.options.ganons_castle_boss_key == "vanilla" and not world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:

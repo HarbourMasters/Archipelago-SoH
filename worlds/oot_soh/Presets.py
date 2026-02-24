@@ -27,6 +27,7 @@ default_options: dict[str, Any] = {
     "blue_fire_arrows":         Toggle.option_false,
     "sunlight_arrows":          Toggle.option_false,
     "starting_age":             StartingAge.option_child,
+    "start_with_links_pocket":  StartWithLinksPocket.option_dungeon_reward,
     "start_with_kokiri_sword":  Toggle.option_false,
     "start_with_deku_shield":   Toggle.option_false,
     "start_with_master_sword":  Toggle.option_false,

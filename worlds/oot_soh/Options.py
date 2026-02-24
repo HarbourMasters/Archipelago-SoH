@@ -1103,6 +1103,20 @@ class StartWithMasterSword(Toggle):
     """
     display_name = "Start with Master Sword"
 
+class StartWithLinksPocket(Choice):
+    """
+    Starting Item in Link's Pocket
+    Dungeon Reward starts you with one of the dungeon rewards
+    Advancement starts you with a random major item
+    Anything starts you with a random item
+    Nothing starts you with nothing in link's pocket
+    """
+    display_name = "Link's Pocket"
+    option_dungeon_reward = 0
+    option_advancement = 1
+    option_anything = 2
+    option_nothing = 3
+    default = 0
 
 class StartWithKokiriSword(Toggle):
     """
@@ -1312,7 +1326,7 @@ class SohOptions(PerGameCommonOptions):
     skip_epona_race: SkipEponaRace
     complete_mask_quest: CompleteMaskQuest
     skip_scarecrows_song: SkipScarecrowsSong
-    #StartWithLinksPocket
+    start_with_links_pocket: StartWithLinksPocket
     start_with_kokiri_sword: StartWithKokiriSword
     start_with_master_sword: StartWithMasterSword
     start_with_deku_shield: StartWithDekuShield
@@ -1479,7 +1493,7 @@ soh_option_groups = [
         IceTrapFillerReplacement
     ]),
     OptionGroup("Starting Items", [
-        #StartWithLinksPocket,
+        StartWithLinksPocket,
         StartWithKokiriSword,
         StartWithMasterSword,
         StartWithDekuShield,
