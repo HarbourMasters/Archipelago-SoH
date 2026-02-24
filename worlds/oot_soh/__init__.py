@@ -5,6 +5,7 @@ from typing import Any, ClassVar, Callable
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld
+from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table

@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import TYPE_CHECKING, Callable, Mapping
+from typing import TYPE_CHECKING, Callable
 from collections import Counter
 
 from BaseClasses import CollectionState, ItemClassification as IC, MultiWorld, Location, Region
