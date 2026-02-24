@@ -22,7 +22,7 @@ def set_region_rules(world: "SohWorld") -> None:
         ])
     # Locations
     add_locations(Regions.ROOT, world, [
-        (Locations.LINKS_POCKET, lambda bundle: True)
+        (Locations.LINKS_POCKET, True_())
     ])
     # Connections
     connect_regions(Regions.ROOT, world, [
@@ -35,18 +35,18 @@ def set_region_rules(world: "SohWorld") -> None:
         # Events
         add_events(Regions.ROOT, world, [
             (EventLocations.ZELDAS_LETTER_FROM_SKIP_OPTION,
-             Items.ZELDAS_LETTER, lambda bundle: True)
+             Items.ZELDAS_LETTER, True_())
         ])
         # Connections
         connect_regions(Regions.ROOT, world, [
-            (Regions.HC_GARDEN_SONG_FROM_IMPA, lambda bundle: True)
+            (Regions.HC_GARDEN_SONG_FROM_IMPA, True_())
         ])
 
     # Connection for Master Sword as you start with it when starting age is adult and MS is not shuffled.
     if (world.options.starting_age == "adult" and not world.options.shuffle_master_sword):
         # Connections
         connect_regions(Regions.ROOT, world, [
-            (Regions.MASTER_SWORD_PEDESTAL, lambda bundle: True)
+            (Regions.MASTER_SWORD_PEDESTAL, True_())
         ])
 
     # Root Exits
@@ -54,24 +54,24 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.ROOT_EXITS, world, [
         (Regions.CHILD_SPAWN, lambda bundle: is_child(bundle)),
         (Regions.ADULT_SPAWN, lambda bundle: is_adult(bundle)),
-        (Regions.MINUET_OF_FOREST_WARP, lambda bundle: True),
-        (Regions.BOLERO_OF_FIRE_WARP, lambda bundle: True),
-        (Regions.SERENADE_OF_WATER_WARP, lambda bundle: True),
-        (Regions.NOCTURNE_OF_SHADOW_WARP, lambda bundle: True),
-        (Regions.REQUIEM_OF_SPIRIT_WARP, lambda bundle: True),
-        (Regions.PRELUDE_OF_LIGHT_WARP, lambda bundle: True),
+        (Regions.MINUET_OF_FOREST_WARP, True_()),
+        (Regions.BOLERO_OF_FIRE_WARP, True_()),
+        (Regions.SERENADE_OF_WATER_WARP, True_()),
+        (Regions.NOCTURNE_OF_SHADOW_WARP, True_()),
+        (Regions.REQUIEM_OF_SPIRIT_WARP, True_()),
+        (Regions.PRELUDE_OF_LIGHT_WARP, True_()),
     ])
 
     # Child Spawn
     # Connections
     connect_regions(Regions.CHILD_SPAWN, world, [
-        (Regions.KF_LINKS_HOUSE, lambda bundle: True)
+        (Regions.KF_LINKS_HOUSE, True_())
     ])
 
     # Adult Spawn
     # Connections
     connect_regions(Regions.ADULT_SPAWN, world, [
-        (Regions.TEMPLE_OF_TIME, lambda bundle: True)
+        (Regions.TEMPLE_OF_TIME, True_())
     ])
 
     # Minuet of Forest Warp

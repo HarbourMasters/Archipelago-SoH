@@ -45,7 +45,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZORAS_FOUNTAIN, world, [
-        (Regions.ZD_BEHIND_KING_ZORA, lambda bundle: True),
+        (Regions.ZD_BEHIND_KING_ZORA, True_()),
         (Regions.ZF_ICEBERGS, lambda bundle: is_adult(bundle)),
         (Regions.ZF_LAKEBED, lambda bundle: can_use(Items.IRON_BOOTS, bundle)),
         (Regions.ZF_HIDDEN_CAVE, lambda bundle: can_use(
@@ -68,7 +68,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.ZORAS_FOUNTAIN, lambda bundle: has_item(
             Items.BRONZE_SCALE, bundle) or can_use(Items.HOVER_BOOTS, bundle)),
         (Regions.ZF_LAKEBED, lambda bundle: can_use(Items.IRON_BOOTS, bundle)),
-        (Regions.ZF_LEDGE, lambda bundle: True)
+        (Regions.ZF_LEDGE, True_())
     ])
 
     # Zora's Fountain Lakebed
@@ -124,7 +124,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.ZORAS_FOUNTAIN, lambda bundle: has_item(Items.BRONZE_SCALE, bundle)),
         (Regions.ZF_ICEBERGS, lambda bundle: is_adult(bundle)),
         (Regions.ZF_LAKEBED, lambda bundle: can_use(Items.IRON_BOOTS, bundle)),
-        (Regions.ICE_CAVERN_ENTRYWAY, lambda bundle: True)
+        (Regions.ICE_CAVERN_ENTRYWAY, True_())
     ])
 
     # Zora's Fountain Hidden Cave
@@ -139,7 +139,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZF_HIDDEN_CAVE, world, [
-        (Regions.ZF_HIDDEN_LEDGE, lambda bundle: True)
+        (Regions.ZF_HIDDEN_LEDGE, True_())
     ])
 
     # Zora's Fountain Hidden Ledge
@@ -152,13 +152,13 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.ZF_HIDDEN_LEDGE, world, [
         (Regions.ZORAS_FOUNTAIN, lambda bundle: has_item(
             Items.BRONZE_SCALE, bundle) or take_damage(bundle)),
-        (Regions.ZF_HIDDEN_CAVE, lambda bundle: True)
+        (Regions.ZF_HIDDEN_CAVE, True_())
     ])
 
     # Zora's Fountain Rock
     # Connections
     connect_regions(Regions.ZF_ROCK, world, [
-        (Regions.ZORAS_FOUNTAIN, lambda bundle: True)
+        (Regions.ZORAS_FOUNTAIN, True_())
     ])
 
     # Zora's Fountain Great Fairy Fountain
@@ -169,5 +169,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZF_GREAT_FAIRY_FOUNTAIN, world, [
-        (Regions.ZORAS_FOUNTAIN, lambda bundle: True)
+        (Regions.ZORAS_FOUNTAIN, True_())
     ])

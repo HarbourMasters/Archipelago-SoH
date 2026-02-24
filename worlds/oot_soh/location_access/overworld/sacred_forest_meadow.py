@@ -13,7 +13,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # SFM Entryway
     # Connections
     connect_regions(Regions.SFM_ENTRYWAY, world, [
-        (Regions.LW_BEYOND_MIDO, lambda bundle: True),
+        (Regions.LW_BEYOND_MIDO, True_()),
         (Regions.SACRED_FOREST_MEADOW, lambda bundle: is_adult(
             bundle) or can_kill_enemy(bundle, Enemies.WOLFOS)),
         (Regions.SFM_WOLFOS_GROTTO, lambda bundle: can_open_bomb_grotto(bundle)),
@@ -47,10 +47,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SACRED_FOREST_MEADOW, world, [
-        (Regions.SFM_ENTRYWAY, lambda bundle: True),
+        (Regions.SFM_ENTRYWAY, True_()),
         (Regions.FOREST_TEMPLE_ENTRYWAY,
          lambda bundle: can_use(Items.HOOKSHOT, bundle)),
-        (Regions.SFM_FAIRY_GROTTO, lambda bundle: True),
+        (Regions.SFM_FAIRY_GROTTO, True_()),
         (Regions.SFM_STORMS_GROTTO, lambda bundle: can_open_storms_grotto(bundle)),
     ])
 
@@ -58,22 +58,22 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.SFM_FAIRY_GROTTO, world, [
         (EventLocations.SFM_FAIRY_FOUNTAIN_FAIRY,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
+         Events.CAN_ACCESS_FAIRIES, True_()),
     ])
     # Locations
     add_locations(Regions.SFM_FAIRY_GROTTO, world, [
-        (Locations.SFM_FAIRY_GROTTO_FAIRY1, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY2, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY3, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY4, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY5, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY6, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY7, lambda bundle: True),
-        (Locations.SFM_FAIRY_GROTTO_FAIRY8, lambda bundle: True),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY1, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY2, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY3, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY4, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY5, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY6, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY7, True_()),
+        (Locations.SFM_FAIRY_GROTTO_FAIRY8, True_()),
     ])
     # Connections
     connect_regions(Regions.SFM_FAIRY_GROTTO, world, [
-        (Regions.SACRED_FOREST_MEADOW, lambda bundle: True),
+        (Regions.SACRED_FOREST_MEADOW, True_()),
     ])
 
     # SFM Wolfos Grotto
@@ -84,7 +84,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SFM_WOLFOS_GROTTO, world, [
-        (Regions.SACRED_FOREST_MEADOW, lambda bundle: True),
+        (Regions.SACRED_FOREST_MEADOW, True_()),
     ])
 
     # SFM Storms Grotto
@@ -99,5 +99,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SFM_STORMS_GROTTO, world, [
-        (Regions.SACRED_FOREST_MEADOW, lambda bundle: True),
+        (Regions.SACRED_FOREST_MEADOW, True_()),
     ])

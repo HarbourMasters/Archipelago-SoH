@@ -35,14 +35,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_ENTRYWAY, world, [
         # Todo: Change this when we have IsVanilla vs. IsMQ
-        (Regions.FOREST_TEMPLE_FIRST_ROOM, lambda bundle: True),
-        (Regions.SACRED_FOREST_MEADOW, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_FIRST_ROOM, True_()),
+        (Regions.SACRED_FOREST_MEADOW, True_())
     ])
 
     # Forest Temple First Room
     # Locations
     add_locations(Regions.FOREST_TEMPLE_FIRST_ROOM, world, [
-        (Locations.FOREST_TEMPLE_FIRST_ROOM_CHEST, lambda bundle: True),
+        (Locations.FOREST_TEMPLE_FIRST_ROOM_CHEST, True_()),
         (Locations.FOREST_TEMPLE_GS_FIRST_ROOM, lambda bundle: ((is_adult(bundle) and can_use(Items.BOMB_BAG, bundle)) or
                                                                 can_use(Items.FAIRY_BOW, bundle) or
                                                                 can_use(Items.HOOKSHOT, bundle) or
@@ -54,14 +54,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_FIRST_ROOM, world, [
-        (Regions.FOREST_TEMPLE_ENTRYWAY, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_SOUTH_CORRIDOR, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_ENTRYWAY, True_()),
+        (Regions.FOREST_TEMPLE_SOUTH_CORRIDOR, True_())
     ])
 
     # Forest Temple South Corridor
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_SOUTH_CORRIDOR, world, [
-        (Regions.FOREST_TEMPLE_FIRST_ROOM, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_FIRST_ROOM, True_()),
         (Regions.FOREST_TEMPLE_LOBBY, lambda bundle: (
             can_pass_enemy(bundle, Enemies.BIG_SKULLTULA)))
     ])
@@ -87,32 +87,32 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_LOBBY, world, [
-        (Regions.FOREST_TEMPLE_SOUTH_CORRIDOR, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_NORTH_CORRIDOR, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_SOUTH_CORRIDOR, True_()),
+        (Regions.FOREST_TEMPLE_NORTH_CORRIDOR, True_()),
         (Regions.FOREST_TEMPLE_NW_OUTDOORS_LOWER, lambda bundle: (
             can_use(Items.SONG_OF_TIME, bundle) or is_child(bundle))),
         (Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, lambda bundle: (
             can_use(Items.FAIRY_BOW, bundle) or can_use(Items.FAIRY_SLINGSHOT, bundle))),
         (Regions.FOREST_TEMPLE_WEST_CORRIDOR, lambda bundle: (
             small_keys(Items.FOREST_TEMPLE_SMALL_KEY, 1, bundle))),
-        (Regions.FOREST_TEMPLE_EAST_CORRIDOR, lambda bundle: False),
+        (Regions.FOREST_TEMPLE_EAST_CORRIDOR, False_()),
         (Regions.FOREST_TEMPLE_BOSS_REGION, lambda bundle: has_item(
             LocalEvents.DEFEATED_MEG, bundle)),
-        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False)
+        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, False_())
     ])
 
     # Forest Temple North Corridor
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_NORTH_CORRIDOR, world, [
-        (Regions.FOREST_TEMPLE_LOBBY, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_LOWER_STALFOS, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_LOBBY, True_()),
+        (Regions.FOREST_TEMPLE_LOWER_STALFOS, True_())
     ])
 
     # Forest Temple Lower Stalfos
     # Events
     add_events(Regions.FOREST_TEMPLE_LOWER_STALFOS, world, [
         (EventLocations.FOREST_TEMPLE_LOWER_STALFOS_FAIRY_POT,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
+         Events.CAN_ACCESS_FAIRIES, True_()),
     ])
     # Locations
     add_locations(Regions.FOREST_TEMPLE_LOWER_STALFOS, world, [
@@ -125,7 +125,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_LOWER_STALFOS, world, [
-        (Regions.FOREST_TEMPLE_NORTH_CORRIDOR, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_NORTH_CORRIDOR, True_())
     ])
 
     # Forest Temple NW Outdoors Lower
@@ -146,12 +146,12 @@ def set_region_rules(world: "SohWorld") -> None:
             can_use(Items.HOVER_BOOTS, bundle) and (
                 (can_do_trick(Tricks.HOVER_BOOST_SIMPLE, bundle) and can_do_trick(Tricks.DAMAGE_BOOST_SIMPLE, bundle) and has_explosives(bundle)) or
                 (can_do_trick(Tricks.GROUND_JUMP_HARD, bundle) and can_ground_jump(bundle))))),
-        (Regions.FOREST_TEMPLE_MAP_ROOM, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_MAP_ROOM, True_()),
         (Regions.FOREST_TEMPLE_WELL, lambda bundle:
             ((has_item(Items.GOLDEN_SCALE, bundle) or
               can_use(Items.IRON_BOOTS, bundle)) or
              has_item(LocalEvents.DRAINED_WELL, bundle))),
-        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, False_()),
         (Regions.FOREST_TEMPLE_NW_COURTYARD_HEARTS, lambda bundle: (can_use(Items.BOOMERANG, bundle) and
                                                                     can_do_trick(Tricks.FOREST_OUTDOORS_HEARTS_BOOMERANG, bundle)))
     ])
@@ -166,26 +166,26 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_NW_OUTDOORS_UPPER, world, [
-        (Regions.FOREST_TEMPLE_NW_OUTDOORS_LOWER, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_NW_OUTDOORS_LOWER, True_()),
         (Regions.FOREST_TEMPLE_NW_COURTYARD_SKULLTULA_ISLAND,
          lambda bundle: hookshot_or_boomerang(bundle)),
-        (Regions.FOREST_TEMPLE_BELOW_BOSS_KEY_CHEST, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_FLOORMASTER_ROOM, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_BLOCK_PUSH_ROOM, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_NW_COURTYARD_HEARTS, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_BELOW_BOSS_KEY_CHEST, True_()),
+        (Regions.FOREST_TEMPLE_FLOORMASTER_ROOM, True_()),
+        (Regions.FOREST_TEMPLE_BLOCK_PUSH_ROOM, True_()),
+        (Regions.FOREST_TEMPLE_NW_COURTYARD_HEARTS, True_())
     ])
 
     # Forest Temple NW Courtyard Hearts
     # Locations
     add_locations(Regions.FOREST_TEMPLE_NW_COURTYARD_HEARTS, world, [
-        (Locations.FOREST_TEMPLE_WEST_COURTYARD_RIGHT_HEART, lambda bundle: True),
-        (Locations.FOREST_TEMPLE_WEST_COURTYARD_LEFT_HEART, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_WEST_COURTYARD_RIGHT_HEART, True_()),
+        (Locations.FOREST_TEMPLE_WEST_COURTYARD_LEFT_HEART, True_())
     ])
 
     # Forest Temple Courtyard Skulltula Island
     # Locations
     add_locations(Regions.FOREST_TEMPLE_NW_COURTYARD_SKULLTULA_ISLAND, world, [
-        (Locations.FOREST_TEMPLE_GS_LEVEL_ISLAND_COURTYARD, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_GS_LEVEL_ISLAND_COURTYARD, True_())
     ])
 
     # Forest Temple NE Outdoors Lower
@@ -198,14 +198,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, world, [
-        (Regions.FOREST_TEMPLE_LOBBY, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_LOBBY, True_()),
         (Regions.FOREST_TEMPLE_NE_OUTDOORS_UPPER, lambda bundle: (can_use(Items.LONGSHOT, bundle) or
                                                                   (can_do_trick(Tricks.FOREST_VINES, bundle) and can_use(Items.HOOKSHOT, bundle)))),
         (Regions.FOREST_TEMPLE_WELL, lambda bundle:
             ((has_item(Items.GOLDEN_SCALE, bundle) or
               can_use(Items.IRON_BOOTS, bundle)) or
              has_item(LocalEvents.DRAINED_WELL, bundle))),
-        (Regions.FOREST_TEMPLE_FALLING_ROOM, lambda bundle: False),
+        (Regions.FOREST_TEMPLE_FALLING_ROOM, False_()),
         (Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND,
          lambda bundle: (can_use(Items.HOOKSHOT, bundle))),
         (Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND_GS, lambda bundle: (can_use(Items.HOOKSHOT, bundle) or
@@ -216,7 +216,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.FOREST_TEMPLE_NE_OUTDOORS_UPPER, world, [
         (EventLocations.FOREST_TEMPLE_NE_OUTDOORS_UPPER_DRAIN_WELL,
-         LocalEvents.DRAINED_WELL, lambda bundle: True),
+         LocalEvents.DRAINED_WELL, True_()),
         (EventLocations.FOREST_TEMPLE_NE_OUTDOORS_UPPER_DEKU_BABA_STICKS,
          Events.CAN_FARM_STICKS, lambda bundle: can_get_deku_baba_sticks(bundle)),
         (EventLocations.FOREST_TEMPLE_NE_OUTDOORS_UPPER_DEKU_BABA_NUTS,
@@ -224,8 +224,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_NE_OUTDOORS_UPPER, world, [
-        (Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_MAP_ROOM, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, True_()),
+        (Regions.FOREST_TEMPLE_MAP_ROOM, True_()),
         (Regions.FOREST_TEMPLE_FALLING_ROOM, lambda bundle: (can_do_trick(Tricks.FOREST_DOORFRAME, bundle) and
                                                              can_jump_slash_except_hammer(bundle) and
                                                              can_use(Items.HOVER_BOOTS, bundle) and
@@ -238,13 +238,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Forest Temple NE Courtyard Skulltula Island
     # Locations
     add_locations(Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND, world, [
-        (Locations.FOREST_TEMPLE_RAISED_ISLAND_COURTYARD_CHEST, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_RAISED_ISLAND_COURTYARD_CHEST, True_())
     ])
 
     # Forest Temple NE Courtyard Skulltula Island GS
     # Locations
     add_locations(Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND_GS, world, [
-        (Locations.FOREST_TEMPLE_GS_RAISED_ISLAND_COURTYARD, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_GS_RAISED_ISLAND_COURTYARD, True_())
     ])
 
     # Forest Temple Map Room
@@ -302,7 +302,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_FLOORMASTER_ROOM, world, [
-        (Regions.FOREST_TEMPLE_NW_OUTDOORS_UPPER, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_NW_OUTDOORS_UPPER, True_())
     ])
 
     # Forest Temple West Corridor
@@ -322,7 +322,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_BLOCK_PUSH_ROOM, world, [
-        (Regions.FOREST_TEMPLE_WEST_CORRIDOR, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_WEST_CORRIDOR, True_()),
         (Regions.FOREST_TEMPLE_NW_OUTDOORS_UPPER, lambda bundle: (can_use(Items.HOVER_BOOTS, bundle) or
                                                                   (can_do_trick(Tricks.FOREST_OUTSIDE_BACKDOOR, bundle) and
                                                                    can_jump_slash_except_hammer(bundle) and
@@ -349,11 +349,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Forest Temple NW Corridor Straightened
     # Locations
     add_locations(Regions.FOREST_TEMPLE_NW_CORRIDOR_STRAIGHTENED, world, [
-        (Locations.FOREST_TEMPLE_BOSS_KEY_CHEST, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_BOSS_KEY_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_NW_CORRIDOR_STRAIGHTENED, world, [
-        (Regions.FOREST_TEMPLE_BELOW_BOSS_KEY_CHEST, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_BELOW_BOSS_KEY_CHEST, True_()),
         (Regions.FOREST_TEMPLE_BLOCK_PUSH_ROOM, lambda bundle: small_keys(
             Items.FOREST_TEMPLE_SMALL_KEY, 2, bundle))
     ])
@@ -373,7 +373,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.FOREST_TEMPLE_RED_POE_ROOM, world, [
         (Regions.FOREST_TEMPLE_NW_CORRIDOR_TWISTED, lambda bundle: small_keys(
             Items.FOREST_TEMPLE_SMALL_KEY, 3, bundle)),
-        (Regions.FOREST_TEMPLE_UPPER_STALFOS, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_UPPER_STALFOS, True_())
     ])
 
     # Forest Temple Upper Stalfos
@@ -417,7 +417,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_BLUE_POE_ROOM, world, [
-        (Regions.FOREST_TEMPLE_UPPER_STALFOS, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_UPPER_STALFOS, True_()),
         (Regions.FOREST_TEMPLE_NE_CORRIDOR_STRAIGHTENED,
          lambda bundle: small_keys(Items.FOREST_TEMPLE_SMALL_KEY, 4, bundle))
     ])
@@ -436,7 +436,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.FOREST_TEMPLE_NE_CORRIDOR_TWISTED, world, [
         (Regions.FOREST_TEMPLE_FROZEN_EYE_ROOM, lambda bundle: small_keys(
             Items.FOREST_TEMPLE_SMALL_KEY, 5, bundle)),
-        (Regions.FOREST_TEMPLE_FALLING_ROOM, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_FALLING_ROOM, True_())
     ])
 
     # Forest Temple Frozen Eye Room
@@ -458,13 +458,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Forest Temple Falling Room
     # Locations
     add_locations(Regions.FOREST_TEMPLE_FALLING_ROOM, world, [
-        (Locations.FOREST_TEMPLE_FALLING_CEILING_ROOM_CHEST, lambda bundle: True)
+        (Locations.FOREST_TEMPLE_FALLING_CEILING_ROOM_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_FALLING_ROOM, world, [
-        (Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_GREEN_POE_ROOM, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_NE_OUTDOORS_LOWER, True_()),
+        (Regions.FOREST_TEMPLE_GREEN_POE_ROOM, True_()),
+        (Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND, True_()),
         (Regions.FOREST_TEMPLE_NE_COURTYARD_SKULLTULA_ISLAND_GS, lambda bundle: (can_use(Items.FAIRY_BOW, bundle) or
                                                                                  can_use(Items.FAIRY_SLINGSHOT, bundle) or
                                                                                  can_use(Items.DINS_FIRE, bundle) or
@@ -486,7 +486,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_GREEN_POE_ROOM, world, [
-        (Regions.FOREST_TEMPLE_FALLING_ROOM, lambda bundle: True),
+        (Regions.FOREST_TEMPLE_FALLING_ROOM, True_()),
         (Regions.FOREST_TEMPLE_EAST_CORRIDOR,
          lambda bundle: has_item(LocalEvents.DEFEATED_AMY, bundle))
     ])
@@ -503,20 +503,20 @@ def set_region_rules(world: "SohWorld") -> None:
     # Forest Temple Boss Region
     # Locations
     add_locations(Regions.FOREST_TEMPLE_BOSS_REGION, world, [
-        (Locations.FOREST_TEMPLE_BASEMENT_CHEST, lambda bundle: True),
+        (Locations.FOREST_TEMPLE_BASEMENT_CHEST, True_()),
         (Locations.FOREST_TEMPLE_GS_BASEMENT,
          lambda bundle: hookshot_or_boomerang(bundle))
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_BOSS_REGION, world, [
-        (Regions.FOREST_TEMPLE_LOBBY, lambda bundle: True),
-        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, lambda bundle: True)
+        (Regions.FOREST_TEMPLE_LOBBY, True_()),
+        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, True_())
     ])
 
     # Forest Temple Boss Entryway
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, world, [
-        (Regions.FOREST_TEMPLE_BOSS_REGION, lambda bundle: False),
+        (Regions.FOREST_TEMPLE_BOSS_REGION, False_()),
         # Todo: Connect to MQ_BOSS_REGION
         (Regions.FOREST_TEMPLE_BOSS_ROOM, lambda bundle: has_item(
             Items.FOREST_TEMPLE_BOSS_KEY, bundle))
@@ -537,7 +537,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FOREST_TEMPLE_BOSS_ROOM, world, [
-        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.FOREST_TEMPLE_BOSS_ENTRYWAY, False_()),
         (Regions.SACRED_FOREST_MEADOW, lambda bundle: has_item(
             Events.FOREST_TEMPLE_COMPLETED, bundle))
     ])

@@ -30,7 +30,7 @@ def set_region_rules(world: "SohWorld") -> None:
     add_events(Regions.ZORAS_DOMAIN, world, [
         (EventLocations.ZD_GOSSIP_STONE_SONG_FAIRY, Events.CAN_ACCESS_FAIRIES,
          lambda bundle: call_gossip_fairy_except_suns(bundle)),
-        (EventLocations.ZD_NUT_POT, Events.CAN_FARM_NUTS, lambda bundle: True),
+        (EventLocations.ZD_NUT_POT, Events.CAN_FARM_NUTS, True_()),
         (EventLocations.ZD_STICK_POT, Events.CAN_FARM_STICKS,
          lambda bundle: is_child(bundle)),
         (EventLocations.ZD_FISH_GROUP, Events.CAN_ACCESS_FISH,
@@ -72,7 +72,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZORAS_DOMAIN, world, [
-        (Regions.ZR_BEHIND_WATERFALL, lambda bundle: True),
+        (Regions.ZR_BEHIND_WATERFALL, True_()),
         (Regions.LH_FROM_SHORTCUT, lambda bundle: is_child(bundle) and (
             has_item(Items.SILVER_SCALE, bundle) or can_use(Items.IRON_BOOTS, bundle))),
         (Regions.ZD_BEHIND_KING_ZORA,
@@ -80,7 +80,7 @@ def set_region_rules(world: "SohWorld") -> None:
              world.options.zoras_fountain.value == 1 and is_adult(bundle)) or (
              can_do_trick(Tricks.ZD_KING_ZORA_SKIP, bundle) and is_adult(bundle))),
         (Regions.ZD_SHOP, lambda bundle: is_child(bundle) or blue_fire(bundle)),
-        (Regions.ZORAS_DOMAIN_ISLAND, lambda bundle: True),
+        (Regions.ZORAS_DOMAIN_ISLAND, True_()),
     ])
 
     # Zoras Domain Island
@@ -107,44 +107,44 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.ZORAS_DOMAIN,
          lambda bundle: has_item(Events.DELIVER_LETTER, bundle) or world.options.zoras_fountain.value == 2 or (
              world.options.zoras_fountain.value == 1 and is_adult(bundle))),
-        (Regions.ZORAS_FOUNTAIN, lambda bundle: True),
+        (Regions.ZORAS_FOUNTAIN, True_()),
     ])
 
     # ZD Shop
     # Locations
     add_locations(Regions.ZD_SHOP, world, [
-        (Locations.ZD_SHOP_ITEM1, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM2, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM3, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM4, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM5, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM6, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM7, lambda bundle: True),
-        (Locations.ZD_SHOP_ITEM8, lambda bundle: True),
+        (Locations.ZD_SHOP_ITEM1, True_()),
+        (Locations.ZD_SHOP_ITEM2, True_()),
+        (Locations.ZD_SHOP_ITEM3, True_()),
+        (Locations.ZD_SHOP_ITEM4, True_()),
+        (Locations.ZD_SHOP_ITEM5, True_()),
+        (Locations.ZD_SHOP_ITEM6, True_()),
+        (Locations.ZD_SHOP_ITEM7, True_()),
+        (Locations.ZD_SHOP_ITEM8, True_()),
     ])
     # Connections
     connect_regions(Regions.ZD_SHOP, world, [
-        (Regions.ZORAS_DOMAIN, lambda bundle: True),
+        (Regions.ZORAS_DOMAIN, True_()),
     ])
 
     # ZD Storms Grotto
     # Events
     add_events(Regions.ZD_STORMS_GROTTO, world, [
         (EventLocations.ZD_FAIRY_GROTTO_FAIRY,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
+         Events.CAN_ACCESS_FAIRIES, True_()),
     ])
     # Locations
     add_locations(Regions.ZD_STORMS_GROTTO, world, [
-        (Locations.ZD_FAIRY_GROTTO_FAIRY1, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY2, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY3, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY4, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY5, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY6, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY7, lambda bundle: True),
-        (Locations.ZD_FAIRY_GROTTO_FAIRY8, lambda bundle: True),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY1, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY2, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY3, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY4, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY5, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY6, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY7, True_()),
+        (Locations.ZD_FAIRY_GROTTO_FAIRY8, True_()),
     ])
     # Connections
     connect_regions(Regions.ZD_STORMS_GROTTO, world, [
-        (Regions.ZORAS_DOMAIN_ISLAND, lambda bundle: True),
+        (Regions.ZORAS_DOMAIN_ISLAND, True_()),
     ])

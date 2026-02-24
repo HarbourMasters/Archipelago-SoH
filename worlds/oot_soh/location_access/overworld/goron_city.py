@@ -76,7 +76,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GORON_CITY, world, [
-        (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: True),
+        (Regions.DEATH_MOUNTAIN_TRAIL, True_()),
         (Regions.GC_MEDIGORON, lambda bundle: can_break_mud_walls(
             bundle) or has_item(Items.GORONS_BRACELET, bundle)),
         (Regions.GC_WOODS_WARP, lambda bundle: has_item(
@@ -100,7 +100,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GC_MEDIGORON, world, [
-        (Regions.GORON_CITY, lambda bundle: True)
+        (Regions.GORON_CITY, True_())
     ])
 
     # Goron City Woods Warp
@@ -113,7 +113,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.GC_WOODS_WARP, world, [
         (Regions.GORON_CITY, lambda bundle: has_item(
             LocalEvents.GC_WOODS_WARP_OPEN, bundle)),
-        (Regions.LOST_WOODS, lambda bundle: True)
+        (Regions.LOST_WOODS, True_())
     ])
 
     # Goron City Darunias Chamber
@@ -132,14 +132,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GC_DARUNIAS_CHAMBER, world, [
-        (Regions.GORON_CITY, lambda bundle: True),
+        (Regions.GORON_CITY, True_()),
         (Regions.DMC_LOWER_LOCAL, lambda bundle: is_adult(bundle))
     ])
 
     # Goron City Grotto Platform
     # Connections
     connect_regions(Regions.GC_GROTTO_PLATFORM, world, [
-        (Regions.GC_GROTTO, lambda bundle: True),
+        (Regions.GC_GROTTO, True_()),
         (Regions.GORON_CITY, lambda bundle: effective_health(bundle) > 2 or can_use_any([Items.GORON_TUNIC, Items.NAYRUS_LOVE], bundle) or (
             (is_child(bundle) or can_use(Items.SONG_OF_TIME, bundle)) and can_use(Items.LONGSHOT, bundle)))
     ])
@@ -147,18 +147,18 @@ def set_region_rules(world: "SohWorld") -> None:
     # Goron City Shop
     # Locations
     add_locations(Regions.GC_SHOP, world, [
-        (Locations.GC_SHOP_ITEM1, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM2, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM3, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM4, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM5, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM6, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM7, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM8, lambda bundle: True),
+        (Locations.GC_SHOP_ITEM1, True_()),
+        (Locations.GC_SHOP_ITEM2, True_()),
+        (Locations.GC_SHOP_ITEM3, True_()),
+        (Locations.GC_SHOP_ITEM4, True_()),
+        (Locations.GC_SHOP_ITEM5, True_()),
+        (Locations.GC_SHOP_ITEM6, True_()),
+        (Locations.GC_SHOP_ITEM7, True_()),
+        (Locations.GC_SHOP_ITEM8, True_()),
     ])
     # Connections
     connect_regions(Regions.GC_SHOP, world, [
-        (Regions.GORON_CITY, lambda bundle: True)
+        (Regions.GORON_CITY, True_())
     ])
 
     # Goron City Grotto
@@ -174,5 +174,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GC_GROTTO, world, [
-        (Regions.GC_GROTTO_PLATFORM, lambda bundle: True)
+        (Regions.GC_GROTTO_PLATFORM, True_())
     ])

@@ -31,22 +31,22 @@ def set_region_rules(world: "SohWorld") -> None:
     # Ganon's Castle Entryway
     # Connections
     connect_regions(Regions.GANONS_CASTLE_ENTRYWAY, world, [
-        (Regions.GANONS_CASTLE_LOBBY, lambda bundle: True),
-        (Regions.CASTLE_GROUNDS_FROM_GANONS_CASTLE, lambda bundle: True)
+        (Regions.GANONS_CASTLE_LOBBY, True_()),
+        (Regions.CASTLE_GROUNDS_FROM_GANONS_CASTLE, True_())
     ])
 
     # Ganon's Castle Lobby
     # Connections
     connect_regions(Regions.GANONS_CASTLE_LOBBY, world, [
-        (Regions.GANONS_CASTLE_ENTRYWAY, lambda bundle: True),
-        (Regions.GANONS_CASTLE_FOREST_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_FIRE_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_WATER_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_SHADOW_TRIAL, lambda bundle: True),
-        (Regions.GANONS_CASTLE_SPIRIT_TRIAL, lambda bundle: True),
+        (Regions.GANONS_CASTLE_ENTRYWAY, True_()),
+        (Regions.GANONS_CASTLE_FOREST_TRIAL, True_()),
+        (Regions.GANONS_CASTLE_FIRE_TRIAL, True_()),
+        (Regions.GANONS_CASTLE_WATER_TRIAL, True_()),
+        (Regions.GANONS_CASTLE_SHADOW_TRIAL, True_()),
+        (Regions.GANONS_CASTLE_SPIRIT_TRIAL, True_()),
         (Regions.GANONS_CASTLE_LIGHT_TRIAL,
          lambda bundle: can_use(Items.GOLDEN_GAUNTLETS, bundle)),
-        (Regions.GANONS_TOWER_ENTRYWAY, lambda bundle: True),
+        (Regions.GANONS_TOWER_ENTRYWAY, True_()),
         (Regions.GANONS_CASTLE_DEKU_SCRUBS, lambda bundle: can_do_trick(Tricks.LENS_GANON, bundle) or
          can_use(Items.LENS_OF_TRUTH, bundle)),
     ])
@@ -55,7 +55,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.GANONS_CASTLE_DEKU_SCRUBS, world, [
         (EventLocations.GANONS_CASTLE_FREE_FAIRIES,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
+         Events.CAN_ACCESS_FAIRIES, True_())
     ])
     # Locations
     add_locations(Regions.GANONS_CASTLE_DEKU_SCRUBS, world, [
@@ -67,14 +67,14 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_stun_deku(bundle)),
         (Locations.GANONS_CASTLE_DEKU_SCRUB_LEFT,
          lambda bundle: can_stun_deku(bundle)),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY1, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY2, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY3, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY4, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY5, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY6, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY7, lambda bundle: True),
-        (Locations.GANONS_CASTLE_SCRUBS_FAIRY8, lambda bundle: True),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY1, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY2, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY3, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY4, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY5, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY6, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY7, True_()),
+        (Locations.GANONS_CASTLE_SCRUBS_FAIRY8, True_()),
     ])
 
     # Ganon's Castle Forest Trial
@@ -114,7 +114,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.GANONS_CASTLE_WATER_TRIAL, world, [
         (EventLocations.GANONS_CASTLE_BLUE_FIRE_ACCESS,
-         Events.CAN_ACCESS_BLUE_FIRE, lambda bundle: True),
+         Events.CAN_ACCESS_BLUE_FIRE, True_()),
         (EventLocations.GANONS_CASTLE_WATER_TRIAL_FAIRY_POT, Events.CAN_ACCESS_FAIRIES,
          lambda bundle: blue_fire(bundle) and can_kill_enemy(bundle, Enemies.FREEZARD)),
         (EventLocations.GANONS_CASTLE_WATER_TRIAL_AREA, LocalEvents.GANONS_CASTLE_WATER_TRIAL_CLEARED, lambda bundle: (
@@ -122,8 +122,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.GANONS_CASTLE_WATER_TRIAL, world, [
-        (Locations.GANONS_CASTLE_WATER_TRIAL_LEFT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_WATER_TRIAL_RIGHT_CHEST, lambda bundle: True),
+        (Locations.GANONS_CASTLE_WATER_TRIAL_LEFT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_WATER_TRIAL_RIGHT_CHEST, True_()),
         (Locations.GANONS_CASTLE_WATER_TRIAL_POT1, lambda bundle: can_break_pots(bundle)
          and blue_fire(bundle) and is_adult(bundle) and can_use(Items.MEGATON_HAMMER, bundle)),
         (Locations.GANONS_CASTLE_WATER_TRIAL_POT2, lambda bundle: can_break_pots(bundle)
@@ -248,7 +248,7 @@ def set_region_rules(world: "SohWorld") -> None:
                                                                      (world.options.sunlight_arrows.value == 1 and can_use(Items.LIGHT_ARROW, bundle))))),
         (Locations.GANONS_CASTLE_SPIRIT_TRIAL_BEAMOS_SUNS_SONG_FAIRY,
          lambda bundle: can_use(Items.SUNS_SONG, bundle)),
-        (Locations.GANONS_CASTLE_SPIRIT_TRIAL_HEART, lambda bundle: True)
+        (Locations.GANONS_CASTLE_SPIRIT_TRIAL_HEART, True_())
     ])
 
     # Ganon's Castle Light Trial
@@ -259,12 +259,12 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.GANONS_CASTLE_LIGHT_TRIAL, world, [
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_LEFT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_LEFT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_LEFT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_RIGHT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_RIGHT_CHEST, lambda bundle: True),
-        (Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_RIGHT_CHEST, lambda bundle: True),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_LEFT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_LEFT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_LEFT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_FIRST_RIGHT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_SECOND_RIGHT_CHEST, True_()),
+        (Locations.GANONS_CASTLE_LIGHT_TRIAL_THIRD_RIGHT_CHEST, True_()),
         (Locations.GANONS_CASTLE_LIGHT_TRIAL_INVISIBLE_ENEMIES_CHEST, lambda bundle: (can_do_trick(Tricks.LENS_GANON, bundle) or
                                                                                       can_use(Items.LENS_OF_TRUTH, bundle))),
         (Locations.GANONS_CASTLE_LIGHT_TRIAL_LULLABY_CHEST, lambda bundle: (can_use(Items.ZELDAS_LULLABY, bundle) and
@@ -280,7 +280,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Ganon's Tower Entryway
     # Connections
     connect_regions(Regions.GANONS_TOWER_ENTRYWAY, world, [
-        (Regions.GANONS_CASTLE_LOBBY, lambda bundle: True),
+        (Regions.GANONS_CASTLE_LOBBY, True_()),
         (Regions.GANONS_TOWER_FLOOR_1, lambda bundle: (((has_item(LocalEvents.GANONS_CASTLE_FOREST_TRIAL_CLEARED, bundle)) and
                                                        (has_item(LocalEvents.GANONS_CASTLE_FIRE_TRIAL_CLEARED, bundle)) and
                                                        (has_item(LocalEvents.GANONS_CASTLE_WATER_TRIAL_CLEARED, bundle)) and
@@ -364,7 +364,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GANONS_TOWER_BEFORE_GANONDORFS_LAIR, world, [
-        (Regions.GANONS_TOWER_FLOOR_3, lambda bundle: True),
+        (Regions.GANONS_TOWER_FLOOR_3, True_()),
         (Regions.GANONDORFS_LAIR, lambda bundle: has_item(
             Items.GANONS_CASTLE_BOSS_KEY, bundle) or bool(world.options.triforce_hunt))
     ])
@@ -379,7 +379,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Ganon's Castle Escape
     # Connections
     connect_regions(Regions.GANONS_CASTLE_ESCAPE, world, [
-        (Regions.GANONS_ARENA, lambda bundle: True)
+        (Regions.GANONS_ARENA, True_())
     ])
 
     # Ganon's Arena

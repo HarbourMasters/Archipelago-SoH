@@ -8,8 +8,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Gerudo Training Ground Entryway
     # Connections
     connect_regions(Regions.GERUDO_TRAINING_GROUND_ENTRYWAY, world, [
-        (Regions.GERUDO_TRAINING_GROUND_LOBBY, lambda bundle: True),
-        (Regions.GF_EXITING_GTG, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_LOBBY, True_()),
+        (Regions.GF_EXITING_GTG, True_()),
     ])
 
     # Gerudo Training Ground Lobby
@@ -26,19 +26,19 @@ def set_region_rules(world: "SohWorld") -> None:
                                                                                   EnemyDistance.CLOSE, True, 2, True)),
         (Locations.GERUDO_TRAINING_GROUND_ENTRANCE_SONG_OF_STORMS_FAIRY,
          lambda bundle: can_use(Items.SONG_OF_STORMS, bundle)),
-        (Locations.GERUDO_TRAINING_GROUND_BEAMOS_EAST_HEART, lambda bundle: True),
-        (Locations.GERUDO_TRAINING_GROUND_BEAMOS_SOUTH_HEART, lambda bundle: True),
+        (Locations.GERUDO_TRAINING_GROUND_BEAMOS_EAST_HEART, True_()),
+        (Locations.GERUDO_TRAINING_GROUND_BEAMOS_SOUTH_HEART, True_()),
     ])
     # Connections
     connect_regions(Regions.GERUDO_TRAINING_GROUND_LOBBY, world, [
-        (Regions.GERUDO_TRAINING_GROUND_ENTRYWAY, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_ENTRYWAY, True_()),
         (Regions.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_ROOM,
          lambda bundle: can_kill_enemy(bundle, Enemies.STALFOS, EnemyDistance.CLOSE, True, 2, True) and (
              can_use(Items.HOOKSHOT, bundle) or can_do_trick(Tricks.GTG_WITHOUT_HOOKSHOT, bundle))),
         (Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM,
          lambda bundle: can_kill_enemy(bundle, Enemies.BEAMOS) and can_kill_enemy(bundle, Enemies.DINOLFOS,
                                                                                   EnemyDistance.CLOSE, True, 2, True)),
-        (Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE, True_()),
     ])
 
     # Gerudo Training Ground Central Maze
@@ -65,15 +65,15 @@ def set_region_rules(world: "SohWorld") -> None:
     # Gerudo Training Ground Central Maze Right
     # Locations
     add_locations(Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE_RIGHT, world, [
-        (Locations.GERUDO_TRAINING_GROUND_FREESTANDING_KEY, lambda bundle: True),
-        (Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_SIDE_CHEST, lambda bundle: True),
-        (Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_CENTRAL_CHEST, lambda bundle: True),
+        (Locations.GERUDO_TRAINING_GROUND_FREESTANDING_KEY, True_()),
+        (Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_SIDE_CHEST, True_()),
+        (Locations.GERUDO_TRAINING_GROUND_MAZE_RIGHT_CENTRAL_CHEST, True_()),
     ])
     # Connections
     connect_regions(Regions.GERUDO_TRAINING_GROUND_CENTRAL_MAZE_RIGHT, world, [
         (Regions.GERUDO_TRAINING_GROUND_HAMMER_ROOM,
          lambda bundle: can_use(Items.HOOKSHOT, bundle)),
-        (Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM, True_()),
     ])
 
     # Gerudo Training Ground Lava Room
@@ -104,7 +104,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.GERUDO_TRAINING_GROUND_HAMMER_ROOM, world, [
         (Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_LOWER, lambda bundle: can_use(
             Items.MEGATON_HAMMER, bundle) and can_use(Items.FAIRY_BOW, bundle)),
-        (Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_LAVA_ROOM, True_()),
     ])
 
     # Gerudo Training Ground Eye Statue Lower
@@ -115,7 +115,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_LOWER, world, [
-        (Regions.GERUDO_TRAINING_GROUND_HAMMER_ROOM, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_HAMMER_ROOM, True_()),
     ])
 
     # Gerudo Training Ground Eye Statue Upper
@@ -126,7 +126,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_UPPER, world, [
-        (Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_LOWER, lambda bundle: True),
+        (Regions.GERUDO_TRAINING_GROUND_EYE_STATUE_LOWER, True_()),
     ])
 
     # Gerudo Training Ground Heavy Block Room

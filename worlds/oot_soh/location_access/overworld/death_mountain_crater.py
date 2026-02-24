@@ -23,7 +23,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.DMC_UPPER_NEARBY, world, [
         (Regions.DMC_UPPER_LOCAL, lambda bundle: fire_timer(bundle) >= 48),
-        (Regions.DEATH_MOUNTAIN_SUMMIT, lambda bundle: True),
+        (Regions.DEATH_MOUNTAIN_SUMMIT, True_()),
         (Regions.DMC_UPPER_GROTTO, lambda bundle: blast_or_smash(
             bundle) and (fire_timer(bundle) >= 8 or hearts(bundle) >= 3)),
     ])
@@ -49,13 +49,13 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMC_UPPER_LOCAL, world, [
-        (Regions.DMC_UPPER_NEARBY, lambda bundle: True),
+        (Regions.DMC_UPPER_NEARBY, True_()),
         (Regions.DMC_LADDER_REGION_NEARBY, lambda bundle: fire_timer(
             bundle) >= 16 or hearts(bundle) >= 3),
         (Regions.DMC_CENTRAL_NEARBY, lambda bundle: is_adult(bundle) and can_use(Items.GORON_TUNIC, bundle) and can_use(Items.DISTANT_SCARECROW, bundle) and (effective_health(
             # TODO Implement Dungeon Shuffle Option to replace False
             bundle) > 2 or (can_use(Items.BOTTLE_WITH_FAIRY, bundle) and False or can_use(Items.NAYRUS_LOVE, bundle)))),
-        (Regions.DMC_LOWER_NEARBY, lambda bundle: False),
+        (Regions.DMC_LOWER_NEARBY, False_()),
         (Regions.DMC_DISTANT_PLATFORM, lambda bundle: (fire_timer(
             bundle) >= 48 or hearts(bundle) >= 2) or hearts(bundle) >= 3),
     ])
@@ -84,7 +84,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.DMC_LOWER_NEARBY, world, [
         (Regions.DMC_LOWER_LOCAL, lambda bundle: fire_timer(bundle) >= 48),
-        (Regions.GC_DARUNIAS_CHAMBER, lambda bundle: True),
+        (Regions.GC_DARUNIAS_CHAMBER, True_()),
         (Regions.DMC_GREAT_FAIRY_FOUNTAIN,
          lambda bundle: can_use(Items.MEGATON_HAMMER, bundle)),
         (Regions.DMC_HAMMER_GROTTO, lambda bundle: is_adult(
@@ -94,7 +94,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Death Mountain Crater Lower Local
     # Connections
     connect_regions(Regions.DMC_LOWER_LOCAL, world, [
-        (Regions.DMC_LOWER_NEARBY, lambda bundle: True),
+        (Regions.DMC_LOWER_NEARBY, True_()),
         (Regions.DMC_LADDER_REGION_NEARBY, lambda bundle: fire_timer(
             bundle) >= 8 or hearts(bundle) >= 3),
         (Regions.DMC_CENTRAL_NEARBY, lambda bundle: (can_use(Items.HOVER_BOOTS, bundle) or can_use(
@@ -157,7 +157,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMC_CENTRAL_LOCAL, world, [
-        (Regions.DMC_CENTRAL_NEARBY, lambda bundle: True),
+        (Regions.DMC_CENTRAL_NEARBY, True_()),
         (Regions.DMC_LOWER_NEARBY, lambda bundle: (is_adult(bundle) and has_item(LocalEvents.DMC_BEAN_PLANTED,
          bundle)) or can_use(Items.HOVER_BOOTS, bundle) or can_use(Items.HOOKSHOT, bundle)),
         (Regions.DMC_UPPER_NEARBY, lambda bundle: is_adult(bundle)
@@ -177,7 +177,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMC_GREAT_FAIRY_FOUNTAIN, world, [
-        (Regions.DMC_LOWER_LOCAL, lambda bundle: True)
+        (Regions.DMC_LOWER_LOCAL, True_())
     ])
 
     # Death Mountain Crater Upper Grotto
@@ -190,11 +190,11 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.DMC_UPPER_GROTTO_BUG_GRASS,
          Events.CAN_ACCESS_BUGS, lambda bundle: (can_cut_shrubs(bundle))),
         (EventLocations.DMC_UPPER_GROTTO_PUDDLE_FISH,
-         Events.CAN_ACCESS_FISH, lambda bundle: True)
+         Events.CAN_ACCESS_FISH, True_())
     ])
     # Locations
     add_locations(Regions.DMC_UPPER_GROTTO, world, [
-        (Locations.DMC_UPPER_GROTTO_CHEST, lambda bundle: True),
+        (Locations.DMC_UPPER_GROTTO_CHEST, True_()),
         (Locations.DMC_UPPER_GROTTO_FISH, lambda bundle: has_bottle(bundle)),
         (Locations.DMC_UPPER_GROTTO_GOSSIP_STONE_FAIRY,
          lambda bundle: call_gossip_fairy(bundle)),
@@ -211,7 +211,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMC_UPPER_GROTTO, world, [
-        (Regions.DMC_UPPER_LOCAL, lambda bundle: True)
+        (Regions.DMC_UPPER_LOCAL, True_())
     ])
 
     # Death Mountain Crater Hammer Grotto
@@ -228,7 +228,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMC_HAMMER_GROTTO, world, [
-        (Regions.DMC_LOWER_LOCAL, lambda bundle: True)
+        (Regions.DMC_LOWER_LOCAL, True_())
     ])
 
     # Death Mountain Crater Distant Platform

@@ -22,19 +22,19 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Entryway
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_ENTRYWAY, world, [
-        (Regions.FIRE_TEMPLE_FIRST_ROOM, lambda bundle: True),
-        (Regions.DMC_CENTRAL_LOCAL, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_FIRST_ROOM, True_()),
+        (Regions.DMC_CENTRAL_LOCAL, True_())
     ])
 
     # Fire Temple First Room
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_FIRST_ROOM, world, [
-        (Regions.FIRE_TEMPLE_ENTRYWAY, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_ENTRYWAY, True_()),
         (Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM,
          lambda bundle: fire_timer(bundle) >= 24),
         (Regions.FIRE_TEMPLE_LOOP_ENEMIES, lambda bundle: (can_use(Items.MEGATON_HAMMER, bundle) and (
             small_keys(Items.FIRE_TEMPLE_SMALL_KEY, 8, bundle) or not is_fire_loop_locked(bundle)))),
-        (Regions.FIRE_TEMPLE_LOOP_EXIT, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_LOOP_EXIT, True_()),
         (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, lambda bundle: small_keys(
             Items.FIRE_TEMPLE_SMALL_KEY, 2, bundle) and fire_timer(bundle) >= 24)
     ])
@@ -47,7 +47,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM, world, [
-        (Locations.FIRE_TEMPLE_NEAR_BOSS_CHEST, lambda bundle: True),
+        (Locations.FIRE_TEMPLE_NEAR_BOSS_CHEST, True_()),
         (Locations.FIRE_TEMPLE_NEAR_BOSS_POT1, lambda bundle:
             (can_break_pots(bundle) and
              (can_use(Items.HOVER_BOOTS, bundle) or can_use(Items.HOOKSHOT, bundle)))),
@@ -63,7 +63,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM, world, [
-        (Regions.FIRE_TEMPLE_FIRST_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_FIRST_ROOM, True_()),
         (Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, lambda bundle:
             (is_adult(bundle) and
              (can_do_trick(Tricks.FIRE_BOSS_DOOR_JUMP, bundle) or
@@ -88,8 +88,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LOOP_TILES, world, [
-        (Regions.FIRE_TEMPLE_LOOP_ENEMIES, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_LOOP_ENEMIES, True_()),
+        (Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER, True_())
     ])
 
     # Fire Temple Loop Flare Dancer
@@ -101,7 +101,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER, world, [
-        (Regions.FIRE_TEMPLE_LOOP_TILES, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_LOOP_TILES, True_()),
         (Regions.FIRE_TEMPLE_LOOP_HAMMER_SWITCH, lambda bundle:
             (can_kill_enemy(bundle, Enemies.FLARE_DANCER)))
     ])
@@ -114,7 +114,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LOOP_HAMMER_SWITCH, world, [
-        (Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_LOOP_FLARE_DANCER, True_()),
         (Regions.FIRE_TEMPLE_LOOP_GORON_ROOM, lambda bundle: has_item(
             LocalEvents.FIRE_TEMPLE_LOOP_HAMMER_SWITCH_HIT, bundle))
     ])
@@ -122,7 +122,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Loop Goron Room
     # Locations
     add_locations(Regions.FIRE_TEMPLE_LOOP_GORON_ROOM, world, [
-        (Locations.FIRE_TEMPLE_BOSS_KEY_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BOSS_KEY_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LOOP_GORON_ROOM, world, [
@@ -135,7 +135,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Loop Exit
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LOOP_EXIT, world, [
-        (Regions.FIRE_TEMPLE_FIRST_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_FIRST_ROOM, True_()),
         (Regions.FIRE_TEMPLE_LOOP_GORON_ROOM, lambda bundle: has_item(
             LocalEvents.FIRE_TEMPLE_LOOP_HAMMER_SWITCH_HIT, bundle))
     ])
@@ -154,7 +154,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, world, [
         (Regions.FIRE_TEMPLE_FIRST_ROOM, lambda bundle: small_keys(
             Items.FIRE_TEMPLE_SMALL_KEY, 2, bundle)),
-        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_GORON, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_GORON, True_()),
         (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_TILES, lambda bundle:
             (is_adult(bundle) and
              (can_use(Items.SONG_OF_TIME, bundle) or
@@ -168,11 +168,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Big Lava Room North Goron
     # Locations
     add_locations(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_GORON, world, [
-        (Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_LOWER_OPEN_DOOR_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_LOWER_OPEN_DOOR_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_GORON, world, [
-        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, True_())
     ])
 
     # Fire Temple Big Lava Room North Tiles
@@ -185,17 +185,17 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_NORTH_TILES, world, [
-        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, True_())
     ])
 
     # Fire Temple Big Lava Room South Goron
     # Locations
     add_locations(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_SOUTH_GORON, world, [
-        (Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_BLOCKED_DOOR_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_BLOCKED_DOOR_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BIG_LAVA_ROOM_SOUTH_GORON, world, [
-        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BIG_LAVA_ROOM, True_())
     ])
 
     # Fire Temple Fire Pillar Room
@@ -234,22 +234,22 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.FIRE_TEMPLE_SHORTCUT_CLIMB, world, [
         (EventLocations.FIRE_TEMPLE_SHORTCUT_SWITCH,
-         LocalEvents.FIRE_TEMPLE_SHORTCUT_SWITCH_HIT, lambda bundle: True)
+         LocalEvents.FIRE_TEMPLE_SHORTCUT_SWITCH_HIT, True_())
     ])
     # Locations
     add_locations(Regions.FIRE_TEMPLE_SHORTCUT_CLIMB, world, [
-        (Locations.FIRE_TEMPLE_BOULDER_MAZE_SHORTCUT_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BOULDER_MAZE_SHORTCUT_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_SHORTCUT_CLIMB, world, [
-        (Regions.FIRE_TEMPLE_SHORTCUT_ROOM, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_SHORTCUT_ROOM, True_()),
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, True_())
     ])
 
     # Fire Temple Boulder Maze Lower
     # Locations
     add_locations(Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, world, [
-        (Locations.FIRE_TEMPLE_BOULDER_MAZE_LOWER_CHEST, lambda bundle: True),
+        (Locations.FIRE_TEMPLE_BOULDER_MAZE_LOWER_CHEST, True_()),
         (Locations.FIRE_TEMPLE_GS_BOULDER_MAZE, lambda bundle:
             (has_explosives(bundle) and
              (is_adult(bundle) or
@@ -257,29 +257,29 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, world, [
-        (Regions.FIRE_TEMPLE_SHORTCUT_ROOM, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER_SIDE_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_SHORTCUT_ROOM, True_()),
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER_SIDE_ROOM, True_()),
         (Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, lambda bundle: small_keys(
             Items.FIRE_TEMPLE_SMALL_KEY, 5, bundle)),
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, lambda bundle: False)
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, False_())
     ])
 
     # Fire Temple Boulder Maze Lower Side Room
     # Locations
     add_locations(Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER_SIDE_ROOM, world, [
-        (Locations.FIRE_TEMPLE_BOULDER_MAZE_SIDE_ROOM_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BOULDER_MAZE_SIDE_ROOM_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER_SIDE_ROOM, world, [
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, True_())
     ])
 
     # Fire Temple East Central Room
     # Locations
     add_locations(Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, world, [
-        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_LEFT_HEART, lambda bundle: True),
-        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_RIGHT_HEART, lambda bundle: True),
-        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_MIDDLE_HEART, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_LEFT_HEART, True_()),
+        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_RIGHT_HEART, True_()),
+        (Locations.FIRE_TEMPLE_EAST_CENTRAL_ROOM_MIDDLE_HEART, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, world, [
@@ -322,23 +322,23 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Map Region
     # Locations
     add_locations(Regions.FIRE_TEMPLE_MAP_REGION, world, [
-        (Locations.FIRE_TEMPLE_MAP_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_MAP_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_MAP_REGION, world, [
-        (Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, True_())
     ])
 
     # Fire Temple Boulder Maze Upper
     # Locations
     add_locations(Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, world, [
-        (Locations.FIRE_TEMPLE_BOULDER_MAZE_UPPER_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_BOULDER_MAZE_UPPER_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, world, [
         (Regions.FIRE_TEMPLE_SHORTCUT_CLIMB, lambda bundle: has_explosives(bundle)),
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_FIRE_WALL_CHASE, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_LOWER, True_()),
+        (Regions.FIRE_TEMPLE_FIRE_WALL_CHASE, True_()),
         (Regions.FIRE_TEMPLE_SCARECROW_ROOM, lambda bundle:
             (can_use(Items.SCARECROW, bundle) or
              (can_do_trick(Tricks.FIRE_SCARECROW, bundle) and
@@ -357,20 +357,20 @@ def set_region_rules(world: "SohWorld") -> None:
 
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_SCARECROW_ROOM, world, [
-        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_EAST_PEAK, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BOULDER_MAZE_UPPER, True_()),
+        (Regions.FIRE_TEMPLE_EAST_PEAK, True_())
     ])
 
     # Fire Temple East Peak
     # Locations
     add_locations(Regions.FIRE_TEMPLE_EAST_PEAK, world, [
-        (Locations.FIRE_TEMPLE_SCARECROW_CHEST, lambda bundle: True),
+        (Locations.FIRE_TEMPLE_SCARECROW_CHEST, True_()),
         (Locations.FIRE_TEMPLE_GS_SCARECROW_TOP,
          lambda bundle: can_use_projectile(bundle))
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_EAST_PEAK, world, [
-        (Regions.FIRE_TEMPLE_SCARECROW_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_SCARECROW_ROOM, True_()),
         (Regions.FIRE_TEMPLE_EAST_CENTRAL_ROOM, lambda bundle: take_damage(bundle))
     ])
 
@@ -379,7 +379,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.FIRE_TEMPLE_CORRIDOR, world, [
         (Regions.FIRE_TEMPLE_FIRE_WALL_CHASE, lambda bundle: small_keys(
             Items.FIRE_TEMPLE_SMALL_KEY, 7, bundle)),
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, True_())
     ])
 
     # Fire Temple Fire Maze Room
@@ -396,10 +396,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, world, [
-        (Regions.FIRE_TEMPLE_CORRIDOR, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_CORRIDOR, True_()),
         (Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER, lambda bundle: can_use(
             Items.HOVER_BOOTS, bundle) or can_ground_jump(bundle)),
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_SIDE_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_SIDE_ROOM, True_()),
         (Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER, lambda bundle: small_keys(
             Items.FIRE_TEMPLE_SMALL_KEY, 8, bundle)),
         (Regions.FIRE_TEMPLE_LATE_FIRE_MAZE,
@@ -416,7 +416,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER, world, [
         (Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM,
          lambda bundle: can_use(Items.MEGATON_HAMMER, bundle)),
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, True_()),
         (Regions.FIRE_TEMPLE_WEST_CENTRAL_UPPER,
          lambda bundle: can_use(Items.MEGATON_HAMMER, bundle))
     ])
@@ -424,11 +424,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Fire Maze Side Room
     # Locations
     add_locations(Regions.FIRE_TEMPLE_FIRE_MAZE_SIDE_ROOM, world, [
-        (Locations.FIRE_TEMPLE_COMPASS_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_COMPASS_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_FIRE_MAZE_SIDE_ROOM, world, [
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, True_())
     ])
 
     # Fire Temple West Central Lower
@@ -439,7 +439,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.FIRE_TEMPLE_WEST_CENTRAL_UPPER, lambda bundle:
             (is_adult(bundle) and
              can_use(Items.SONG_OF_TIME, bundle))),
-        (Regions.FIRE_TEMPLE_LATE_FIRE_MAZE, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_LATE_FIRE_MAZE, True_())
     ])
 
     # Fire Temple West Central Upper
@@ -452,9 +452,9 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_WEST_CENTRAL_UPPER, world, [
-        (Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER, lambda bundle: True),
-        (Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER, lambda bundle: True)
+        (Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, False_()),
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER, True_()),
+        (Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER, True_())
     ])
 
     # Fire Temple Late Fire Maze
@@ -471,8 +471,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_LATE_FIRE_MAZE, world, [
-        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, lambda bundle: False),
-        (Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_FIRE_MAZE_ROOM, False_()),
+        (Regions.FIRE_TEMPLE_WEST_CENTRAL_LOWER, True_()),
         (Regions.FIRE_TEMPLE_UPPER_FLARE_DANCER,
          lambda bundle: has_explosives(bundle))
     ])
@@ -489,20 +489,20 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple West Climb
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_WEST_CLIMB, world, [
-        (Regions.FIRE_TEMPLE_UPPER_FLARE_DANCER, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_UPPER_FLARE_DANCER, True_()),
         (Regions.FIRE_TEMPLE_WEST_PEAK, lambda bundle: can_use_projectile(bundle))
     ])
 
     # Fire Temple West Peak
     # Locations
     add_locations(Regions.FIRE_TEMPLE_WEST_PEAK, world, [
-        (Locations.FIRE_TEMPLE_MEGATON_HAMMER_CHEST, lambda bundle: True)
+        (Locations.FIRE_TEMPLE_MEGATON_HAMMER_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_WEST_PEAK, world, [
         (Regions.FIRE_TEMPLE_WEST_CENTRAL_UPPER,
          lambda bundle: take_damage(bundle)),
-        (Regions.FIRE_TEMPLE_WEST_CLIMB, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_WEST_CLIMB, True_()),
         (Regions.FIRE_TEMPLE_HAMMER_RETURN_PATH,
          lambda bundle: can_use(Items.MEGATON_HAMMER, bundle))
     ])
@@ -524,7 +524,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Above Fire Maze
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_ABOVE_FIRE_MAZE, world, [
-        (Regions.FIRE_TEMPLE_HAMMER_RETURN_PATH, lambda bundle: True),
+        (Regions.FIRE_TEMPLE_HAMMER_RETURN_PATH, True_()),
         (Regions.FIRE_TEMPLE_FIRE_MAZE_UPPER,
          lambda bundle: can_use(Items.MEGATON_HAMMER, bundle))
     ])
@@ -532,7 +532,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Fire Temple Boss Entryway
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, world, [
-        (Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM, lambda bundle: False),
+        (Regions.FIRE_TEMPLE_NEAR_BOSS_ROOM, False_()),
         (Regions.FIRE_TEMPLE_BOSS_ROOM, lambda bundle: has_item(
             Items.FIRE_TEMPLE_BOSS_KEY, bundle))
     ])
@@ -552,7 +552,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.FIRE_TEMPLE_BOSS_ROOM, world, [
-        (Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.FIRE_TEMPLE_BOSS_ENTRYWAY, False_()),
         (Regions.DMC_CENTRAL_LOCAL, lambda bundle: has_item(
             Events.FIRE_TEMPLE_COMPLETED, bundle))
     ])

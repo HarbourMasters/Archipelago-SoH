@@ -20,7 +20,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.MARKET_ENTRANCE, world, [
         (Regions.HYRULE_FIELD, lambda bundle: (
             is_adult(bundle) or at_day(bundle))),
-        (Regions.MARKET, lambda bundle: True),
+        (Regions.MARKET, True_()),
         (Regions.MARKET_GUARD_HOUSE, lambda bundle: can_open_overworld_door(
             Items.GUARD_HOUSE_KEY, bundle))
     ])
@@ -55,9 +55,9 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET, world, [
-        (Regions.MARKET_ENTRANCE, lambda bundle: True),
-        (Regions.TOT_ENTRANCE, lambda bundle: True),
-        (Regions.CASTLE_GROUNDS, lambda bundle: True),
+        (Regions.MARKET_ENTRANCE, True_()),
+        (Regions.TOT_ENTRANCE, True_()),
+        (Regions.CASTLE_GROUNDS, True_()),
         (Regions.MARKET_BAZAAR, lambda bundle: (is_child(bundle) and at_day(
             bundle) and can_open_overworld_door(Items.MARKET_BAZAAR_KEY, bundle))),
         (Regions.MARKET_MASK_SHOP, lambda bundle: (is_child(bundle) and at_day(
@@ -76,7 +76,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Market Back Alley
     # Connections
     connect_regions(Regions.MARKET_BACK_ALLEY, world, [
-        (Regions.MARKET, lambda bundle: True),
+        (Regions.MARKET, True_()),
         (Regions.MARKET_BOMBCHU_SHOP, lambda bundle: (at_night(bundle)
          and can_open_overworld_door(Items.BOMBCHU_SHOP_KEY, bundle))),
         (Regions.MARKET_DOG_LADY_HOUSE, lambda bundle: (
@@ -221,24 +221,24 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_GUARD_HOUSE, world, [
-        (Regions.MARKET_ENTRANCE, lambda bundle: True)
+        (Regions.MARKET_ENTRANCE, True_())
     ])
 
     # Market Bazaar
     # Locations
     add_locations(Regions.MARKET_BAZAAR, world, [
-        (Locations.MARKET_BAZAAR_ITEM1, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM2, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM3, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM4, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM5, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM6, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM7, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM8, lambda bundle: True),
+        (Locations.MARKET_BAZAAR_ITEM1, True_()),
+        (Locations.MARKET_BAZAAR_ITEM2, True_()),
+        (Locations.MARKET_BAZAAR_ITEM3, True_()),
+        (Locations.MARKET_BAZAAR_ITEM4, True_()),
+        (Locations.MARKET_BAZAAR_ITEM5, True_()),
+        (Locations.MARKET_BAZAAR_ITEM6, True_()),
+        (Locations.MARKET_BAZAAR_ITEM7, True_()),
+        (Locations.MARKET_BAZAAR_ITEM8, True_()),
     ])
     # Connections
     connect_regions(Regions.MARKET_BAZAAR, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Mask Shop
@@ -257,7 +257,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_MASK_SHOP, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Shooting Gallery
@@ -268,7 +268,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_SHOOTING_GALLERY, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Bombchu Bowling
@@ -286,24 +286,24 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_BOMBCHU_BOWLING, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Potion Shop
     # Locations
     add_locations(Regions.MARKET_POTION_SHOP, world, [
-        (Locations.MARKET_POTION_SHOP_ITEM1, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM2, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM3, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM4, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM5, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM6, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM7, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM8, lambda bundle: True),
+        (Locations.MARKET_POTION_SHOP_ITEM1, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM2, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM3, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM4, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM5, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM6, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM7, True_()),
+        (Locations.MARKET_POTION_SHOP_ITEM8, True_()),
     ])
     # Connections
     connect_regions(Regions.MARKET_POTION_SHOP, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Treasure Chest Game
@@ -314,24 +314,24 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_TREASURE_CHEST_GAME, world, [
-        (Regions.MARKET, lambda bundle: True)
+        (Regions.MARKET, True_())
     ])
 
     # Market Bombchu Shop
     # Locations
     add_locations(Regions.MARKET_BOMBCHU_SHOP, world, [
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM1, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM2, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM3, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM4, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM5, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM6, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM7, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM8, lambda bundle: True),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM1, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM2, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM3, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM4, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM5, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM6, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM7, True_()),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM8, True_()),
     ])
     # Connections
     connect_regions(Regions.MARKET_BOMBCHU_SHOP, world, [
-        (Regions.MARKET_BACK_ALLEY, lambda bundle: True)
+        (Regions.MARKET_BACK_ALLEY, True_())
     ])
 
     # Market Dog Lady House
@@ -344,7 +344,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_DOG_LADY_HOUSE, world, [
-        (Regions.MARKET_BACK_ALLEY, lambda bundle: True)
+        (Regions.MARKET_BACK_ALLEY, True_())
     ])
 
     # Market Man in Green House
@@ -359,5 +359,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.MARKET_MAN_IN_GREEN_HOUSE, world, [
-        (Regions.MARKET_BACK_ALLEY, lambda bundle: True)
+        (Regions.MARKET_BACK_ALLEY, True_())
     ])

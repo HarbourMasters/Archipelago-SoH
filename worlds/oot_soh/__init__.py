@@ -4,7 +4,7 @@ import pkgutil
 from typing import Any, ClassVar
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
-from worlds.AutoWorld import WebWorld, World
+from worlds.AutoWorld import WebWorld
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
@@ -22,6 +22,8 @@ from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
 from Options import OptionError
 from .LogicHelpers import wallet_capacities
+from rule_builder.cached_world import CachedRuleBuilderWorld
+from rule_builder.rules import True_, False_
 
 import logging
 logger = logging.getLogger("SOH_OOT")
@@ -56,7 +58,7 @@ class SohSettings(Group):
     allow_true_no_logic: AllowTrueNoLogic | bool = False
 
 
-class SohWorld(World):
+class SohWorld(CachedRuleBuilderWorld):
     """A PC Port of Ocarina of Time"""
 
     game = "Ship of Harkinian"
@@ -268,9 +270,9 @@ class SohWorld(World):
         # disregard all rules if no logic is in effect
         if self.options.true_no_logic:
             for entrance in self.get_entrances():
-                entrance.access_rule = lambda state: True
+                self.set_rule(entrance, True_())
             for location in self.get_locations():
-                location.access_rule = lambda state: True
+                self.set_rule(location, True_())
 
     def create_items(self) -> None:
         # these are for making the progressive items collect/remove work properly

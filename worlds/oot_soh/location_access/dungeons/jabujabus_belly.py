@@ -30,14 +30,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_ENTRYWAY, world, [
         # TODO: Add vanilla/MQ check
-        (Regions.JABU_JABUS_BELLY_BEGINNING, lambda bundle: True),
-        (Regions.ZORAS_FOUNTAIN, lambda bundle: True)
+        (Regions.JABU_JABUS_BELLY_BEGINNING, True_()),
+        (Regions.ZORAS_FOUNTAIN, True_())
     ])
 
     # Jabu Jabu's Belly Beginning
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_BEGINNING, world, [
-        (Regions.JABU_JABUS_BELLY_ENTRYWAY, lambda bundle: True),
+        (Regions.JABU_JABUS_BELLY_ENTRYWAY, True_()),
         (Regions.JABU_JABUS_BELLY_MAIN, lambda bundle: can_use_projectile(bundle))
     ])
 
@@ -62,8 +62,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_MAIN, world, [
-        (Regions.JABU_JABUS_BELLY_BEGINNING, lambda bundle: True),
-        (Regions.JABU_JABUS_BELLY_B1_NORTH, lambda bundle: True),
+        (Regions.JABU_JABUS_BELLY_BEGINNING, True_()),
+        (Regions.JABU_JABUS_BELLY_B1_NORTH, True_()),
         (Regions.JABU_JABUS_BELLY_COMPASS_ROOM, lambda bundle: has_item(
             LocalEvents.JABU_JABUS_BELLY_WEST_TENTACLE_DEFEATED, bundle)),
         (Regions.JABU_JABUS_BELLY_BLUE_TENTACLE, lambda bundle: has_item(
@@ -103,7 +103,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_B1_NORTH, world, [
-        (Regions.JABU_JABUS_BELLY_MAIN, lambda bundle: True),
+        (Regions.JABU_JABUS_BELLY_MAIN, True_()),
         (Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_LEDGE, lambda bundle: has_item(
             Items.BRONZE_SCALE, bundle) or can_use(Items.HOVER_BOOTS, bundle)),
         (Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_SOUTH, lambda bundle: is_adult(
@@ -116,7 +116,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_LEDGE, world, [
         (EventLocations.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_FAIRY_POT,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
+         Events.CAN_ACCESS_FAIRIES, True_())
     ])
     # Locations
     add_locations(Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_LEDGE, world, [
@@ -131,8 +131,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_LEDGE, world, [
-        (Regions.JABU_JABUS_BELLY_B1_NORTH, lambda bundle: True),
-        (Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_SOUTH, lambda bundle: True)
+        (Regions.JABU_JABUS_BELLY_B1_NORTH, True_()),
+        (Regions.JABU_JABUS_BELLY_WATER_SWITCH_ROOM_SOUTH, True_())
     ])
 
     # Jabu Jabu's Belly Water Switch Room South
@@ -189,7 +189,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Jabu Jabu's Belly Bigocto Room
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_BIGOCTO_LEDGE, world, [
-        (Regions.JABU_JABUS_BELLY_B1_NORTH, lambda bundle: True),
+        (Regions.JABU_JABUS_BELLY_B1_NORTH, True_()),
         (Regions.JABU_JABUS_BELLY_ABOVE_BIGOCTO, lambda bundle: has_item(
             LocalEvents.JABU_JABUS_BELLY_RUTO_IN_1F_RESCUED, bundle) and can_kill_enemy(bundle, Enemies.BIG_OCTO)),
         (Regions.JABU_JABUS_BELLY_LOBBY_BASEMENT_UPPER_GS, lambda bundle: is_adult(bundle)
@@ -199,15 +199,15 @@ def set_region_rules(world: "SohWorld") -> None:
     # Jabu Jabu's Belly GS Lobby Basement Upper
     # Locations
     add_locations(Regions.JABU_JABUS_BELLY_LOBBY_BASEMENT_UPPER_GS, world, [
-        (Locations.JABU_JABUS_BELLY_GS_LOBBY_BASEMENT_UPPER, lambda bundle: True)
+        (Locations.JABU_JABUS_BELLY_GS_LOBBY_BASEMENT_UPPER, True_())
     ])
 
     # Jabu Jabu's Belly Above Bigocto
     add_events(Regions.JABU_JABUS_BELLY_ABOVE_BIGOCTO, world, [
         (EventLocations.JABU_JABUS_BELLY_ABOVE_BIGOCTO_FAIRY_POT,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
+         Events.CAN_ACCESS_FAIRIES, True_()),
         (EventLocations.JABU_JABUS_BELLY_ABOVE_BIGOCTO_NUT_POT,
-         Events.CAN_FARM_NUTS, lambda bundle: True)
+         Events.CAN_FARM_NUTS, True_())
     ])
     # Locations
     add_locations(Regions.JABU_JABUS_BELLY_ABOVE_BIGOCTO, world, [
@@ -228,11 +228,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.JABU_JABUS_BELLY_LIFT_UPPER, world, [
         (EventLocations.JABU_JABUS_BELLY_LOWERED_PATH,
-         LocalEvents.JABU_JABUS_BELLY_LOWERED_PATH_ACTIVATED, lambda bundle: True)
+         LocalEvents.JABU_JABUS_BELLY_LOWERED_PATH_ACTIVATED, True_())
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_LIFT_UPPER, world, [
-        (Regions.JABU_JABUS_BELLY_MAIN, lambda bundle: True)
+        (Regions.JABU_JABUS_BELLY_MAIN, True_())
     ])
 
     # Jabu Jabu's Belly Near Boss Room
@@ -243,7 +243,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_NEAR_BOSS_ROOM, world, [
-        (Regions.JABU_JABUS_BELLY_MAIN, lambda bundle: True),
+        (Regions.JABU_JABUS_BELLY_MAIN, True_()),
         (Regions.JABU_JABUS_BELLY_BOSS_ENTRYWAY, lambda bundle: can_use(Items.BOOMERANG, bundle) or (can_do_trick(Tricks.JABU_NEAR_BOSS_RANGED, bundle) and can_use_any([Items.HOOKSHOT, Items.FAIRY_BOW, Items.FAIRY_SLINGSHOT], bundle)) or (
             can_do_trick(Tricks.JABU_NEAR_BOSS_EXPLOSIVES, bundle) and (can_use(Items.BOMBCHUS_5, bundle) or (can_use(Items.HOVER_BOOTS, bundle) and can_use(Items.BOMB_BAG, bundle)))))
     ])
@@ -253,13 +253,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Jabu Jabu's Belly Boss Entryway
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_BOSS_ENTRYWAY, world, [
-        (Regions.JABU_JABUS_BELLY_BOSS_ROOM, lambda bundle: True)
+        (Regions.JABU_JABUS_BELLY_BOSS_ROOM, True_())
     ])
 
     # # Jabu Jabu's Belly Boss Exit
     # # Connections
     # connect_regions(Regions.JABU_JABUS_BELLY_BOSS_EXIT, world, [
-    #     (Regions.JABU_JABUS_BELLY_NEAR_BOSS_ROOM, lambda bundle: True)
+    #     (Regions.JABU_JABUS_BELLY_NEAR_BOSS_ROOM, True_())
     #     # skipping mq connection
     # ])
 
@@ -290,7 +290,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.JABU_JABUS_BELLY_BOSS_ROOM, world, [
-        # (Regions.JABU_JABUS_BELLY_BOSS_EXIT, lambda bundle: False),  # readd for MQ stuff
+        # (Regions.JABU_JABUS_BELLY_BOSS_EXIT, False_()),  # readd for MQ stuff
         (Regions.ZORAS_FOUNTAIN, lambda bundle: has_item(
             Events.JABU_JABUS_BELLY_COMPLETED, bundle))
     ])

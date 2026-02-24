@@ -16,9 +16,9 @@ def set_region_rules(world: "SohWorld") -> None:
     add_locations(Regions.ICE_CAVERN_ENTRYWAY, world, [])
     # Connections
     connect_regions(Regions.ICE_CAVERN_ENTRYWAY, world, [
-        (Regions.ICE_CAVERN_BEGINNING, lambda bundle: True),
+        (Regions.ICE_CAVERN_BEGINNING, True_()),
         # Skipping MQ
-        (Regions.ZF_LEDGE, lambda bundle: True)
+        (Regions.ZF_LEDGE, True_())
     ])
 
     # Ice Cavern Beginning
@@ -30,10 +30,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ICE_CAVERN_BEGINNING, world, [
-        (Regions.ICE_CAVERN_ENTRYWAY, lambda bundle: True),
+        (Regions.ICE_CAVERN_ENTRYWAY, True_()),
         (Regions.ICE_CAVERN_HUB, lambda bundle: can_kill_enemy(
             bundle, Enemies.FREEZARD, EnemyDistance.CLOSE, True, 4)),
-        (Regions.ICE_CAVERN_ABOVE_BEGINNING, lambda bundle: False)
+        (Regions.ICE_CAVERN_ABOVE_BEGINNING, False_())
     ])
 
     # Ice Cavern Hub
@@ -52,7 +52,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ICE_CAVERN_HUB, world, [
-        (Regions.ICE_CAVERN_BEGINNING, lambda bundle: True),
+        (Regions.ICE_CAVERN_BEGINNING, True_()),
         (Regions.ICE_CAVERN_MAP_ROOM, lambda bundle: (is_adult(bundle) or (can_do_trick(
             Tricks.GROUND_JUMP_HARD, bundle) and can_ground_jump(bundle))) and can_clear_stalagmite(bundle)),
         (Regions.ICE_CAVERN_COMPASS_ROOM, lambda bundle: blue_fire(bundle)),
@@ -64,27 +64,27 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.ICE_CAVERN_MAP_ROOM, world, [
         (EventLocations.ICE_CAVERN_MAP_ROOM_BLUE_FIRE_ACCESS,
-         Events.CAN_ACCESS_BLUE_FIRE, lambda bundle: True)
+         Events.CAN_ACCESS_BLUE_FIRE, True_())
     ])
     # Locations
     add_locations(Regions.ICE_CAVERN_MAP_ROOM, world, [
         (Locations.ICE_CAVERN_MAP_CHEST, lambda bundle: blue_fire(bundle)),
         (Locations.ICE_CAVERN_FROZEN_POT1, lambda bundle: (can_break_pots(bundle) and blue_fire(bundle)) or has_explosives(bundle) or (can_do_trick(Tricks.RUSTED_SWITCHES, bundle) and ((can_standing_shield(bundle) and can_use(
             Items.DEKU_SHIELD, bundle)) or can_use_any([Items.MASTER_SWORD, Items.BIGGORONS_SWORD, Items.MEGATON_HAMMER], bundle))) or (can_do_trick(Tricks.HOOKSHOT_EXTENSION, bundle) and can_use(Items.HOOKSHOT, bundle))),
-        (Locations.ICE_CAVERN_MAP_ROOM_LEFT_HEART, lambda bundle: True),
-        (Locations.ICE_CAVERN_MAP_ROOM_MIDDLE_HEART, lambda bundle: True),
-        (Locations.ICE_CAVERN_MAP_ROOM_RIGHT_HEART, lambda bundle: True)
+        (Locations.ICE_CAVERN_MAP_ROOM_LEFT_HEART, True_()),
+        (Locations.ICE_CAVERN_MAP_ROOM_MIDDLE_HEART, True_()),
+        (Locations.ICE_CAVERN_MAP_ROOM_RIGHT_HEART, True_())
     ])
     # Connections
     connect_regions(Regions.ICE_CAVERN_MAP_ROOM, world, [
-        (Regions.ICE_CAVERN_HUB, lambda bundle: True)
+        (Regions.ICE_CAVERN_HUB, True_())
     ])
 
     # Ice Cavern Compass Room
     # Events
     add_events(Regions.ICE_CAVERN_COMPASS_ROOM, world, [
         (EventLocations.ICE_CAVERN_COMPASS_ROOM_BLUE_FIRE_ACCESS,
-         Events.CAN_ACCESS_BLUE_FIRE, lambda bundle: True)
+         Events.CAN_ACCESS_BLUE_FIRE, True_())
     ])
     # Locations
     add_locations(Regions.ICE_CAVERN_COMPASS_ROOM, world, [
@@ -97,14 +97,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ICE_CAVERN_COMPASS_ROOM, world, [
-        (Regions.ICE_CAVERN_HUB, lambda bundle: True)
+        (Regions.ICE_CAVERN_HUB, True_())
     ])
 
     # Ice Cavern Main
     # Events
     add_events(Regions.ICE_CAVERN_BLOCK_ROOM, world, [
         (EventLocations.ICE_CAVERN_BLOCK_ROOM_BLUE_FIRE_ACCESS,
-         Events.CAN_ACCESS_BLUE_FIRE, lambda bundle: True)
+         Events.CAN_ACCESS_BLUE_FIRE, True_())
     ])
     # Locations
     add_locations(Regions.ICE_CAVERN_BLOCK_ROOM, world, [
@@ -134,7 +134,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Connections
     connect_regions(Regions.ICE_CAVERN_BEFORE_FINAL_ROOM, world, [
         (Regions.ICE_CAVERN_BLOCK_ROOM, lambda bundle: blue_fire(bundle)),
-        (Regions.ICE_CAVERN_FINAL_ROOM, lambda bundle: True)
+        (Regions.ICE_CAVERN_FINAL_ROOM, True_())
     ])
 
     # Ice Cavern Final Room
@@ -167,5 +167,5 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.ICE_CAVERN_ABOVE_BEGINNING, world, [
         (Regions.ICE_CAVERN_FINAL_ROOM_UNDERWATER,
          lambda bundle: can_use(Items.IRON_BOOTS, bundle)),
-        (Regions.ICE_CAVERN_BEGINNING, lambda bundle: True)
+        (Regions.ICE_CAVERN_BEGINNING, True_())
     ])

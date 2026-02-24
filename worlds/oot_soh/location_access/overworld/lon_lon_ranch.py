@@ -51,7 +51,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LON_LON_RANCH, world, [
-        (Regions.HYRULE_FIELD, lambda bundle: True),
+        (Regions.HYRULE_FIELD, True_()),
         (Regions.LLR_TALONS_HOUSE, lambda bundle: can_open_overworld_door(
             Items.TALONS_HOUSE_KEY, bundle)),
         (Regions.LLR_STABLES, lambda bundle: can_open_overworld_door(
@@ -72,7 +72,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LLR_TALONS_HOUSE, world, [
-        (Regions.LON_LON_RANCH, lambda bundle: True)
+        (Regions.LON_LON_RANCH, True_())
     ])
 
     # LLR Stables
@@ -85,7 +85,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LLR_STABLES, world, [
-        (Regions.LON_LON_RANCH, lambda bundle: True)
+        (Regions.LON_LON_RANCH, True_())
     ])
 
     # LLR Tower
@@ -99,7 +99,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LLR_TOWER, world, [
-        (Regions.LON_LON_RANCH, lambda bundle: True)
+        (Regions.LON_LON_RANCH, True_())
     ])
 
     # LLR Grotto
@@ -116,5 +116,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LLR_GROTTO, world, [
-        (Regions.LON_LON_RANCH, lambda bundle: True)
+        (Regions.LON_LON_RANCH, True_())
     ])

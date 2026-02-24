@@ -62,8 +62,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DEATH_MOUNTAIN_TRAIL, world, [
-        (Regions.KAK_BEHIND_GATE, lambda bundle: True),
-        (Regions.GORON_CITY, lambda bundle: True),
+        (Regions.KAK_BEHIND_GATE, True_()),
+        (Regions.GORON_CITY, True_()),
         (Regions.DEATH_MOUNTAIN_SUMMIT, lambda bundle: blast_or_smash(bundle) or (is_adult(bundle) and ((has_item(LocalEvents.DMT_BEAN_PLANTED, bundle)
          and has_item(Items.GORONS_BRACELET, bundle)) or (can_use(Items.HOVER_BOOTS, bundle) and can_do_trick(Tricks.DMT_CLIMB_HOVERS, bundle))))),
         (Regions.DODONGOS_CAVERN_ENTRYWAY, lambda bundle: has_explosives(
@@ -95,8 +95,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DEATH_MOUNTAIN_SUMMIT, world, [
-        (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: True),
-        (Regions.DMC_UPPER_LOCAL, lambda bundle: True),
+        (Regions.DEATH_MOUNTAIN_TRAIL, True_()),
+        (Regions.DMC_UPPER_LOCAL, True_()),
         (Regions.DMT_OWL_FLIGHT, lambda bundle: is_child(bundle)),
         (Regions.DMT_COW_GROTTO, lambda bundle: blast_or_smash(bundle)),
         (Regions.DMT_GREAT_FAIRY_FOUNTAIN, lambda bundle: blast_or_smash(bundle))
@@ -105,7 +105,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Death Mountain Trail Owl Flight
     # Connections
     connect_regions(Regions.DMT_OWL_FLIGHT, world, [
-        (Regions.KAK_IMPAS_ROOFTOP, lambda bundle: True)
+        (Regions.KAK_IMPAS_ROOFTOP, True_())
     ])
 
     # Death Mountain Trail Cow Grotto
@@ -115,17 +115,17 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_use(Items.EPONAS_SONG, bundle)),
         (Locations.DMT_COW_GROTTO_BEEHIVE,
          lambda bundle: can_break_lower_hives(bundle)),
-        (Locations.DMT_COW_GROTTO_LEFT_HEART, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_MIDDLE_LEFT_HEART, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_MIDDLE_RIGHT_HEART, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RIGHT_HEART, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE1, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE2, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE3, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE4, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE5, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RUPEE6, lambda bundle: True),
-        (Locations.DMT_COW_GROTTO_RED_RUPEE, lambda bundle: True),
+        (Locations.DMT_COW_GROTTO_LEFT_HEART, True_()),
+        (Locations.DMT_COW_GROTTO_MIDDLE_LEFT_HEART, True_()),
+        (Locations.DMT_COW_GROTTO_MIDDLE_RIGHT_HEART, True_()),
+        (Locations.DMT_COW_GROTTO_RIGHT_HEART, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE1, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE2, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE3, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE4, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE5, True_()),
+        (Locations.DMT_COW_GROTTO_RUPEE6, True_()),
+        (Locations.DMT_COW_GROTTO_RED_RUPEE, True_()),
         (Locations.DMT_COW_GROTTO_SONG_OF_STORMS_FAIRY,
          lambda bundle: can_use(Items.SONG_OF_STORMS, bundle)),
         (Locations.DMT_COW_GROTTO_GRASS1, lambda bundle: can_cut_shrubs(bundle)),
@@ -133,7 +133,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMT_COW_GROTTO, world, [
-        (Regions.DEATH_MOUNTAIN_SUMMIT, lambda bundle: True)
+        (Regions.DEATH_MOUNTAIN_SUMMIT, True_())
     ])
 
     # Death Mountain Trail Storms Grotto
@@ -146,11 +146,11 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.DMT_STORMS_GROTTO_BUG_GRASS,
          Events.CAN_ACCESS_BUGS, lambda bundle: (can_cut_shrubs(bundle))),
         (EventLocations.DMT_STORMS_GROTTO_PUDDLE_FISH,
-         Events.CAN_ACCESS_FISH, lambda bundle: True)
+         Events.CAN_ACCESS_FISH, True_())
     ])
     # Locations
     add_locations(Regions.DMT_STORMS_GROTTO, world, [
-        (Locations.DMT_STORMS_GROTTO_CHEST, lambda bundle: True),
+        (Locations.DMT_STORMS_GROTTO_CHEST, True_()),
         (Locations.DMT_STORMS_GROTTO_FISH, lambda bundle: has_bottle(bundle)),
         (Locations.DMT_STORMS_GROTTO_GOSSIP_STONE_FAIRY,
          lambda bundle: call_gossip_fairy(bundle)),
@@ -167,7 +167,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMT_STORMS_GROTTO, world, [
-        (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: True)
+        (Regions.DEATH_MOUNTAIN_TRAIL, True_())
     ])
 
     # Death Mountain Trail Great Fairy Fountain
@@ -178,5 +178,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DMT_GREAT_FAIRY_FOUNTAIN, world, [
-        (Regions.DEATH_MOUNTAIN_SUMMIT, lambda bundle: True)
+        (Regions.DEATH_MOUNTAIN_SUMMIT, True_())
     ])

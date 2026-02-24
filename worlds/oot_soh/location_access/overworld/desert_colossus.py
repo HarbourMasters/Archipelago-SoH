@@ -24,7 +24,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.DESERT_COLOSSUS_FAIRY_POND_COLOSSUS, Events.CAN_ACCESS_FAIRIES,
          lambda bundle: can_use(Items.SONG_OF_STORMS, bundle)),
         (EventLocations.DESERT_COLOSSUS_BUG_ROCK,
-         Events.CAN_ACCESS_BUGS, lambda bundle: True),
+         Events.CAN_ACCESS_BUGS, True_()),
         (EventLocations.DESERT_COLOSSUS_BEAN_PATCH, LocalEvents.DESERT_COLOSSUS_BEAN_PLANTED,
          lambda bundle: is_child(bundle) and can_use(Items.MAGIC_BEAN, bundle)),
         (EventLocations.DESERT_COLOSSUS_DAY_NIGHT_CYCLE_CHILD,
@@ -60,8 +60,8 @@ def set_region_rules(world: "SohWorld") -> None:
             has_item(Items.BRONZE_SCALE, bundle) or can_use(Items.IRON_BOOTS, bundle))),
         (Regions.COLOSSUS_GREAT_FAIRY_FOUNTAIN,
          lambda bundle: has_explosives(bundle)),
-        (Regions.SPIRIT_TEMPLE_ENTRYWAY, lambda bundle: True),
-        (Regions.WASTELAND_NEAR_COLOSSUS, lambda bundle: True),
+        (Regions.SPIRIT_TEMPLE_ENTRYWAY, True_()),
+        (Regions.WASTELAND_NEAR_COLOSSUS, True_()),
         (Regions.COLOSSUS_GROTTO, lambda bundle: can_use(
             Items.SILVER_GAUNTLETS, bundle))
     ])
@@ -70,33 +70,33 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.DESERT_COLOSSUS_OASIS, world, [
         (EventLocations.DESERT_COLOSSUS_FAIRY_POND_OASIS,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True)
+         Events.CAN_ACCESS_FAIRIES, True_())
     ])
     # Locations
     add_locations(Regions.DESERT_COLOSSUS_OASIS, world, [
-        (Locations.COLOSSUS_OASIS_FAIRY1, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY2, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY3, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY4, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY5, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY6, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY7, lambda bundle: True),
-        (Locations.COLOSSUS_OASIS_FAIRY8, lambda bundle: True)
+        (Locations.COLOSSUS_OASIS_FAIRY1, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY2, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY3, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY4, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY5, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY6, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY7, True_()),
+        (Locations.COLOSSUS_OASIS_FAIRY8, True_())
 
     ])
     # Connections
     connect_regions(Regions.DESERT_COLOSSUS_OASIS, world, [
-        (Regions.DESERT_COLOSSUS, lambda bundle: True)
+        (Regions.DESERT_COLOSSUS, True_())
     ])
 
     # Desert Colossus Outside Temple
     # Locations
     add_locations(Regions.DESERT_COLOSSUS_OUTSIDE_TEMPLE, world, [
-        (Locations.SHEIK_AT_COLOSSUS, lambda bundle: True)
+        (Locations.SHEIK_AT_COLOSSUS, True_())
     ])
     # Connections
     connect_regions(Regions.DESERT_COLOSSUS_OUTSIDE_TEMPLE, world, [
-        (Regions.DESERT_COLOSSUS, lambda bundle: True)
+        (Regions.DESERT_COLOSSUS, True_())
     ])
 
     # Desert Colossus Great Fairy Fountain
@@ -107,7 +107,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.COLOSSUS_GREAT_FAIRY_FOUNTAIN, world, [
-        (Regions.DESERT_COLOSSUS, lambda bundle: True)
+        (Regions.DESERT_COLOSSUS, True_())
     ])
 
     # Desert Colossus Great Fairy Fountain
@@ -122,5 +122,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.COLOSSUS_GROTTO, world, [
-        (Regions.DESERT_COLOSSUS, lambda bundle: True)
+        (Regions.DESERT_COLOSSUS, True_())
     ])

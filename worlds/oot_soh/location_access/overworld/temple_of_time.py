@@ -37,8 +37,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.TOT_ENTRANCE, world, [
-        (Regions.MARKET, lambda bundle: True),
-        (Regions.TEMPLE_OF_TIME, lambda bundle: True)
+        (Regions.MARKET, True_()),
+        (Regions.TEMPLE_OF_TIME, True_())
     ])
 
     # Temple of Time
@@ -49,7 +49,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.TEMPLE_OF_TIME, world, [
-        (Regions.TOT_ENTRANCE, lambda bundle: True),
+        (Regions.TOT_ENTRANCE, True_()),
         (Regions.BEYOND_DOOR_OF_TIME,
          lambda bundle: world.options.door_of_time == "open" or
          (can_use(Items.SONG_OF_TIME, bundle) and
@@ -61,7 +61,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.BEYOND_DOOR_OF_TIME, world, [
         (EventLocations.CHAMBER_OF_SAGES,
-         Events.TIME_TRAVEL, lambda bundle: True)
+         Events.TIME_TRAVEL, True_())
     ])
     # Locations
     add_locations(Regions.BEYOND_DOOR_OF_TIME, world, [
@@ -71,12 +71,12 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.BEYOND_DOOR_OF_TIME, world, [
-        (Regions.TEMPLE_OF_TIME, lambda bundle: True),
+        (Regions.TEMPLE_OF_TIME, True_()),
         (Regions.MASTER_SWORD_PEDESTAL, lambda bundle: is_adult(bundle))
     ])
 
     # Get Master Sword
     # Locations
     add_locations(Regions.MASTER_SWORD_PEDESTAL, world, [
-        (Locations.MARKET_TOT_MASTER_SWORD, lambda bundle: True),
+        (Locations.MARKET_TOT_MASTER_SWORD, True_()),
     ])

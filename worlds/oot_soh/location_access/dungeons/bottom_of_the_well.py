@@ -26,16 +26,16 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.BOTTOM_OF_THE_WELL_PERIMETER, lambda bundle: is_child(
             bundle) and can_pass_enemy(bundle, Enemies.BIG_SKULLTULA)),
         # [Regions.BOTTOM_OF_THE_WELL_MQ_PERIMETER, lambda bundle: is_child(bundle),
-        (Regions.KAK_WELL, lambda bundle: True)
+        (Regions.KAK_WELL, True_())
     ])
 
     # Bottom of the Well Perimeter
     # Events
     add_events(Regions.BOTTOM_OF_THE_WELL_PERIMETER, world, [
         (EventLocations.BOTTOM_OF_THE_WELL_STICK_POT,
-         Events.CAN_FARM_STICKS, lambda bundle: True),
+         Events.CAN_FARM_STICKS, True_()),
         (EventLocations.BOTTOM_OF_THE_WELL_NUT_POT,
-         Events.CAN_FARM_NUTS, lambda bundle: True),
+         Events.CAN_FARM_NUTS, True_()),
         (EventLocations.BOTTOM_OF_THE_WELL_LOWERED_WATER, LocalEvents.LOWERED_WATER_INSIDE_BOTTOM_OF_THE_WELL,
          lambda bundle: can_use(Items.ZELDAS_LULLABY, bundle))
     ])
@@ -68,15 +68,15 @@ def set_region_rules(world: "SohWorld") -> None:
             LocalEvents.LOWERED_WATER_INSIDE_BOTTOM_OF_THE_WELL, bundle) or has_item(Items.BRONZE_SCALE, bundle)),
         (Regions.BOTTOM_OF_THE_WELL_DEAD_HAND_ROOM, lambda bundle: has_item(
             LocalEvents.LOWERED_WATER_INSIDE_BOTTOM_OF_THE_WELL, bundle) and is_child(bundle)),
-        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, lambda bundle: True)
+        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, True_())
     ])
 
     # Bottom of the Well Behind Fake Walls
     # Locations
     add_locations(Regions.BOTTOM_OF_THE_WELL_BEHIND_FAKE_WALLS, world, [
-        (Locations.BOTTOM_OF_THE_WELL_FRONT_LEFT_FAKE_WALL_CHEST, lambda bundle: True),
-        (Locations.BOTTOM_OF_THE_WELL_RIGHT_BOTTOM_FAKE_WALL_CHEST, lambda bundle: True),
-        (Locations.BOTTOM_OF_THE_WELL_COMPASS_CHEST, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_FRONT_LEFT_FAKE_WALL_CHEST, True_()),
+        (Locations.BOTTOM_OF_THE_WELL_RIGHT_BOTTOM_FAKE_WALL_CHEST, True_()),
+        (Locations.BOTTOM_OF_THE_WELL_COMPASS_CHEST, True_()),
         (Locations.BOTTOM_OF_THE_WELL_CENTER_SKULLTULA_CHEST, lambda bundle: can_pass_enemy(
             bundle, Enemies.BIG_SKULLTULA) or take_damage(bundle)),
         (Locations.BOTTOM_OF_THE_WELL_BACK_LEFT_BOMBABLE_CHEST,
@@ -88,7 +88,7 @@ def set_region_rules(world: "SohWorld") -> None:
             Tricks.LENS_BOTW, bundle) or can_use(Items.LENS_OF_TRUTH, bundle)),
         (Regions.BOTTOM_OF_THE_WELL_INNER_ROOMS, lambda bundle: small_keys(
             Items.BOTTOM_OF_THE_WELL_SMALL_KEY, 3, bundle)),
-        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, lambda bundle: True),
+        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, True_()),
         (Regions.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM, lambda bundle: can_do_trick(
             Tricks.LENS_BOTW, bundle) or can_use(Items.LENS_OF_TRUTH, bundle))
     ])
@@ -130,13 +130,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Bottom of the Well Like-Like Cage
     # Locations
     add_locations(Regions.BOTTOM_OF_THE_WELL_LIKE_LIKE_CAGE, world, [
-        (Locations.BOTTOM_OF_THE_WELL_LIKE_LIKE_CHEST, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_LIKE_LIKE_CHEST, True_()),
         (Locations.BOTTOM_OF_THE_WELL_GS_LIKE_LIKE_CAGE, lambda bundle: can_get_enemy_drop(
             bundle, Enemies.GOLD_SKULLTULA, EnemyDistance.BOOMERANG))
     ])
     # Connections
     connect_regions(Regions.BOTTOM_OF_THE_WELL_LIKE_LIKE_CAGE, world, [
-        (Regions.BOTTOM_OF_THE_WELL_KEESE_BEAMOS_ROOM, lambda bundle: True)
+        (Regions.BOTTOM_OF_THE_WELL_KEESE_BEAMOS_ROOM, True_())
     ])
 
     # Bottom of the Well Inner Rooms
@@ -165,7 +165,7 @@ def set_region_rules(world: "SohWorld") -> None:
     add_locations(Regions.BOTTOM_OF_THE_WELL_COFFIN_ROOM, world, [
         (Locations.BOTTOM_OF_THE_WELL_FREESTANDING_KEY, lambda bundle: has_fire_source_with_torch(
             bundle) or can_use(Items.FAIRY_BOW, bundle)),
-        (Locations.BOTTOM_OF_THE_WELL_COFFIN_ROOM_FRONT_LEFT_HEART, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_COFFIN_ROOM_FRONT_LEFT_HEART, True_()),
         (Locations.BOTTOM_OF_THE_WELL_COFFIN_ROOM_MIDDLE_RIGHT_HEART,
          lambda bundle: has_fire_source_with_torch(bundle) or can_use(Items.FAIRY_BOW, bundle))
 
@@ -269,16 +269,16 @@ def set_region_rules(world: "SohWorld") -> None:
     # Bottom of the Well Basement Platform
     # Locations
     add_locations(Regions.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM, world, [
-        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_LEFT_RUPEE, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_LEFT_RUPEE, True_()),
         (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_BACK_LEFT_RUPEE,
          lambda bundle: True),
-        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_MIDDLE_RUPEE, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_MIDDLE_RUPEE, True_()),
         (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_BACK_RIGHT_RUPEE,
          lambda bundle: True),
-        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_RIGHT_RUPEE, lambda bundle: True),
+        (Locations.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM_RIGHT_RUPEE, True_()),
 
     ])
     # Connections
     connect_regions(Regions.BOTTOM_OF_THE_WELL_BASEMENT_PLATFORM, world, [
-        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, lambda bundle: True)
+        (Regions.BOTTOM_OF_THE_WELL_BASEMENT, True_())
     ])

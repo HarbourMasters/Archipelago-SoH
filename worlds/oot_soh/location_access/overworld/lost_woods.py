@@ -27,7 +27,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # LW Forest Exit
     # Connections
     connect_regions(Regions.LW_FOREST_EXIT, world, [
-        (Regions.KOKIRI_FOREST, lambda bundle: True),
+        (Regions.KOKIRI_FOREST, True_()),
     ])
 
     # Lost Woods
@@ -100,8 +100,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LOST_WOODS, world, [
-        (Regions.LW_FOREST_EXIT, lambda bundle: True),
-        (Regions.GC_WOODS_WARP, lambda bundle: True),
+        (Regions.LW_FOREST_EXIT, True_()),
+        (Regions.GC_WOODS_WARP, True_()),
         (Regions.LW_BRIDGE, lambda bundle: (is_adult(bundle) and (
             has_item(LocalEvents.LW_BRIDGE_BEAN_PLANTED, bundle) or can_do_trick(Tricks.LW_BRIDGE, bundle))) or can_use(Items.HOVER_BOOTS,
                                                                                                                         bundle) or can_use(
@@ -157,11 +157,11 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LW_BEYOND_MIDO, world, [
-        (Regions.LW_FOREST_EXIT, lambda bundle: True),
+        (Regions.LW_FOREST_EXIT, True_()),
         (Regions.LOST_WOODS, lambda bundle: is_child(
             bundle) or can_use(Items.SARIAS_SONG, bundle)),
-        (Regions.SFM_ENTRYWAY, lambda bundle: True),
-        (Regions.DEKU_THEATER, lambda bundle: True),
+        (Regions.SFM_ENTRYWAY, True_()),
+        (Regions.DEKU_THEATER, True_()),
         (Regions.LW_SCRUBS_GROTTO, lambda bundle: blast_or_smash(bundle)),
     ])
 
@@ -175,11 +175,11 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.LW_NEAR_SHORTCUTS_GROTTO_BUG_GRASS,
          Events.CAN_ACCESS_BUGS, lambda bundle: can_cut_shrubs(bundle)),
         (EventLocations.LW_NEAR_SHORTCUTS_GROTTO_PUDDLE_FISH,
-         Events.CAN_ACCESS_FISH, lambda bundle: True),
+         Events.CAN_ACCESS_FISH, True_()),
     ])
     # Locations
     add_locations(Regions.LW_NEAR_SHORTCUTS_GROTTO, world, [
-        (Locations.LW_NEAR_SHORTCUTS_GROTTO_CHEST, lambda bundle: True),
+        (Locations.LW_NEAR_SHORTCUTS_GROTTO_CHEST, True_()),
         (Locations.LW_NEAR_SHORTCUTS_GROTTO_FISH,
          lambda bundle: has_bottle(bundle)),
         (Locations.LW_TUNNEL_GROTTO_GOSSIP_STONE_FAIRY,
@@ -201,7 +201,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LW_NEAR_SHORTCUTS_GROTTO, world, [
-        (Regions.LOST_WOODS, lambda bundle: True),
+        (Regions.LOST_WOODS, True_()),
     ])
 
     # Deku Theater
@@ -214,7 +214,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DEKU_THEATER, world, [
-        (Regions.LOST_WOODS, lambda bundle: True),
+        (Regions.LOST_WOODS, True_()),
     ])
 
     # LW Scrubs Grotto
@@ -230,23 +230,23 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LW_SCRUBS_GROTTO, world, [
-        (Regions.LW_BEYOND_MIDO, lambda bundle: True),
+        (Regions.LW_BEYOND_MIDO, True_()),
     ])
 
     # LW Bridge From Forest
     # Location
     add_locations(Regions.LW_BRIDGE_FROM_FOREST, world, [
-        (Locations.LW_GIFT_FROM_SARIA, lambda bundle: True)
+        (Locations.LW_GIFT_FROM_SARIA, True_())
     ])
     # Connections
     connect_regions(Regions.LW_BRIDGE_FROM_FOREST, world, [
-        (Regions.LW_BRIDGE, lambda bundle: True),
+        (Regions.LW_BRIDGE, True_()),
     ])
 
     # LW Bridge
     # Connections
     connect_regions(Regions.LW_BRIDGE, world, [
-        (Regions.KOKIRI_FOREST, lambda bundle: True),
-        (Regions.HYRULE_FIELD, lambda bundle: True),
+        (Regions.KOKIRI_FOREST, True_()),
+        (Regions.HYRULE_FIELD, True_()),
         (Regions.LOST_WOODS, lambda bundle: can_use(Items.LONGSHOT, bundle))
     ])

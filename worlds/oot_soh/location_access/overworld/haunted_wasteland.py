@@ -19,7 +19,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.WASTELAND_NEAR_FORTRESS, world, [
-        (Regions.GF_OUTSIDE_GATE, lambda bundle: True),
+        (Regions.GF_OUTSIDE_GATE, True_()),
         (Regions.HAUNTED_WASTELAND, lambda bundle: can_use_any(
             [Items.HOVER_BOOTS, Items.LONGSHOT], bundle) or can_do_trick(Tricks.HW_CROSSING, bundle))
     ])
@@ -28,8 +28,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.HAUNTED_WASTELAND, world, [
         (EventLocations.WASTELAND_FAIRY_POT,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
-        (EventLocations.WASTELAND_NUT_POT, Events.CAN_FARM_NUTS, lambda bundle: True)
+         Events.CAN_ACCESS_FAIRIES, True_()),
+        (EventLocations.WASTELAND_NUT_POT, Events.CAN_FARM_NUTS, True_())
     ])
     if world.options.shuffle_merchants.value == 0 or world.options.shuffle_merchants.value == 1:
         add_events(Regions.HAUNTED_WASTELAND, world, [
@@ -70,7 +70,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.WASTELAND_NEAR_COLOSSUS, world, [
-        (Regions.DESERT_COLOSSUS, lambda bundle: True),
+        (Regions.DESERT_COLOSSUS, True_()),
         (Regions.HAUNTED_WASTELAND, lambda bundle: can_do_trick(
             Tricks.HW_REVERSE, bundle))
     ])

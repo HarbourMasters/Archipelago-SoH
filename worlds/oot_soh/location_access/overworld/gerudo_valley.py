@@ -35,12 +35,12 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connection
     connect_regions(Regions.GERUDO_VALLEY, world, [
-        (Regions.HYRULE_FIELD, lambda bundle: True),
+        (Regions.HYRULE_FIELD, True_()),
         (Regions.GV_UPPER_STREAM,
          lambda bundle: is_child(bundle) or has_item(Items.BRONZE_SCALE, bundle) or take_damage(bundle)),
         (Regions.GV_CRATE_LEDGE, lambda bundle: is_child(
             bundle) or can_use(Items.LONGSHOT, bundle)),
-        (Regions.GV_GROTTO_LEDGE, lambda bundle: True),
+        (Regions.GV_GROTTO_LEDGE, True_()),
         (Regions.GV_FORTRESS_SIDE, lambda bundle: (is_adult(bundle) and (
             can_use(Items.EPONA, bundle) or can_use(Items.LONGSHOT,
                                                     bundle) or world.options.fortress_carpenters.value == 2 or has_item(
@@ -91,7 +91,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # GV Lower Stream
     # Connections
     connect_regions(Regions.GV_LOWER_STREAM, world, [
-        (Regions.LAKE_HYLIA, lambda bundle: True)
+        (Regions.LAKE_HYLIA, True_())
     ])
 
     # GV Grotto Ledge
@@ -144,8 +144,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GV_FORTRESS_SIDE, world, [
-        (Regions.GERUDO_FORTRESS_OUTSKIRTS, lambda bundle: True),
-        (Regions.GV_UPPER_STREAM, lambda bundle: True),
+        (Regions.GERUDO_FORTRESS_OUTSKIRTS, True_()),
+        (Regions.GV_UPPER_STREAM, True_()),
         (Regions.GERUDO_VALLEY,
          lambda bundle: is_child(bundle) or can_use(Items.EPONA, bundle) or can_use(Items.LONGSHOT,
                                                                                     bundle) or world.options.fortress_carpenters.value == 2 or has_item(
@@ -160,7 +160,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # GV Carpenter Tent
     # Connections
     connect_regions(Regions.GV_CARPENTER_TENT, world, [
-        (Regions.GV_FORTRESS_SIDE, lambda bundle: True),
+        (Regions.GV_FORTRESS_SIDE, True_()),
     ])
 
     # GV Octorok Grotto
@@ -193,7 +193,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GV_OCTOROK_GROTTO, world, [
-        (Regions.GV_GROTTO_LEDGE, lambda bundle: True),
+        (Regions.GV_GROTTO_LEDGE, True_()),
     ])
 
     # GV Storms Grotto
@@ -208,5 +208,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GV_STORMS_GROTTO, world, [
-        (Regions.GV_FORTRESS_SIDE, lambda bundle: True),
+        (Regions.GV_FORTRESS_SIDE, True_()),
     ])

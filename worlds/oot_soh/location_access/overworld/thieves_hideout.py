@@ -39,8 +39,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_1_TORCH_CELL, world, [
-        (Regions.GERUDO_FORTRESS_OUTSKIRTS, lambda bundle: True),
-        (Regions.GF_NEAR_GROTTO, lambda bundle: True),
+        (Regions.GERUDO_FORTRESS_OUTSKIRTS, True_()),
+        (Regions.GF_NEAR_GROTTO, True_()),
         (Regions.THIEVES_HIDEOUT_RESCUE_CARPENTERS,
          lambda bundle: True)
     ])
@@ -72,8 +72,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_DOUBLE_CELL, world, [
-        (Regions.GERUDO_FORTRESS_OUTSKIRTS, lambda bundle: True),
-        (Regions.GF_NEAR_GROTTO, lambda bundle: True),
+        (Regions.GERUDO_FORTRESS_OUTSKIRTS, True_()),
+        (Regions.GF_NEAR_GROTTO, True_()),
         (Regions.THIEVES_HIDEOUT_RESCUE_CARPENTERS,
          lambda bundle: True)
     ])
@@ -92,7 +92,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_DEAD_END_CELL, world, [
-        (Regions.GF_BELOW_GS, lambda bundle: True),
+        (Regions.GF_BELOW_GS, True_()),
         (Regions.THIEVES_HIDEOUT_RESCUE_CARPENTERS,
          lambda bundle: True)
     ])
@@ -112,8 +112,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_STEEP_SLOPE_CELL, world, [
-        (Regions.GF_ABOVE_GTG, lambda bundle: True),
-        (Regions.GF_TOP_OF_LOWER_VINES, lambda bundle: True),
+        (Regions.GF_ABOVE_GTG, True_()),
+        (Regions.GF_TOP_OF_LOWER_VINES, True_()),
         (Regions.THIEVES_HIDEOUT_RESCUE_CARPENTERS,
          lambda bundle: True)
     ])
@@ -153,8 +153,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_KITCHEN_CORRIDOR, world, [
-        (Regions.GF_NEAR_GROTTO, lambda bundle: True),
-        (Regions.GF_ABOVE_GTG, lambda bundle: True),
+        (Regions.GF_NEAR_GROTTO, True_()),
+        (Regions.GF_ABOVE_GTG, True_()),
         (Regions.THIEVES_HIDEOUT_KITCHEN_BOTTOM,
          lambda bundle: can_pass_enemy(bundle, Enemies.GERUDO_GUARD))
     ])
@@ -180,7 +180,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Thieves Hideout Kitchen Top
     # Connections
     connect_regions(Regions.THIEVES_HIDEOUT_KITCHEN_TOP, world, [
-        (Regions.THIEVES_HIDEOUT_KITCHEN_BOTTOM, lambda bundle: True),
+        (Regions.THIEVES_HIDEOUT_KITCHEN_BOTTOM, True_()),
         (Regions.THIEVES_HIDEOUT_KITCHEN_POTS,
          lambda bundle: can_use(Items.BOOMERANG, bundle)),
         (Regions.GF_NEAR_GS,
@@ -193,8 +193,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # This is a deviation from ship logic due to the union of locations
     # Locations
     add_locations(Regions.THIEVES_HIDEOUT_KITCHEN_POTS, world, [
-        (Locations.TH_KITCHEN_POT1, lambda bundle: True),
-        (Locations.TH_KITCHEN_POT2, lambda bundle: True),
+        (Locations.TH_KITCHEN_POT1, True_()),
+        (Locations.TH_KITCHEN_POT2, True_()),
     ])
 
     # Thieves Hideout Break Room
@@ -237,5 +237,5 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.THIEVES_HIDEOUT_BREAK_ROOM_CORRIDOR, world, [
         (Regions.THIEVES_HIDEOUT_BREAK_ROOM,
          lambda bundle: can_use(Items.HOOKSHOT, bundle)),
-        (Regions.GF_ABOVE_JAIL, lambda bundle: True)
+        (Regions.GF_ABOVE_JAIL, True_())
     ])

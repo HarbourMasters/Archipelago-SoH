@@ -16,14 +16,14 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.SHADOW_TEMPLE_ENTRYWAY, world, [
         (Regions.SHADOW_TEMPLE_BEGINNING, lambda bundle: (can_do_trick(Tricks.LENS_SHADOW, bundle) or can_use(
             Items.LENS_OF_TRUTH, bundle)) and (can_use(Items.HOVER_BOOTS, bundle) or can_use(Items.HOOKSHOT, bundle))),
-        (Regions.GRAVEYARD_WARP_PAD_REGION, lambda bundle: True)
+        (Regions.GRAVEYARD_WARP_PAD_REGION, True_())
     ])
 
     # Shadow Temple Beginning
     # Events
     add_events(Regions.SHADOW_TEMPLE_BEGINNING, world, [
         (EventLocations.SHADOW_TEMPLE_BEGINNING_NUT_POT,
-         Events.CAN_FARM_NUTS, lambda bundle: True)
+         Events.CAN_FARM_NUTS, True_())
     ])
     # Locations
     add_locations(Regions.SHADOW_TEMPLE_BEGINNING, world, [
@@ -50,7 +50,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SHADOW_TEMPLE_BEGINNING, world, [
-        (Regions.SHADOW_TEMPLE_ENTRYWAY, lambda bundle: True),
+        (Regions.SHADOW_TEMPLE_ENTRYWAY, True_()),
         (Regions.SHADOW_TEMPLE_FIRST_BEAMOS,
          lambda bundle: can_use(Items.HOVER_BOOTS, bundle)),
     ])
@@ -69,7 +69,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.SHADOW_TEMPLE_FIRST_BEAMOS, world, [
         (Regions.SHADOW_TEMPLE_HUGE_PIT, lambda bundle: has_explosives(bundle) and is_adult(
             bundle) and small_keys(Items.SHADOW_TEMPLE_SMALL_KEY, 1, bundle)),
-        (Regions.SHADOW_TEMPLE_BEYOND_BOAT, lambda bundle: False),
+        (Regions.SHADOW_TEMPLE_BEYOND_BOAT, False_()),
     ])
 
     # Shadow Temple Huge Pit
@@ -79,7 +79,7 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_jump_slash_except_hammer(bundle)),
         (Locations.SHADOW_TEMPLE_INVISIBLE_BLADES_INVISIBLE_CHEST,
          lambda bundle: can_jump_slash_except_hammer(bundle)),
-        (Locations.SHADOW_TEMPLE_FALLING_SPIKES_LOWER_CHEST, lambda bundle: True),
+        (Locations.SHADOW_TEMPLE_FALLING_SPIKES_LOWER_CHEST, True_()),
         (Locations.SHADOW_TEMPLE_FALLING_SPIKES_UPPER_CHEST, lambda bundle: (can_do_trick(Tricks.SHADOW_UMBRELLA_HOVER, bundle) and can_use(
             Items.HOVER_BOOTS, bundle)) or can_do_trick(Tricks.SHADOW_UMBRELLA_CLIP, bundle) or has_item(Items.GORONS_BRACELET, bundle)),
         (Locations.SHADOW_TEMPLE_FALLING_SPIKES_SWITCH_CHEST, lambda bundle: (can_do_trick(Tricks.SHADOW_UMBRELLA_HOVER, bundle) and can_use(
@@ -118,7 +118,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Shadow Temple Wind Tunnel
     # Locations
     add_locations(Regions.SHADOW_TEMPLE_WIND_TUNNEL, world, [
-        (Locations.SHADOW_TEMPLE_WIND_HINT_CHEST, lambda bundle: True),
+        (Locations.SHADOW_TEMPLE_WIND_HINT_CHEST, True_()),
         (Locations.SHADOW_TEMPLE_AFTER_WIND_ENEMY_CHEST, lambda bundle: can_kill_enemy(
             bundle, Enemies.GIBDO, EnemyDistance.CLOSE, True, 2)),
         (Locations.SHADOW_TEMPLE_AFTER_WIND_HIDDEN_CHEST,
@@ -184,7 +184,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Shadow Temple Boss Entryway
     # Connections
     connect_regions(Regions.SHADOW_TEMPLE_BOSS_ENTRYWAY, world, [
-        (Regions.SHADOW_TEMPLE_BEYOND_BOAT, lambda bundle: False),
+        (Regions.SHADOW_TEMPLE_BEYOND_BOAT, False_()),
         (Regions.SHADOW_TEMPLE_BOSS_ROOM, lambda bundle: has_item(
             Items.SHADOW_TEMPLE_BOSS_KEY, bundle))
     ])
@@ -204,7 +204,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SHADOW_TEMPLE_BOSS_ROOM, world, [
-        (Regions.SHADOW_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.SHADOW_TEMPLE_BOSS_ENTRYWAY, False_()),
         (Regions.GRAVEYARD_WARP_PAD_REGION, lambda bundle: has_item(
             Events.SHADOW_TEMPLE_COMPLETED, bundle))
     ])

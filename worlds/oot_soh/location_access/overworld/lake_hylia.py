@@ -155,8 +155,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LAKE_HYLIA, world, [
-        (Regions.HYRULE_FIELD, lambda bundle: True),
-        (Regions.LH_FROM_SHORTCUT, lambda bundle: True),
+        (Regions.HYRULE_FIELD, True_()),
+        (Regions.LH_FROM_SHORTCUT, True_()),
         (Regions.LH_OWL_FLIGHT, lambda bundle: is_child(bundle)),
         (Regions.LH_FISHING_ISLAND, lambda bundle: ((is_child(bundle)
                                                      or has_item(Events.WATER_TEMPLE_COMPLETED, bundle))
@@ -166,8 +166,8 @@ def set_region_rules(world: "SohWorld") -> None:
                   or has_item(LocalEvents.LH_BEAN_PLANTED, bundle)))),
         (Regions.LH_LAB, lambda bundle: can_open_overworld_door(
             Items.HYLIA_LAB_KEY, bundle)),
-        (Regions.LH_FROM_WATER_TEMPLE, lambda bundle: True),
-        (Regions.LH_GROTTO, lambda bundle: True),
+        (Regions.LH_FROM_WATER_TEMPLE, True_()),
+        (Regions.LH_GROTTO, True_()),
     ])
 
     # LH from Shortcut
@@ -208,7 +208,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # LH Owl Flight
     # Connections
     connect_regions(Regions.LH_OWL_FLIGHT, world, [
-        (Regions.HYRULE_FIELD, lambda bundle: True),
+        (Regions.HYRULE_FIELD, True_()),
     ])
 
     # LH Lab
@@ -234,7 +234,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LH_LAB, world, [
-        (Regions.LAKE_HYLIA, lambda bundle: True),
+        (Regions.LAKE_HYLIA, True_()),
     ])
 
     # LH Fishing HOLE
@@ -316,7 +316,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LH_FISHING_HOLE, world, [
-        (Regions.LH_FISHING_ISLAND, lambda bundle: True),
+        (Regions.LH_FISHING_ISLAND, True_()),
     ])
 
     # LH Grotto
@@ -333,5 +333,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.LH_GROTTO, world, [
-        (Regions.LAKE_HYLIA, lambda bundle: True)
+        (Regions.LAKE_HYLIA, True_())
     ])

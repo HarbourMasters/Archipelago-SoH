@@ -25,14 +25,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Dodongos Cavern Entryway
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_ENTRYWAY, world, [
-        (Regions.DODONGOS_CAVERN_BEGINNING, lambda bundle: True),
-        (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BEGINNING, True_()),
+        (Regions.DEATH_MOUNTAIN_TRAIL, True_()),
     ])
 
     # Dodongos Cavern Beginning
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BEGINNING, world, [
-        (Regions.DODONGOS_CAVERN_ENTRYWAY, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_ENTRYWAY, True_()),
         (Regions.DODONGOS_CAVERN_LOBBY,
          lambda bundle: blast_or_smash(bundle) or has_item(Items.GORONS_BRACELET, bundle))
     ])
@@ -59,7 +59,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_LOBBY, world, [
-        (Regions.DODONGOS_CAVERN_BEGINNING, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BEGINNING, True_()),
         (Regions.DODONGOS_CAVERN_LOBBY_SWITCH,
          lambda bundle: is_adult(bundle) or can_ground_jump(bundle)),
         (Regions.DODONGOS_CAVERN_SE_CORRIDOR,
@@ -70,19 +70,19 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: has_item(LocalEvents.DODONGOS_CAVERN_LIFT_PLATFORM, bundle)),
         (Regions.DODONGOS_CAVERN_BOSS_REGION, lambda bundle: has_item(
             LocalEvents.DODONGOS_CAVERN_EYES_LIT, bundle)),
-        (Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY, False_()),
     ])
 
     # Dodongos Cavern Lobby Switch
     # Events
     add_events(Regions.DODONGOS_CAVERN_LOBBY_SWITCH, world, [
         (EventLocations.DODONGOS_CAVERN_LOBBY_SWITCH,
-         LocalEvents.DODONGOS_CAVERN_STAIRS_ROOM_DOOR, lambda bundle: True)
+         LocalEvents.DODONGOS_CAVERN_STAIRS_ROOM_DOOR, True_())
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_LOBBY_SWITCH, world, [
-        (Regions.DODONGOS_CAVERN_LOBBY, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_DODONGO_ROOM, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOBBY, True_()),
+        (Regions.DODONGOS_CAVERN_DODONGO_ROOM, True_()),
     ])
 
     # Dodongos Cavern SE Corridor
@@ -106,10 +106,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_SE_CORRIDOR, world, [
-        (Regions.DODONGOS_CAVERN_LOBBY, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOBBY, True_()),
         (Regions.DODONGOS_CAVERN_SE_ROOM, lambda bundle: can_break_mud_walls(bundle) or can_attack(bundle) or (
             take_damage(bundle) and can_shield(bundle))),
-        (Regions.DODONGOS_CAVERN_NEAR_LOWER_LIZALFOS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_NEAR_LOWER_LIZALFOS, True_()),
     ])
 
     # Dodongos Cavern SE Room
@@ -120,14 +120,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_SE_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_SE_CORRIDOR, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_SE_CORRIDOR, True_()),
     ])
 
     # Dodongos Cavern Near Lower Lizalfos
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_NEAR_LOWER_LIZALFOS, world, [
-        (Regions.DODONGOS_CAVERN_SE_CORRIDOR, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_SE_CORRIDOR, True_()),
+        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS, True_()),
     ])
 
     # Dodongos Cavern Lower Lizalfos
@@ -142,7 +142,7 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: has_item(LocalEvents.DODONGOS_CAVERN_LOWER_LIZALFOS_DEFEATED, bundle)),
         (Regions.DODONGOS_CAVERN_DODONGO_ROOM,
          lambda bundle: has_item(LocalEvents.DODONGOS_CAVERN_LOWER_LIZALFOS_DEFEATED, bundle)),
-        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS_LOCATIONS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS_LOCATIONS, True_()),
     ])
 
     # Dodongos Cavern Lower Lizalfos Locations
@@ -156,7 +156,7 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: can_break_pots(bundle)),
         (Locations.DODONGOS_CAVERN_LIZALFOS_POT4,
          lambda bundle: can_break_pots(bundle)),
-        (Locations.DODONGOS_CAVERN_LOWER_LIZALFOS_ROOM_LAVAFALL_HEART, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_LOWER_LIZALFOS_ROOM_LAVAFALL_HEART, True_()),
     ])
 
     # Dodongos Cavern Dodongo Room
@@ -175,7 +175,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.DODONGOS_CAVERN_DODONGO_ROOM, world, [
         (Regions.DODONGOS_CAVERN_LOBBY_SWITCH,
          lambda bundle: has_fire_source_with_torch(bundle)),
-        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS, True_()),
         (Regions.DODONGOS_CAVERN_NEAR_DODONGO_ROOM,
          lambda bundle: can_break_mud_walls(bundle) or has_item(Items.GORONS_BRACELET, bundle)),
     ])
@@ -188,13 +188,13 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_NEAR_DODONGO_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_DODONGO_ROOM, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_DODONGO_ROOM, True_()),
     ])
 
     # Dodongos Cavern Stairs Lower
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_STAIRS_LOWER, world, [
-        (Regions.DODONGOS_CAVERN_LOBBY, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOBBY, True_()),
         (Regions.DODONGOS_CAVERN_STAIRS_UPPER,
          lambda bundle: has_explosives(bundle) or has_item(Items.GORONS_BRACELET, bundle) or can_use(Items.DINS_FIRE,
                                                                                                      bundle) or (
@@ -226,8 +226,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_STAIRS_UPPER, world, [
-        (Regions.DODONGOS_CAVERN_STAIRS_LOWER, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_ARMOS_ROOM, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_STAIRS_LOWER, True_()),
+        (Regions.DODONGOS_CAVERN_ARMOS_ROOM, True_()),
         (Regions.DODONGOS_CAVERN_VINES_ABOVE_STAIRS_GS,
          lambda bundle: is_adult(bundle) or can_attack(bundle)),
     ])
@@ -235,13 +235,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Dodongos Cavern Vines Above Stairs
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_VINES_ABOVE_STAIRS_GS, world, [
-        (Locations.DODONGOS_CAVERN_GS_VINES_ABOVE_STAIRS, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_GS_VINES_ABOVE_STAIRS, True_()),
     ])
 
     # Dodongos Cavern Compass Room
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_COMPASS_ROOM, world, [
-        (Locations.DODONGOS_CAVERN_COMPASS_CHEST, lambda bundle: True)
+        (Locations.DODONGOS_CAVERN_COMPASS_CHEST, True_())
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_COMPASS_ROOM, world, [
@@ -255,15 +255,15 @@ def set_region_rules(world: "SohWorld") -> None:
     # Dodongos Cavern Armos Room
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_ARMOS_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_STAIRS_UPPER, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_STAIRS_UPPER, True_()),
+        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, True_()),
     ])
 
     # Dodongos Cavern Bomb Room Lower
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, world, [
-        (Locations.DODONGOS_CAVERN_BOMB_FLOWER_PLATFORM_CHEST, lambda bundle: True),
-        (Locations.DODONGOS_CAVERN_BLADE_ROOM_HEART, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_BOMB_FLOWER_PLATFORM_CHEST, True_()),
+        (Locations.DODONGOS_CAVERN_BLADE_ROOM_HEART, True_()),
         (Locations.DODONGOS_CAVERN_FIRST_BRIDGE_GRASS,
          lambda bundle: can_cut_shrubs(bundle)),
         (Locations.DODONGOS_CAVERN_BLADE_ROOM_GRASS,
@@ -271,7 +271,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, world, [
-        (Regions.DODONGOS_CAVERN_ARMOS_ROOM, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_ARMOS_ROOM, True_()),
         (Regions.DODONGOS_CAVERN_2F_SIDE_ROOM, lambda bundle: can_break_mud_walls(bundle) or (
             can_do_trick(Tricks.DC_SCRUB_ROOM, bundle) and has_item(Items.GORONS_BRACELET, bundle))),
         (Regions.DODONGOS_CAVERN_FIRST_SLINGSHOT_ROOM,
@@ -295,7 +295,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_2F_SIDE_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, lambda bundle: True)
+        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, True_())
     ])
 
     # Dodongos Cavern First Slingshot Room
@@ -310,7 +310,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_FIRST_SLINGSHOT_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, True_()),
         (Regions.DODONGOS_CAVERN_UPPER_LIZALFOS,
          lambda bundle: can_use(Items.FAIRY_SLINGSHOT, bundle) or can_use(Items.FAIRY_BOW, bundle) or can_do_trick(
              Tricks.DC_SLINGSHOT_SKIP, bundle) or (is_adult(bundle) and can_ground_jump(bundle))),
@@ -319,8 +319,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Dodongos Cavern Upper Lizalfos
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_UPPER_LIZALFOS, world, [
-        (Locations.DODONGOS_CAVERN_UPPER_LIZALFOS_ROOM_LEFT_HEART, lambda bundle: True),
-        (Locations.DODONGOS_CAVERN_UPPER_LIZALFOS_ROOM_RIGHT_HEART, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_UPPER_LIZALFOS_ROOM_LEFT_HEART, True_()),
+        (Locations.DODONGOS_CAVERN_UPPER_LIZALFOS_ROOM_RIGHT_HEART, True_()),
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_UPPER_LIZALFOS, world, [
@@ -332,7 +332,7 @@ def set_region_rules(world: "SohWorld") -> None:
          lambda bundle: has_item(LocalEvents.DODONGOS_CAVERN_LOWER_LIZALFOS_DEFEATED, bundle)),
         (Regions.DODONGOS_CAVERN_DODONGO_ROOM,
          lambda bundle: has_item(LocalEvents.DODONGOS_CAVERN_LOWER_LIZALFOS_DEFEATED, bundle)),
-        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS_LOCATIONS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOWER_LIZALFOS_LOCATIONS, True_()),
     ])
 
     # Dodongos Cavern Second Slingshot Room
@@ -345,7 +345,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_SECOND_SLINGSHOT_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_UPPER_LIZALFOS, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_UPPER_LIZALFOS, True_()),
         (Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER,
          lambda bundle: can_use_any([Items.FAIRY_SLINGSHOT, Items.FAIRY_BOW], bundle) or can_do_trick(
              Tricks.DC_SLINGSHOT_SKIP, bundle)),
@@ -354,7 +354,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Dodongos Cavern Bomb Room Upper
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER, world, [
-        (Locations.DODONGOS_CAVERN_BOMB_BAG_CHEST, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_BOMB_BAG_CHEST, True_()),
         (Locations.DODONGOS_CAVERN_BLADE_POT1,
          lambda bundle: can_break_pots(bundle)),
         (Locations.DODONGOS_CAVERN_BLADE_POT2,
@@ -362,9 +362,9 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER, world, [
-        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_SECOND_SLINGSHOT_ROOM, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_FAR_BRIDGE, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOMB_ROOM_LOWER, True_()),
+        (Regions.DODONGOS_CAVERN_SECOND_SLINGSHOT_ROOM, True_()),
+        (Regions.DODONGOS_CAVERN_FAR_BRIDGE, True_()),
     ])
 
     # Dodongos Cavern Far Bridge
@@ -373,7 +373,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.DODONGOS_CAVERN_EYES, LocalEvents.DODONGOS_CAVERN_EYES_LIT,
          lambda bundle: has_explosives(bundle)),
         (EventLocations.DODONGOS_CAVERN_LIFT_SWITCH,
-         LocalEvents.DODONGOS_CAVERN_LIFT_PLATFORM, lambda bundle: True),
+         LocalEvents.DODONGOS_CAVERN_LIFT_PLATFORM, True_()),
     ])
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_FAR_BRIDGE, world, [
@@ -382,15 +382,15 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_FAR_BRIDGE, world, [
-        (Regions.DODONGOS_CAVERN_LOBBY, lambda bundle: True),
-        (Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOBBY, True_()),
+        (Regions.DODONGOS_CAVERN_BOMB_ROOM_UPPER, True_()),
     ])
 
     # Dodongos Cavern Boss Region
     # Events
     add_events(Regions.DODONGOS_CAVERN_BOSS_REGION, world, [
         (EventLocations.DODONGOS_CAVERN_FAIRY_POT,
-         Events.CAN_ACCESS_FAIRIES, lambda bundle: True),
+         Events.CAN_ACCESS_FAIRIES, True_()),
     ])
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_BOSS_REGION, world, [
@@ -399,10 +399,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOSS_REGION, world, [
-        (Regions.DODONGOS_CAVERN_LOBBY, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_LOBBY, True_()),
         (Regions.DODONGOS_CAVERN_BACK_ROOM,
          lambda bundle: can_break_mud_walls(bundle)),
-        (Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY, True_()),
     ])
 
     # Dodongos Cavern Back Room
@@ -420,19 +420,19 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BACK_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_BOSS_REGION, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOSS_REGION, True_()),
     ])
 
     # Dodongos Cavern Boss Entryway
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOSS_ENTRYWAY, world, [
-        (Regions.DODONGOS_CAVERN_BOSS_ROOM, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOSS_ROOM, True_()),
     ])
 
     # Dodongos Cavern Boss Exit
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOSS_EXIT, world, [
-        (Regions.DODONGOS_CAVERN_BOSS_REGION, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOSS_REGION, True_()),
     ])
 
     # Dodongos Cavern Boss Room
@@ -443,7 +443,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_BOSS_ROOM, world, [
-        (Locations.DODONGOS_CAVERN_BOSS_ROOM_CHEST, lambda bundle: True),
+        (Locations.DODONGOS_CAVERN_BOSS_ROOM_CHEST, True_()),
         (Locations.DODONGOS_CAVERN_KING_DODONGO_HEART_CONTAINER,
          lambda bundle: has_item(Events.DODONGOS_CAVERN_COMPLETED, bundle)),
         (Locations.KING_DODONGO, lambda bundle: has_item(
@@ -451,7 +451,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_BOSS_ROOM, world, [
-        (Regions.DODONGOS_CAVERN_BOSS_EXIT, lambda bundle: True),
+        (Regions.DODONGOS_CAVERN_BOSS_EXIT, True_()),
         (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: has_item(
             Events.DODONGOS_CAVERN_COMPLETED, bundle)),
     ])

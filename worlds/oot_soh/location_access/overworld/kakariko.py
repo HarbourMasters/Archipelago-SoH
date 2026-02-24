@@ -24,7 +24,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Kakariko Village
     # Events
     add_events(Regions.KAKARIKO_VILLAGE, world, [
-        (EventLocations.KAK_BUG_ROCK, Events.CAN_ACCESS_BUGS, lambda bundle: True),
+        (EventLocations.KAK_BUG_ROCK, Events.CAN_ACCESS_BUGS, True_()),
         (EventLocations.KAK_GATE_GUARD, Events.SOLD_KEATON_MASK,
          lambda bundle: is_child(bundle) and has_item(Events.CAN_BORROW_MASKS, bundle) and has_item(Items.CHILD_WALLET,
                                                                                                     bundle)),
@@ -133,7 +133,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAKARIKO_VILLAGE, world, [
-        (Regions.HYRULE_FIELD, lambda bundle: True),
+        (Regions.HYRULE_FIELD, True_()),
         (Regions.KAK_CARPENTER_BOSS_HOUSE,
          lambda bundle: can_open_overworld_door(Items.BOSS_HOUSE_KEY, bundle)),
         (Regions.KAK_HOUSE_OF_SKULLTULA, lambda bundle: can_open_overworld_door(
@@ -168,7 +168,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.KAK_IMPAS_ROOFTOP,
          lambda bundle: can_use(Items.HOOKSHOT, bundle) or can_do_trick(Tricks.KAK_ROOFTOP_GS, bundle) and can_use(
              Items.HOVER_BOOTS, bundle)),
-        (Regions.THE_GRAVEYARD, lambda bundle: True),
+        (Regions.THE_GRAVEYARD, True_()),
         (Regions.KAK_BEHIND_GATE,
          lambda bundle: is_adult(bundle) or has_item(Events.KAKARIKO_GATE_OPEN, bundle)),
         (Regions.KAK_BACKYARD, lambda bundle: is_adult(bundle) or at_day(bundle)),
@@ -177,8 +177,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Kak Impas Ledge
     # Connections
     connect_regions(Regions.KAK_IMPAS_LEDGE, world, [
-        (Regions.KAK_IMPAS_HOUSE_BACK, lambda bundle: True),
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAK_IMPAS_HOUSE_BACK, True_()),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Impas Rooftop
@@ -190,8 +190,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_IMPAS_ROOFTOP, world, [
-        (Regions.KAK_IMPAS_LEDGE, lambda bundle: True),
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAK_IMPAS_LEDGE, True_()),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Watchtower
@@ -202,7 +202,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_WATCHTOWER, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
         (Regions.KAK_ROOFTOP, lambda bundle: can_do_trick(
             Tricks.KAK_MAN_ON_ROOF, bundle) and is_child(bundle)),
     ])
@@ -210,12 +210,12 @@ def set_region_rules(world: "SohWorld") -> None:
     # Kak Rooftop
     # Locations
     add_locations(Regions.KAK_ROOFTOP, world, [
-        (Locations.KAK_MAN_ON_ROOF, lambda bundle: True),
+        (Locations.KAK_MAN_ON_ROOF, True_()),
     ])
     # Connections
     connect_regions(Regions.KAK_ROOFTOP, world, [
-        (Regions.KAK_BACKYARD, lambda bundle: True),
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAK_BACKYARD, True_()),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Backyard
@@ -228,8 +228,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_BACKYARD, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
-        (Regions.KAK_OPEN_GROTTO, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
+        (Regions.KAK_OPEN_GROTTO, True_()),
         (Regions.KAK_GRANNYS_POTION_SHOP,
          lambda bundle: is_adult(bundle) and can_open_overworld_door(Items.GRANNYS_POTION_SHOP_KEY, bundle)),
         (Regions.KAK_POTION_SHOP_BACK,
@@ -246,7 +246,7 @@ def set_region_rules(world: "SohWorld") -> None:
         ])
     # Connections
     connect_regions(Regions.KAK_CARPENTER_BOSS_HOUSE, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak House of Skulltula
@@ -267,24 +267,24 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_HOUSE_OF_SKULLTULA, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Impas House
     # Connections
     connect_regions(Regions.KAK_IMPAS_HOUSE, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
         (Regions.KAK_COW_CAGE, lambda bundle: can_play_song(Items.EPONAS_SONG, bundle))
     ])
 
     # Kak Impas House Back
     # Locations
     add_locations(Regions.KAK_IMPAS_HOUSE_BACK, world, [
-        (Locations.KAK_IMPAS_HOUSE_FREESTANDING_POH, lambda bundle: True),
+        (Locations.KAK_IMPAS_HOUSE_FREESTANDING_POH, True_()),
     ])
     # Connections
     connect_regions(Regions.KAK_IMPAS_HOUSE_BACK, world, [
-        (Regions.KAK_IMPAS_LEDGE, lambda bundle: True),
+        (Regions.KAK_IMPAS_LEDGE, True_()),
         (Regions.KAK_COW_CAGE, lambda bundle: can_play_song(Items.EPONAS_SONG, bundle)),
     ])
 
@@ -292,7 +292,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # This region exists because to get around AP's restriction on locations having one parent region
     # Locations
     add_locations(Regions.KAK_COW_CAGE, world, [
-        (Locations.KAK_IMPAS_HOUSE_COW, lambda bundle: True),
+        (Locations.KAK_IMPAS_HOUSE_COW, True_()),
     ])
 
     # Kak Windmill
@@ -313,23 +313,23 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_WINDMILL, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Bazaar
     # Locations
     add_locations(Regions.KAK_BAZAAR, world, [
-        (Locations.KAK_BAZAAR_ITEM1, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM2, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM3, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM4, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM5, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM6, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM7, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM8, lambda bundle: True),
+        (Locations.KAK_BAZAAR_ITEM1, True_()),
+        (Locations.KAK_BAZAAR_ITEM2, True_()),
+        (Locations.KAK_BAZAAR_ITEM3, True_()),
+        (Locations.KAK_BAZAAR_ITEM4, True_()),
+        (Locations.KAK_BAZAAR_ITEM5, True_()),
+        (Locations.KAK_BAZAAR_ITEM6, True_()),
+        (Locations.KAK_BAZAAR_ITEM7, True_()),
+        (Locations.KAK_BAZAAR_ITEM8, True_()),
     ])
     connect_regions(Regions.KAK_BAZAAR, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Shooting Gallery
@@ -340,7 +340,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_SHOOTING_GALLERY, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Potion Shop Front
@@ -357,14 +357,14 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_POTION_SHOP_FRONT, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
         (Regions.KAK_POTION_SHOP_BACK, lambda bundle: is_adult(bundle)),
     ])
 
     # Kak Potion Shop Back
     # Connections
     connect_regions(Regions.KAK_POTION_SHOP_BACK, world, [
-        (Regions.KAK_POTION_SHOP_FRONT, lambda bundle: True),
+        (Regions.KAK_POTION_SHOP_FRONT, True_()),
         (Regions.KAK_BACKYARD, lambda bundle: is_adult(bundle)),
     ])
 
@@ -379,7 +379,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_GRANNYS_POTION_SHOP, world, [
-        (Regions.KAK_BACKYARD, lambda bundle: True)
+        (Regions.KAK_BACKYARD, True_())
     ])
 
     # Kak Redead Grotto
@@ -391,7 +391,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_REDEAD_GROTTO, world, [
-        (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
+        (Regions.KAKARIKO_VILLAGE, True_()),
     ])
 
     # Kak Open Grotto
@@ -404,11 +404,11 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.KAK_OPEN_GROTTO_BUG_GRASS,
          Events.CAN_ACCESS_BUGS, lambda bundle: (can_cut_shrubs(bundle))),
         (EventLocations.KAK_OPEN_GROTTO_PUDDLE_FISH,
-         Events.CAN_ACCESS_FISH, lambda bundle: True)
+         Events.CAN_ACCESS_FISH, True_())
     ])
     # Locations
     add_locations(Regions.KAK_OPEN_GROTTO, world, [
-        (Locations.KAK_OPEN_GROTTO_CHEST, lambda bundle: True),
+        (Locations.KAK_OPEN_GROTTO_CHEST, True_()),
         (Locations.KAK_OPEN_GROTTO_FISH, lambda bundle: has_bottle(bundle)),
         (Locations.KAK_OPEN_GROTTO_GOSSIP_STONE_FAIRY,
          lambda bundle: call_gossip_fairy(bundle)),
@@ -425,7 +425,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KAK_OPEN_GROTTO, world, [
-        (Regions.KAK_BACKYARD, lambda bundle: True),
+        (Regions.KAK_BACKYARD, True_()),
     ])
 
     # Kak Behind Gate
@@ -434,7 +434,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Regions.KAKARIKO_VILLAGE,
          lambda bundle: is_adult(bundle) or has_item(Events.KAKARIKO_GATE_OPEN, bundle) or can_do_trick(
              Tricks.VISIBLE_COLLISION, bundle)),
-        (Regions.DEATH_MOUNTAIN_TRAIL, lambda bundle: True)
+        (Regions.DEATH_MOUNTAIN_TRAIL, True_())
     ])
 
     # Kak Well

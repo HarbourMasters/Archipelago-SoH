@@ -53,7 +53,7 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.ZR_FRONT, world, [
         (Regions.ZORA_RIVER, lambda bundle: is_adult(
             bundle) or blast_or_smash(bundle)),
-        (Regions.HYRULE_FIELD, lambda bundle: True)
+        (Regions.HYRULE_FIELD, True_())
     ])
 
     # Zora River
@@ -153,8 +153,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZORA_RIVER, world, [
-        (Regions.ZR_FRONT, lambda bundle: True),
-        (Regions.ZR_OPEN_GROTTO, lambda bundle: True),
+        (Regions.ZR_FRONT, True_()),
+        (Regions.ZR_OPEN_GROTTO, True_()),
         # I am not sure that there's any scenario where blast or smash wouldn't apply to here, not sure why this needs here (which checks if the other age opened it, basically)?
         (Regions.ZR_FAIRY_GROTTO, lambda bundle: blast_or_smash(bundle)),
         (Regions.ZR_FROM_SHORTCUT, lambda bundle: has_item(
@@ -185,8 +185,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # ZR Behind Waterfall
     # Connections
     connect_regions(Regions.ZR_BEHIND_WATERFALL, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True),
-        (Regions.ZORAS_DOMAIN, lambda bundle: True)
+        (Regions.ZORA_RIVER, True_()),
+        (Regions.ZORAS_DOMAIN, True_())
     ])
 
     # ZR Open Grotto
@@ -199,11 +199,11 @@ def set_region_rules(world: "SohWorld") -> None:
         (EventLocations.ZR_OPEN_GROTTO_BUG_GRASS, Events.CAN_ACCESS_BUGS,
          lambda bundle: (can_cut_shrubs(bundle))),
         (EventLocations.ZR_OPEN_GROTTO_POND_FISH,
-         Events.CAN_ACCESS_FISH, lambda bundle: True)
+         Events.CAN_ACCESS_FISH, True_())
     ])
     # Locations
     add_locations(Regions.ZR_OPEN_GROTTO, world, [
-        (Locations.ZR_OPEN_GROTTO_CHEST, lambda bundle: True),
+        (Locations.ZR_OPEN_GROTTO_CHEST, True_()),
         (Locations.ZR_OPEN_GROTTO_FISH, lambda bundle: has_bottle(bundle)),
         (Locations.ZR_OPEN_GROTTO_GOSSIP_STONE_FAIRY,
          lambda bundle: call_gossip_fairy(bundle)),
@@ -220,24 +220,24 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZR_OPEN_GROTTO, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True)
+        (Regions.ZORA_RIVER, True_())
     ])
 
     # ZR Fairy Grotto
     # Locations
     add_locations(Regions.ZR_FAIRY_GROTTO, world, [
-        (Locations.ZR_FAIRY_GROTTO_FAIRY1, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY2, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY3, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY4, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY5, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY6, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY7, lambda bundle: True),
-        (Locations.ZR_FAIRY_GROTTO_FAIRY8, lambda bundle: True)
+        (Locations.ZR_FAIRY_GROTTO_FAIRY1, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY2, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY3, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY4, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY5, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY6, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY7, True_()),
+        (Locations.ZR_FAIRY_GROTTO_FAIRY8, True_())
     ])
     # Connections
     connect_regions(Regions.ZR_FAIRY_GROTTO, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True)
+        (Regions.ZORA_RIVER, True_())
     ])
 
     # ZR Storms Grotto
@@ -253,5 +253,5 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.ZR_STORMS_GROTTO, world, [
-        (Regions.ZORA_RIVER, lambda bundle: True)
+        (Regions.ZORA_RIVER, True_())
     ])

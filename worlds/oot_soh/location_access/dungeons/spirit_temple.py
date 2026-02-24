@@ -13,8 +13,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # Spirit Temple Entryway
     # Connections
     connect_regions(Regions.SPIRIT_TEMPLE_ENTRYWAY, world, [
-        (Regions.SPIRIT_TEMPLE_LOBBY, lambda bundle: True),
-        (Regions.DESERT_COLOSSUS_OUTSIDE_TEMPLE, lambda bundle: True)
+        (Regions.SPIRIT_TEMPLE_LOBBY, True_()),
+        (Regions.DESERT_COLOSSUS_OUTSIDE_TEMPLE, True_())
     ])
 
     # Spirit Temple Lobby
@@ -25,7 +25,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SPIRIT_TEMPLE_LOBBY, world, [
-        (Regions.SPIRIT_TEMPLE_ENTRYWAY, lambda bundle: True),
+        (Regions.SPIRIT_TEMPLE_ENTRYWAY, True_()),
         (Regions.SPIRIT_TEMPLE_CHILD, lambda bundle: is_child(bundle)),
         (Regions.SPIRIT_TEMPLE_EARLY_ADULT,
          lambda bundle: can_use(Items.SILVER_GAUNTLETS, bundle))
@@ -35,7 +35,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Events
     add_events(Regions.SPIRIT_TEMPLE_CHILD, world, [
         (EventLocations.SPIRIT_TEMPLE_BEGINNING_NUT_CRATE,
-         Events.CAN_FARM_NUTS, lambda bundle: True)
+         Events.CAN_FARM_NUTS, True_())
     ])
     # Locations
     add_locations(Regions.SPIRIT_TEMPLE_CHILD, world, [
@@ -142,7 +142,7 @@ def set_region_rules(world: "SohWorld") -> None:
             bundle) or has_explosives(bundle)),
         (Regions.SPIRIT_TEMPLE_BEYOND_CENTRAL_LOCKED_DOOR, lambda bundle: small_keys(
             Items.SPIRIT_TEMPLE_SMALL_KEY, 4, bundle) and can_use(Items.SILVER_GAUNTLETS, bundle)),
-        (Regions.SPIRIT_TEMPLE_CHILD_CLIMB, lambda bundle: True),
+        (Regions.SPIRIT_TEMPLE_CHILD_CLIMB, True_()),
         (Regions.SPIRIT_TEMPLE_INSIDE_STATUE_HEAD, lambda bundle: can_do_trick(
             Tricks.SPIRIT_PLATFORM_HOOKSHOT, bundle) and can_use(Items.HOOKSHOT, bundle))
     ])
@@ -202,14 +202,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Spirit Temple Inside Statue Head
     # Connections
     connect_regions(Regions.SPIRIT_TEMPLE_INSIDE_STATUE_HEAD, world, [
-        (Regions.SPIRIT_TEMPLE_CENTRAL_CHAMBER, lambda bundle: True),
-        (Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY, lambda bundle: True)
+        (Regions.SPIRIT_TEMPLE_CENTRAL_CHAMBER, True_()),
+        (Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY, True_())
     ])
 
     # Spirit Temple Boss Entryway
     # Connections
     connect_regions(Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY, world, [
-        (Regions.SPIRIT_TEMPLE_INSIDE_STATUE_HEAD, lambda bundle: False),
+        (Regions.SPIRIT_TEMPLE_INSIDE_STATUE_HEAD, False_()),
         (Regions.SPIRIT_TEMPLE_BOSS_ROOM, lambda bundle: has_item(
             Items.SPIRIT_TEMPLE_BOSS_KEY, bundle))
     ])
@@ -229,7 +229,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SPIRIT_TEMPLE_BOSS_ROOM, world, [
-        (Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY, lambda bundle: False),
+        (Regions.SPIRIT_TEMPLE_BOSS_ENTRYWAY, False_()),
         (Regions.DESERT_COLOSSUS, lambda bundle: has_item(
             Events.SPIRIT_TEMPLE_COMPLETED, bundle))
     ])
