@@ -438,7 +438,7 @@ def place_locked_items(world: "SohWorld") -> None:
         
     # Place the Ocarinas on their vanilla locations if not shuffled
     if not world.options.shuffle_ocarinas:
-        if world.options.start_with_ocarina != "fairy_ocarina" and world.options.start_with_ocarina != "ocarina_of_time":
+        if world.options.start_with_ocarina == "off":
             world.get_location(Locations.LW_GIFT_FROM_SARIA).place_locked_item(
                 world.create_item(Items.PROGRESSIVE_OCARINA))
         if world.options.start_with_ocarina != "ocarina_of_time":
