@@ -461,7 +461,7 @@ def place_locked_items(world: "SohWorld") -> None:
         for location_name, reward_name in zip(dungeon_reward_item_mapping.keys(), dungeon_reward_item_mapping.values()):
             world.get_location(location_name.value).place_locked_item(
                 world.create_item(reward_name.value))
-    elif world.options.shuffle_dungeon_rewards != "dungeons":
+    elif world.options.shuffle_dungeon_rewards != "end_of_dungeons":
         if world.options.start_with_links_pocket == "dungeon_reward":
             dungeon_rewards = list(dungeon_reward_item_mapping.values())
             world.random.shuffle(dungeon_rewards)

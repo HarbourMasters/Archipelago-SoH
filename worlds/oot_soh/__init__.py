@@ -139,7 +139,7 @@ class SohWorld(World):
         if self.options.shuffle_deku_nut_bag.value:
             self.options.start_with_nut_ammo.value = 0
 
-        if self.options.shuffle_dungeon_rewards in ("off", "dungeons"):
+        if self.options.shuffle_dungeon_rewards in ("off", "end_of_dungeons"):
             self.options.start_with_links_pocket.value = 0
 
         # Figure out how many Skulltula tokens need to be progressive

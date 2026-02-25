@@ -634,14 +634,19 @@ class ShuffleDungeonRewards(Choice):
     """
     Shuffles the location of Spiritual Stones and medallions.
     Off - Spiritual Stones and medallions will be given in their vanilla location from their respective boss.
-    Dungeons - Spiritual Stones and medallions will be given as rewards for beating major dungeons. Link will always start with one stone or medallion.
+    End of Dungeons - Spiritual Stones and medallions will be given as rewards for beating major dungeons. Link will always start with one stone or medallion.
+    Any dungeon - Spiritual Stones and medallions can be placed anywhere in your dungeons.
+    Overworld - Spiritual Stones and medallions can appear anywhere in your overworld.
     Anywhere - Spiritual Stones and medallions can appear anywhere.
     """
     display_name = "Shuffle Dungeon Rewards"
     option_off = 0
-    option_dungeons = 1
-    option_anywhere = 2
+    option_end_of_dungeons = 1
+    option_any_dungeon = 2
+    option_overworld = 3
+    option_anywhere = 4
     default = 0
+    alias_dungeons = option_end_of_dungeons
 
 
 class MapsAndCompasses(Choice):

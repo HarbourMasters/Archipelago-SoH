@@ -6,6 +6,7 @@ from .Locations import location_data_table
 from .Regions import map_and_compass_vanilla_mapping
 from .Enums import DungeonLocations, Locations
 from .LogicHelpers import key_to_ring
+from .DungeonRewardShuffle import dungeon_reward_item_mapping
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -106,6 +107,10 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
         # Maps and Compasses
         if world.options.maps_and_compasses == shuffle_setting:
             shuffle_items += list(map_and_compass_vanilla_mapping.values())
+
+        # Dungeon Rewards
+        if world.options.shuffle_dungeon_rewards == shuffle_setting:
+            shuffle_items += list(dungeon_reward_item_mapping.values())
 
         return shuffle_items
         
