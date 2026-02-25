@@ -609,34 +609,34 @@ def get_filler_bottle(world: "SohWorld") -> str:
 
 def give_starting_items(world: "SohWorld") -> None:
     if world.options.start_with_kokiri_sword:
-        world.push_precollected(world.create_item(Items.KOKIRI_SWORD))
+        world.push_precollected(world.create_item(Items.KOKIRI_SWORD, True))
 
     if world.options.start_with_master_sword and world.options.shuffle_master_sword:
-        world.push_precollected(world.create_item(Items.MASTER_SWORD))
+        world.push_precollected(world.create_item(Items.MASTER_SWORD, True))
 
     # doesn't actually do anything logically since deku shields can be lost
     if world.options.start_with_deku_shield:
-        world.push_precollected(world.create_item(Items.DEKU_SHIELD))
+        world.push_precollected(world.create_item(Items.DEKU_SHIELD, True))
 
     if world.options.start_with_ocarina == "fairy_ocarina":
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
 
     if world.options.start_with_ocarina == "ocarina_of_time":
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA))
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
+        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
     
     if world.options.start_with_magic_beans:
-        world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK))
+        world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK, True))
     
         # Songs
     starting_songs =  set(song_vanilla_locations.values()) - get_shuffled_songs(world)
     for song in starting_songs:
-        world.push_precollected(world.create_item(song))
+        world.push_precollected(world.create_item(song, True))
 
     if world.options.small_key_shuffle == "start_with":
         for key_ring in key_to_ring.values():
-            world.push_precollected(world.create_item(key_ring))
+            world.push_precollected(world.create_item(key_ring, True))
         
     if world.options.boss_key_shuffle == "start_with":
         for boss_key in dungeon_boss_key_vanilla_mapping.values():
-            world.push_precollected(world.create_item(boss_key))
+            world.push_precollected(world.create_item(boss_key, True))
