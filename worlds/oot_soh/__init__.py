@@ -560,6 +560,6 @@ class SohWorld(World):
             "apworld_version": self.apworld_version,
             "enable_all_tricks": self.options.enable_all_tricks.value,
             "tricks_in_logic": self.options.tricks_in_logic.value,
-            "medallion_locked_trials": self.options.medallion_locked_trials.value
+            "medallion_locked_trials": self.options.medallion_locked_trials.value,
             "starting_hearts": self.options.starting_hearts.value
         }
