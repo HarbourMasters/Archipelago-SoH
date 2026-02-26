@@ -9,7 +9,7 @@ class TestAccessGBK(SohTestBase):
     This was made to test for this issue https://github.com/aMannus/Archipelago/issues/241
     """
     # fill in the options here, formatted like "shuffle_childs_wallet": False,
-    options = {"starting_age": 1, "skip_ganons_trials": True, "rainbow_bridge_greg_modifier": "reward",
+    options = {"starting_age": 1, "ganons_trials": "skip", "rainbow_bridge_greg_modifier": "reward",
                "rainbow_bridge": "greg", "ganons_castle_boss_key_greg_modifier": "wildcard"}
     # options not set here will be set to default
     world: SohWorld

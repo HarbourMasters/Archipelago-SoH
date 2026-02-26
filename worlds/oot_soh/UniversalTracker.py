@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from .Options import *
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -31,7 +32,8 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "rainbow_bridge_dungeons_required"]
             world.options.rainbow_bridge_skull_tokens_required.value = world.passthrough[
                 "rainbow_bridge_skull_tokens_required"]
-            world.options.skip_ganons_trials.value = world.passthrough["skip_ganons_trials"]
+            world.options.ganons_trials.value = world.passthrough["ganons_trials"]
+            world.options.ganons_trials_count.value = world.passthrough.get("ganons_trials_count", 6)
             world.options.triforce_hunt.value = world.passthrough["triforce_hunt"]
             world.options.triforce_hunt_pieces_total.value = world.passthrough[
                 "triforce_hunt_pieces_total"]
@@ -96,12 +98,35 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "ganons_castle_boss_key_dungeons_required"]
             world.options.ganons_castle_boss_key_skull_tokens_required.value = world.passthrough[
                 "ganons_castle_boss_key_skull_tokens_required"]
+            world.options.small_key_shuffle.value = world.passthrough["small_key_shuffle"]
+            world.options.gerudo_fortress_key_shuffle.value = world.passthrough["gerudo_fortress_key_shuffle"]
+            world.options.boss_key_shuffle.value = world.passthrough["boss_key_shuffle"]
             world.options.key_rings.value = world.passthrough["key_rings"]
             world.options.big_poe_target_count.value = world.passthrough["big_poe_target_count"]
             world.options.skip_child_zelda.value = world.passthrough["skip_child_zelda"]
             world.options.skip_epona_race.value = world.passthrough["skip_epona_race"]
             world.options.complete_mask_quest.value = world.passthrough["complete_mask_quest"]
             world.options.skip_scarecrows_song.value = world.passthrough["skip_scarecrows_song"]
+            world.options.start_with_links_pocket.value = world.passthrough.get("start_with_links_pocket", StartWithLinksPocket.default)
+            world.options.start_with_kokiri_sword.value = world.passthrough.get("start_with_kokiri_sword", StartWithKokiriSword.default)
+            world.options.start_with_deku_shield.value = world.passthrough.get("start_with_deku_shield", StartWithDekuShield.default)
+            world.options.start_with_master_sword.value = world.passthrough.get("start_with_master_sword", StartWithMasterSword.default)
+            world.options.start_with_ocarina.value = world.passthrough.get("start_with_ocarina", StartWithOcarina.default)
+            world.options.start_with_stick_ammo.value = world.passthrough.get("start_with_stick_ammo", StartWithStickAmmo.default)
+            world.options.start_with_nut_ammo.value = world.passthrough.get("start_with_nut_ammo", StartWithNutAmmo.default)
+            world.options.start_with_magic_beans.value = world.passthrough.get("start_with_magic_beans", StartWithMagicBeans.default)
+            world.options.start_with_zeldas_lullaby.value = world.passthrough.get("start_with_zeldas_lullaby", StartWithZeldasLullaby.default)
+            world.options.start_with_eponas_song.value = world.passthrough.get("start_with_eponas_song", StartWithEponasSong.default)
+            world.options.start_with_sarias_song.value = world.passthrough.get("start_with_sarias_song", StartWithSariasSong.default)
+            world.options.start_with_suns_song.value = world.passthrough.get("start_with_suns_song", StartWithSunsSong.default)
+            world.options.start_with_song_of_time.value = world.passthrough.get("start_with_song_of_time", StartWithSongOfTime.default)
+            world.options.start_with_song_of_storms.value = world.passthrough.get("start_with_song_of_storms", StartWithSongOfStorms.default)
+            world.options.start_with_minuet.value = world.passthrough.get("start_with_minuet", StartWithMinuet.default)
+            world.options.start_with_bolero.value = world.passthrough.get("start_with_bolero", StartWithBolero.default)
+            world.options.start_with_serenade.value = world.passthrough.get("start_with_serenade", StartWithSerenade.default)
+            world.options.start_with_requiem.value = world.passthrough.get("start_with_requiem", StartWithRequiem.default)
+            world.options.start_with_nocturne.value = world.passthrough.get("start_with_nocturne", StartWithNocturne.default)
+            world.options.start_with_prelude.value = world.passthrough.get("start_with_prelude", StartWithPrelude.default)
             world.options.full_wallets.value = world.passthrough["full_wallets"]
             world.options.bombchu_bag.value = world.passthrough["bombchu_bag"]
             world.options.bombchu_drops.value = world.passthrough["bombchu_drops"]
@@ -122,7 +147,8 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "tricks_in_logic", set())
             world.options.item_pool.value = world.passthrough.get(
                 "item_pool", 0)
-            world.options.medallion_locked_trials.value = world.passthrough.get("medallion_locked_trials", False)
+            world.options.medallion_locked_trials.value = world.passthrough.get("medallion_locked_trials", MedallionLockedTrials.default)
+            world.options.starting_hearts.value = world.passthrough.get("starting_hearts", StartingHearts.default)
             # when adding new options to this, use .get, and set the default to whatever was before the option was made
             # this will make it back-compatible with seeds generated on earlier versions
             # the below do not need to be handled in UT at all, since they do not affect logic

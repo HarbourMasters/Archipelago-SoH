@@ -3,7 +3,7 @@ from ..Enums import Items, Locations
 
 
 class TestTime(SohTestBase):
-    options = {"starting_age": "adult", "shuffle_grass": "all"}
+    options = {"starting_age": "adult", "shuffle_grass": "all", "shuffle_kokiri_sword": 1}
 
     # test that you cannot cut the market grass if you do not have a grass cutter for child Link
     def test_wrong_age_grass(self):
