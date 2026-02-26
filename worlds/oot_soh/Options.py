@@ -634,14 +634,19 @@ class ShuffleDungeonRewards(Choice):
     """
     Shuffles the location of Spiritual Stones and medallions.
     Off - Spiritual Stones and medallions will be given in their vanilla location from their respective boss.
-    Dungeons - Spiritual Stones and medallions will be given as rewards for beating major dungeons. Link will always start with one stone or medallion.
+    End of Dungeons - Spiritual Stones and medallions will be given as rewards for beating major dungeons. Link will always start with one stone or medallion.
+    Any dungeon - Spiritual Stones and medallions can be placed anywhere in your dungeons.
+    Overworld - Spiritual Stones and medallions can appear anywhere in your overworld.
     Anywhere - Spiritual Stones and medallions can appear anywhere.
     """
     display_name = "Shuffle Dungeon Rewards"
     option_off = 0
-    option_dungeons = 1
-    option_anywhere = 2
+    option_end_of_dungeons = 1
+    option_any_dungeon = 2
+    option_overworld = 3
+    option_anywhere = 4
     default = 0
+    alias_dungeons = option_end_of_dungeons
 
 
 class MapsAndCompasses(Choice):
@@ -766,12 +771,13 @@ class SmallKeyShuffle(Choice):
     Anywhere - Small Keys can appear anywhere in the world.
     """
     display_name = "Small Key Shuffle"
-    option_vanilla = 0
-    option_own_dungeon = 1
-    option_any_dungeon = 2
-    option_overworld = 3
-    option_anywhere = 4
-    default = 1
+    option_start_with = 0
+    option_vanilla = 1
+    option_own_dungeon = 2
+    option_any_dungeon = 3
+    option_overworld = 4
+    option_anywhere = 5
+    default = 2
 
 
 class GerudoFortressKeyShuffle(Choice):
@@ -798,12 +804,13 @@ class BossKeyShuffle(Choice):
     Anywhere - Boss Keys can appear anywhere in the world.
     """
     display_name = "Boss Key Shuffle"
-    option_vanilla = 0
-    option_own_dungeon = 1
-    option_any_dungeon = 2
-    option_overworld = 3
-    option_anywhere = 4
-    default = 1
+    option_start_with = 0
+    option_vanilla = 1
+    option_own_dungeon = 2
+    option_any_dungeon = 3
+    option_overworld = 4
+    option_anywhere = 5
+    default = 2
 
 
 class KeyRings(Choice):
@@ -1095,6 +1102,131 @@ class ShuffleTycoonWallet(Toggle):
     display_name = "Shuffle Tycoon Wallet"
 
 
+class StartWithMasterSword(Toggle):
+    """
+    Start with the master sword in your inventory 
+    """
+    display_name = "Start with Master Sword"
+
+class StartWithLinksPocket(Choice):
+    """
+    Starting Item in Link's Pocket
+    Dungeon Reward starts you with one of the dungeon rewards
+    Advancement starts you with a random major item
+    Anything starts you with a random item
+    Nothing starts you with nothing in link's pocket
+    """
+    display_name = "Link's Pocket"
+    option_dungeon_reward = 0
+    option_advancement = 1
+    option_anything = 2
+    option_nothing = 3
+    default = 0
+
+class StartWithKokiriSword(Toggle):
+    """
+    Start with the kokiri sword in your inventory
+    """
+    display_name = "Start with Kokiri Sword"
+
+
+class StartWithDekuShield(Toggle):
+    """
+    Start with a Deku Shield in your inventory
+    """
+    display_name = "Start with Deku Shield"
+
+class StartWithOcarina(Choice):
+    """
+    Start with an Ocarina
+    """
+    display_name = "Start with Ocarina"
+    option_off = 0
+    option_fairy_ocarina = 1
+    option_ocarina_of_time = 2
+    default = 0
+
+class StartWithStickAmmo(Toggle):
+    """
+    Start with some Deku Sticks
+    This option does nothing when "Shuffle Deku Stick Bag" is enabled
+    """
+    display_name = "Start with Stick ammo"
+
+class StartWithNutAmmo(Toggle):
+    """
+    Start with some Deku Nuts
+    This option does nothing when "Shuffle Deku Nut Bag" is enabled
+    """
+    display_name = "Start with Nut ammo"
+
+class StartWithMagicBeans(Toggle):
+    """
+    Start with a pouch of Magic Beans
+    """
+    display_name = "Start with Magic Beans"
+
+class StartWithZeldasLullaby(Toggle):
+    """
+    Start with Zelda's Lullaby
+    """
+    display_name = "Start with Zelda's Lullaby"
+class StartWithEponasSong(Toggle):
+    """
+    Start with Epona's Song
+    """
+    display_name = "Start with Epona's Song"
+class StartWithSariasSong(Toggle):
+    """
+    Start with Saria's Song
+    """
+    display_name = "Start with Saria's Song"
+class StartWithSunsSong(Toggle):
+    """
+    Start with Sun's Song
+    """
+    display_name = "Start with Sun's Song"
+class StartWithSongOfTime(Toggle):
+    """
+    Start with Song of Time
+    """
+    display_name = "Start with Song of Time"
+class StartWithSongOfStorms(Toggle):
+    """
+    Start with Song of Storms
+    """
+    display_name = "Start with Song of Storms"
+class StartWithMinuet(Toggle):
+    """
+    Start with Minuet of the Forest
+    """
+    display_name = "Start with Minuet of the Forest"
+class StartWithBolero(Toggle):
+    """
+    Start with Bolero of Fire
+    """
+    display_name = "Start with Bolero of Fire"
+class StartWithSerenade(Toggle):
+    """
+    Start with Serenade of Water
+    """
+    display_name = "Start with Serenade of Water"
+class StartWithRequiem(Toggle):
+    """
+    Start with Requiem of Spirit
+    """
+    display_name = "Start with Requiem of Spirit"
+class StartWithNocturne(Toggle):
+    """
+    Start with Nocturne of Shadow
+    """
+    display_name = "Start with Nocturne of Shadow"
+class StartWithPrelude(Toggle):
+    """
+    Start with Prelude of Light
+    """
+    display_name = "Start with Prelude of Light"
+
 class ItemPool(Choice):
     """
     Sets how many major items appear in the item pool.
@@ -1209,6 +1341,28 @@ class SohOptions(PerGameCommonOptions):
     skip_epona_race: SkipEponaRace
     complete_mask_quest: CompleteMaskQuest
     skip_scarecrows_song: SkipScarecrowsSong
+    start_with_links_pocket: StartWithLinksPocket
+    start_with_kokiri_sword: StartWithKokiriSword
+    start_with_master_sword: StartWithMasterSword
+    start_with_deku_shield: StartWithDekuShield
+    start_with_ocarina: StartWithOcarina
+    start_with_stick_ammo: StartWithStickAmmo
+    start_with_nut_ammo: StartWithNutAmmo
+    start_with_magic_beans: StartWithMagicBeans
+    start_with_zeldas_lullaby :StartWithZeldasLullaby
+    start_with_eponas_song :StartWithEponasSong
+    start_with_sarias_song :StartWithSariasSong
+    start_with_suns_song :StartWithSunsSong
+    start_with_song_of_time :StartWithSongOfTime
+    start_with_song_of_storms :StartWithSongOfStorms
+    start_with_minuet :StartWithMinuet
+    start_with_bolero :StartWithBolero
+    start_with_serenade :StartWithSerenade
+    start_with_requiem :StartWithRequiem
+    start_with_nocturne :StartWithNocturne
+    start_with_prelude :StartWithPrelude
+    #StartingTokens
+    #StartingHearts
     full_wallets: FullWallets
     bombchu_bag: BombchuBag
     bombchu_drops: BombchuDrops
@@ -1354,6 +1508,30 @@ soh_option_groups = [
         ItemPool,
         IceTrapCount,
         IceTrapFillerReplacement
+    ]),
+    OptionGroup("Starting Items", [
+        StartWithLinksPocket,
+        StartWithKokiriSword,
+        StartWithMasterSword,
+        StartWithDekuShield,
+        StartWithOcarina,
+        StartWithStickAmmo,
+        StartWithNutAmmo,
+        StartWithMagicBeans,
+        StartWithZeldasLullaby,
+        StartWithEponasSong,
+        StartWithSariasSong,
+        StartWithSunsSong,
+        StartWithSongOfTime,
+        StartWithSongOfStorms,
+        StartWithMinuet,
+        StartWithBolero,
+        StartWithSerenade,
+        StartWithRequiem,
+        StartWithNocturne,
+        StartWithPrelude,
+        #StartingTokens,
+        #StartingHearts,
     ]),
     OptionGroup("Additional Features", [
         FullWallets,  # another one that should maybe just be a locally changeable setting instead of in the yaml

@@ -14,7 +14,7 @@ default_options: dict[str, Any] = {
     "rainbow_bridge":           RainbowBridge.option_vanilla,
     "skip_ganons_trials":       SkipGanonsTrials.option_true,
     "shuffle_songs":            ShuffleSongs.option_song_locations,
-    "shuffle_dungeon_rewards":  ShuffleDungeonRewards.option_dungeons,
+    "shuffle_dungeon_rewards":  ShuffleDungeonRewards.option_end_of_dungeons,
     "maps_and_compasses":       MapsAndCompasses.option_own_dungeon,
     "ganons_castle_boss_key":   GanonsCastleBossKey.option_vanilla,
     "big_poe_target_count":     10,
@@ -26,7 +26,27 @@ default_options: dict[str, Any] = {
     "bombchu_bag":              BombchuBag.option_none,
     "blue_fire_arrows":         Toggle.option_false,
     "sunlight_arrows":          Toggle.option_false,
-    "starting_age":             StartingAge.option_child
+    "starting_age":             StartingAge.option_child,
+    "start_with_links_pocket":  StartWithLinksPocket.option_dungeon_reward,
+    "start_with_kokiri_sword":  Toggle.option_false,
+    "start_with_deku_shield":   Toggle.option_false,
+    "start_with_master_sword":  Toggle.option_false,
+    "start_with_ocarina":       StartWithOcarina.option_off,
+    "start_with_stick_ammo":    Toggle.option_false,
+    "start_with_nut_ammo":      Toggle.option_false,
+    "start_with_magic_beans":   Toggle.option_false,
+    "start_with_zeldas_lullaby":    Toggle.option_false,
+    "start_with_eponas_song":   Toggle.option_false,
+    "start_with_sarias_song":   Toggle.option_false,
+    "start_with_suns_song":     Toggle.option_false,
+    "start_with_song_of_time":  Toggle.option_false,
+    "start_with_song_of_storms":    Toggle.option_false,
+    "start_with_minuet":        Toggle.option_false,
+    "start_with_bolero":        Toggle.option_false,
+    "start_with_serenade":      Toggle.option_false,
+    "start_with_requiem":       Toggle.option_false,
+    "start_with_nocturne":      Toggle.option_false,
+    "start_with_prelude":       Toggle.option_false,
 }
 
 beginner_options = {
@@ -38,7 +58,7 @@ beginner_options = {
     "skip_ganons_trials":                               SkipGanonsTrials.option_true,
     "shuffle_tycoon_wallet":                            ShuffleTycoonWallet.option_true,
     "shuffle_ocarinas":                                 ShuffleOcarinas.option_true,
-    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
+    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_end_of_dungeons,
     "maps_and_compasses":                               MapsAndCompasses.option_start_with,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_dungeon_rewards_required":  6,
@@ -52,8 +72,8 @@ beginner_options = {
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "infinite_upgrades":                                InfiniteUpgrades.option_off,
     "skeleton_key":                                     SkeletonKey.option_false,
-    "start_inventory_from_pool":                        {Items.PROGRESSIVE_OCARINA: 1},
-    "start_inventory":                                  {Items.KOKIRI_SWORD: 1},
+    "start_with_kokiri_sword":                          Toggle.option_true,
+    "start_with_ocarina":                               StartWithOcarina.option_fairy_ocarina,
     "exclude_locations":                                [Locations.GF_HBA_1500_POINTS, Locations.KAK_40_GOLD_SKULLTULA_REWARD, Locations.KAK_50_GOLD_SKULLTULA_REWARD, Locations.ZR_FROGS_OCARINA_GAME]
 }
 
@@ -78,7 +98,7 @@ standard_options = {
     "shuffle_scrubs_minimum_price":                     10,
     "shuffle_scrubs_maximum_price":                     10,
     "shuffle_merchants":                                ShuffleMerchants.option_bean_merchant_only,
-    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
+    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_end_of_dungeons,
     "maps_and_compasses":                               MapsAndCompasses.option_start_with,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_dungeon_rewards_required":  7,
@@ -94,7 +114,7 @@ standard_options = {
     "blue_fire_arrows":                                 BlueFireArrows.option_true,
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "small_key_shuffle":                                SmallKeyShuffle.option_anywhere,
-    "start_inventory_from_pool":                        {Items.PROGRESSIVE_OCARINA: 1}
+    "start_with_ocarina":                               StartWithOcarina.option_fairy_ocarina,
 }
 
 # Missing ER
@@ -125,7 +145,7 @@ advanced_options = {
     "shuffle_merchants":                                ShuffleMerchants.option_all,
     "shuffle_frog_song_rupees":                         ShuffleFrogSongRupees.option_true,
     "shuffle_adult_trade_items":                        ShuffleAdultTradeItems.option_true,
-    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
+    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_end_of_dungeons,
     "maps_and_compasses":                               MapsAndCompasses.option_start_with,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_dungeon_rewards_required":  8,
@@ -189,7 +209,7 @@ hell_mode_options = {
     "shuffle_bean_fairies":                             ShuffleBeanFairies.option_true,
     "shuffle_song_fairies":                             ShuffleSongFairies.option_true,
     "shuffle_grass":                                    ShuffleGrass.option_all,
-    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_dungeons,
+    "shuffle_dungeon_rewards":                          ShuffleDungeonRewards.option_end_of_dungeons,
     "maps_and_compasses":                               MapsAndCompasses.option_anywhere,
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,

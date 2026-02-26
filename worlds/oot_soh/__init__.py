@@ -1,22 +1,23 @@
 import orjson
 import pkgutil
 
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Callable
 
 from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Location
 from worlds.AutoWorld import WebWorld, World
+from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
 from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
-from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item
+from .ItemPool import create_item_pool, create_filler_item_pool, create_triforce_pieces, get_filler_item, give_starting_items
 from . import RegionAgeAccess
-from .DungeonRewardShuffle import pre_fill_dungeon, get_pre_fill_rewards
-from .KeyShuffle import pre_fill_keys, get_pre_fill_keys
+from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
+from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
-from .ShopItems import fill_shop_items, generate_scrub_prices, generate_merchant_prices, set_price_rules
+from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
 from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
@@ -53,7 +54,14 @@ class SohSettings(Group):
         Do not enable this if you don't trust the players using it to play responsibly.
         """
 
+    class DisableFillOverflow(Bool):
+        """
+        A debugging option for disabling our fill overflow for prefills. Typical users likely shouldn't enable this as it allows for generation failures.
+        By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
+        """
+
     allow_true_no_logic: AllowTrueNoLogic | bool = False
+    disable_fill_overflow: DisableFillOverflow | bool = False
 
 
 class SohWorld(World):
@@ -87,6 +95,7 @@ class SohWorld(World):
         self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.pre_fill_pool = list[Items]()
+        self.reserved_pre_fill_locations = list[Locations]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -112,6 +121,9 @@ class SohWorld(World):
         if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
             self.options.starting_age.value = 0
 
+        if self.options.closed_forest == "on":
+            self.options.starting_age.value = 0
+
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if not self.options.shuffle_tycoon_wallet.value:
             for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price, self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
@@ -128,6 +140,15 @@ class SohWorld(World):
         if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
             self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
 
+        if self.options.shuffle_deku_stick_bag.value:
+            self.options.start_with_stick_ammo.value = 0
+
+        if self.options.shuffle_deku_nut_bag.value:
+            self.options.start_with_nut_ammo.value = 0
+
+        if self.options.shuffle_dungeon_rewards in ("off", "end_of_dungeons"):
+            self.options.start_with_links_pocket.value = 0
+
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
@@ -135,7 +156,7 @@ class SohWorld(World):
         if self.options.shuffle_100_gs_reward:
             turn_in_amount = 100
         elif self.options.accessibility == "full":
-                turn_in_amount = 50
+            turn_in_amount = 50
         else:
             for location, amount in token_amounts.items():
                 if str(location) not in self.options.exclude_locations:
@@ -146,15 +167,12 @@ class SohWorld(World):
                                                self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
         if self.options.shuffle_skull_tokens:
-            self.randomized_progressive_skulltula_count = progressive_skulltula_count
-
             if self.options.shuffle_skull_tokens == "dungeon":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.OVERWORLD.value, 0)
-
-            if self.options.shuffle_skull_tokens == "overworld":
-                self.vanilla_progressive_skulltula_count = max(
-                    self.randomized_progressive_skulltula_count - TokenCounts.DUNGEON.value, 0)
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
+            elif self.options.shuffle_skull_tokens == "overworld":
+                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
+                
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count - self.vanilla_progressive_skulltula_count
         else:
             self.vanilla_progressive_skulltula_count = progressive_skulltula_count
 
@@ -184,8 +202,10 @@ class SohWorld(World):
         # generate the prefill pool
         self.pre_fill_pool += get_pre_fill_rewards(self)
         self.pre_fill_pool += get_prefill_songs(self)
-        for key_shuffle in get_pre_fill_keys(self).values():
+        for key_shuffle in get_own_dungeon_prefill_items(self).values():
             self.pre_fill_pool += key_shuffle
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, False)
+        self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?
@@ -205,23 +225,32 @@ class SohWorld(World):
     def create_regions(self) -> None:
         create_regions_and_locations(self)
         place_locked_items(self)
-        generate_scrub_prices(self)
-        generate_merchant_prices(self)
+        self.reserve_prefill_locations()
         for location in self.get_locations():
             location.name = str(location.name)
         for region in self.get_regions():
             region.name = str(region.name)
 
-        if self.options.true_no_logic:
-            for entrance in self.get_entrances():
-                entrance.access_rule = lambda state: True
-            for location in self.get_locations():
-                location.access_rule = lambda state: True
+        if self.using_ut:
+            fill_shop_items(self)
+
+    def reserve_prefill_locations(self) -> None:
+        # songs and medalion locations get a soft reservation, by adding them to the reserved location list
+        # pre-fill is not allowed to place items there, but plando is allowed
+        DungeonRewardShuffle.reserve_dungeon_reward_locations(self)
+        SongShuffle.reserve_song_locations(self)
+
+        # vanilla shop locations get a hard reservation, by placing a RESERVATION item there
+        # pre-fill and plando are not allowed to place items there
+        ShopItems.reserve_vanilla_shop_locations(self)
 
     def create_item(self, name: str, create_as_event: bool = False, classification: ItemClassification = None) -> SohItem:
         item_entry = Items(name)
         return SohItem(str(name), item_data_table[item_entry].classification if classification == None else classification,
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
+
+    def get_pre_fill_items(self) -> list[Item]:
+        return [self.create_item(item) for item in self.pre_fill_pool]
 
     def get_filler_item_name(self) -> str:
         return get_filler_item(self)
@@ -236,7 +265,7 @@ class SohWorld(World):
         locations = []
         for location in location_list:
             loc = self.get_location(str(location))
-            if loc.item != None or loc.locked:
+            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations:
                 continue
             locations.append(loc)
         self.random.shuffle(locations)
@@ -244,13 +273,28 @@ class SohWorld(World):
         return locations
 
     def get_pre_fill_state(self) -> CollectionState:
+        my_locations = list(self.multiworld.get_locations(self.player))
         prefill_state = CollectionState(self.multiworld)
         for item in self.item_pool:
             prefill_state.collect(item, True)
         for item in self.pre_fill_pool:
             prefill_state.collect(self.create_item(item), True)
-        prefill_state.sweep_for_advancements()
+        prefill_state.sweep_for_advancements(my_locations)
         return prefill_state
+    
+    def set_rules(self) -> None:
+        # Set price rules in advance
+        generate_shop_prices(self)
+        generate_scrub_prices(self)
+        generate_merchant_prices(self)
+        set_price_rules(self)
+
+        # disregard all rules if no logic is in effect
+        if self.options.true_no_logic:
+            for entrance in self.get_entrances():
+                entrance.access_rule = lambda state: True
+            for location in self.get_locations():
+                location.access_rule = lambda state: True
 
     def create_items(self) -> None:
         # these are for making the progressive items collect/remove work properly
@@ -271,6 +315,8 @@ class SohWorld(World):
         if self.options.small_key_shuffle in ("vanilla", "own_dungeon"):
             self.multiworld.push_precollected(
                 self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
+            
+        give_starting_items(self)
 
         create_item_pool(self)
 
@@ -279,19 +325,48 @@ class SohWorld(World):
 
         create_filler_item_pool(self)
 
-        # these place items, so they should be done during create_items
-        pre_fill_dungeon(self)
+        self.set_completion_rule()
 
+    def pre_fill(self) -> None:
+        original_completion_goal = self.multiworld.completion_condition[self.player]
+
+        pre_fill_own_dungeon_items(self)
+        pre_fill_dungeon_rewards(self)
         pre_fill_songs(self)
-
-        pre_fill_keys(self)
-
+        pre_fill_any_dungeon_keys(self)
+        pre_fill_overworld_items(self)
         fill_shop_items(self)
 
-        # this one technically could be done later but why bother at this point
-        set_price_rules(self)
+        self.multiworld.completion_condition[self.player] = original_completion_goal
 
-        self.set_completion_rule()
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
+        # check if we're using specific collectionstate
+        if prefill_state is None:
+            for item in item_pool:
+                if item in self.pre_fill_pool: 
+                    self.pre_fill_pool.remove(item)
+            
+            prefill_state = self.get_pre_fill_state()
+        
+        if goal is None:
+            # set region accessability of locations as the goal
+            accessibility_goal = {self.get_location(loc) for loc in locations}
+            goal = lambda state: all([state.can_reach(reg) for reg in accessibility_goal])
+
+        self.multiworld.completion_condition[self.player] = goal
+
+        # get empty, non reserved locations
+        empty_locations = self.get_empty_locations_from_list_shuffled(locations)
+        items = [self.create_item(str(item)) for item in item_pool]
+
+
+        if self.settings.disable_fill_overflow:
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
+        else:
+            # Add any unplaced items to the item pool
+            fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=True)
+            self.add_items_to_item_pool_list(items)
+
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         changed = super().collect(state, item)
@@ -316,6 +391,11 @@ class SohWorld(World):
                 state.soh_heart_count[self.player] += 1  # type: ignore
 
         return changed
+    
+    def add_items_to_item_pool_list(self, items: list[SohItem]) -> None:
+        if len(items) > 0:
+            self.item_pool.extend(items)
+            self.multiworld.itempool.extend(items)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         changed = super().remove(state, item)
@@ -415,6 +495,9 @@ class SohWorld(World):
             "ganons_castle_boss_key_dungeon_rewards_required": self.options.ganons_castle_boss_key_dungeon_rewards_required.value,
             "ganons_castle_boss_key_dungeons_required": self.options.ganons_castle_boss_key_dungeons_required.value,
             "ganons_castle_boss_key_skull_tokens_required": self.options.ganons_castle_boss_key_skull_tokens_required.value,
+            "small_key_shuffle": self.options.small_key_shuffle.value,
+            "gerudo_fortress_key_shuffle": self.options.gerudo_fortress_key_shuffle.value,
+            "boss_key_shuffle": self.options.boss_key_shuffle.value,
             "key_rings": self.options.key_rings.value,
             "key_rings_count": self.options.key_rings_count.value,
             "gerudo_fortress_key_ring": self.options.gerudo_fortress_key_ring.value,
@@ -431,6 +514,26 @@ class SohWorld(World):
             "skip_epona_race": self.options.skip_epona_race.value,
             "complete_mask_quest": self.options.complete_mask_quest.value,
             "skip_scarecrows_song": self.options.skip_scarecrows_song.value,
+            "start_with_links_pocket": self.options.start_with_links_pocket.value,
+            "start_with_kokiri_sword": self.options.start_with_kokiri_sword.value,
+            "start_with_deku_shield": self.options.start_with_deku_shield.value,
+            "start_with_master_sword": self.options.start_with_master_sword.value,
+            "start_with_ocarina": self.options.start_with_ocarina.value,
+            "start_with_stick_ammo": self.options.start_with_stick_ammo.value,
+            "start_with_nut_ammo": self.options.start_with_nut_ammo.value,
+            "start_with_magic_beans": self.options.start_with_magic_beans.value,
+            "start_with_zeldas_lullaby": self.options.start_with_zeldas_lullaby.value,
+            "start_with_eponas_song": self.options.start_with_eponas_song.value,
+            "start_with_sarias_song": self.options.start_with_sarias_song.value,
+            "start_with_suns_song": self.options.start_with_suns_song.value,
+            "start_with_song_of_time": self.options.start_with_song_of_time.value,
+            "start_with_song_of_storms": self.options.start_with_song_of_storms.value,
+            "start_with_minuet": self.options.start_with_minuet.value,
+            "start_with_bolero": self.options.start_with_bolero.value,
+            "start_with_serenade": self.options.start_with_serenade.value,
+            "start_with_requiem": self.options.start_with_requiem.value,
+            "start_with_nocturne": self.options.start_with_nocturne.value,
+            "start_with_prelude": self.options.start_with_prelude.value,
             "full_wallets": self.options.full_wallets.value,
             "bombchu_bag": self.options.bombchu_bag.value,
             "bombchu_drops": self.options.bombchu_drops.value,
