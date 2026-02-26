@@ -4,7 +4,7 @@ from ..Items import Items
 from .bases import SohTestBase
 
 class TestDekuTreeUpperBasement(SohTestBase):
-    options = {"starting_age": 0, "closed_forest": 2, "door_of_time": 0}
+    options = {"starting_age": 0, "closed_forest": 2, "door_of_time": 0, "shuffle_kokiri_sword": 1}
     world: SohWorld
 
     def test_child_without_slingshot_upper_basement_access(self):

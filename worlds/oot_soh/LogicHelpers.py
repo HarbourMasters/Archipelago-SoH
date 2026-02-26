@@ -189,6 +189,9 @@ wallet_capacities: dict[Items, int] = {
     Items.TYCOON_WALLET: 999
 }
 
+def can_afford_slot(slot: str, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
+    slot_price = bundle[2].shop_prices[slot]
+    return can_afford(slot_price, bundle)
 
 def can_afford(price: int, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
     for wallet, amount in wallet_capacities.items():
@@ -1038,7 +1041,7 @@ class SohHeartState(LogicMixin):
         soh_players = list(parent.get_game_players(
             "Ship of Harkinian") + parent.get_game_groups("Ship of Harkinian"))
         self.soh_piece_of_heart_count = Counter()
-        self.soh_heart_count = Counter({player: 3 for player in soh_players})
+        self.soh_heart_count = Counter({player: parent.worlds[player].options.starting_hearts.value for player in soh_players})
 
     def copy_mixin(self, ret: CollectionState) -> CollectionState:
         ret.soh_piece_of_heart_count = Counter(self.soh_piece_of_heart_count)  # type: ignore # noqa

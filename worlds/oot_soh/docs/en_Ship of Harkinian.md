@@ -78,3 +78,36 @@ yourself will show up just like a regular randomizer, showing the model of whate
 
 They aren't needed! Ship of Harkinian comes with a built-in item tracker, entrance tracker and check tracker. They're found 
 within the Randomizer section of the ESC menu.
+
+
+## Is there an option for no logic?
+
+Yes there is. There is a two step process to allow for generating a no logic seed.
+
+First the `allow_true_no_logic` option needs to be set to `true` in the hosts `host.yaml`. By default it is disabled. Please only enable this if you understand that it will make all locations and regions in this world accessible from sphere 1 logically. It will majorly affect the entire multiworld.
+
+```yaml
+oot_soh_options:
+  allow_true_no_logic: true
+```
+
+Second, in the players `.yaml` options file add this option somewhere to enable it for their world.
+
+```yaml
+Ship of Harkinian:
+  true_no_logic: true
+```
+
+## Is "X" feature in SoH Archipelago?
+
+If it is not in the `.yaml` file it likely has not been added to our Archipelago implementation yet. A short list of popular features that have yet to be added:
+
+* Entrance Randomization
+* In Game Hints
+* Master Quest Dungeons
+
+## Can I use my settings from the original OOT Archipelago?
+
+SoH Archipelago and OOT Archipealgo are two separate implementations of the same game. This means that the two are not compatible and there are very likely differences between the twos logic. 
+
+SoH Archipelago is focused on providing all (or as many as possible) of the features the standalone SoH randomizer has. If you have any feature requests or ideas that aren't already in SoH's standalone randomizer, we ask that you please request them to the [upstream SoH github repository](https://github.com/HarbourMasters/Shipwright). After they are added upstream, we can integrate them into Archipelago.
