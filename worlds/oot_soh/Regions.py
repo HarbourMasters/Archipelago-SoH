@@ -486,10 +486,10 @@ def place_locked_items(world: "SohWorld") -> None:
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
         for location_name, address in gold_skulltula_overworld_location_table.items():
             if world.vanilla_progressive_skulltula_count > 0:
-                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.progression_deprioritized_skip_balancing)
+                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
                 world.vanilla_progressive_skulltula_count -= 1
             else:
-                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
+                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.useful)
             world.get_location(location_name).place_locked_item(token_item)
             world.get_location(location_name).address = None
             world.get_location(location_name).item.code = None
@@ -497,10 +497,10 @@ def place_locked_items(world: "SohWorld") -> None:
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "overworld":
         for location_name, address in gold_skulltula_dungeon_location_table.items():
             if world.vanilla_progressive_skulltula_count > 0:
-                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.progression_deprioritized_skip_balancing)
+                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
                 world.vanilla_progressive_skulltula_count -= 1
             else:
-                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
+                token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True, ItemClassification.useful)
             world.get_location(location_name).place_locked_item(token_item)
             world.get_location(location_name).address = None
             world.get_location(location_name).item.code = None
