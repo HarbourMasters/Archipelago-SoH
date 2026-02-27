@@ -209,25 +209,24 @@ class SohWorld(World):
         self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
         self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
-        if self.using_ut:   # can't this get moved to 'UniversalTracker.py' ?
-            self.options.gerudo_fortress_key_ring.value = self.passthrough[
-                "gerudo_fortress_key_ring"]
-            self.options.forest_temple_key_ring.value = self.passthrough["forest_temple_key_ring"]
-            self.options.fire_temple_key_ring.value = self.passthrough["fire_temple_key_ring"]
-            self.options.water_temple_key_ring.value = self.passthrough["water_temple_key_ring"]
-            self.options.spirit_temple_key_ring.value = self.passthrough["spirit_temple_key_ring"]
-            self.options.shadow_temple_key_ring.value = self.passthrough["shadow_temple_key_ring"]
-            self.options.bottom_of_the_well_key_ring.value = self.passthrough[
-                "bottom_of_the_well_key_ring"]
-            self.options.gerudo_training_ground_key_ring.value = self.passthrough[
-                "gerudo_training_ground_key_ring"]
-            self.options.ganons_castle_key_ring.value = self.passthrough["ganons_castle_key_ring"]
-
         if self.options.ganons_trials == "set_number" and self.options.ganons_trials_count.value > 0:
             self.ganons_trials = [str(trial) for trial in GanonsTrials]
             if self.options.ganons_trials_count.value < 6:
                 self.random.shuffle(self.ganons_trials)
                 self.ganons_trials = self.ganons_trials[:self.options.ganons_trials_count.value]
+
+        # These things get modified after we call setup_options_from_slot_data, so we need to set them here.
+        if self.using_ut:
+            self.ganons_trials = self.passthrough.get("required_trials", 6)
+            self.options.gerudo_fortress_key_ring.value = self.passthrough.get("gerudo_fortress_key_ring", False)
+            self.options.forest_temple_key_ring.value = self.passthrough.get("forest_temple_key_ring", False)
+            self.options.fire_temple_key_ring.value = self.passthrough.get("fire_temple_key_ring", False)
+            self.options.water_temple_key_ring.value = self.passthrough.get("water_temple_key_ring", False)
+            self.options.spirit_temple_key_ring.value = self.passthrough.get("spirit_temple_key_ring", False)
+            self.options.shadow_temple_key_ring.value = self.passthrough.get("shadow_temple_key_ring", False)
+            self.options.bottom_of_the_well_key_ring.value = self.passthrough.get("bottom_of_the_well_key_ring", False)
+            self.options.gerudo_training_ground_key_ring.value = self.passthrough.get("gerudo_training_ground_key_ring", False)
+            self.options.ganons_castle_key_ring.value = self.passthrough.get("ganons_castle_key_ring", False)
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)
