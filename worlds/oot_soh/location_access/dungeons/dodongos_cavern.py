@@ -49,7 +49,8 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.DODONGOS_CAVERN_MAP_CHEST,
          lambda bundle: can_break_mud_walls(bundle) or has_item(Items.GORONS_BRACELET, bundle)),
         (Locations.DODONGOS_CAVERN_DEKU_SCRUB_LOBBY,
-         lambda bundle: can_stun_deku(bundle) or has_item(Items.GORONS_BRACELET, bundle)),
+         lambda bundle: (can_stun_deku(bundle) or has_item(Items.GORONS_BRACELET, bundle)) and \
+            can_afford_slot(Locations.DODONGOS_CAVERN_DEKU_SCRUB_LOBBY, bundle)),
         (Locations.DODONGOS_CAVERN_GOSSIP_STONE_FAIRY,
          lambda bundle: (can_break_mud_walls(bundle) or has_item(Items.GORONS_BRACELET, bundle)) and call_gossip_fairy(
              bundle)),
@@ -184,7 +185,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_NEAR_DODONGO_ROOM, world, [
         (Locations.DODONGOS_CAVERN_DEKU_SCRUB_SIDE_ROOM_NEAR_DODONGOS,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DODONGOS_CAVERN_DEKU_SCRUB_SIDE_ROOM_NEAR_DODONGOS, bundle)),
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_NEAR_DODONGO_ROOM, world, [
@@ -289,9 +290,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.DODONGOS_CAVERN_2F_SIDE_ROOM, world, [
         (Locations.DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_LEFT, bundle)),
         (Locations.DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_RIGHT, bundle)),
     ])
     # Connections
     connect_regions(Regions.DODONGOS_CAVERN_2F_SIDE_ROOM, world, [

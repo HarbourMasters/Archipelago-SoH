@@ -60,7 +60,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.LW_TARGET_IN_WOODS, lambda bundle: is_child(
             bundle) and can_use(Items.FAIRY_SLINGSHOT, bundle)),
         (Locations.LW_DEKU_SCRUB_NEAR_BRIDGE,
-         lambda bundle: is_child(bundle) and can_stun_deku(bundle)),
+         lambda bundle: is_child(bundle) and can_stun_deku(bundle) and can_afford_slot(Locations.LW_DEKU_SCRUB_NEAR_BRIDGE, bundle)),
         (Locations.LW_GS_BEAN_PATCH_NEAR_BRIDGE,
          lambda bundle: can_spawn_soil_skull(bundle) and can_attack(bundle)),
         (Locations.LW_UNDERWATER_SHORTCUT_RUPEE1,
@@ -127,9 +127,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.LW_BEYOND_MIDO, world, [
         (Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_RIGHT,
-         lambda bundle: is_child(bundle) and can_stun_deku(bundle)),
+         lambda bundle: is_child(bundle) and can_stun_deku(bundle) and can_afford_slot(Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_RIGHT, bundle)),
         (Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT,
-         lambda bundle: is_child(bundle) and can_stun_deku(bundle)),
+         lambda bundle: is_child(bundle) and can_stun_deku(bundle) and can_afford_slot(Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT, bundle)),
         (Locations.LW_GS_ABOVE_THEATER, lambda bundle: is_adult(bundle) and can_get_nighttime_gs(bundle)
          and (has_item(LocalEvents.LW_THEATER_BEAN_PLANTED, bundle) and (can_attack(bundle))
               or (can_do_trick(Tricks.LW_GS_BEAN, bundle)
@@ -220,9 +220,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # LW Scrubs Grotto
     add_locations(Regions.LW_SCRUBS_GROTTO, world, [
         (Locations.LW_DEKU_SCRUB_GROTTO_REAR,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.LW_DEKU_SCRUB_GROTTO_REAR, bundle)),
         (Locations.LW_DEKU_SCRUB_GROTTO_FRONT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.LW_DEKU_SCRUB_GROTTO_FRONT, bundle)),
         (Locations.LW_DEKU_SCRUB_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle)),
         (Locations.LW_DEKU_SCRUB_GROTTO_SUN_FAIRY,

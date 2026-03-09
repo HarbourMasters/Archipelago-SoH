@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule
+from worlds.AutoWorld import LogicMixin
+from BaseClasses import CollectionState, MultiWorld
 
-from .LogicHelpers import rule_wrapper, can_afford, can_afford_slot
 from .Locations import scrubs_location_table, merchants_items_location_table, scrubs_one_time_only
 from .Enums import *
 from . import SohItem
@@ -161,6 +162,13 @@ vanilla_items_to_add: list[list[Items]] = [
         Items.BUY_HEART, Items.BUY_HEART, Items.BUY_HEART, Items.BUY_HEART],
 ]
 
+vanilla_merchant_prices: dict[Locations, int] = {
+    Locations.KAK_GRANNYS_SHOP: 100,
+    Locations.GC_MEDIGORON: 200,
+    Locations.ZR_MAGIC_BEAN_SALESMAN: 60,
+    Locations.WASTELAND_CARPET_SALESMAN: 200
+}
+
 def get_vanilla_shop_pool(world: "SohWorld") -> list[Items]:
     vanilla_shop_pool = list[Items]()
     if not world.options.shuffle_shops:
@@ -214,7 +222,6 @@ def fill_shop_items(world: "SohWorld") -> None:
     # if we're using UT, we just want to place the event shop items in their proper spots
     if world.using_ut:
         world.shop_vanilla_items = world.passthrough["shop_vanilla_items"]
-        world.shop_prices = world.passthrough["shop_prices"]
         for slot, item in world.shop_vanilla_items.items():
             location = world.get_location(slot)
             location.address = None
@@ -237,59 +244,80 @@ def fill_shop_items(world: "SohWorld") -> None:
 
 def no_shop_shuffle(world: "SohWorld") -> None:
     # put everything in its place as plain vanilla
+    new_shop_prices = dict[Locations, int]()
     for region, shop in all_shop_locations:
         for slot, item in shop.items():
-            world.shop_prices[slot] = vanilla_shop_prices[item]
+            new_shop_prices[slot] = vanilla_shop_prices[item]
             world.get_location(slot).place_locked_item(world.create_item(item))
             world.get_location(slot).address = None
             world.shop_vanilla_items[slot] = item.value
+    update_shop_prices(world, new_shop_prices)
 
+def update_shop_prices(world: "SohWorld", new_prices: dict[Locations, int]) -> None:
+    world.shop_prices.update(new_prices)
+    world.multiworld.state._soh_invalidate(world.player)
 
-def generate_shop_prices(world: "SohWorld") -> None:
+def generate_prices(world: "SohWorld") -> None:
+    if world.using_ut:
+        world.shop_prices = world.passthrough["shop_prices"]
+
+    all_prices = dict[Locations, int]()
+    all_prices.update(generate_shop_prices(world))
+    all_prices.update(generate_scrub_prices(world))
+    all_prices.update(generate_merchant_prices(world))
+    update_shop_prices(world, all_prices)
+
+def generate_shop_prices(world: "SohWorld") -> dict[Locations, int]:
+    prices = dict[Locations, int]()
     if not world.options.shuffle_shops:
-        return
+        return prices
 
     min_shop_price = world.options.shuffle_shops_minimum_price.value
     max_shop_price = world.options.shuffle_shops_maximum_price.value
 
     for region, shop in all_shop_locations:
         for slot in shop.keys():
-            world.shop_prices[slot] = create_random_price(min_shop_price, max_shop_price, world)
+            prices[slot] = create_random_price(min_shop_price, max_shop_price, world)
+    return prices
 
 
-def generate_scrub_prices(world: "SohWorld") -> None:
-    if world.options.shuffle_scrubs:
-        min_scrub_price = world.options.shuffle_scrubs_minimum_price.value
-        max_scrub_price = world.options.shuffle_scrubs_maximum_price.value
+def generate_scrub_prices(world: "SohWorld") -> dict[Locations, int]:
+    prices = dict[Locations, int]()
+    if not world.options.shuffle_scrubs:
+        return prices
+    
+    min_scrub_price = world.options.shuffle_scrubs_minimum_price.value
+    max_scrub_price = world.options.shuffle_scrubs_maximum_price.value
+    
+    if world.options.shuffle_scrubs == "all":
+        for slot in scrubs_location_table.keys():
+            prices[slot] = create_random_price(
+                min_scrub_price, max_scrub_price, world)
+    else:
+        for slot in scrubs_one_time_only:
+            prices[slot] = create_random_price(
+                min_scrub_price, max_scrub_price, world)
 
-        if world.options.shuffle_scrubs == "all":
-            for slot in scrubs_location_table.keys():
-                world.scrub_prices[slot] = create_random_price(
-                    min_scrub_price, max_scrub_price, world)
-        else:
-            for slot in scrubs_one_time_only:
-                world.scrub_prices[slot] = create_random_price(
-                    min_scrub_price, max_scrub_price, world)
+    return prices
 
-        if world.using_ut:
-            world.scrub_prices = world.passthrough["scrub_prices"]
+def generate_merchant_prices(world: "SohWorld") -> dict[Locations, int]:
+    prices = vanilla_merchant_prices.copy()
 
+    if not world.options.shuffle_merchants:
+        return prices
+    
+    min_merchant_price = world.options.shuffle_merchants_minimum_price.value
+    max_merchant_price = world.options.shuffle_merchants_maximum_price.value
 
-def generate_merchant_prices(world: "SohWorld") -> None:
-    if world.options.shuffle_merchants:
-        min_merchant_price = world.options.shuffle_merchants_minimum_price.value
-        max_merchant_price = world.options.shuffle_merchants_maximum_price.value
+    for slot in merchants_items_location_table.keys():
+        if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
+            continue
+        if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
+            continue
 
-        for slot in merchants_items_location_table.keys():
-            if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
-                continue
-            if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
-                continue
+        prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world)
 
-            world.merchant_prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world)
-
-        if world.using_ut and "merchant_prices" in world.passthrough:
-            world.merchant_prices = world.passthrough["merchant_prices"]
+    return prices
 
 
 def create_random_price(min_price: int, max_price: int, world: "SohWorld") -> int:
@@ -301,42 +329,3 @@ def create_random_price(min_price: int, max_price: int, world: "SohWorld") -> in
 
     price = price - (price % 5)
     return price
-
-
-def set_price_rules(world: "SohWorld") -> None:
-    if world.options.true_no_logic:
-        return
-    # Shop Price Rules
-    for region, shop in all_shop_locations:
-        for slot in shop.keys():
-            def shop_rule(bundle, s=slot): return can_afford_slot(str(s), bundle)
-            location = world.get_location(slot)
-            add_rule(location, rule_wrapper.wrap(region, shop_rule, world))
-
-    # Scrub Price Rules
-    if world.options.shuffle_scrubs:
-        scrubs_list = list()
-        if world.options.shuffle_scrubs == "all":
-            scrubs_list = scrubs_location_table.keys()
-        else:
-            scrubs_list += [location for location in scrubs_one_time_only]
-        for slot in scrubs_list:
-            price = world.scrub_prices[slot]
-            def price_rule(bundle, p=price): return can_afford(p, bundle)
-            location = world.get_location(slot)
-            # Parent region shouldn't matter at all here, so just add ROOT so we don't have to make a list of all scrubs and their regions.
-            add_rule(location, rule_wrapper.wrap(
-                Regions.ROOT, price_rule, world))
-            
-    # Merchant Price Rules
-    if world.options.shuffle_merchants:
-        for slot in merchants_items_location_table.keys():
-            if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
-                continue
-            if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
-                continue
-
-            price = world.merchant_prices[slot]
-            def price_rule(bundle, p=price): return can_afford(p, bundle)
-            location = world.get_location(slot)
-            add_rule(location, rule_wrapper.wrap(location.parent_region, price_rule, world))

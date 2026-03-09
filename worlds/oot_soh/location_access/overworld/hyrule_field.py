@@ -267,7 +267,8 @@ def set_region_rules(world: "SohWorld") -> None:
     # HF Inside Fence Grotto
     # Locations
     add_locations(Regions.HF_INSIDE_FENCE_GROTTO, world, [
-        (Locations.HF_DEKU_SCRUB_GROTTO, lambda bundle: (can_stun_deku(bundle))),
+        (Locations.HF_DEKU_SCRUB_GROTTO, 
+         lambda bundle: (can_stun_deku(bundle)) and can_afford_slot(Locations.HF_DEKU_SCRUB_GROTTO, bundle)),
         (Locations.HF_DEKU_SCRUB_GROTTO_BEEHIVE,
          lambda bundle: (can_break_lower_hives(bundle))),
         (Locations.HF_FENCE_GROTTO_STORMS_FAIRY, lambda bundle: (

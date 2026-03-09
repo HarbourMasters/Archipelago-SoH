@@ -288,14 +288,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # KF Kokiri Shop
     # Locations
     add_locations(Regions.KF_KOKIRI_SHOP, world, [
-        (Locations.KF_SHOP_ITEM1, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM2, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM3, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM4, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM5, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM6, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM7, lambda bundle: True),
-        (Locations.KF_SHOP_ITEM8, lambda bundle: True)
+        (Locations.KF_SHOP_ITEM1, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM1, bundle)),
+        (Locations.KF_SHOP_ITEM2, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM2, bundle)),
+        (Locations.KF_SHOP_ITEM3, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM3, bundle)),
+        (Locations.KF_SHOP_ITEM4, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM4, bundle)),
+        (Locations.KF_SHOP_ITEM5, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM5, bundle)),
+        (Locations.KF_SHOP_ITEM6, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM6, bundle)),
+        (Locations.KF_SHOP_ITEM7, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM7, bundle)),
+        (Locations.KF_SHOP_ITEM8, lambda bundle: can_afford_slot(Locations.KF_SHOP_ITEM8, bundle))
     ])
     # Connections
     connect_regions(Regions.KF_KOKIRI_SHOP, world, [

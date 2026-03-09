@@ -227,14 +227,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Market Bazaar
     # Locations
     add_locations(Regions.MARKET_BAZAAR, world, [
-        (Locations.MARKET_BAZAAR_ITEM1, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM2, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM3, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM4, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM5, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM6, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM7, lambda bundle: True),
-        (Locations.MARKET_BAZAAR_ITEM8, lambda bundle: True),
+        (Locations.MARKET_BAZAAR_ITEM1, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM1, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM2, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM2, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM3, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM3, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM4, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM4, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM5, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM5, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM6, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM6, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM7, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM7, bundle)),
+        (Locations.MARKET_BAZAAR_ITEM8, lambda bundle: can_afford_slot(Locations.MARKET_BAZAAR_ITEM8, bundle)),
     ])
     # Connections
     connect_regions(Regions.MARKET_BAZAAR, world, [
@@ -292,14 +292,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Market Potion Shop
     # Locations
     add_locations(Regions.MARKET_POTION_SHOP, world, [
-        (Locations.MARKET_POTION_SHOP_ITEM1, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM2, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM3, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM4, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM5, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM6, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM7, lambda bundle: True),
-        (Locations.MARKET_POTION_SHOP_ITEM8, lambda bundle: True),
+        (Locations.MARKET_POTION_SHOP_ITEM1, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM1, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM2, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM2, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM3, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM3, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM4, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM4, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM5, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM5, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM6, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM6, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM7, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM7, bundle)),
+        (Locations.MARKET_POTION_SHOP_ITEM8, lambda bundle: can_afford_slot(Locations.MARKET_POTION_SHOP_ITEM8, bundle)),
     ])
     # Connections
     connect_regions(Regions.MARKET_POTION_SHOP, world, [
@@ -320,14 +320,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Market Bombchu Shop
     # Locations
     add_locations(Regions.MARKET_BOMBCHU_SHOP, world, [
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM1, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM2, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM3, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM4, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM5, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM6, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM7, lambda bundle: True),
-        (Locations.MARKET_BOMBCHU_SHOP_ITEM8, lambda bundle: True),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM1, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM1, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM2, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM2, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM3, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM3, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM4, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM4, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM5, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM5, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM6, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM6, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM7, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM7, bundle)),
+        (Locations.MARKET_BOMBCHU_SHOP_ITEM8, lambda bundle: can_afford_slot(Locations.MARKET_BOMBCHU_SHOP_ITEM8, bundle)),
     ])
     # Connections
     connect_regions(Regions.MARKET_BOMBCHU_SHOP, world, [

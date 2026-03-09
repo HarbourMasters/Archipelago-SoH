@@ -189,11 +189,8 @@ wallet_capacities: dict[Items, int] = {
     Items.TYCOON_WALLET: 999
 }
 
-def can_afford_slot(slot: str, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
-    slot_price = bundle[2].shop_prices[slot]
-    return can_afford(slot_price, bundle)
-
-def can_afford(price: int, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
+def can_afford_slot(slot: Locations, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
+    price = bundle[2].shop_prices[slot]
     for wallet, amount in wallet_capacities.items():
         if amount >= price:
             return has_item(wallet, bundle)

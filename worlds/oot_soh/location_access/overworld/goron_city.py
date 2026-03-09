@@ -60,7 +60,7 @@ def set_region_rules(world: "SohWorld") -> None:
             bundle) and blast_or_smash(bundle)),
         (Locations.GC_GS_CENTER_PLATFORM, lambda bundle: is_adult(
             bundle) and can_attack(bundle)),
-        (Locations.GC_MEDIGORON, lambda bundle: is_adult(bundle) and has_item(Items.ADULT_WALLET,
+        (Locations.GC_MEDIGORON, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.GC_MEDIGORON,
          bundle) and (can_break_mud_walls(bundle) or has_item(Items.GORONS_BRACELET, bundle))),
         (Locations.GC_MAZE_GOSSIP_STONE_FAIRY, lambda bundle: (blast_or_smash(bundle) or can_use(
             Items.SILVER_GAUNTLETS, bundle)) and call_gossip_fairy_except_suns(bundle)),
@@ -147,14 +147,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Goron City Shop
     # Locations
     add_locations(Regions.GC_SHOP, world, [
-        (Locations.GC_SHOP_ITEM1, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM2, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM3, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM4, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM5, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM6, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM7, lambda bundle: True),
-        (Locations.GC_SHOP_ITEM8, lambda bundle: True),
+        (Locations.GC_SHOP_ITEM1, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM1, bundle)),
+        (Locations.GC_SHOP_ITEM2, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM2, bundle)),
+        (Locations.GC_SHOP_ITEM3, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM3, bundle)),
+        (Locations.GC_SHOP_ITEM4, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM4, bundle)),
+        (Locations.GC_SHOP_ITEM5, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM5, bundle)),
+        (Locations.GC_SHOP_ITEM6, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM6, bundle)),
+        (Locations.GC_SHOP_ITEM7, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM7, bundle)),
+        (Locations.GC_SHOP_ITEM8, lambda bundle: can_afford_slot(Locations.GC_SHOP_ITEM8, bundle)),
     ])
     # Connections
     connect_regions(Regions.GC_SHOP, world, [
@@ -165,11 +165,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.GC_GROTTO, world, [
         (Locations.GC_DEKU_SCRUB_GROTTO_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GC_DEKU_SCRUB_GROTTO_LEFT, bundle)),
         (Locations.GC_DEKU_SCRUB_GROTTO_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GC_DEKU_SCRUB_GROTTO_RIGHT, bundle)),
         (Locations.GC_DEKU_SCRUB_GROTTO_CENTER,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GC_DEKU_SCRUB_GROTTO_CENTER, bundle)),
         (Locations.GC_GROTTO_BEEHIVE, lambda bundle: can_break_upper_beehives(bundle))
     ])
     # Connections

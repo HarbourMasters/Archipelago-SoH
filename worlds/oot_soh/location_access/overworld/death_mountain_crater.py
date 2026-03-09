@@ -64,7 +64,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.DMC_LADDER_REGION_NEARBY, world, [
         (Locations.DMC_DEKU_SCRUB, lambda bundle: is_child(
-            bundle) and can_stun_deku(bundle))
+            bundle) and can_stun_deku(bundle) and can_afford_slot(Locations.DMC_DEKU_SCRUB, bundle))
     ])
     # Connections
     connect_regions(Regions.DMC_LADDER_REGION_NEARBY, world, [
@@ -218,11 +218,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.DMC_HAMMER_GROTTO, world, [
         (Locations.DMC_DEKU_SCRUB_GROTTO_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DMC_DEKU_SCRUB_GROTTO_LEFT, bundle)),
         (Locations.DMC_DEKU_SCRUB_GROTTO_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DMC_DEKU_SCRUB_GROTTO_RIGHT, bundle)),
         (Locations.DMC_DEKU_SCRUB_GROTTO_CENTER,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.DMC_DEKU_SCRUB_GROTTO_CENTER, bundle)),
         (Locations.DMC_HAMMER_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle))
     ])

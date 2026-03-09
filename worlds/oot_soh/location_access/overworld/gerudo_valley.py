@@ -200,9 +200,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.GV_STORMS_GROTTO, world, [
         (Locations.GV_DEKU_SCRUB_GROTTO_REAR,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GV_DEKU_SCRUB_GROTTO_REAR, bundle)),
         (Locations.GV_DEKU_SCRUB_GROTTO_FRONT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GV_DEKU_SCRUB_GROTTO_FRONT, bundle)),
         (Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle)),
     ])

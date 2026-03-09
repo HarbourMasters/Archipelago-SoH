@@ -73,7 +73,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.ZORA_RIVER, world, [
         (Locations.ZR_MAGIC_BEAN_SALESMAN, lambda bundle: is_child(
-            bundle) and has_item(Items.CHILD_WALLET, bundle)),
+            bundle) and can_afford_slot(Locations.ZR_MAGIC_BEAN_SALESMAN, bundle)),
         (Locations.ZR_FROGS_OCARINA_GAME, lambda bundle: (is_child(bundle) and
                                                           can_use(Items.SONG_OF_STORMS, bundle) and
                                                           can_use(Items.SONG_OF_TIME, bundle) and
@@ -244,9 +244,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.ZR_STORMS_GROTTO, world, [
         (Locations.ZR_DEKU_SCRUB_GROTTO_FRONT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.ZR_DEKU_SCRUB_GROTTO_FRONT, bundle)),
         (Locations.ZR_DEKU_SCRUB_GROTTO_REAR,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.ZR_DEKU_SCRUB_GROTTO_REAR, bundle)),
         (Locations.ZR_STORMS_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle))
 

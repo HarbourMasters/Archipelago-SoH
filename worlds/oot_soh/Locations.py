@@ -736,7 +736,7 @@ shops_location_table: dict[str, SohLocData] = {
 
 scrubs_one_time_only: tuple = (Locations.LW_DEKU_SCRUB_NEAR_BRIDGE, Locations.LW_DEKU_SCRUB_GROTTO_FRONT, Locations.HF_DEKU_SCRUB_GROTTO)
 
-scrubs_location_table: dict[str, SohLocData] = {
+scrubs_location_table: dict[Locations, SohLocData] = {
     Locations.LW_DEKU_SCRUB_NEAR_BRIDGE: SohLocData(688),
     Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT: SohLocData(689),
     Locations.LW_DEKU_SCRUB_NEAR_DEKU_THEATER_RIGHT: SohLocData(690),
@@ -797,7 +797,7 @@ trade_items_location_table: dict[str, SohLocData] = {
     Locations.GV_TRADE_SAW: SohLocData(742)
 }
 
-merchants_items_location_table: dict[str, SohLocData] = {
+merchants_items_location_table: dict[Locations, SohLocData] = {
     Locations.KAK_GRANNYS_SHOP: SohLocData(743),
     Locations.GC_MEDIGORON: SohLocData(744),
     Locations.ZR_MAGIC_BEAN_SALESMAN: SohLocData(745),

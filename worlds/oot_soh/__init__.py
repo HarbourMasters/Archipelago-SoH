@@ -17,7 +17,7 @@ from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
 from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
-from .ShopItems import fill_shop_items, generate_shop_prices, generate_scrub_prices, generate_merchant_prices, set_price_rules
+from .ShopItems import fill_shop_items, generate_prices
 from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
@@ -87,10 +87,8 @@ class SohWorld(World):
         super().__init__(multiworld, player)
         self.item_pool = list[SohItem]()
         self.included_locations = dict[str, SohLocData]()
-        self.shop_prices = dict[str, int]()
+        self.shop_prices = dict[Locations, int]()
         self.shop_vanilla_items = dict[str, str]()
-        self.scrub_prices = dict[str, int]()
-        self.merchant_prices = dict[str, int]()
         self.triforce_pieces_required: int = 0
         self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
@@ -239,6 +237,7 @@ class SohWorld(World):
             region.name = str(region.name)
 
         if self.using_ut:
+            # Put vanilla items in shop
             fill_shop_items(self)
 
     def reserve_prefill_locations(self) -> None:
@@ -291,10 +290,7 @@ class SohWorld(World):
     
     def set_rules(self) -> None:
         # Set price rules in advance
-        generate_shop_prices(self)
-        generate_scrub_prices(self)
-        generate_merchant_prices(self)
-        set_price_rules(self)
+        generate_prices(self)
 
         # disregard all rules if no logic is in effect
         if self.options.true_no_logic:
@@ -479,8 +475,6 @@ class SohWorld(World):
             "shop_vanilla_items": self.shop_vanilla_items,
             "shuffle_fish": self.options.shuffle_fish.value,
             "shuffle_scrubs": self.options.shuffle_scrubs.value,
-            "scrub_prices": self.scrub_prices,
-            "merchant_prices": self.merchant_prices,
             "shuffle_beehives": self.options.shuffle_beehives.value,
             "shuffle_cows": self.options.shuffle_cows.value,
             "shuffle_pots": self.options.shuffle_pots.value,

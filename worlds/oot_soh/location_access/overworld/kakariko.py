@@ -319,14 +319,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Kak Bazaar
     # Locations
     add_locations(Regions.KAK_BAZAAR, world, [
-        (Locations.KAK_BAZAAR_ITEM1, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM2, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM3, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM4, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM5, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM6, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM7, lambda bundle: True),
-        (Locations.KAK_BAZAAR_ITEM8, lambda bundle: True),
+        (Locations.KAK_BAZAAR_ITEM1, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM1, bundle)),
+        (Locations.KAK_BAZAAR_ITEM2, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM2, bundle)),
+        (Locations.KAK_BAZAAR_ITEM3, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM3, bundle)),
+        (Locations.KAK_BAZAAR_ITEM4, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM4, bundle)),
+        (Locations.KAK_BAZAAR_ITEM5, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM5, bundle)),
+        (Locations.KAK_BAZAAR_ITEM6, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM6, bundle)),
+        (Locations.KAK_BAZAAR_ITEM7, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM7, bundle)),
+        (Locations.KAK_BAZAAR_ITEM8, lambda bundle: can_afford_slot(Locations.KAK_BAZAAR_ITEM8, bundle)),
     ])
     connect_regions(Regions.KAK_BAZAAR, world, [
         (Regions.KAKARIKO_VILLAGE, lambda bundle: True),
@@ -346,14 +346,14 @@ def set_region_rules(world: "SohWorld") -> None:
     # Kak Potion Shop Front
     # Locations
     add_locations(Regions.KAK_POTION_SHOP_FRONT, world, [
-        (Locations.KAK_POTION_SHOP_ITEM1, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM2, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM3, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM4, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM5, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM6, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM7, lambda bundle: is_adult(bundle)),
-        (Locations.KAK_POTION_SHOP_ITEM8, lambda bundle: is_adult(bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM1, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM1, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM2, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM2, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM3, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM3, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM4, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM4, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM5, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM5, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM6, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM6, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM7, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM7, bundle)),
+        (Locations.KAK_POTION_SHOP_ITEM8, lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_POTION_SHOP_ITEM8, bundle)),
     ])
     # Connections
     connect_regions(Regions.KAK_POTION_SHOP_FRONT, world, [
@@ -374,7 +374,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.KAK_TRADE_ODD_MUSHROOM,
          lambda bundle: is_adult(bundle) and can_use(Items.ODD_MUSHROOM, bundle)),
         (Locations.KAK_GRANNYS_SHOP,
-         lambda bundle: is_adult(bundle) and can_use(Items.ADULT_WALLET, bundle) and (can_use(Items.ODD_MUSHROOM, bundle)) and trade_quest_step(
+         lambda bundle: is_adult(bundle) and can_afford_slot(Locations.KAK_GRANNYS_SHOP, bundle) and (can_use(Items.ODD_MUSHROOM, bundle)) and trade_quest_step(
              Items.ODD_MUSHROOM, bundle))
     ])
     # Connections

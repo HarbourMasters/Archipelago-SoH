@@ -106,11 +106,11 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.LLR_GROTTO, world, [
         (Locations.LLR_DEKU_SCRUB_GROTTO_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.LLR_DEKU_SCRUB_GROTTO_LEFT, bundle)),
         (Locations.LLR_DEKU_SCRUB_GROTTO_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.LLR_DEKU_SCRUB_GROTTO_RIGHT, bundle)),
         (Locations.LLR_DEKU_SCRUB_GROTTO_CENTER,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.LLR_DEKU_SCRUB_GROTTO_CENTER, bundle)),
         (Locations.LLR_DEKU_SCRUB_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle)),
     ])

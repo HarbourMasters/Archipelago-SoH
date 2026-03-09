@@ -114,9 +114,9 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.COLOSSUS_GROTTO, world, [
         (Locations.COLOSSUS_DEKU_SCRUB_GROTTO_REAR,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.COLOSSUS_DEKU_SCRUB_GROTTO_REAR, bundle)),
         (Locations.COLOSSUS_DEKU_SCRUB_GROTTO_FRONT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.COLOSSUS_DEKU_SCRUB_GROTTO_FRONT, bundle)),
         (Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE,
          lambda bundle: can_break_upper_beehives(bundle)),
     ])

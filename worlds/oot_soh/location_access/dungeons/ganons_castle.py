@@ -69,13 +69,13 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.GANONS_CASTLE_DEKU_SCRUBS, world, [
         (Locations.GANONS_CASTLE_DEKU_SCRUB_CENTER_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GANONS_CASTLE_DEKU_SCRUB_CENTER_LEFT, bundle)),
         (Locations.GANONS_CASTLE_DEKU_SCRUB_CENTER_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GANONS_CASTLE_DEKU_SCRUB_CENTER_RIGHT, bundle)),
         (Locations.GANONS_CASTLE_DEKU_SCRUB_RIGHT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GANONS_CASTLE_DEKU_SCRUB_RIGHT, bundle)),
         (Locations.GANONS_CASTLE_DEKU_SCRUB_LEFT,
-         lambda bundle: can_stun_deku(bundle)),
+         lambda bundle: can_stun_deku(bundle) and can_afford_slot(Locations.GANONS_CASTLE_DEKU_SCRUB_LEFT, bundle)),
         (Locations.GANONS_CASTLE_SCRUBS_FAIRY1, lambda bundle: True),
         (Locations.GANONS_CASTLE_SCRUBS_FAIRY2, lambda bundle: True),
         (Locations.GANONS_CASTLE_SCRUBS_FAIRY3, lambda bundle: True),
