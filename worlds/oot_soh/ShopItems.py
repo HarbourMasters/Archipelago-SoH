@@ -259,7 +259,8 @@ def update_shop_prices(world: "SohWorld", new_prices: dict[Locations, int]) -> N
 
 def generate_prices(world: "SohWorld") -> None:
     if world.using_ut:
-        world.shop_prices = world.passthrough["shop_prices"]
+        world.shop_prices = world.passthrough.get("shop_prices", dict())
+        return
 
     all_prices = dict[Locations, int]()
     all_prices.update(generate_shop_prices(world))
