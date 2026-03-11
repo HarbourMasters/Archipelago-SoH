@@ -322,24 +322,23 @@ def generate_merchant_prices(world: "SohWorld") -> dict[Locations, int]:
 affordable_prices: list[int] = [1,100,201,501]
 
 def create_random_price(min_price: int, max_price: int, affordable: bool, world: "SohWorld") -> int:
-    # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
-    if min_price == max_price:
-        price = min_price
-    else:
-        price = world.random.randrange(min_price, max_price)
-
     if affordable:
         # update to nearest affordable price
-        if price not in affordable_prices:
-            for index, affordable_price in enumerate(affordable_prices, 1):
-                # Tycoon shuffled and it is above 501
-                if index == len(affordable_prices):
-                    price = affordable_price
-                # Else if the price is below the next index set it to this index's price
-                elif affordable_prices[index] > price:
-                    price = affordable_price
-                    break
+        price_tier = world.random.randrange(0, 4 if world.options.shuffle_tycoon_wallet else 3)
+        
+        # Try to adhere to their max
+        while affordable_prices[price_tier] > max_price:
+            if price_tier == 0:
+                break
+            price_tier -= 1
+        price = affordable_prices[price_tier]
     else:
+        # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
+        if min_price == max_price:
+            price = min_price
+        else:
+            price = world.random.randrange(min_price, max_price)
+
         # otherwise round down to the nearest multiple of 5
         price = price - (price % 5)
 
