@@ -1274,6 +1274,34 @@ class StartingHearts(Range):
     range_end = 20
     default = 3
 
+
+class ShopAffordablePrices(Toggle):
+    """
+    After choosing a price range, set it to the affordable amount based on the wallet requirement.
+    Affordable prices per tier: starter=1, adult=100, giant=201, tycoon=501
+    Use this to enable wallet tier locking, but making shop itmes not as expensive as they could be
+    """
+    display_name = "Shop Affordable Prices"
+
+
+class ScrubAffordablePrices(Toggle):
+    """
+    After choosing a price range, set it to the affordable amount based on the wallet requirement.
+    Affordable prices per tier: starter=1, adult=100, giant=201, tycoon=501
+    Use this to enable wallet tier locking, but making shop itmes not as expensive as they could be
+    """
+    display_name = "Scrub Affordable Prices"
+
+
+class MerchantAffordablePrices(Toggle):
+    """
+    After choosing a price range, set it to the affordable amount based on the wallet requirement.
+    Affordable prices per tier: starter=1, adult=100, giant=201, tycoon=501
+    Use this to enable wallet tier locking, but making shop itmes not as expensive as they could be
+    """
+    display_name = "Merchant Affordable Prices"
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1406,6 +1434,9 @@ class SohOptions(PerGameCommonOptions):
     item_pool: ItemPool
     medallion_locked_trials: MedallionLockedTrials
     starting_hearts: StartingHearts
+    shop_affordable_prices: ShopAffordablePrices
+    scrub_affordable_prices: ScrubAffordablePrices
+    merchant_affordable_prices: MerchantAffordablePrices
 
 
 soh_option_groups = [
@@ -1473,11 +1504,13 @@ soh_option_groups = [
         ShuffleShopsItemAmount,
         ShuffleShopsMinimumPrice,
         ShuffleShopsMaximumPrice,
+        ShopAffordablePrices,
         # Other shop weight stuff
         ShuffleFish,
         ShuffleScrubs,
         ShuffleScrubsMinimumPrice,
         ShuffleScrubsMaximumPrice,
+        ScrubAffordablePrices,
         ShuffleBeehives,
         ShuffleCows,
         ShufflePots,
@@ -1486,6 +1519,7 @@ soh_option_groups = [
         ShuffleMerchants,
         ShuffleMerchantsMinimumPrice,
         ShuffleMerchantsMaximumPrice,
+        MerchantAffordablePrices,
         ShuffleFrogSongRupees,
         ShuffleAdultTradeItems,
         Shuffle100GSReward,
