@@ -319,7 +319,7 @@ def generate_merchant_prices(world: "SohWorld") -> dict[Locations, int]:
     return prices
 
 
-affordable_prices: list[int] = [1,101,201,501]
+affordable_prices: list[int] = [1,100,201,501]
 
 def create_random_price(min_price: int, max_price: int, affordable: bool, world: "SohWorld") -> int:
     # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
