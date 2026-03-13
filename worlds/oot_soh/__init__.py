@@ -95,6 +95,7 @@ class SohWorld(World):
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
+        self.hint_list = dict[str,list[tuple]]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -341,6 +342,19 @@ class SohWorld(World):
 
         self.multiworld.completion_condition[self.player] = original_completion_goal
 
+    def post_fill(self) -> None:
+        items_to_make_hints = [Items.PROGRESSIVE_HOOKSHOT, Items.GREG_THE_GREEN_RUPEE]
+
+        # Add Items to the hint dict
+        for item_name in items_to_make_hints:
+            self.hint_list[str(item_name)] = list()
+
+        for item in self.item_pool:
+            if item.name in self.hint_list.keys():
+                self.hint_list[item.name].append((item.location.player, item.location.address))
+
+        # print(self.hint_list)
+            
     def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
         # check if we're using specific collectionstate
         if prefill_state is None:
@@ -581,5 +595,6 @@ class SohWorld(World):
             "gs_40_hint": self.options.gs_40_hint.value,
             "gs_50_hint": self.options.gs_50_hint.value,
             "gs_100_hint": self.options.gs_100_hint.value,
-            "mask_shop_hint": self.options.mask_shop_hint.value
+            "mask_shop_hint": self.options.mask_shop_hint.value,
+            "hint_list": self.hint_list
         }
