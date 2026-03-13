@@ -248,9 +248,11 @@ def no_shop_shuffle(world: "SohWorld") -> None:
     for region, shop in all_shop_locations:
         for slot, item in shop.items():
             new_shop_prices[slot] = vanilla_shop_prices[item]
-            world.get_location(slot).place_locked_item(world.create_item(item))
+            shop_item = world.create_item(item)
+            world.get_location(slot).place_locked_item(shop_item)
             world.get_location(slot).address = None
             world.shop_vanilla_items[slot] = item.value
+            world.preplaced_items.append(shop_item)
     update_shop_prices(world, new_shop_prices)
 
 def update_shop_prices(world: "SohWorld", new_prices: dict[Locations, int]) -> None:

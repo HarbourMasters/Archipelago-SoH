@@ -23,6 +23,7 @@ from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
 from Options import OptionError
 from .LogicHelpers import wallet_capacities
+from .Hints import CreateNonlocalHints, StaticHint
 
 import logging
 logger = logging.getLogger("SOH_OOT")
@@ -86,6 +87,7 @@ class SohWorld(World):
     def __init__(self, multiworld, player):
         super().__init__(multiworld, player)
         self.item_pool = list[SohItem]()
+        self.preplaced_items = list[SohItem]()
         self.included_locations = dict[str, SohLocData]()
         self.shop_prices = dict[Locations, int]()
         self.shop_vanilla_items = dict[str, str]()
@@ -95,7 +97,7 @@ class SohWorld(World):
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
-        self.hint_list = dict[str,list[tuple]]()
+        self.hint_list = dict[str, list[list[int, int]]]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -343,17 +345,11 @@ class SohWorld(World):
         self.multiworld.completion_condition[self.player] = original_completion_goal
 
     def post_fill(self) -> None:
-        items_to_make_hints = [Items.PROGRESSIVE_HOOKSHOT, Items.GREG_THE_GREEN_RUPEE]
-
-        # Add Items to the hint dict
-        for item_name in items_to_make_hints:
-            self.hint_list[str(item_name)] = list()
-
-        for item in self.item_pool:
-            if item.name in self.hint_list.keys():
-                self.hint_list[item.name].append((item.location.player, item.location.address))
-
-        # print(self.hint_list)
+        hints = CreateNonlocalHints(self)
+        for hint in hints:
+            self.hint_list.update(hint.serialize())
+        for hint, data in self.hint_list.items():
+            print(hint, data)
             
     def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
         # check if we're using specific collectionstate
@@ -374,7 +370,7 @@ class SohWorld(World):
         # get empty, non reserved locations
         empty_locations = self.get_empty_locations_from_list_shuffled(locations)
         items = [self.create_item(str(item)) for item in item_pool]
-
+        self.preplaced_items.extend(items)
 
         if self.settings.disable_fill_overflow:
             fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True)
@@ -382,6 +378,9 @@ class SohWorld(World):
             # Add any unplaced items to the item pool
             fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=True)
             self.add_items_to_item_pool_list(items)
+        
+        for item in items:
+            self.preplaced_items.remove(item)
 
 
     def collect(self, state: CollectionState, item: Item) -> bool:
