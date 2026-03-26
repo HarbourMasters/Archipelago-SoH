@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from .Enums import *
 from .Items import item_data_table, filler_items, filler_bottles, SohItem
-from .Regions import map_and_compass_vanilla_mapping, small_key_vanilla_mapping, dungeon_boss_key_vanilla_mapping
+from .Regions import dungeon_reward_item_mapping, small_key_vanilla_mapping, dungeon_boss_key_vanilla_mapping
 from .LogicHelpers import key_to_ring, hearts
 from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
@@ -159,15 +159,16 @@ def create_item_pool(world: "SohWorld") -> None:
 
     # Dungeon Rewards
     if world.options.shuffle_dungeon_rewards == "anywhere":
-        items_to_create[Items.KOKIRIS_EMERALD] = 1
-        items_to_create[Items.GORONS_RUBY] = 1
-        items_to_create[Items.ZORAS_SAPPHIRE] = 1
-        items_to_create[Items.FOREST_MEDALLION] = 1
-        items_to_create[Items.FIRE_MEDALLION] = 1
-        items_to_create[Items.WATER_MEDALLION] = 1
-        items_to_create[Items.SPIRIT_MEDALLION] = 1
-        items_to_create[Items.SHADOW_MEDALLION] = 1
-        items_to_create[Items.LIGHT_MEDALLION] = 1
+        # remove potentially pre-placed pocket item
+        pocket_item = None
+        if world.options.start_with_links_pocket != "nothing":
+            placed_item = world.get_location(Locations.LINKS_POCKET).item
+            if placed_item:
+                pocket_item = Items(placed_item.name)
+        for reward in dungeon_reward_item_mapping.values():
+            if reward == pocket_item:
+                continue
+            items_to_create[reward] = 1
 
     # Maps and Compasses
     if world.options.maps_and_compasses == "anywhere":
