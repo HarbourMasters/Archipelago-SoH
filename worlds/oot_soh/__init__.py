@@ -8,7 +8,7 @@ from worlds.AutoWorld import WebWorld, World
 from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
+from .Locations import location_table, token_amounts, SohLocData, location_data_table, create_location_groups
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -75,7 +75,7 @@ class SohWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     item_name_groups = item_name_groups
-    location_name_groups = location_name_groups
+    location_name_groups = create_location_groups()
 
     # Universal Tracker stuff, does not do anything in normal gen
     glitches_item_name = Items.GLITCHED
