@@ -58,14 +58,17 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
         hint_locations = list[locationPair]()
 
         for hinted_item in mapping.hint_items:
-            # find the item
+            # find the item and create a hint
+            # check if we start with the item first
+            placed_item = FindHintedItemInPool(hinted_item, world.multiworld.precollected_items[world.player])
+            if placed_item:
+                hint_locations.append(locationPair(world.player, location_data_table[Locations.LINKS_POCKET].loc_id))
+                continue
+
+            # then check if it's placed somewhere in the multiworld
             placed_item = FindHintedItemInPool(hinted_item, world.item_pool)
             if not placed_item:
                 placed_item = FindHintedItemInPool(hinted_item, world.preplaced_items)
-            if not placed_item:
-                placed_item = FindHintedItemInPool(hinted_item, world.multiworld.precollected_items[world.player])
-                hint_locations.append(locationPair(world.player, location_data_table[Locations.LINKS_POCKET].loc_id))
-                continue
             if placed_item:
                 hint_locations.append(locationPair(placed_item.location.player, placed_item.location.address))
         hints.append(StaticHint(hint_key, hint_locations))

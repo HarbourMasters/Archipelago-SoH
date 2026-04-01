@@ -348,8 +348,6 @@ class SohWorld(World):
         hints = CreateNonlocalHints(self)
         for hint in hints:
             self.hint_list.update(hint.serialize())
-        for hint, data in self.hint_list.items():
-            print(hint, data)
             
     def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
         # check if we're using specific collectionstate
