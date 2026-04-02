@@ -8,7 +8,7 @@ from worlds.AutoWorld import WebWorld, World
 from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, location_name_groups, token_amounts, SohLocData, location_data_table
+from .Locations import location_table, token_amounts, SohLocData, location_data_table, create_location_groups
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -76,7 +76,7 @@ class SohWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     item_name_groups = item_name_groups
-    location_name_groups = location_name_groups
+    location_name_groups = create_location_groups()
 
     # Universal Tracker stuff, does not do anything in normal gen
     glitches_item_name = Items.GLITCHED
@@ -92,7 +92,6 @@ class SohWorld(World):
         self.shop_prices = dict[Locations, int]()
         self.shop_vanilla_items = dict[str, str]()
         self.triforce_pieces_required: int = 0
-        self.vanilla_progressive_skulltula_count: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
@@ -169,14 +168,13 @@ class SohWorld(World):
                                                self.options.ganons_castle_boss_key_skull_tokens_required.value if self.options.ganons_castle_boss_key.value == 7 else 0, turn_in_amount)
 
         if self.options.shuffle_skull_tokens:
+            vanilla_progressive_skulltula_count = 0
             if self.options.shuffle_skull_tokens == "dungeon":
-                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
+                vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.DUNGEON), 0)
             elif self.options.shuffle_skull_tokens == "overworld":
-                self.vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
+                vanilla_progressive_skulltula_count = max(progressive_skulltula_count - int(TokenCounts.OVERWORLD), 0)
                 
-            self.randomized_progressive_skulltula_count = progressive_skulltula_count - self.vanilla_progressive_skulltula_count
-        else:
-            self.vanilla_progressive_skulltula_count = progressive_skulltula_count
+            self.randomized_progressive_skulltula_count = progressive_skulltula_count - vanilla_progressive_skulltula_count
 
         # Figure out Keyring Situation
         key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring,

@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from . import SohItem
-from .Locations import Locations, location_name_groups
+from .Locations import Locations
 from .Items import Items
 
 if TYPE_CHECKING:

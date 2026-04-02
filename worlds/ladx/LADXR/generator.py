@@ -69,9 +69,6 @@ from .locations.keyLocation import KeyLocation
 class VersionError(Exception):
     pass
 
-class VersionError(Exception):
-    pass
-
 # Function to generate a final rom, this patches the rom with all required patches
 def generateRom(base_rom: bytes, args, patch_data: Dict):
     from .. import LinksAwakeningWorld

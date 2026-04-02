@@ -280,7 +280,7 @@ def generate_shop_prices(world: "SohWorld") -> dict[Locations, int]:
 
     for region, shop in all_shop_locations:
         for slot in shop.keys():
-            prices[slot] = create_random_price(min_shop_price, max_shop_price, world)
+            prices[slot] = create_random_price(min_shop_price, max_shop_price, world.options.shop_affordable_prices, world)
     return prices
 
 
@@ -294,12 +294,10 @@ def generate_scrub_prices(world: "SohWorld") -> dict[Locations, int]:
     
     if world.options.shuffle_scrubs == "all":
         for slot in scrubs_location_table.keys():
-            prices[slot] = create_random_price(
-                min_scrub_price, max_scrub_price, world)
+            prices[slot] = create_random_price(min_scrub_price, max_scrub_price, world.options.scrub_affordable_prices, world)
     else:
         for slot in scrubs_one_time_only:
-            prices[slot] = create_random_price(
-                min_scrub_price, max_scrub_price, world)
+            prices[slot] = create_random_price(min_scrub_price, max_scrub_price, world.options.scrub_affordable_prices, world)
 
     return prices
 
@@ -318,17 +316,32 @@ def generate_merchant_prices(world: "SohWorld") -> dict[Locations, int]:
         if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
             continue
 
-        prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world)
+        prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world.options.merchant_affordable_prices, world)
 
     return prices
 
 
-def create_random_price(min_price: int, max_price: int, world: "SohWorld") -> int:
-    # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
-    if min_price == max_price:
-        price = min_price
-    else:
-        price = world.random.randrange(min_price, max_price)
+affordable_prices: list[int] = [1,100,201,501]
 
-    price = price - (price % 5)
+def create_random_price(min_price: int, max_price: int, affordable: bool, world: "SohWorld") -> int:
+    if affordable:
+        # update to nearest affordable price
+        price_tier = world.random.randrange(0, 4 if world.options.shuffle_tycoon_wallet else 3)
+        
+        # Try to adhere to their max
+        while affordable_prices[price_tier] > max_price:
+            if price_tier == 0:
+                break
+            price_tier -= 1
+        price = affordable_prices[price_tier]
+    else:
+        # randrange needs an actual range to work, so just pick the price directly if min/max are the same.
+        if min_price == max_price:
+            price = min_price
+        else:
+            price = world.random.randrange(min_price, max_price)
+
+        # otherwise round down to the nearest multiple of 5
+        price = price - (price % 5)
+
     return price

@@ -36,5 +36,8 @@ Looking for more info about Archipelago in general? Check out their [website](ht
 - briaguya
 - Sirius902
 - ThatHypedPerson**
+- Prelle
+- Eijebong
+- OnlySpaghettiCode
 
 **And of course, thanks to everyone that has helped test this along the way, gave out suggestions, etc!**
