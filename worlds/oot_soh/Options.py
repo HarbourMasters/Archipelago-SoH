@@ -1125,14 +1125,14 @@ class GregHint(Toggle):
     """
     display_name = "Greg the Green Rupee Hint"
 
-class HyruleLoachHint(Toggle):
-    """
-    Talking to the fishing pond owner and asking to talk about something will tell you what the reward for the Hyrule Loach is.
-
-    Loach hint is only avaliable with "Fishsanity" set to "Shuffle only Hyrule Loach"
-    as that's the only setting where you present the loach to the fishing pond owner.
-    """
-    display_name = "Hyrule Loach Hint"
+#class HyruleLoachHint(Toggle):
+#    """
+#    Talking to the fishing pond owner and asking to talk about something will tell you what the reward for the Hyrule Loach is.
+#
+#    Loach hint is only avaliable with "Fishsanity" set to "Shuffle only Hyrule Loach"
+#    as that's the only setting where you present the loach to the fishing pond owner.
+#    """
+#    display_name = "Hyrule Loach Hint"
 
 class SariasHint(Toggle):
     """
@@ -1617,7 +1617,7 @@ class SohOptions(PerGameCommonOptions):
     boss_key_hint: BosskeyHint
     dampe_diary_hint: DampeDiaryHint
     greg_hint: GregHint
-    hyrule_loach_hint: HyruleLoachHint
+    #hyrule_loach_hint: HyruleLoachHint
     saria_hint: SariasHint
     mido_hint: MidosHint
     frog_game_hint: FrogOcarinaGameHint
@@ -1778,7 +1778,7 @@ soh_option_groups = [
         BosskeyHint,
         DampeDiaryHint,
         GregHint,
-        HyruleLoachHint,
+        #HyruleLoachHint,
         SariasHint,
         MidosHint,
         FrogOcarinaGameHint,

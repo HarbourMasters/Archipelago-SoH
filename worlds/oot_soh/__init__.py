@@ -570,7 +570,7 @@ class SohWorld(World):
             "boss_key_hint": self.options.boss_key_hint.value,
             "dampe_diary_hint": self.options.dampe_diary_hint.value,
             "greg_hint": self.options.greg_hint.value,
-            "hyrule_loach_hint": self.options.hyrule_loach_hint.value,
+            #"hyrule_loach_hint": self.options.hyrule_loach_hint.value,
             "saria_hint": self.options.saria_hint.value,
             "mido_hint": self.options.mido_hint.value,
             "frog_game_hint": self.options.frog_game_hint.value,
