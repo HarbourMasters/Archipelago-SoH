@@ -398,6 +398,10 @@ map_and_compass_vanilla_mapping = {
     Locations.ICE_CAVERN_COMPASS_CHEST: Items.ICE_CAVERN_COMPASS
 }
 
+def place_locked_item(location: Locations, item: Items, world: "SohWorld") -> None:
+    soh_item = world.create_item(item)
+    world.get_location(location).place_locked_item(soh_item)
+    world.preplaced_items.append(soh_item)
 
 def place_locked_items(world: "SohWorld") -> None:
     if world.options.start_with_links_pocket == "advancement":
@@ -405,29 +409,21 @@ def place_locked_items(world: "SohWorld") -> None:
 
     # Add Weird Egg and Zelda's Letter to their vanilla locations when not shuffled
     if not world.options.skip_child_zelda and not world.options.shuffle_weird_egg:
-        wierd_egg = world.create_item(Items.WEIRD_EGG)
-        world.get_location(Locations.HC_MALON_EGG).place_locked_item(wierd_egg)
-        world.preplaced_items.append(wierd_egg)
+        place_locked_item(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
 
     if not world.options.skip_child_zelda:
-        letter = world.create_item(Items.ZELDAS_LETTER)
-        world.get_location(Locations.HC_ZELDAS_LETTER).place_locked_item(letter)
-        world.preplaced_items.append(letter)
+        place_locked_item(Locations.HC_ZELDAS_LETTER, Items.ZELDAS_LETTER, world)
         
     if world.options.shuffle_songs == "off":
         for location, song in song_vanilla_locations.items():
             included_songs = get_shuffled_songs(world)
             if song not in included_songs:
                 continue
-            song = world.create_item(song)
-            world.get_location(location).place_locked_item(song)
-            world.preplaced_items.append(song)
+            place_locked_item(location, song, world)
 
     # Place Kokiri Sword on vanilla location if not shuffled
     if not world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
-        kokiri_sword = world.create_item(Items.KOKIRI_SWORD)
-        world.get_location(Locations.KF_KOKIRI_SWORD_CHEST).place_locked_item(kokiri_sword)
-        world.preplaced_items.append(kokiri_sword)
+        place_locked_item(Locations.KF_KOKIRI_SWORD_CHEST, Items.KOKIRI_SWORD, world)
 
     # Place Master Sword on vanilla location if not shuffled
     if not world.options.shuffle_master_sword:
@@ -443,13 +439,10 @@ def place_locked_items(world: "SohWorld") -> None:
     # Place the Ocarinas on their vanilla locations if not shuffled
     if not world.options.shuffle_ocarinas:
         if world.options.start_with_ocarina == "off":
-            fiary_ocarina = world.create_item(Items.PROGRESSIVE_OCARINA)
-            world.get_location(Locations.LW_GIFT_FROM_SARIA).place_locked_item(fiary_ocarina)
-            world.preplaced_items.append(fiary_ocarina)
+            place_locked_item(Locations.LW_GIFT_FROM_SARIA, Items.PROGRESSIVE_OCARINA, world)
         if world.options.start_with_ocarina != "ocarina_of_time":
-            ocarina_of_time = world.create_item(Items.PROGRESSIVE_OCARINA)
-            world.get_location(Locations.HF_OCARINA_OF_TIME_ITEM).place_locked_item(ocarina_of_time)
-            world.preplaced_items.append(ocarina_of_time)
+            place_locked_item(Locations.HF_OCARINA_OF_TIME_ITEM, Items.PROGRESSIVE_OCARINA, world)
+
         
     # place the gerudo membership card
     if not world.options.shuffle_gerudo_membership_card:
@@ -458,36 +451,25 @@ def place_locked_items(world: "SohWorld") -> None:
             world.multiworld.push_precollected(world.create_item(Items.GERUDO_MEMBERSHIP_CARD, create_as_event=True))
         else:
             # Place the Gerudo Membership Card on vanilla location if not shuffled
-            membership_card = world.create_item(Items.GERUDO_MEMBERSHIP_CARD)
-            world.get_location(Locations.GF_GERUDO_MEMBERSHIP_CARD).place_locked_item(membership_card)
-            world.preplaced_items.append(membership_card)
+            place_locked_item(Locations.GF_GERUDO_MEMBERSHIP_CARD, Items.GERUDO_MEMBERSHIP_CARD, world)
 
     # Preplace dungeon rewards in vanilla locations when not shuffled
     if world.options.shuffle_dungeon_rewards == "off":
         # Loop through dungeons rewards and set their items to the vanilla reward.
         for location_name, reward_name in zip(dungeon_reward_item_mapping.keys(), dungeon_reward_item_mapping.values()):
-            reward_item = world.create_item(reward_name.value)
-            world.get_location(location_name.value).place_locked_item(reward_item)
-            world.preplaced_items.append(reward_item)
+            place_locked_item(location_name, reward_name, world)
     elif world.options.shuffle_dungeon_rewards != "end_of_dungeons":
         if world.options.start_with_links_pocket == "dungeon_reward":
             dungeon_rewards = list(dungeon_reward_item_mapping.values())
             world.random.shuffle(dungeon_rewards)
-            reward = dungeon_rewards[0]
-            reward_item = world.create_item(reward)
-            world.get_location(Locations.LINKS_POCKET).place_locked_item(reward_item)
-            world.preplaced_items.append(reward_item)
+            place_locked_item(Locations.LINKS_POCKET, dungeon_rewards[0], world)
 
     # Place Ganons Boss Key
     if not world.options.ganons_castle_boss_key == "vanilla" and not world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:
-        ganon_key = world.create_item(Items.GANONS_CASTLE_BOSS_KEY)
-        world.get_location(Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE).place_locked_item(ganon_key)
-        world.preplaced_items.append(ganon_key)
+        place_locked_item(Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE, Items.GANONS_CASTLE_BOSS_KEY, world)
 
     if world.options.ganons_castle_boss_key == "vanilla" and not world.options.triforce_hunt:
-        ganon_key = world.create_item(Items.GANONS_CASTLE_BOSS_KEY)
-        world.get_location(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST).place_locked_item(ganon_key)
-        world.preplaced_items.append(ganon_key)
+        place_locked_item(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST, Items.GANONS_CASTLE_BOSS_KEY, world)
 
     # Place vanilla shop items if they're not shuffled
     if not world.options.shuffle_shops:
@@ -511,33 +493,24 @@ def place_locked_items(world: "SohWorld") -> None:
     # Boss Keys
     if world.options.boss_key_shuffle == "vanilla":
         for location, key in dungeon_boss_key_vanilla_mapping.items():
-            key = world.create_item(str(key))
-            world.get_location(str(location)).place_locked_item(key)
-            world.preplaced_items.append(key)
+            place_locked_item(location, key, world)
 
     # Small Keys
     if world.options.small_key_shuffle == "vanilla":
         for key, locations in small_key_vanilla_mapping.items():
             for location in locations:
-                key = world.create_item(str(key))
-                world.get_location(str(location)).place_locked_item(key)
-                world.preplaced_items.append(key)
+                place_locked_item(location, key, world)
 
     # Gerudo Fortress Keys
     if world.options.fortress_carpenters != "free" and world.options.gerudo_fortress_key_shuffle == "vanilla":
         if world.options.fortress_carpenters != "fast":
             for location in (Locations.TH_1_TORCH_CARPENTER, Locations.TH_DEAD_END_CARPENTER, Locations.TH_DOUBLE_CELL_CARPENTER, Locations.TH_STEEP_SLOPE_CARPENTER):
-                key = world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY))
-                world.get_location(str(location)).place_locked_item(key)
-                world.preplaced_items.append(key)
+                place_locked_item(location, Items.GERUDO_FORTRESS_SMALL_KEY, world)
         else:
-            key = world.create_item(str(Items.GERUDO_FORTRESS_SMALL_KEY))
-            world.get_location(str(Locations.TH_1_TORCH_CARPENTER)).place_locked_item(key)
-            world.preplaced_items.append(key)
+            place_locked_item(Locations.TH_1_TORCH_CARPENTER, Items.GERUDO_FORTRESS_SMALL_KEY, world)
+
 
     # Maps and Compasses
     if world.options.maps_and_compasses == "vanilla":
         for location, item in map_and_compass_vanilla_mapping.items():
-            map_compass = world.create_item(str(item))
-            world.get_location(str(location)).place_locked_item(map_compass)
-            world.preplaced_items.append(map_compass)
+            place_locked_item(location, item, world)
