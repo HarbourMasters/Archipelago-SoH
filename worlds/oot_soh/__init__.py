@@ -23,6 +23,7 @@ from .UniversalTracker import setup_options_from_slot_data
 from settings import Group, Bool
 from Options import OptionError
 from .LogicHelpers import wallet_capacities
+from worlds.LauncherComponents import Component, components, Type, launch as launch_component
 
 import logging
 logger = logging.getLogger("SOH_OOT")
@@ -60,8 +61,14 @@ class SohSettings(Group):
         By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
         """
 
+    class SOHInstallPath(str):
+        """
+        Where the game is installed. Used for opening the game through the AP launcher or Webhost
+        """
+
     allow_true_no_logic: AllowTrueNoLogic | bool = False
     disable_fill_overflow: DisableFillOverflow | bool = False
+    soh_install_path: SOHInstallPath | None = None
 
 
 class SohWorld(World):
@@ -554,3 +561,10 @@ class SohWorld(World):
             "medallion_locked_trials": self.options.medallion_locked_trials.value,
             "starting_hearts": self.options.starting_hearts.value
         }
+
+def launch_client(*args: str):
+    from .Client import launch
+    launch_component(launch, name="Ship of Harkinian Client", args=args)
+
+if SohWorld.settings.soh_install_path is not None:
+    components.append(Component("Ship Of Harkinian Client", game_name="Ship of Harkinian", func=launch_client, component_type=Type.CLIENT, supports_uri=True))
