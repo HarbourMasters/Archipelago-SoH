@@ -552,5 +552,6 @@ class SohWorld(World):
             "enable_all_tricks": self.options.enable_all_tricks.value,
             "tricks_in_logic": self.options.tricks_in_logic.value,
             "medallion_locked_trials": self.options.medallion_locked_trials.value,
-            "starting_hearts": self.options.starting_hearts.value
+            "starting_hearts": self.options.starting_hearts.value,
+            "archipelago_seed": self.random.randint(0, 4294967295) #This is a uint32_t in ship
         }
