@@ -96,7 +96,7 @@ class SohWorld(World):
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
-        self.hint_list = dict[str, list[list[int, int]]]()
+        self.static_hints = dict[str, list[list[int, int]]]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -233,11 +233,11 @@ class SohWorld(World):
         # disable hints for items we don't have shuffled
         #hyrule_loach_hint
         # todo turn loach off if fishsanity not set to loach only
-        if self.options.shuffle_cows == "off":
+        if not self.options.shuffle_cows.value:
             self.options.malon_hint.value = 0
-        if self.options.shuffle_fishing_pole == "off":
+        if not self.options.shuffle_fishing_pole.value:
             self.options.fishing_pole_hint.value = 0
-        if self.options.shuffle_100_gs_reward == "off":
+        if not self.options.shuffle_100_gs_reward.value:
             self.options.gs_100_hint.value = 0
 
     def create_regions(self) -> None:
@@ -358,7 +358,7 @@ class SohWorld(World):
     def post_fill(self) -> None:
         hints = CreateNonlocalHints(self)
         for hint in hints:
-            self.hint_list.update(hint.serialize())
+            self.static_hints.update(hint.serialize())
             
     def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, goal: Callable[[CollectionState], bool] | None = None):
         # check if we're using specific collectionstate
@@ -604,5 +604,6 @@ class SohWorld(World):
             "gs_50_hint": self.options.gs_50_hint.value,
             "gs_100_hint": self.options.gs_100_hint.value,
             "mask_shop_hint": self.options.mask_shop_hint.value,
-            "hint_list": self.hint_list
+            "static_hints": self.static_hints,
+            "hintable_items": {item.code for item in self.item_pool + self.preplaced_items if item.code is not None}
         }
