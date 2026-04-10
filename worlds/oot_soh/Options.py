@@ -1639,6 +1639,30 @@ class SohOptions(PerGameCommonOptions):
     gs_100_hint: GS100Hint
     mask_shop_hint: MaskShopHint
 
+    def apply_any_required_option_adjustments(self):
+        self.adjust_for_forced_child_starts()
+
+    def adjust_for_forced_child_starts(self):
+        # We don't care about any of this if no logic is enabled
+        if self.true_no_logic:
+            return False
+
+        # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
+        if self.door_of_time == DoorOfTime.option_closed and (
+            any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
+                    self.shuffle_ocarinas == ShuffleOcarinas,
+                    self.shuffle_songs == ShuffleSongs.option_off])):
+            return True
+
+        # If door of time is set to song only and songs aren't shuffled, force child spawn
+        if all([self.door_of_time == DoorOfTime.option_song_only, self.shuffle_songs == ShuffleSongs.option_off]):
+            return True
+        
+        # If closed forest is on, force child spawn. Will need additional logic when entrance shuffle is added in future.
+        if self.closed_forest == ClosedForest.option_on:
+            return True
+        return False
+
 
 soh_option_groups = [
     OptionGroup("Area Access", [
