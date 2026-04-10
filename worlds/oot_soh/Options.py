@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet
-from .Enums import Tricks
-
+from .Enums import Tricks, Items
+from .LogicHelpers import wallet_capacities
 
 class ClosedForest(Choice):
     """
@@ -1641,27 +1641,77 @@ class SohOptions(PerGameCommonOptions):
 
     def apply_any_required_option_adjustments(self):
         self.adjust_for_forced_child_starts()
+        self.adjust_prices()
+        self.adjust_starting_items()
+        self.adjust_irrelevant_hints()
+
 
     def adjust_for_forced_child_starts(self):
         # We don't care about any of this if no logic is enabled
         if self.true_no_logic:
-            return False
+            return
 
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
         if self.door_of_time == DoorOfTime.option_closed and (
             any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
                     self.shuffle_ocarinas == ShuffleOcarinas,
                     self.shuffle_songs == ShuffleSongs.option_off])):
-            return True
+            self.starting_age.value = StartingAge.option_child
+            return
 
         # If door of time is set to song only and songs aren't shuffled, force child spawn
         if all([self.door_of_time == DoorOfTime.option_song_only, self.shuffle_songs == ShuffleSongs.option_off]):
-            return True
+            self.starting_age.value = StartingAge.option_child
+            return
         
         # If closed forest is on, force child spawn. Will need additional logic when entrance shuffle is added in future.
         if self.closed_forest == ClosedForest.option_on:
-            return True
-        return False
+            self.starting_age.value = StartingAge.option_child
+            return
+        
+
+    def adjust_starting_items(self):
+        if self.shuffle_deku_stick_bag == ShuffleDekuStickBag.option_false:
+            self.start_with_stick_ammo.value = StartWithStickAmmo.option_false
+
+        if self.shuffle_deku_nut_bag == ShuffleDekuNutBag.option_false:
+            self.start_with_nut_ammo.value = StartWithNutAmmo.option_false
+
+        if any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
+                self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_end_of_dungeons]):
+            self.start_with_links_pocket.value = StartWithLinksPocket.option_dungeon_reward
+
+
+    def adjust_prices(self):
+        # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
+        if self.shuffle_tycoon_wallet == ShuffleTycoonWallet.option_false:
+            for option in (self.shuffle_shops_minimum_price, self.shuffle_shops_maximum_price, self.shuffle_scrubs_minimum_price, self.shuffle_scrubs_maximum_price, self.shuffle_merchants_minimum_price, self.shuffle_merchants_maximum_price):
+                if option.value > wallet_capacities[Items.GIANT_WALLET]:
+                    option.value = wallet_capacities[Items.GIANT_WALLET]
+
+        # If maximum price is below minimum, set max to minimum.
+        if self.shuffle_shops_minimum_price.value > self.shuffle_shops_maximum_price.value:
+            self.shuffle_shops_maximum_price.value = self.shuffle_shops_minimum_price.value
+
+        if self.shuffle_scrubs_minimum_price.value > self.shuffle_scrubs_maximum_price.value:
+            self.shuffle_scrubs_maximum_price.value = self.shuffle_scrubs_minimum_price.value
+
+        if self.shuffle_merchants_minimum_price.value > self.shuffle_merchants_maximum_price.value:
+            self.shuffle_merchants_maximum_price.value = self.shuffle_merchants_minimum_price.value
+    
+
+    def adjust_irrelevant_hints(self):
+        # disable hints for items we don't have shuffled
+        #hyrule_loach_hint
+        # todo turn loach off if fishsanity not set to loach only
+        if self.shuffle_cows == ShuffleCows.option_false:
+            self.malon_hint.value = MalonHint.option_false
+
+        if self.shuffle_fishing_pole == ShuffleFish.option_off:
+            self.fishing_pole_hint.value = FishingPoleHint.option_false
+
+        if self.shuffle_100_gs_reward == Shuffle100GSReward.option_false:
+            self.gs_100_hint.value = GS100Hint.option_false
 
 
 soh_option_groups = [

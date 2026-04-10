@@ -122,31 +122,6 @@ class SohWorld(World):
 
         self.options.apply_any_required_option_adjustments()
 
-        # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
-        if not self.options.shuffle_tycoon_wallet.value:
-            for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price, self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
-                if option.value > wallet_capacities[Items.GIANT_WALLET]:
-                    option.value = wallet_capacities[Items.GIANT_WALLET]
-
-        # If maximum price is below minimum, set max to minimum.
-        if self.options.shuffle_shops_minimum_price.value > self.options.shuffle_shops_maximum_price.value:
-            self.options.shuffle_shops_maximum_price.value = self.options.shuffle_shops_minimum_price.value
-
-        if self.options.shuffle_scrubs_minimum_price.value > self.options.shuffle_scrubs_maximum_price.value:
-            self.options.shuffle_scrubs_maximum_price.value = self.options.shuffle_scrubs_minimum_price.value
-
-        if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
-            self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
-
-        if self.options.shuffle_deku_stick_bag.value:
-            self.options.start_with_stick_ammo.value = 0
-
-        if self.options.shuffle_deku_nut_bag.value:
-            self.options.start_with_nut_ammo.value = 0
-
-        if self.options.shuffle_dungeon_rewards in ("off", "end_of_dungeons"):
-            self.options.start_with_links_pocket.value = 0
-
         # Figure out how many Skulltula tokens need to be progressive
         # Max amount from KAK turn ins
         turn_in_amount: int = 0
@@ -223,54 +198,7 @@ class SohWorld(World):
             self.options.bottom_of_the_well_key_ring.value = self.passthrough.get("bottom_of_the_well_key_ring", False)
             self.options.gerudo_training_ground_key_ring.value = self.passthrough.get("gerudo_training_ground_key_ring", False)
             self.options.ganons_castle_key_ring.value = self.passthrough.get("ganons_castle_key_ring", False)
-
-    def fix_settings(self) -> None:
-        # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
-        if self.options.door_of_time.value == 0 and (
-                self.options.shuffle_dungeon_rewards.value == 0 or self.options.shuffle_ocarinas == 0 or self.options.shuffle_songs == "off"):
-            self.options.starting_age.value = 0
-
-        # If the door of time is set to song only, and the songs aren't shuffled, force child spawn
-        if self.options.door_of_time == 1 and (self.options.shuffle_songs == "off"):
-            self.options.starting_age.value = 0
-
-        if self.options.closed_forest == "on":
-            self.options.starting_age.value = 0
-
-        # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
-        if not self.options.shuffle_tycoon_wallet.value:
-            for option in (self.options.shuffle_shops_minimum_price, self.options.shuffle_shops_maximum_price, self.options.shuffle_scrubs_minimum_price, self.options.shuffle_scrubs_maximum_price, self.options.shuffle_merchants_minimum_price, self.options.shuffle_merchants_maximum_price):
-                if option.value > wallet_capacities[Items.GIANT_WALLET]:
-                    option.value = wallet_capacities[Items.GIANT_WALLET]
-
-        # If maximum price is below minimum, set max to minimum.
-        if self.options.shuffle_shops_minimum_price.value > self.options.shuffle_shops_maximum_price.value:
-            self.options.shuffle_shops_maximum_price.value = self.options.shuffle_shops_minimum_price.value
-
-        if self.options.shuffle_scrubs_minimum_price.value > self.options.shuffle_scrubs_maximum_price.value:
-            self.options.shuffle_scrubs_maximum_price.value = self.options.shuffle_scrubs_minimum_price.value
-
-        if self.options.shuffle_merchants_minimum_price.value > self.options.shuffle_merchants_maximum_price.value:
-            self.options.shuffle_merchants_maximum_price.value = self.options.shuffle_merchants_minimum_price.value
-
-        if self.options.shuffle_deku_stick_bag.value:
-            self.options.start_with_stick_ammo.value = 0
-
-        if self.options.shuffle_deku_nut_bag.value:
-            self.options.start_with_nut_ammo.value = 0
-
-        if self.options.shuffle_dungeon_rewards in ("off", "end_of_dungeons"):
-            self.options.start_with_links_pocket.value = 0
-
-        # disable hints for items we don't have shuffled
-        #hyrule_loach_hint
-        # todo turn loach off if fishsanity not set to loach only
-        if not self.options.shuffle_cows.value:
-            self.options.malon_hint.value = 0
-        if not self.options.shuffle_fishing_pole.value:
-            self.options.fishing_pole_hint.value = 0
-        if not self.options.shuffle_100_gs_reward.value:
-            self.options.gs_100_hint.value = 0
+       
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)
