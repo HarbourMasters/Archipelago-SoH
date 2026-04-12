@@ -47,7 +47,6 @@ class TestCanUseItems(HelperBase):
         self.assertTrue(LogicHelpers.can_use(check, self.get_bundle()))
         
         
-
     def require_any(self, check, items) -> None:
         # ideally we run these as subtests, but those are currently broken 
         # and report as Success if any subtest succeeds
@@ -62,6 +61,10 @@ class TestCanUseItems(HelperBase):
                 self.remove(invalid_combo)
         self.collect(required_items)
         self.assertTrue(LogicHelpers.can_use(check, self.get_bundle()))
+
+
+    def test_magic_item(self):
+        self.require_all(Items.DINS_FIRE, [Items.DINS_FIRE, Items.PROGRESSIVE_MAGIC_METER])
 
     def test_sticks(self):
         self.require_all(Items.STICKS, [Items.DEKU_STICK_BAG, Events.CAN_FARM_STICKS])
@@ -187,3 +190,12 @@ class TestCanUseItems(HelperBase):
 
     def test_bottle_empty(self):
         self.no_requirement_bottle(Items.EMPTY_BOTTLE)
+
+    def test_fire_arrow(self):
+        self.require_all(Items.FIRE_ARROW, [Items.FIRE_ARROW, Items.FAIRY_BOW, Items.PROGRESSIVE_MAGIC_METER])
+
+    def test_ice_arrow(self):
+        self.require_all(Items.ICE_ARROW, [Items.ICE_ARROW, Items.FAIRY_BOW, Items.PROGRESSIVE_MAGIC_METER])
+
+    def test_light_arrow(self):
+        self.require_all(Items.LIGHT_ARROW, [Items.LIGHT_ARROW, Items.FAIRY_BOW, Items.PROGRESSIVE_MAGIC_METER])
