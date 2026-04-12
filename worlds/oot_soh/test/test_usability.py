@@ -28,6 +28,7 @@ class TestCanUseItems(HelperBase):
                 "shuffle_songs": "anywhere",
                 "links_pocket": "nothing",
                 "shuffle_fishing_pole": "false",
+                "shuffle_adult_trade_items": "true",
                 "skip_epona_race": "true"}
     
     def require_all(self, check: Items, items: list[Items | Events]) -> None:
@@ -109,7 +110,6 @@ class TestCanUseItems(HelperBase):
         self.collect(self.create_item(Items.BUY_DEKU_SHIELD))
         self.assertTrue(LogicHelpers.can_use(Items.DEKU_SHIELD, self.get_bundle()), "Deku shields are only considered in logic if you can buy them")
 
-
     def test_hylian_shield(self):
         self.sweep()
         self.assertFalse(LogicHelpers.can_use(Items.HYLIAN_SHIELD, self.get_bundle()), "You need to get the shield before you can use it")
@@ -118,7 +118,6 @@ class TestCanUseItems(HelperBase):
         
         self.collect(self.create_item(Items.BUY_HYLIAN_SHIELD))
         self.assertTrue(LogicHelpers.can_use(Items.HYLIAN_SHIELD, self.get_bundle()), "Hylian shields are only considered in logic if you can buy them")
-
 
     def test_goron_tunic(self):
         self.require_any(Items.GORON_TUNIC, [Items.BUY_GORON_TUNIC, Items.GORON_TUNIC])
@@ -145,7 +144,30 @@ class TestCanUseItems(HelperBase):
     def test_epona(self):
         self.require_all(Items.EPONA, [Items.PROGRESSIVE_OCARINA, Items.EPONAS_SONG, Events.FREED_EPONA])
     
-    # Skipping has_item for adult trade items s
+    def test_trade_items(self):
+        # when creating this test the shuffle_adult_trade_items option is turned on so trade items aren't pre-collected
+        trade_items = [Items.POCKET_EGG, Items.COJIRO, Items.ODD_MUSHROOM, Items.ODD_POTION, Items.POACHERS_SAW,
+                       Items.BROKEN_GORONS_SWORD, Items.PRESCRIPTION, Items.EYEBALL_FROG, Items.WORLDS_FINEST_EYEDROPS]
+        
+        self.sweep()
+        self.world.options.shuffle_adult_trade_items.value = Options.ShuffleAdultTradeItems.option_false
+        for item in trade_items:
+            self.assertTrue(LogicHelpers.can_use(item, self.get_bundle()), f"Without trade items shuffled {item} should be seen as usable")
+
+        self.world.options.shuffle_adult_trade_items.value = Options.ShuffleAdultTradeItems.option_true
+        for item in trade_items:
+            self.assertFalse(LogicHelpers.can_use(item, self.get_bundle()), f"With trade items shuffled you shouldn't be able to use {item} untill you get it")
+        
+        as_items = list(map(lambda i: self.create_item(i), trade_items))
+        for item in as_items:
+            item_set = set(as_items)
+            item_set.remove(item)
+            self.collect(item_set)
+            self.assertFalse(LogicHelpers.can_use(Items(item.name), self.get_bundle()), f"the other trade items are not a substitute for {item.name}")
+            self.remove(item_set)
+            self.collect(item)
+            self.assertTrue(LogicHelpers.can_use(Items(item.name), self.get_bundle()), f"you need the trade item in order to use it")
+            self.remove(item)
 
     def bottles(self, bottle: Items, event: list[Items | Events]):
         self.sweep()
@@ -199,3 +221,63 @@ class TestCanUseItems(HelperBase):
 
     def test_light_arrow(self):
         self.require_all(Items.LIGHT_ARROW, [Items.LIGHT_ARROW, Items.FAIRY_BOW, Items.PROGRESSIVE_MAGIC_METER])
+
+class TestCanUseAdultOnlyItems(HelperBase):
+    options = {"starting_age": "adult", 
+                "closed_forest": "off", 
+                "shuffle_songs": "anywhere",
+                "shuffle_dungeon_rewards": "anywhere",
+                "door_of_time": "song_only",
+                "links_pocket": "nothing"}
+    
+    def get_reg_bundle(self, region) -> tuple:
+        return self.multiworld.state, region, self.world
+    
+    def test_adult_items_from_start(self):
+        # can you use this item at an adult reachable location
+        self.sweep()
+        self.collect_by_name(Items.MIRROR_SHIELD)
+        self.assertTrue(LogicHelpers.can_use(Items.MIRROR_SHIELD, self.get_reg_bundle(Regions.ADULT_SPAWN)), "Should be able to use adult items in adult reachable locations from the start")
+
+    def test_cant_use_child_items_as_adult(self):
+        self.sweep()
+        self.collect_by_name(Items.BOOMERANG)
+        self.assertFalse(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.ADULT_SPAWN)), "Shouldn't be able to use child restricted items area's unreachable by child")
+
+    def test_child_items_after_timetravel(self):
+        self.sweep()
+        self.collect_by_name(Items.BOOMERANG)
+        self.assertFalse(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Shouldn't be able to use child restricted items area's unreachable by child")
+        self.collect(self.create_item(Events.TIME_TRAVEL))
+        self.assertTrue(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Should be able to use child restricted items area's reachable by child")
+        
+class TestCanUseChildOnlyItems(HelperBase):
+    options = {"starting_age": "child", 
+                "closed_forest": "on", 
+                "shuffle_songs": "anywhere",
+                "shuffle_dungeon_rewards": "anywhere",
+                "door_of_time": "song_only",
+                "links_pocket": "nothing"}
+    
+    def get_reg_bundle(self, region) -> tuple:
+        return self.multiworld.state, region, self.world
+    
+    def test_child_items_from_start(self):
+        # can you use this item at an adult reachable location
+        self.sweep()
+        self.collect_by_name(Items.BOOMERANG)
+        self.assertTrue(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Should be able to use adult items in adult reachable locations from the start")
+
+    def test_cant_use_child_items_as_adult(self):
+        self.sweep()
+        self.collect_by_name(Items.MIRROR_SHIELD)
+        self.assertFalse(LogicHelpers.can_use(Items.MIRROR_SHIELD, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Shouldn't be able to use child restricted items area's unreachable by child")
+
+    def test_child_items_after_timetravel(self):
+        self.sweep()
+        self.collect_by_name(Items.MIRROR_SHIELD)
+        self.assertFalse(LogicHelpers.can_use(Items.MIRROR_SHIELD, self.get_reg_bundle(Regions.ADULT_SPAWN)), "Shouldn't be able to use child restricted items area's unreachable by child")
+        self.collect(self.create_item(Events.TIME_TRAVEL))
+        self.assertTrue(LogicHelpers.can_use(Items.MIRROR_SHIELD, self.get_reg_bundle(Regions.ADULT_SPAWN)), "Should be able to use child restricted items area's reachable by child")
+        
+# todo songs
