@@ -5,7 +5,6 @@ from .. Items import SohItem
 from BaseClasses import ItemClassification as IC
 from .. import Options
 import itertools
-import pytest
 
 class HelperBase(SohTestBase):
     def get_bundle(self) -> tuple:
@@ -73,15 +72,16 @@ class TestCanUseItems(HelperBase):
         self.sweep()
         bombchu_items = (Items.BOMBCHU_BAG, Items.BOMB_BAG)
         for item in bombchu_items:
-            with self.subTest(item=item):
-                self.assertFalse(LogicHelpers.can_use(item, self.get_bundle()), "You need to get Bags first before you can use them")
+            #with self.subTest(item=item):
+            self.assertFalse(LogicHelpers.can_use(item, self.get_bundle()), "You need to get Bags first before you can use them")
 
-        self.collect(self.create_item(Items.BOMB_BAG))
+        bomb_bag = self.create_item(Items.BOMB_BAG)
+        self.collect(bomb_bag)
         self.assertTrue(LogicHelpers.can_use(Items.BOMB_BAG, self.get_bundle()), "With the bomb bag unlocked you should be able to use bombs")
         self.assertFalse(LogicHelpers.can_use(Items.BOMBCHU_BAG, self.get_bundle()), "With bombchu bags shuffled you explicitly need the bombchu bag to them")
 
         self.collect(self.create_item(Items.BOMBCHU_BAG))
-        self.remove_by_name(Items.BOMB_BAG)
+        self.remove(bomb_bag)
         self.assertTrue(LogicHelpers.can_use(Items.BOMBCHU_BAG, self.get_bundle()), "With bombchu bag shuffled and found you should be able to use it")
         self.assertFalse(LogicHelpers.can_use(Items.BOMB_BAG, self.get_bundle()), "The bombchu bag alone doesn't grant access to bombs")
 
