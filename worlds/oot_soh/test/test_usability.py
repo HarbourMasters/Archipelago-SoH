@@ -295,4 +295,3 @@ class TestCanUseChildOnlyItems(HelperBase):
         self.collect(self.create_item(Events.TIME_TRAVEL))
         self.assertTrue(LogicHelpers.can_use(Items.MIRROR_SHIELD, self.get_reg_bundle(Regions.ADULT_SPAWN)), "Should be able to use child restricted items area's reachable by child")
         
-# todo songs
