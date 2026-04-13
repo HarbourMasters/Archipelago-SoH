@@ -222,6 +222,21 @@ class TestCanUseItems(HelperBase):
     def test_light_arrow(self):
         self.require_all(Items.LIGHT_ARROW, [Items.LIGHT_ARROW, Items.FAIRY_BOW, Items.PROGRESSIVE_MAGIC_METER])
 
+    def test_play_song_buttons_shuffled(self):
+        self.world.options.shuffle_ocarina_buttons.value = Options.ShuffleOcarinaButtons.option_true
+        self.require_all(Items.EPONAS_SONG, [Items.PROGRESSIVE_OCARINA, Items.EPONAS_SONG, Items.OCARINA_CLEFT_BUTTON, Items.OCARINA_CRIGHT_BUTTON, Items.OCARINA_CUP_BUTTON])
+
+    def test_play_song_no_button_substitutions(self):
+        # other buttons aren't suitable replacements
+        self.world.options.shuffle_ocarina_buttons.value = Options.ShuffleOcarinaButtons.option_true
+        self.collect(self.create_item(Items.OCARINA_A_BUTTON))
+        self.collect(self.create_item(Items.OCARINA_CDOWN_BUTTON))
+        self.require_all(Items.EPONAS_SONG, [Items.PROGRESSIVE_OCARINA, Items.EPONAS_SONG, Items.OCARINA_CLEFT_BUTTON, Items.OCARINA_CRIGHT_BUTTON, Items.OCARINA_CUP_BUTTON])
+
+    def test_play_song(self):
+        self.world.options.shuffle_ocarina_buttons.value = Options.ShuffleOcarinaButtons.option_false
+        self.require_all(Items.EPONAS_SONG, [Items.PROGRESSIVE_OCARINA, Items.EPONAS_SONG])
+
 class TestCanUseAdultOnlyItems(HelperBase):
     options = {"starting_age": "adult", 
                 "closed_forest": "off", 
@@ -250,7 +265,7 @@ class TestCanUseAdultOnlyItems(HelperBase):
         self.assertFalse(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Shouldn't be able to use child restricted items area's unreachable by child")
         self.collect(self.create_item(Events.TIME_TRAVEL))
         self.assertTrue(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Should be able to use child restricted items area's reachable by child")
-        
+
 class TestCanUseChildOnlyItems(HelperBase):
     options = {"starting_age": "child", 
                 "closed_forest": "on", 
