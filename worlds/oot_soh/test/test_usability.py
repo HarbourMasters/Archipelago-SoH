@@ -1,22 +1,10 @@
 from .bases import SohTestBase
-from ..Enums import Items, Locations, Regions, Events
+from ..Enums import Items, Regions, Events
 from .. import LogicHelpers
-from .. Items import SohItem
-from BaseClasses import ItemClassification as IC
 from .. import Options
 import itertools
 
-class HelperBase(SohTestBase):
-    def get_bundle(self) -> tuple:
-        return self.multiworld.state, Regions.ROOT, self.world
-    
-    def create_item(self, item) -> SohItem:
-        return SohItem(item, IC.progression, None, self.world.player)
-    
-    def sweep(self) -> None:
-        self.multiworld.state.sweep_for_advancements()
-
-class TestCanUseItems(HelperBase):
+class TestCanUseItems(SohTestBase):
     options = {"starting_age": "child", 
                 "closed_forest": "on", 
                 "shuffle_kokiri_sword": "on",
@@ -237,16 +225,13 @@ class TestCanUseItems(HelperBase):
         self.world.options.shuffle_ocarina_buttons.value = Options.ShuffleOcarinaButtons.option_false
         self.require_all(Items.EPONAS_SONG, [Items.PROGRESSIVE_OCARINA, Items.EPONAS_SONG])
 
-class TestCanUseAdultOnlyItems(HelperBase):
+class TestCanUseAdultOnlyItems(SohTestBase):
     options = {"starting_age": "adult", 
                 "closed_forest": "off", 
                 "shuffle_songs": "anywhere",
                 "shuffle_dungeon_rewards": "anywhere",
                 "door_of_time": "song_only",
                 "links_pocket": "nothing"}
-    
-    def get_reg_bundle(self, region) -> tuple:
-        return self.multiworld.state, region, self.world
     
     def test_adult_items_from_start(self):
         # can you use this item at an adult reachable location
@@ -266,16 +251,13 @@ class TestCanUseAdultOnlyItems(HelperBase):
         self.collect(self.create_item(Events.TIME_TRAVEL))
         self.assertTrue(LogicHelpers.can_use(Items.BOOMERANG, self.get_reg_bundle(Regions.CHILD_SPAWN)), "Should be able to use child restricted items area's reachable by child")
 
-class TestCanUseChildOnlyItems(HelperBase):
+class TestCanUseChildOnlyItems(SohTestBase):
     options = {"starting_age": "child", 
                 "closed_forest": "on", 
                 "shuffle_songs": "anywhere",
                 "shuffle_dungeon_rewards": "anywhere",
                 "door_of_time": "song_only",
                 "links_pocket": "nothing"}
-    
-    def get_reg_bundle(self, region) -> tuple:
-        return self.multiworld.state, region, self.world
     
     def test_child_items_from_start(self):
         # can you use this item at an adult reachable location
