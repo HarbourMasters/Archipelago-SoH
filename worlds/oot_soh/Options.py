@@ -140,40 +140,44 @@ class RainbowBridgeGregModifier(Choice):
 class RainbowBridgeStonesRequired(Range):
     """
     If Rainbow Bridge is set to stones, this is how many Spiritual Stones are required to open it.
+    If the Greg Modifier not set to Reward, the max will be 3
     """
     display_name = "Rainbow Bridge Stones Required"
     range_start = 1
-    range_end = 3
+    range_end = 4
     default = 3
 
 
 class RainbowBridgeMedallionsRequired(Range):
     """
     If Rainbow Bridge is set to medallions, this is how many medallions are required to open it.
+    If the Greg Modifier not set to Reward, the max will be 6
     """
     display_name = "Rainbow Bridge Medallions Required"
     range_start = 1
-    range_end = 6
+    range_end = 7
     default = 6
 
 
 class RainbowBridgeDungeonRewardsRequired(Range):
     """
     If Rainbow Bridge is set to dungeon rewards, this is how many dungeon rewards are required to open it.
+    If the Greg Modifier not set to Reward, the max will be 9
     """
     display_name = "Rainbow Bridge Dungeon Rewards Required"
     range_start = 1
-    range_end = 9
+    range_end = 10
     default = 9
 
 
 class RainbowBridgeDungeonsRequired(Range):
     """
     If Rainbow Bridge is set to dungeons, this is how many completed dungeons are required to open it.
+    If the Greg Modifier not set to Reward, the max will be 8
     """
     display_name = "Rainbow Bridge Dungeons Required"
     range_start = 1
-    range_end = 8
+    range_end = 9
     default = 8
 
 
@@ -726,10 +730,11 @@ class GanonsCastleBossKeyStonesRequired(Range):
     """
     If Ganon's Boss Key is set to stones, this is how many Spiritual Stones are required to open it.
     Once the required amount is reached, the boss key will be granted through the Light Arrow cutscene in the Temple of Time.
+    If the Greg Modifier not set to Reward, the max will be 3
     """
     display_name = "Ganons Castle Boss Key Stones Required"
     range_start = 1
-    range_end = 3
+    range_end = 4
     default = 3
 
 
@@ -737,21 +742,23 @@ class GanonsCastleBossKeyMedallionsRequired(Range):
     """
     If Ganon's Boss Key is set to medallions, this is how many medallions are required to open it.
     Once the required amount is reached, the boss key will be granted through the Light Arrow cutscene in the Temple of Time.
+    If the Greg Modifier not set to Reward, the max will be 6
     """
     display_name = "Ganons Castle Boss Key Medallions Required"
     range_start = 1
-    range_end = 6
+    range_end = 7
     default = 6
 
-# TODO This can be 10 if greg is a reward 
+
 class GanonsCastleBossKeyDungeonRewardsRequired(Range):
     """
     If Ganon's Boss Key is set to dungeon rewards, this is how many dungeon rewards are required to open it.
     Once the required amount is reached, the boss key will be granted through the Light Arrow cutscene in the Temple of Time.
+    If the Greg Modifier not set to Reward, the max will be 9
     """
     display_name = "Ganons Castle Boss Key Dungeon Rewards Required"
     range_start = 1
-    range_end = 9
+    range_end = 10
     default = 6
 
 
@@ -759,10 +766,11 @@ class GanonsCastleBossKeyDungeonsRequired(Range):
     """
     If Ganon's Boss Key is set to dungeons, this is how many dungeon completions are required to open it.
     Once the required amount is reached, the boss key will be granted through the Light Arrow cutscene in the Temple of Time.
+    If the Greg Modifier not set to Reward, the max will be 8
     """
     display_name = "Ganons Castle Boss Key Dungeons Required"
     range_start = 1
-    range_end = 8
+    range_end = 9
     default = 8
 
 
@@ -1586,7 +1594,6 @@ class SohOptions(PerGameCommonOptions):
     start_with_nocturne :StartWithNocturne
     start_with_prelude :StartWithPrelude
     #StartingTokens
-    #StartingHearts
     full_wallets: FullWallets
     bombchu_bag: BombchuBag
     bombchu_drops: BombchuDrops
@@ -1644,6 +1651,7 @@ class SohOptions(PerGameCommonOptions):
         self.adjust_prices()
         self.adjust_starting_items()
         self.adjust_irrelevant_hints()
+        self.adjust_greg_modifiers()
 
 
     def adjust_for_forced_child_starts(self):
@@ -1654,7 +1662,7 @@ class SohOptions(PerGameCommonOptions):
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
         if self.door_of_time == DoorOfTime.option_closed and (
             any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
-                    self.shuffle_ocarinas == ShuffleOcarinas,
+                    self.shuffle_ocarinas == ShuffleOcarinas.option_false,
                     self.shuffle_songs == ShuffleSongs.option_off])):
             self.starting_age.value = StartingAge.option_child
             return
@@ -1712,6 +1720,42 @@ class SohOptions(PerGameCommonOptions):
 
         if self.shuffle_100_gs_reward == Shuffle100GSReward.option_false:
             self.gs_100_hint.value = GS100Hint.option_false
+
+    def adjust_greg_modifiers(self):
+        # Check Rainbow Bridge and GBK options if their greg modifier is not Reward.
+        # The if they are set to the max, they must be decremented once
+        def decrement_option(option):
+            if option != None:
+                if option == option.range_end:
+                        option.value -= 1
+
+                option = None
+        
+        option = None
+        
+        if self.rainbow_bridge_greg_modifier != RainbowBridgeGregModifier.option_reward:
+            if self.rainbow_bridge == RainbowBridge.option_stones:
+                option = self.rainbow_bridge_stones_required
+            elif self.rainbow_bridge == RainbowBridge.option_medallions:
+                option = self.rainbow_bridge_medallions_required
+            elif self.rainbow_bridge == RainbowBridge.option_dungeon_rewards:
+                option = self.rainbow_bridge_dungeon_rewards_required
+            elif self.rainbow_bridge == RainbowBridge.option_dungeons:
+                option = self.rainbow_bridge_dungeons_required
+
+            decrement_option(option)
+
+        if self.ganons_castle_boss_key_greg_modifier != GanonsCastleBossKeyGregModifier.option_reward:
+            if self.ganons_castle_boss_key == GanonsCastleBossKey.option_lacs_stones:
+                option = self.ganons_castle_boss_key_stones_required
+            elif self.ganons_castle_boss_key == GanonsCastleBossKey.option_lacs_medallions:
+                option = self.ganons_castle_boss_key_medallions_required
+            elif self.ganons_castle_boss_key == GanonsCastleBossKey.option_lacs_dungeon_rewards:
+                option = self.ganons_castle_boss_key_dungeon_rewards_required
+            elif self.ganons_castle_boss_key == GanonsCastleBossKey.option_lacs_dungeons:
+                option = self.ganons_castle_boss_key_dungeons_required
+
+            decrement_option(option)
 
 
 soh_option_groups = [

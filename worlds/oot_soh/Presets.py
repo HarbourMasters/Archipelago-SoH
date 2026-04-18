@@ -215,8 +215,7 @@ hell_mode_options = {
     "ganons_castle_boss_key":                           GanonsCastleBossKey.option_lacs_dungeon_rewards,
     "ganons_castle_boss_key_stones_required":           GanonsCastleBossKeyStonesRequired.default,
     "ganons_castle_boss_key_medallions_required":       GanonsCastleBossKeyMedallionsRequired.default,
-    # TODO When this option is fixed it should be 10 instead of 9. Greg should be counted as a required reward in logic
-    "ganons_castle_boss_key_dungeon_rewards_required":  9,
+    "ganons_castle_boss_key_dungeon_rewards_required":  10,
     "ganons_castle_boss_key_greg_modifier":             GanonsCastleBossKeyGregModifier.option_reward,
     "big_poe_target_count":                             1,
     "skip_epona_race":                                  SkipEponaRace.option_true,
