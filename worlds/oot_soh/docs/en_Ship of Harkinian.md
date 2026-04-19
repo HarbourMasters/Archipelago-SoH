@@ -76,9 +76,10 @@ yourself will show up just like a regular randomizer, showing the model of whate
 
 ## Is there a tracker pack?
 
-They aren't needed! Ship of Harkinian comes with a built-in item tracker, entrance tracker and check tracker. They're found 
-within the Randomizer section of the ESC menu.
-
+There are a couple of options for trackers:
+* The built in list tracker
+* The [Poptracker Pack](https://github.com/Brian0255/ship-of-harkinian-ap-tracker/releases/latest)
+* Univeral Tracker (yaml-less support)
 
 ## Is there an option for no logic?
 
@@ -103,7 +104,7 @@ Ship of Harkinian:
 If it is not in the `.yaml` file it likely has not been added to our Archipelago implementation yet. A short list of popular features that have yet to be added:
 
 * Entrance Randomization
-* In Game Hints
+* Gossip Stone Hints
 * Master Quest Dungeons
 
 ## Can I use my settings from the original OOT Archipelago?
