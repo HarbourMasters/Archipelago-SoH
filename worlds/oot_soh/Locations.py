@@ -102,7 +102,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.KF_STORMS_GROTTO_CHEST:                                       SohLocData(29, LocTag.Kokiri_Forest),
     Locations.LW_GIFT_FROM_SARIA:                                           SohLocData(30, LocTag.Kokiri_Forest),
     Locations.LW_OCARINA_MEMORY_GAME:                                       SohLocData(31, LocTag.Kokiri_Forest | LocTag.Minigames),
-    Locations.LW_TARGET_IN_WOODS:                                           SohLocData(32, LocTag.Kokiri_Forest),
+    Locations.LW_TARGET_IN_WOODS:                                           SohLocData(32, LocTag.Kokiri_Forest | LocTag.Shooting_Minigames | LocTag.Minigames),
     Locations.LW_NEAR_SHORTCUTS_GROTTO_CHEST:                               SohLocData(33, LocTag.Kokiri_Forest),
     Locations.LW_DEKU_THEATER_SKULL_MASK:                                   SohLocData(34, LocTag.Kokiri_Forest),
     Locations.LW_DEKU_THEATER_MASK_OF_TRUTH:                                SohLocData(35, LocTag.Kokiri_Forest),
