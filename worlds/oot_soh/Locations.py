@@ -42,6 +42,7 @@ class LocTag(IntFlag):
     Overworld = auto()
     Shops = auto()
     Scrubs = auto()
+    Trade_Location = auto()
     Merchants = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
@@ -808,15 +809,15 @@ scrubs_location_table: dict[Locations, SohLocData] = {
 }
 
 trade_items_location_table: dict[str, SohLocData] = {
-    Locations.LW_TRADE_COJIRO:              SohLocData(734, LocTag.Overworld),
-    Locations.LW_TRADE_ODD_POTION:          SohLocData(735, LocTag.Overworld),
-    Locations.KAK_TRADE_ODD_MUSHROOM:       SohLocData(736, LocTag.Overworld),
-    Locations.KAK_TRADE_POCKET_CUCCO:       SohLocData(737, LocTag.Overworld),
-    Locations.DMT_TRADE_BROKEN_SWORD:       SohLocData(738, LocTag.Overworld),
-    Locations.DMT_TRADE_EYEDROPS:           SohLocData(739, LocTag.Overworld),
-    Locations.ZD_TRADE_PRESCRIPTION:        SohLocData(740, LocTag.Overworld),
-    Locations.LH_LAB_TRADE_EYEBALL_FROG:    SohLocData(741, LocTag.Overworld),
-    Locations.GV_TRADE_SAW:                 SohLocData(742, LocTag.Overworld)
+    Locations.LW_TRADE_COJIRO:              SohLocData(734, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.LW_TRADE_ODD_POTION:          SohLocData(735, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.KAK_TRADE_ODD_MUSHROOM:       SohLocData(736, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.KAK_TRADE_POCKET_CUCCO:       SohLocData(737, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.DMT_TRADE_BROKEN_SWORD:       SohLocData(738, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.DMT_TRADE_EYEDROPS:           SohLocData(739, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.ZD_TRADE_PRESCRIPTION:        SohLocData(740, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.LH_LAB_TRADE_EYEBALL_FROG:    SohLocData(741, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.GV_TRADE_SAW:                 SohLocData(742, LocTag.Overworld | LocTag.Trade_Location)
 }
 
 merchants_items_location_table: dict[Locations, SohLocData] = {
