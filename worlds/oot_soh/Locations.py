@@ -43,6 +43,7 @@ class LocTag(IntFlag):
     Shops = auto()
     Scrubs = auto()
     Trade_Location = auto()
+    Temple_of_Time = auto()
     Kokiri_Forest = auto()
     Hyrule_Field = auto()
     Merchants = auto()
@@ -80,7 +81,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.BONGO_BONGO:                                                  SohLocData(8, LocTag.Shadow_Temple | LocTag.Bosses, DungeonLocations.SHADOW_TEMPLE),
     Locations.TWINROVA:                                                     SohLocData(9, LocTag.Spirit_Temple | LocTag.Bosses, DungeonLocations.SPIRIT_TEMPLE),
     # Locations.GANON:                                                      SohLocData(10),
-    Locations.GIFT_FROM_RAURU:                                              SohLocData(11, LocTag.Overworld),
+    Locations.GIFT_FROM_RAURU:                                              SohLocData(11, LocTag.Overworld | LocTag.Temple_of_Time),
     Locations.SONG_FROM_IMPA:                                               SohLocData(12, LocTag.Overworld | LocTag.Songs),
     Locations.SONG_FROM_MALON:                                              SohLocData(13, LocTag.Overworld | LocTag.Songs),
     Locations.SONG_FROM_SARIA:                                              SohLocData(14, LocTag.Kokiri_Forest | LocTag.Songs),
@@ -92,7 +93,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.SHEIK_IN_ICE_CAVERN:                                          SohLocData(20, LocTag.Ice_Cavern | LocTag.Songs, DungeonLocations.ICE_CAVERN),
     Locations.SHEIK_AT_COLOSSUS:                                            SohLocData(21, LocTag.Overworld | LocTag.Songs),
     Locations.SHEIK_IN_KAKARIKO:                                            SohLocData(22, LocTag.Overworld | LocTag.Songs),
-    Locations.SHEIK_AT_TEMPLE:                                              SohLocData(23, LocTag.Overworld | LocTag.Songs),
+    Locations.SHEIK_AT_TEMPLE:                                              SohLocData(23, LocTag.Temple_of_Time | LocTag.Songs),
     Locations.KF_MIDO_TOP_LEFT_CHEST:                                       SohLocData(24, LocTag.Kokiri_Forest),
     Locations.KF_MIDO_TOP_RIGHT_CHEST:                                      SohLocData(25, LocTag.Kokiri_Forest),
     Locations.KF_MIDO_BOTTOM_LEFT_CHEST:                                    SohLocData(26, LocTag.Kokiri_Forest),
