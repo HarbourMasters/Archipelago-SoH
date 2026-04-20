@@ -42,12 +42,13 @@ class LocTag(IntFlag):
     Overworld = auto()
     Shops = auto()
     Scrubs = auto()
+    Merchants = auto()
     Trade_Location = auto()
     Temple_of_Time = auto()
     Kokiri_Forest = auto()
     Hyrule_Field = auto()
     Hyrule_Market = auto()
-    Merchants = auto()
+    Hyrule_Castle = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -82,8 +83,8 @@ base_location_table: dict[str, SohLocData] = {
     Locations.BONGO_BONGO:                                                  SohLocData(8, LocTag.Shadow_Temple | LocTag.Bosses, DungeonLocations.SHADOW_TEMPLE),
     Locations.TWINROVA:                                                     SohLocData(9, LocTag.Spirit_Temple | LocTag.Bosses, DungeonLocations.SPIRIT_TEMPLE),
     # Locations.GANON:                                                      SohLocData(10),
-    Locations.GIFT_FROM_RAURU:                                              SohLocData(11, LocTag.Overworld | LocTag.Temple_of_Time),
-    Locations.SONG_FROM_IMPA:                                               SohLocData(12, LocTag.Overworld | LocTag.Songs),
+    Locations.GIFT_FROM_RAURU:                                              SohLocData(11, LocTag.Temple_of_Time),
+    Locations.SONG_FROM_IMPA:                                               SohLocData(12, LocTag.Hyrule_Castle | LocTag.Songs),
     Locations.SONG_FROM_MALON:                                              SohLocData(13, LocTag.Overworld | LocTag.Songs),
     Locations.SONG_FROM_SARIA:                                              SohLocData(14, LocTag.Kokiri_Forest | LocTag.Songs),
     Locations.SONG_FROM_ROYAL_FAMILYS_TOMB:                                 SohLocData(15, LocTag.Overworld | LocTag.Songs),
@@ -132,7 +133,7 @@ base_location_table: dict[str, SohLocData] = {
     # Locations.MARKET_CHEST_GAME_FIFTH_ROOM_KEY:                           SohLocData(58),
     Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE:                              SohLocData(59, LocTag.Temple_of_Time),
     Locations.MARKET_TOT_MASTER_SWORD:                                      SohLocData(60, LocTag.Temple_of_Time),
-    Locations.HC_GREAT_FAIRY_REWARD:                                        SohLocData(63, LocTag.Overworld),
+    Locations.HC_GREAT_FAIRY_REWARD:                                        SohLocData(63, LocTag.Hyrule_Castle),
     Locations.LLR_TALONS_CHICKENS:                                          SohLocData(64, LocTag.Overworld),
     Locations.LLR_FREESTANDING_POH:                                         SohLocData(65, LocTag.Overworld),
     Locations.KAK_ANJU_AS_CHILD:                                            SohLocData(66, LocTag.Overworld),
@@ -555,8 +556,8 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.HF_GS_COW_GROTTO:                 SohLocData(487, LocTag.Hyrule_Field | LocTag.Gold_Skulltula_Tokens),
     Locations.HF_GS_STONE_BRIDGE_TREE_GROTTO:   SohLocData(488, LocTag.Hyrule_Field | LocTag.Gold_Skulltula_Tokens),
     Locations.MARKET_MARKET_GS_GUARD_HOUSE:     SohLocData(489, LocTag.Hyrule_Market | LocTag.Gold_Skulltula_Tokens),
-    Locations.HC_GS_TREE:                       SohLocData(490, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.HC_GS_STORMS_GROTTO:              SohLocData(491, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.HC_GS_TREE:                       SohLocData(490, LocTag.Hyrule_Castle | LocTag.Gold_Skulltula_Tokens),
+    Locations.HC_GS_STORMS_GROTTO:              SohLocData(491, LocTag.Hyrule_Castle | LocTag.Gold_Skulltula_Tokens),
     Locations.LLR_GS_HOUSE_WINDOW:              SohLocData(492, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.LLR_GS_TREE:                      SohLocData(493, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.LLR_GS_RAIN_SHED:                 SohLocData(494, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
@@ -973,10 +974,10 @@ pots_overworld_location_table: dict[str, SohLocData] = {
     Locations.MARKET_BACK_ALLEY_HOUSE_POT1:      SohLocData(876, LocTag.Hyrule_Market),
     Locations.MARKET_BACK_ALLEY_HOUSE_POT2:      SohLocData(877, LocTag.Hyrule_Market),
     Locations.MARKET_BACK_ALLEY_HOUSE_POT3:      SohLocData(878, LocTag.Hyrule_Market),
-    Locations.HC_STORMS_GROTTO_POT1:             SohLocData(879, LocTag.Overworld),
-    Locations.HC_STORMS_GROTTO_POT2:             SohLocData(880, LocTag.Overworld),
-    Locations.HC_STORMS_GROTTO_POT3:             SohLocData(881, LocTag.Overworld),
-    Locations.HC_STORMS_GROTTO_POT4:             SohLocData(882, LocTag.Overworld),
+    Locations.HC_STORMS_GROTTO_POT1:             SohLocData(879, LocTag.Hyrule_Castle),
+    Locations.HC_STORMS_GROTTO_POT2:             SohLocData(880, LocTag.Hyrule_Castle),
+    Locations.HC_STORMS_GROTTO_POT3:             SohLocData(881, LocTag.Hyrule_Castle),
+    Locations.HC_STORMS_GROTTO_POT4:             SohLocData(882, LocTag.Hyrule_Castle),
     Locations.LLR_FRONT_POT1:                    SohLocData(883, LocTag.Overworld),
     Locations.LLR_FRONT_POT2:                    SohLocData(884, LocTag.Overworld),
     Locations.LLR_FRONT_POT3:                    SohLocData(885, LocTag.Overworld),
@@ -1996,12 +1997,12 @@ fairies_stone_location_table: dict[str, SohLocData] = {
     Locations.GC_MEDIGORON_GOSSIP_STONE_BIG_FAIRY:               SohLocData(1913, LocTag.Overworld),
     Locations.GRAVEYARD_GOSSIP_STONE_FAIRY:                      SohLocData(1914, LocTag.Overworld),
     Locations.GRAVEYARD_GOSSIP_STONE_BIG_FAIRY:                  SohLocData(1915, LocTag.Overworld),
-    Locations.HC_MALON_GOSSIP_STONE_FAIRY:                       SohLocData(1916, LocTag.Overworld),
-    Locations.HC_MALON_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1917, LocTag.Overworld),
-    Locations.HC_ROCK_WALL_GOSSIP_STONE_FAIRY:                   SohLocData(1918, LocTag.Overworld),
-    Locations.HC_ROCK_WALL_GOSSIP_STONE_BIG_FAIRY:               SohLocData(1919, LocTag.Overworld),
-    Locations.HC_STORMS_GROTTO_GOSSIP_STONE_FAIRY:               SohLocData(1920, LocTag.Overworld),
-    Locations.HC_STORMS_GROTTO_GOSSIP_STONE_BIG_FAIRY:           SohLocData(1921, LocTag.Overworld),
+    Locations.HC_MALON_GOSSIP_STONE_FAIRY:                       SohLocData(1916, LocTag.Hyrule_Castle),
+    Locations.HC_MALON_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1917, LocTag.Hyrule_Castle),
+    Locations.HC_ROCK_WALL_GOSSIP_STONE_FAIRY:                   SohLocData(1918, LocTag.Hyrule_Castle),
+    Locations.HC_ROCK_WALL_GOSSIP_STONE_BIG_FAIRY:               SohLocData(1919, LocTag.Hyrule_Castle),
+    Locations.HC_STORMS_GROTTO_GOSSIP_STONE_FAIRY:               SohLocData(1920, LocTag.Hyrule_Castle),
+    Locations.HC_STORMS_GROTTO_GOSSIP_STONE_BIG_FAIRY:           SohLocData(1921, LocTag.Hyrule_Castle),
     Locations.KF_DEKU_TREE_LEFT_GOSSIP_STONE_FAIRY:              SohLocData(1922, LocTag.Kokiri_Forest),
     Locations.KF_DEKU_TREE_LEFT_GOSSIP_STONE_BIG_FAIRY:          SohLocData(1923, LocTag.Kokiri_Forest),
     Locations.KF_DEKU_TREE_RIGHT_GOSSIP_STONE_FAIRY:             SohLocData(1924, LocTag.Kokiri_Forest),
@@ -2172,8 +2173,8 @@ grass_overworld_location_table: dict[str, SohLocData] = {
     Locations.MARKET_MARKET_GRASS6:               SohLocData(2050, LocTag.Hyrule_Market),
     Locations.MARKET_MARKET_GRASS7:               SohLocData(2051, LocTag.Hyrule_Market),
     Locations.MARKET_MARKET_GRASS8:               SohLocData(2052, LocTag.Hyrule_Market),
-    Locations.HC_NEAR_STORMS_GROTTO_GRASS1:       SohLocData(2053, LocTag.Overworld),
-    Locations.HC_NEAR_STORMS_GROTTO_GRASS2:       SohLocData(2054, LocTag.Overworld),
+    Locations.HC_NEAR_STORMS_GROTTO_GRASS1:       SohLocData(2053, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_STORMS_GROTTO_GRASS2:       SohLocData(2054, LocTag.Hyrule_Castle),
     Locations.KAK_NEAR_GRAVEYARD_GRASS1:          SohLocData(2055, LocTag.Overworld),
     Locations.KAK_NEAR_GRAVEYARD_GRASS2:          SohLocData(2056, LocTag.Overworld),
     Locations.KAK_NEAR_GRAVEYARD_GRASS3:          SohLocData(2057, LocTag.Overworld),
@@ -2471,14 +2472,14 @@ grass_dungeon_location_table: dict[str, SohLocData] = {
 
 tree_location_table: dict[str, SohLocData] = {
     Locations.MARKET_TREE:                  SohLocData(2393, LocTag.Hyrule_Market),
-    Locations.HC_NEAR_GUARDS_TREE_1:        SohLocData(2394, LocTag.Overworld),
-    Locations.HC_NEAR_GUARDS_TREE_2:        SohLocData(2395, LocTag.Overworld),
-    Locations.HC_NEAR_GUARDS_TREE_3:        SohLocData(2396, LocTag.Overworld),
-    Locations.HC_NEAR_GUARDS_TREE_4:        SohLocData(2397, LocTag.Overworld),
-    Locations.HC_NEAR_GUARDS_TREE_5:        SohLocData(2398, LocTag.Overworld),
-    Locations.HC_NEAR_GUARDS_TREE_6:        SohLocData(2399, LocTag.Overworld),
-    Locations.HC_SKULLTULA_TREE:            SohLocData(2400, LocTag.Overworld),
-    Locations.HC_GROTTO_TREE:               SohLocData(2401, LocTag.Overworld),
+    Locations.HC_NEAR_GUARDS_TREE_1:        SohLocData(2394, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_GUARDS_TREE_2:        SohLocData(2395, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_GUARDS_TREE_3:        SohLocData(2396, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_GUARDS_TREE_4:        SohLocData(2397, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_GUARDS_TREE_5:        SohLocData(2398, LocTag.Hyrule_Castle),
+    Locations.HC_NEAR_GUARDS_TREE_6:        SohLocData(2399, LocTag.Hyrule_Castle),
+    Locations.HC_SKULLTULA_TREE:            SohLocData(2400, LocTag.Hyrule_Castle),
+    Locations.HC_GROTTO_TREE:               SohLocData(2401, LocTag.Hyrule_Castle),
     Locations.HF_NEAR_LLR_TREE:             SohLocData(2404, LocTag.Hyrule_Field),
     Locations.HF_NEAR_LH_TREE:              SohLocData(2405, LocTag.Hyrule_Field),
     Locations.HF_CHILD_NEAR_GV_TREE:        SohLocData(2406, LocTag.Hyrule_Field),
@@ -2592,8 +2593,8 @@ links_pocket_location_table: dict[str, SohLocData] = {
 }
 
 child_zelda_location_table: dict[str, SohLocData] = {
-    Locations.HC_MALON_EGG:     SohLocData(61, LocTag.Overworld),
-    Locations.HC_ZELDAS_LETTER: SohLocData(62, LocTag.Overworld)
+    Locations.HC_MALON_EGG:     SohLocData(61, LocTag.Hyrule_Castle),
+    Locations.HC_ZELDAS_LETTER: SohLocData(62, LocTag.Hyrule_Castle)
 }
 
 carpenters_location_table: dict[str, SohLocData] = {
@@ -2617,8 +2618,8 @@ no_logic_crates_location_table: dict[str, SohLocData] = {
 }
 
 no_logic_trees_location_table: dict[str, SohLocData] = {
-    Locations.HC_NL_TREE_1: SohLocData(2402, LocTag.Overworld),
-    Locations.HC_NL_TREE_2: SohLocData(2403, LocTag.Overworld)
+    Locations.HC_NL_TREE_1: SohLocData(2402, LocTag.Hyrule_Castle),
+    Locations.HC_NL_TREE_2: SohLocData(2403, LocTag.Hyrule_Castle)
 }
 
 location_data_table: dict[str, SohLocData] = {
