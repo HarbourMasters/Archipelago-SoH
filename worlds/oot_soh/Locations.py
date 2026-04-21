@@ -90,6 +90,7 @@ class LocTag(IntFlag):
     Overworld_Fish = auto()
     Grotto_Fish = auto()
     Pond_Fish = auto()
+    Carpenter_Reward = auto()
     # no_logic = auto()
 
 class SohLocData(NamedTuple):
@@ -2626,11 +2627,11 @@ child_zelda_location_table: dict[str, SohLocData] = {
 }
 
 carpenters_location_table: dict[str, SohLocData] = {
-    Locations.GF_GERUDO_MEMBERSHIP_CARD:    SohLocData(126, LocTag.Gerudo_Fortress),
-    Locations.TH_1_TORCH_CARPENTER:         SohLocData(127, LocTag.Thieves_Hideout),
-    Locations.TH_DEAD_END_CARPENTER:        SohLocData(128, LocTag.Thieves_Hideout),
-    Locations.TH_DOUBLE_CELL_CARPENTER:     SohLocData(129, LocTag.Thieves_Hideout),
-    Locations.TH_STEEP_SLOPE_CARPENTER:     SohLocData(130, LocTag.Thieves_Hideout)
+    Locations.GF_GERUDO_MEMBERSHIP_CARD:    SohLocData(126, LocTag.Gerudo_Fortress | LocTag.Carpenter_Reward),
+    Locations.TH_1_TORCH_CARPENTER:         SohLocData(127, LocTag.Thieves_Hideout | LocTag.Carpenter_Reward),
+    Locations.TH_DEAD_END_CARPENTER:        SohLocData(128, LocTag.Thieves_Hideout | LocTag.Carpenter_Reward),
+    Locations.TH_DOUBLE_CELL_CARPENTER:     SohLocData(129, LocTag.Thieves_Hideout | LocTag.Carpenter_Reward),
+    Locations.TH_STEEP_SLOPE_CARPENTER:     SohLocData(130, LocTag.Thieves_Hideout | LocTag.Carpenter_Reward)
 }
 
 hundred_skulls_location_table: dict[str, SohLocData] = {
