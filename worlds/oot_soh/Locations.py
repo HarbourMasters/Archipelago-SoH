@@ -81,7 +81,7 @@ class LocTag(IntFlag):
     Song_Fairy = auto()
     Fountain_Fairy = auto()
     Gossip_Stone_Fairy = auto()
-    # scrub = auto()
+    Frog_Reward = auto()
     # no_logic = auto()
 
 class SohLocData(NamedTuple):
@@ -193,8 +193,8 @@ base_location_table: dict[str, SohLocData] = {
     Locations.DMC_UPPER_GROTTO_CHEST:                                       SohLocData(101, LocTag.Death_Mountain_Crater | LocTag.Chest),
     Locations.DMC_GREAT_FAIRY_REWARD:                                       SohLocData(102, LocTag.Death_Mountain_Crater | LocTag.Great_Fairy_Reward),
     Locations.ZR_OPEN_GROTTO_CHEST:                                         SohLocData(103, LocTag.Zoras_River | LocTag.Chest),
-    Locations.ZR_FROGS_IN_THE_RAIN:                                         SohLocData(104, LocTag.Zoras_River),
-    Locations.ZR_FROGS_OCARINA_GAME:                                        SohLocData(105, LocTag.Zoras_River | LocTag.Minigames),
+    Locations.ZR_FROGS_IN_THE_RAIN:                                         SohLocData(104, LocTag.Zoras_River | LocTag.Frog_Reward),
+    Locations.ZR_FROGS_OCARINA_GAME:                                        SohLocData(105, LocTag.Zoras_River | LocTag.Frog_Reward | LocTag.Minigames),
     Locations.ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH:                         SohLocData(106, LocTag.Zoras_River | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.ZR_NEAR_DOMAIN_FREESTANDING_POH:                              SohLocData(107, LocTag.Zoras_River | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.ZD_DIVING_MINIGAME:                                           SohLocData(108, LocTag.Zoras_Domain | LocTag.Minigames),
@@ -866,11 +866,11 @@ cows_location_table: dict[str, SohLocData] = {
 }
 
 frogs_location_table: dict[str, SohLocData] = {
-    Locations.ZR_FROGS_ZELDAS_LULLABY:    SohLocData(757, LocTag.Zoras_River),
-    Locations.ZR_FROGS_EPONAS_SONG:       SohLocData(758, LocTag.Zoras_River),
-    Locations.ZR_FROGS_SARIAS_SONG:       SohLocData(759, LocTag.Zoras_River),
-    Locations.ZR_FROGS_SUNS_SONG:         SohLocData(760, LocTag.Zoras_River),
-    Locations.ZR_FROGS_SONG_OF_TIME:      SohLocData(761, LocTag.Zoras_River)
+    Locations.ZR_FROGS_ZELDAS_LULLABY:    SohLocData(757, LocTag.Zoras_River | LocTag.Frog_Reward),
+    Locations.ZR_FROGS_EPONAS_SONG:       SohLocData(758, LocTag.Zoras_River | LocTag.Frog_Reward),
+    Locations.ZR_FROGS_SARIAS_SONG:       SohLocData(759, LocTag.Zoras_River | LocTag.Frog_Reward),
+    Locations.ZR_FROGS_SUNS_SONG:         SohLocData(760, LocTag.Zoras_River | LocTag.Frog_Reward),
+    Locations.ZR_FROGS_SONG_OF_TIME:      SohLocData(761, LocTag.Zoras_River | LocTag.Frog_Reward)
 }
 
 beehives_location_table: dict[str, SohLocData] = {
