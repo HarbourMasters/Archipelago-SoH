@@ -64,6 +64,7 @@ class LocTag(IntFlag):
     Gerudo_Valley = auto()
     Gerudo_Fortress = auto()
     Haunted_Wasteland = auto()
+    Desert_Colossus = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -108,7 +109,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.SHEIK_IN_FOREST:                                              SohLocData(18, LocTag.Sacred_Forest_Meadow | LocTag.Songs),
     Locations.SHEIK_IN_CRATER:                                              SohLocData(19, LocTag.Death_Mountain_Crater | LocTag.Songs),
     Locations.SHEIK_IN_ICE_CAVERN:                                          SohLocData(20, LocTag.Ice_Cavern | LocTag.Songs, DungeonLocations.ICE_CAVERN),
-    Locations.SHEIK_AT_COLOSSUS:                                            SohLocData(21, LocTag.Overworld | LocTag.Songs),
+    Locations.SHEIK_AT_COLOSSUS:                                            SohLocData(21, LocTag.Desert_Colossus | LocTag.Songs),
     Locations.SHEIK_IN_KAKARIKO:                                            SohLocData(22, LocTag.Kakoriko_Village | LocTag.Songs),
     Locations.SHEIK_AT_TEMPLE:                                              SohLocData(23, LocTag.Temple_of_Time | LocTag.Songs),
     Locations.KF_MIDO_TOP_LEFT_CHEST:                                       SohLocData(24, LocTag.Kokiri_Forest),
@@ -216,8 +217,8 @@ base_location_table: dict[str, SohLocData] = {
     # Locations.UNUSED4:                                                    SohLocData(134),
     # Locations.UNUSED5:                                                    SohLocData(135),
     Locations.WASTELAND_CHEST:                                              SohLocData(136, LocTag.Haunted_Wasteland),
-    Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Overworld),
-    Locations.COLOSSUS_FREESTANDING_POH:                                    SohLocData(138, LocTag.Overworld),
+    Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_FREESTANDING_POH:                                    SohLocData(138, LocTag.Desert_Colossus),
     Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Overworld),
     Locations.DEKU_TREE_MAP_CHEST:                                          SohLocData(140, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
     Locations.DEKU_TREE_SLINGSHOT_ROOM_SIDE_CHEST:                          SohLocData(141, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
@@ -613,9 +614,9 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.GF_GS_TOP_FLOOR:                  SohLocData(529, LocTag.Gerudo_Fortress | LocTag.Gold_Skulltula_Tokens),
     Locations.GF_GS_ARCHERY_RANGE:              SohLocData(530, LocTag.Gerudo_Fortress | LocTag.Gold_Skulltula_Tokens),
     Locations.WASTELAND_GS:                     SohLocData(531, LocTag.Haunted_Wasteland | LocTag.Gold_Skulltula_Tokens),
-    Locations.COLOSSUS_GS_BEAN_PATCH:           SohLocData(532, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.COLOSSUS_GS_TREE:                 SohLocData(533, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.COLOSSUS_GS_HILL:                 SohLocData(534, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.COLOSSUS_GS_BEAN_PATCH:           SohLocData(532, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
+    Locations.COLOSSUS_GS_TREE:                 SohLocData(533, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
+    Locations.COLOSSUS_GS_HILL:                 SohLocData(534, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
     Locations.HC_OGC_GS:                        SohLocData(535, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens)
 }
 
@@ -805,8 +806,8 @@ scrubs_location_table: dict[Locations, SohLocData] = {
     Locations.LH_DEKU_SCRUB_GROTTO_RIGHT:                                       SohLocData(710, LocTag.Lake_Hylia | LocTag.Scrubs),
     Locations.GV_DEKU_SCRUB_GROTTO_FRONT:                                       SohLocData(711, LocTag.Gerudo_Valley | LocTag.Scrubs),
     Locations.GV_DEKU_SCRUB_GROTTO_REAR:                                        SohLocData(712, LocTag.Gerudo_Valley | LocTag.Scrubs),
-    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_FRONT:                                 SohLocData(713, LocTag.Overworld | LocTag.Scrubs),
-    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_REAR:                                  SohLocData(714, LocTag.Overworld | LocTag.Scrubs),
+    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_FRONT:                                 SohLocData(713, LocTag.Desert_Colossus | LocTag.Scrubs),
+    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_REAR:                                  SohLocData(714, LocTag.Desert_Colossus | LocTag.Scrubs),
     # Locations.DEKU_TREE_MQ_DEKU_SCRUB:                                        SohLocData(715),
     Locations.DODONGOS_CAVERN_DEKU_SCRUB_SIDE_ROOM_NEAR_DODONGOS:               SohLocData(716, LocTag.Dodongos_Cavern | LocTag.Scrubs, DungeonLocations.DODONGOS_CAVERN),
     Locations.DODONGOS_CAVERN_DEKU_SCRUB_LOBBY:                                 SohLocData(717, LocTag.Dodongos_Cavern | LocTag.Scrubs, DungeonLocations.DODONGOS_CAVERN),
@@ -900,7 +901,7 @@ beehives_location_table: dict[str, SohLocData] = {
     Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Zoras_Domain),
     Locations.LH_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(791, LocTag.Lake_Hylia),
     Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Gerudo_Valley),
-    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Overworld)
+    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Desert_Colossus)
 }
 
 pots_overworld_location_table: dict[str, SohLocData] = {
@@ -1975,14 +1976,14 @@ fairies_fountain_location_table: dict[str, SohLocData] = {
     # Locations.GANONS_CASTLE_MQ_SCRUBS_FAIRY6:    SohLocData(1849),
     # Locations.GANONS_CASTLE_MQ_SCRUBS_FAIRY7:    SohLocData(1850),
     # Locations.GANONS_CASTLE_MQ_SCRUBS_FAIRY8:    SohLocData(1851),
-    Locations.COLOSSUS_OASIS_FAIRY1:               SohLocData(1852, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY2:               SohLocData(1853, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY3:               SohLocData(1854, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY4:               SohLocData(1855, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY5:               SohLocData(1856, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY6:               SohLocData(1857, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY7:               SohLocData(1858, LocTag.Overworld),
-    Locations.COLOSSUS_OASIS_FAIRY8:               SohLocData(1859, LocTag.Overworld)
+    Locations.COLOSSUS_OASIS_FAIRY1:               SohLocData(1852, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY2:               SohLocData(1853, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY3:               SohLocData(1854, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY4:               SohLocData(1855, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY5:               SohLocData(1856, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY6:               SohLocData(1857, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY7:               SohLocData(1858, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_OASIS_FAIRY8:               SohLocData(1859, LocTag.Desert_Colossus)
 }
 
 fairies_stone_location_table: dict[str, SohLocData] = {
@@ -1998,8 +1999,8 @@ fairies_stone_location_table: dict[str, SohLocData] = {
     Locations.DMC_GOSSIP_STONE_BIG_FAIRY:                        SohLocData(1899, LocTag.Death_Mountain_Crater),
     Locations.DMT_GOSSIP_STONE_FAIRY:                            SohLocData(1900, LocTag.Death_Mountain_Trail),
     Locations.DMT_GOSSIP_STONE_BIG_FAIRY:                        SohLocData(1901, LocTag.Death_Mountain_Trail),
-    Locations.COLOSSUS_GOSSIP_STONE_FAIRY:                       SohLocData(1902, LocTag.Overworld),
-    Locations.COLOSSUS_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1903, LocTag.Overworld),
+    Locations.COLOSSUS_GOSSIP_STONE_FAIRY:                       SohLocData(1902, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1903, LocTag.Desert_Colossus),
     Locations.DODONGOS_CAVERN_GOSSIP_STONE_FAIRY:                SohLocData(1904, LocTag.Dodongos_Cavern, DungeonLocations.DODONGOS_CAVERN),
     Locations.DODONGOS_CAVERN_GOSSIP_STONE_BIG_FAIRY:            SohLocData(1905, LocTag.Dodongos_Cavern, DungeonLocations.DODONGOS_CAVERN),
     # Locations.DODONGOS_CAVERN_MQ_GOSSIP_STONE_FAIRY:           SohLocData(1906),
@@ -2089,9 +2090,9 @@ fairies_bean_location_table: dict[str, SohLocData] = {
     Locations.GV_BEAN_SPROUT_FAIRY1:                 SohLocData(1875, LocTag.Gerudo_Valley),
     Locations.GV_BEAN_SPROUT_FAIRY2:                 SohLocData(1876, LocTag.Gerudo_Valley),
     Locations.GV_BEAN_SPROUT_FAIRY3:                 SohLocData(1877, LocTag.Gerudo_Valley),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY1:           SohLocData(1878, LocTag.Overworld),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY2:           SohLocData(1879, LocTag.Overworld),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY3:           SohLocData(1880, LocTag.Overworld),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY1:           SohLocData(1878, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY2:           SohLocData(1879, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY3:           SohLocData(1880, LocTag.Desert_Colossus),
     Locations.GRAVEYARD_BEAN_SPROUT_FAIRY1:          SohLocData(1881, LocTag.Graveyard),
     Locations.GRAVEYARD_BEAN_SPROUT_FAIRY2:          SohLocData(1882, LocTag.Graveyard),
     Locations.GRAVEYARD_BEAN_SPROUT_FAIRY3:          SohLocData(1883, LocTag.Graveyard),
