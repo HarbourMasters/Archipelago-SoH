@@ -65,6 +65,7 @@ class LocTag(IntFlag):
     Gerudo_Fortress = auto()
     Haunted_Wasteland = auto()
     Desert_Colossus = auto()
+    Outside_Ganons_Castle = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -219,7 +220,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.WASTELAND_CHEST:                                              SohLocData(136, LocTag.Haunted_Wasteland),
     Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Desert_Colossus),
     Locations.COLOSSUS_FREESTANDING_POH:                                    SohLocData(138, LocTag.Desert_Colossus),
-    Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Overworld),
+    Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Outside_Ganons_Castle),
     Locations.DEKU_TREE_MAP_CHEST:                                          SohLocData(140, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
     Locations.DEKU_TREE_SLINGSHOT_ROOM_SIDE_CHEST:                          SohLocData(141, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
     Locations.DEKU_TREE_SLINGSHOT_CHEST:                                    SohLocData(142, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
@@ -617,7 +618,7 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.COLOSSUS_GS_BEAN_PATCH:           SohLocData(532, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
     Locations.COLOSSUS_GS_TREE:                 SohLocData(533, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
     Locations.COLOSSUS_GS_HILL:                 SohLocData(534, LocTag.Desert_Colossus | LocTag.Gold_Skulltula_Tokens),
-    Locations.HC_OGC_GS:                        SohLocData(535, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens)
+    Locations.HC_OGC_GS:                        SohLocData(535, LocTag.Outside_Ganons_Castle | LocTag.Gold_Skulltula_Tokens)
 }
 
 gold_skulltula_dungeon_location_table: dict[str, SohLocData] = {
