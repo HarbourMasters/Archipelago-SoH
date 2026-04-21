@@ -39,7 +39,7 @@ class LocTag(IntFlag):
     Ice_Cavern = auto()
     Gerudo_Training_Ground = auto()
     Ganons_Castle = auto()
-    Overworld = auto()
+    Links_Pocket = auto()
     Shops = auto()
     Scrubs = auto()
     Merchants = auto()
@@ -2607,7 +2607,7 @@ fish_overworld_location_table: dict[str, SohLocData] = {
 }
 
 links_pocket_location_table: dict[str, SohLocData] = {
-    Locations.LINKS_POCKET: SohLocData(1, LocTag.Overworld),
+    Locations.LINKS_POCKET: SohLocData(1, LocTag.Links_Pocket),
 }
 
 child_zelda_location_table: dict[str, SohLocData] = {
