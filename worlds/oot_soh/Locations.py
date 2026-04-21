@@ -55,6 +55,7 @@ class LocTag(IntFlag):
     Goron_City = auto()
     Death_Mountain_Crater = auto()
     Zoras_River = auto()
+    Zoras_Domain = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -183,9 +184,9 @@ base_location_table: dict[str, SohLocData] = {
     Locations.ZR_FROGS_OCARINA_GAME:                                        SohLocData(105, LocTag.Zoras_River | LocTag.Minigames),
     Locations.ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH:                         SohLocData(106, LocTag.Zoras_River),
     Locations.ZR_NEAR_DOMAIN_FREESTANDING_POH:                              SohLocData(107, LocTag.Zoras_River),
-    Locations.ZD_DIVING_MINIGAME:                                           SohLocData(108, LocTag.Overworld | LocTag.Minigames),
-    Locations.ZD_CHEST:                                                     SohLocData(109, LocTag.Overworld),
-    Locations.ZD_KING_ZORA_THAWED:                                          SohLocData(110, LocTag.Overworld),
+    Locations.ZD_DIVING_MINIGAME:                                           SohLocData(108, LocTag.Zoras_Domain | LocTag.Minigames),
+    Locations.ZD_CHEST:                                                     SohLocData(109, LocTag.Zoras_Domain),
+    Locations.ZD_KING_ZORA_THAWED:                                          SohLocData(110, LocTag.Zoras_Domain),
     Locations.ZF_GREAT_FAIRY_REWARD:                                        SohLocData(111, LocTag.Overworld),
     Locations.ZF_ICEBERG_FREESTANDING_POH:                                  SohLocData(112, LocTag.Overworld),
     Locations.ZF_BOTTOM_FREESTANDING_POH:                                   SohLocData(113, LocTag.Overworld),
@@ -588,7 +589,7 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.ZR_GS_LADDER:                     SohLocData(513, LocTag.Zoras_River | LocTag.Gold_Skulltula_Tokens),
     Locations.ZR_GS_NEAR_RAISED_GROTTOS:        SohLocData(514, LocTag.Zoras_River | LocTag.Gold_Skulltula_Tokens),
     Locations.ZR_GS_ABOVE_BRIDGE:               SohLocData(515, LocTag.Zoras_River | LocTag.Gold_Skulltula_Tokens),
-    Locations.ZD_GS_FROZEN_WATERFALL:           SohLocData(516, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.ZD_GS_FROZEN_WATERFALL:           SohLocData(516, LocTag.Zoras_Domain | LocTag.Gold_Skulltula_Tokens),
     Locations.ZF_GS_ABOVE_THE_LOG:              SohLocData(517, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.ZF_GS_TREE:                       SohLocData(518, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.ZF_GS_HIDDEN_CAVE:                SohLocData(519, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
@@ -758,14 +759,14 @@ shops_location_table: dict[str, SohLocData] = {
     Locations.GC_SHOP_ITEM6:                SohLocData(677, LocTag.Goron_City | LocTag.Shops),
     Locations.GC_SHOP_ITEM7:                SohLocData(678, LocTag.Goron_City | LocTag.Shops),
     Locations.GC_SHOP_ITEM8:                SohLocData(679, LocTag.Goron_City | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM1:                SohLocData(680, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM2:                SohLocData(681, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM3:                SohLocData(682, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM4:                SohLocData(683, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM5:                SohLocData(684, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM6:                SohLocData(685, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM7:                SohLocData(686, LocTag.Overworld | LocTag.Shops),
-    Locations.ZD_SHOP_ITEM8:                SohLocData(687, LocTag.Overworld | LocTag.Shops)
+    Locations.ZD_SHOP_ITEM1:                SohLocData(680, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM2:                SohLocData(681, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM3:                SohLocData(682, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM4:                SohLocData(683, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM5:                SohLocData(684, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM6:                SohLocData(685, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM7:                SohLocData(686, LocTag.Zoras_Domain | LocTag.Shops),
+    Locations.ZD_SHOP_ITEM8:                SohLocData(687, LocTag.Zoras_Domain | LocTag.Shops)
 }
 
 scrubs_one_time_only: tuple = (Locations.LW_DEKU_SCRUB_NEAR_BRIDGE, Locations.LW_DEKU_SCRUB_GROTTO_FRONT, Locations.HF_DEKU_SCRUB_GROTTO)
@@ -826,7 +827,7 @@ trade_items_location_table: dict[str, SohLocData] = {
     Locations.KAK_TRADE_POCKET_CUCCO:       SohLocData(737, LocTag.Kakoriko_Village | LocTag.Trade_Location),
     Locations.DMT_TRADE_BROKEN_SWORD:       SohLocData(738, LocTag.Death_Mountain_Trail | LocTag.Trade_Location),
     Locations.DMT_TRADE_EYEDROPS:           SohLocData(739, LocTag.Death_Mountain_Trail | LocTag.Trade_Location),
-    Locations.ZD_TRADE_PRESCRIPTION:        SohLocData(740, LocTag.Overworld | LocTag.Trade_Location),
+    Locations.ZD_TRADE_PRESCRIPTION:        SohLocData(740, LocTag.Zoras_Domain | LocTag.Trade_Location),
     Locations.LH_LAB_TRADE_EYEBALL_FROG:    SohLocData(741, LocTag.Overworld | LocTag.Trade_Location),
     Locations.GV_TRADE_SAW:                 SohLocData(742, LocTag.Overworld | LocTag.Trade_Location)
 }
@@ -886,9 +887,9 @@ beehives_location_table: dict[str, SohLocData] = {
     Locations.ZR_OPEN_GROTTO_BEEHIVE_LEFT:               SohLocData(785, LocTag.Zoras_River),
     Locations.ZR_OPEN_GROTTO_BEEHIVE_RIGHT:              SohLocData(786, LocTag.Zoras_River),
     Locations.ZR_STORMS_GROTTO_BEEHIVE:                  SohLocData(787, LocTag.Zoras_River),
-    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_LEFT:     SohLocData(788, LocTag.Overworld),
-    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_RIGHT:    SohLocData(789, LocTag.Overworld),
-    Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Overworld),
+    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_LEFT:     SohLocData(788, LocTag.Zoras_Domain),
+    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_RIGHT:    SohLocData(789, LocTag.Zoras_Domain),
+    Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Zoras_Domain),
     Locations.LH_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(791, LocTag.Overworld),
     Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Overworld),
     Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Overworld)
@@ -1024,11 +1025,11 @@ pots_overworld_location_table: dict[str, SohLocData] = {
     Locations.DMC_NEAR_GCPOT2:                   SohLocData(920, LocTag.Death_Mountain_Crater | LocTag.Pot),
     Locations.DMC_NEAR_GCPOT3:                   SohLocData(921, LocTag.Death_Mountain_Crater | LocTag.Pot),
     Locations.DMC_NEAR_GCPOT4:                   SohLocData(922, LocTag.Death_Mountain_Crater | LocTag.Pot),
-    Locations.ZD_NEAR_SHOP_POT1:                 SohLocData(923, LocTag.Overworld | LocTag.Pot),
-    Locations.ZD_NEAR_SHOP_POT2:                 SohLocData(924, LocTag.Overworld | LocTag.Pot),
-    Locations.ZD_NEAR_SHOP_POT3:                 SohLocData(925, LocTag.Overworld | LocTag.Pot),
-    Locations.ZD_NEAR_SHOP_POT4:                 SohLocData(926, LocTag.Overworld | LocTag.Pot),
-    Locations.ZD_NEAR_SHOP_POT5:                 SohLocData(927, LocTag.Overworld | LocTag.Pot),
+    Locations.ZD_NEAR_SHOP_POT1:                 SohLocData(923, LocTag.Zoras_Domain | LocTag.Pot),
+    Locations.ZD_NEAR_SHOP_POT2:                 SohLocData(924, LocTag.Zoras_Domain | LocTag.Pot),
+    Locations.ZD_NEAR_SHOP_POT3:                 SohLocData(925, LocTag.Zoras_Domain | LocTag.Pot),
+    Locations.ZD_NEAR_SHOP_POT4:                 SohLocData(926, LocTag.Zoras_Domain | LocTag.Pot),
+    Locations.ZD_NEAR_SHOP_POT5:                 SohLocData(927, LocTag.Zoras_Domain | LocTag.Pot),
     Locations.ZF_HIDDEN_CAVE_POT1:               SohLocData(928, LocTag.Overworld | LocTag.Pot),
     Locations.ZF_HIDDEN_CAVE_POT2:               SohLocData(929, LocTag.Overworld | LocTag.Pot),
     Locations.ZF_HIDDEN_CAVE_POT3:               SohLocData(930, LocTag.Overworld | LocTag.Pot),
@@ -1926,14 +1927,14 @@ fairies_fountain_location_table: dict[str, SohLocData] = {
     Locations.HF_FAIRY_GROTTO_FAIRY6:              SohLocData(1809, LocTag.Hyrule_Field),
     Locations.HF_FAIRY_GROTTO_FAIRY7:              SohLocData(1810, LocTag.Hyrule_Field),
     Locations.HF_FAIRY_GROTTO_FAIRY8:              SohLocData(1811, LocTag.Hyrule_Field),
-    Locations.ZD_FAIRY_GROTTO_FAIRY1:              SohLocData(1812, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY2:              SohLocData(1813, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY3:              SohLocData(1814, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY4:              SohLocData(1815, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY5:              SohLocData(1816, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY6:              SohLocData(1817, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY7:              SohLocData(1818, LocTag.Overworld),
-    Locations.ZD_FAIRY_GROTTO_FAIRY8:              SohLocData(1819, LocTag.Overworld),
+    Locations.ZD_FAIRY_GROTTO_FAIRY1:              SohLocData(1812, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY2:              SohLocData(1813, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY3:              SohLocData(1814, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY4:              SohLocData(1815, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY5:              SohLocData(1816, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY6:              SohLocData(1817, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY7:              SohLocData(1818, LocTag.Zoras_Domain),
+    Locations.ZD_FAIRY_GROTTO_FAIRY8:              SohLocData(1819, LocTag.Zoras_Domain),
     Locations.GF_FAIRY_GROTTO_FAIRY1:              SohLocData(1820, LocTag.Overworld),
     Locations.GF_FAIRY_GROTTO_FAIRY2:              SohLocData(1821, LocTag.Overworld),
     Locations.GF_FAIRY_GROTTO_FAIRY3:              SohLocData(1822, LocTag.Overworld),
@@ -2031,8 +2032,8 @@ fairies_stone_location_table: dict[str, SohLocData] = {
     Locations.SFM_MAZE_UPPER_GOSSIP_STONE_BIG_FAIRY:             SohLocData(1941, LocTag.Overworld),
     Locations.SFM_SARIA_GOSSIP_STONE_FAIRY:                      SohLocData(1942, LocTag.Overworld),
     Locations.SFM_SARIA_GOSSIP_STONE_BIG_FAIRY:                  SohLocData(1943, LocTag.Overworld),
-    Locations.ZD_GOSSIP_STONE_FAIRY:                             SohLocData(1944, LocTag.Overworld),
-    Locations.ZD_GOSSIP_STONE_BIG_FAIRY:                         SohLocData(1945, LocTag.Overworld),
+    Locations.ZD_GOSSIP_STONE_FAIRY:                             SohLocData(1944, LocTag.Zoras_Domain),
+    Locations.ZD_GOSSIP_STONE_BIG_FAIRY:                         SohLocData(1945, LocTag.Zoras_Domain),
     Locations.ZF_FAIRY_GOSSIP_STONE_FAIRY:                       SohLocData(1946, LocTag.Overworld),
     Locations.ZF_FAIRY_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1947, LocTag.Overworld),
     Locations.ZF_JABU_GOSSIP_STONE_FAIRY:                        SohLocData(1948, LocTag.Overworld),
@@ -2587,11 +2588,11 @@ fish_overworld_location_table: dict[str, SohLocData] = {
     Locations.KF_STORMS_GROTTO_FISH:            SohLocData(2385, LocTag.Kokiri_Forest),
     Locations.LW_NEAR_SHORTCUTS_GROTTO_FISH:    SohLocData(2386, LocTag.Kokiri_Forest),
     Locations.ZR_OPEN_GROTTO_FISH:              SohLocData(2387, LocTag.Zoras_River),
-    Locations.ZD_FISH1:                         SohLocData(2388, LocTag.Overworld),
-    Locations.ZD_FISH2:                         SohLocData(2389, LocTag.Overworld),
-    Locations.ZD_FISH3:                         SohLocData(2390, LocTag.Overworld),
-    Locations.ZD_FISH4:                         SohLocData(2391, LocTag.Overworld),
-    Locations.ZD_FISH5:                         SohLocData(2392, LocTag.Overworld)
+    Locations.ZD_FISH1:                         SohLocData(2388, LocTag.Zoras_Domain),
+    Locations.ZD_FISH2:                         SohLocData(2389, LocTag.Zoras_Domain),
+    Locations.ZD_FISH3:                         SohLocData(2390, LocTag.Zoras_Domain),
+    Locations.ZD_FISH4:                         SohLocData(2391, LocTag.Zoras_Domain),
+    Locations.ZD_FISH5:                         SohLocData(2392, LocTag.Zoras_Domain)
 }
 
 links_pocket_location_table: dict[str, SohLocData] = {
