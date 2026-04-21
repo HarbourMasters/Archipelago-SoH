@@ -61,6 +61,7 @@ class LocTag(IntFlag):
     Zoras_Domain = auto()
     Zoras_Fountain = auto()
     Lake_Hylia = auto()
+    Gerudo_Valley = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -201,9 +202,9 @@ base_location_table: dict[str, SohLocData] = {
     Locations.LH_LAB_DIVE:                                                  SohLocData(117, LocTag.Lake_Hylia),
     Locations.LH_FREESTANDING_POH:                                          SohLocData(118, LocTag.Lake_Hylia),
     Locations.LH_SUN:                                                       SohLocData(119, LocTag.Lake_Hylia),
-    Locations.GV_CRATE_FREESTANDING_POH:                                    SohLocData(120, LocTag.Overworld),
-    Locations.GV_WATERFALL_FREESTANDING_POH:                                SohLocData(121, LocTag.Overworld),
-    Locations.GV_CHEST:                                                     SohLocData(122, LocTag.Overworld),
+    Locations.GV_CRATE_FREESTANDING_POH:                                    SohLocData(120, LocTag.Gerudo_Valley),
+    Locations.GV_WATERFALL_FREESTANDING_POH:                                SohLocData(121, LocTag.Gerudo_Valley),
+    Locations.GV_CHEST:                                                     SohLocData(122, LocTag.Gerudo_Valley),
     Locations.GF_CHEST:                                                     SohLocData(123, LocTag.Overworld),
     Locations.GF_HBA_1000_POINTS:                                           SohLocData(124, LocTag.Overworld | LocTag.Shooting_Minigames | LocTag.Minigames),
     Locations.GF_HBA_1500_POINTS:                                           SohLocData(125, LocTag.Overworld | LocTag.Shooting_Minigames | LocTag.Minigames),
@@ -603,10 +604,10 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.LH_GS_SMALL_ISLAND:               SohLocData(522, LocTag.Lake_Hylia | LocTag.Gold_Skulltula_Tokens),
     Locations.LH_GS_LAB_CRATE:                  SohLocData(523, LocTag.Lake_Hylia | LocTag.Gold_Skulltula_Tokens),
     Locations.LH_GS_TREE:                       SohLocData(524, LocTag.Lake_Hylia | LocTag.Gold_Skulltula_Tokens),
-    Locations.GV_GS_SMALL_BRIDGE:               SohLocData(525, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.GV_GS_BEAN_PATCH:                 SohLocData(526, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.GV_GS_BEHIND_TENT:                SohLocData(527, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.GV_GS_PILLAR:                     SohLocData(528, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.GV_GS_SMALL_BRIDGE:               SohLocData(525, LocTag.Gerudo_Valley | LocTag.Gold_Skulltula_Tokens),
+    Locations.GV_GS_BEAN_PATCH:                 SohLocData(526, LocTag.Gerudo_Valley | LocTag.Gold_Skulltula_Tokens),
+    Locations.GV_GS_BEHIND_TENT:                SohLocData(527, LocTag.Gerudo_Valley | LocTag.Gold_Skulltula_Tokens),
+    Locations.GV_GS_PILLAR:                     SohLocData(528, LocTag.Gerudo_Valley | LocTag.Gold_Skulltula_Tokens),
     Locations.GF_GS_TOP_FLOOR:                  SohLocData(529, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.GF_GS_ARCHERY_RANGE:              SohLocData(530, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.WASTELAND_GS:                     SohLocData(531, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
@@ -800,8 +801,8 @@ scrubs_location_table: dict[Locations, SohLocData] = {
     Locations.LH_DEKU_SCRUB_GROTTO_LEFT:                                        SohLocData(708, LocTag.Lake_Hylia | LocTag.Scrubs),
     Locations.LH_DEKU_SCRUB_GROTTO_CENTER:                                      SohLocData(709, LocTag.Lake_Hylia | LocTag.Scrubs),
     Locations.LH_DEKU_SCRUB_GROTTO_RIGHT:                                       SohLocData(710, LocTag.Lake_Hylia | LocTag.Scrubs),
-    Locations.GV_DEKU_SCRUB_GROTTO_FRONT:                                       SohLocData(711, LocTag.Overworld | LocTag.Scrubs),
-    Locations.GV_DEKU_SCRUB_GROTTO_REAR:                                        SohLocData(712, LocTag.Overworld | LocTag.Scrubs),
+    Locations.GV_DEKU_SCRUB_GROTTO_FRONT:                                       SohLocData(711, LocTag.Gerudo_Valley | LocTag.Scrubs),
+    Locations.GV_DEKU_SCRUB_GROTTO_REAR:                                        SohLocData(712, LocTag.Gerudo_Valley | LocTag.Scrubs),
     Locations.COLOSSUS_DEKU_SCRUB_GROTTO_FRONT:                                 SohLocData(713, LocTag.Overworld | LocTag.Scrubs),
     Locations.COLOSSUS_DEKU_SCRUB_GROTTO_REAR:                                  SohLocData(714, LocTag.Overworld | LocTag.Scrubs),
     # Locations.DEKU_TREE_MQ_DEKU_SCRUB:                                        SohLocData(715),
@@ -834,7 +835,7 @@ trade_items_location_table: dict[str, SohLocData] = {
     Locations.DMT_TRADE_EYEDROPS:           SohLocData(739, LocTag.Death_Mountain_Trail | LocTag.Trade_Location),
     Locations.ZD_TRADE_PRESCRIPTION:        SohLocData(740, LocTag.Zoras_Domain | LocTag.Trade_Location),
     Locations.LH_LAB_TRADE_EYEBALL_FROG:    SohLocData(741, LocTag.Lake_Hylia | LocTag.Trade_Location),
-    Locations.GV_TRADE_SAW:                 SohLocData(742, LocTag.Overworld | LocTag.Trade_Location)
+    Locations.GV_TRADE_SAW:                 SohLocData(742, LocTag.Gerudo_Valley | LocTag.Trade_Location)
 }
 
 merchants_items_location_table: dict[Locations, SohLocData] = {
@@ -853,7 +854,7 @@ cows_location_table: dict[str, SohLocData] = {
     Locations.LLR_TOWER_RIGHT_COW:          SohLocData(752, LocTag.Lon_Lon_Ranch),
     Locations.KAK_IMPAS_HOUSE_COW:          SohLocData(753, LocTag.Kakoriko_Village),
     Locations.DMT_COW_GROTTO_COW:           SohLocData(754, LocTag.Death_Mountain_Trail),
-    Locations.GV_COW:                       SohLocData(755, LocTag.Overworld),
+    Locations.GV_COW:                       SohLocData(755, LocTag.Gerudo_Valley),
     # Locations.JABU_JABUS_BELLY_MQ_COW:    SohLocData(756),
 }
 
@@ -896,7 +897,7 @@ beehives_location_table: dict[str, SohLocData] = {
     Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_RIGHT:    SohLocData(789, LocTag.Zoras_Domain),
     Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Zoras_Domain),
     Locations.LH_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(791, LocTag.Lake_Hylia),
-    Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Overworld),
+    Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Gerudo_Valley),
     Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Overworld)
 }
 
@@ -1447,8 +1448,8 @@ pots_dungeon_location_table: dict[str, SohLocData] = {
 }
 
 crates_overworld_location_table: dict[str, SohLocData] = {
-    Locations.GV_FREESTANDING_POH_CRATE:                SohLocData(1334, LocTag.Overworld),
-    Locations.GV_NEAR_COW_CRATE:                        SohLocData(1335, LocTag.Overworld),
+    Locations.GV_FREESTANDING_POH_CRATE:                SohLocData(1334, LocTag.Gerudo_Valley),
+    Locations.GV_NEAR_COW_CRATE:                        SohLocData(1335, LocTag.Gerudo_Valley),
     Locations.GF_ABOVE_JAIL_CRATE:                      SohLocData(1340, LocTag.Overworld),
     Locations.GF_SOUTHMOST_CENTER_CRATE:                SohLocData(1341, LocTag.Overworld),
     Locations.GF_MIDDLE_SOUTH_CENTER_CRATE:             SohLocData(1342, LocTag.Overworld),
@@ -1746,14 +1747,14 @@ freestanding_overworld_location_table: dict[str, SohLocData] = {
     Locations.GRAVEYARD_DAMPES_GRAVE_RUPEE6:                SohLocData(1629, LocTag.Graveyard),
     Locations.GRAVEYARD_DAMPES_GRAVE_RUPEE7:                SohLocData(1630, LocTag.Graveyard),
     Locations.GRAVEYARD_DAMPES_GRAVE_RUPEE8:                SohLocData(1631, LocTag.Graveyard),
-    Locations.GV_OCTOROK_GROTTO_FRONT_LEFT_BLUE_RUPEE:      SohLocData(1632, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_FRONT_RIGHT_BLUE_RUPEE:     SohLocData(1633, LocTag.Overworld),
-    Locations.GV__OCTOROK_GROTTO_BACK_BLUE_RUPEE:           SohLocData(1634, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_FRONT_LEFT_GREEN_RUPEE:     SohLocData(1635, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_FRONT_RIGHT_GREEN_RUPEE:    SohLocData(1636, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_BACK_LEFT_GREEN_RUPEE:      SohLocData(1637, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_BACK_RIGHT_GREEN_RUPEE:     SohLocData(1638, LocTag.Overworld),
-    Locations.GV_OCTOROK_GROTTO_RED_RUPEE:                  SohLocData(1639, LocTag.Overworld),
+    Locations.GV_OCTOROK_GROTTO_FRONT_LEFT_BLUE_RUPEE:      SohLocData(1632, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_FRONT_RIGHT_BLUE_RUPEE:     SohLocData(1633, LocTag.Gerudo_Valley),
+    Locations.GV__OCTOROK_GROTTO_BACK_BLUE_RUPEE:           SohLocData(1634, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_FRONT_LEFT_GREEN_RUPEE:     SohLocData(1635, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_FRONT_RIGHT_GREEN_RUPEE:    SohLocData(1636, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_BACK_LEFT_GREEN_RUPEE:      SohLocData(1637, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_BACK_RIGHT_GREEN_RUPEE:     SohLocData(1638, LocTag.Gerudo_Valley),
+    Locations.GV_OCTOROK_GROTTO_RED_RUPEE:                  SohLocData(1639, LocTag.Gerudo_Valley),
     Locations.DMT_BLUE_RUPEE_UNDER_BOULDER:                 SohLocData(1640, LocTag.Death_Mountain_Trail),
     Locations.DMT_RED_RUPEE_UNDER_BOULDER:                  SohLocData(1641, LocTag.Death_Mountain_Trail),
     Locations.DMT_COW_GROTTO_LEFT_HEART:                    SohLocData(1642, LocTag.Death_Mountain_Trail),
@@ -2001,8 +2002,8 @@ fairies_stone_location_table: dict[str, SohLocData] = {
     Locations.DODONGOS_CAVERN_GOSSIP_STONE_BIG_FAIRY:            SohLocData(1905, LocTag.Dodongos_Cavern, DungeonLocations.DODONGOS_CAVERN),
     # Locations.DODONGOS_CAVERN_MQ_GOSSIP_STONE_FAIRY:           SohLocData(1906),
     # Locations.DODONGOS_CAVERN_MQ_GOSSIP_STONE_BIG_FAIRY:       SohLocData(1907),
-    Locations.GV_GOSSIP_STONE_FAIRY:                             SohLocData(1908, LocTag.Overworld),
-    Locations.GV_GOSSIP_STONE_BIG_FAIRY:                         SohLocData(1909, LocTag.Overworld),
+    Locations.GV_GOSSIP_STONE_FAIRY:                             SohLocData(1908, LocTag.Gerudo_Valley),
+    Locations.GV_GOSSIP_STONE_BIG_FAIRY:                         SohLocData(1909, LocTag.Gerudo_Valley),
     Locations.GC_MAZE_GOSSIP_STONE_FAIRY:                        SohLocData(1910, LocTag.Goron_City),
     Locations.GC_MAZE_GOSSIP_STONE_BIG_FAIRY:                    SohLocData(1911, LocTag.Goron_City),
     Locations.GC_MEDIGORON_GOSSIP_STONE_FAIRY:                   SohLocData(1912, LocTag.Goron_City),
@@ -2083,9 +2084,9 @@ fairies_bean_location_table: dict[str, SohLocData] = {
     Locations.LH_BEAN_SPROUT_FAIRY1:                 SohLocData(1872, LocTag.Lake_Hylia),
     Locations.LH_BEAN_SPROUT_FAIRY2:                 SohLocData(1873, LocTag.Lake_Hylia),
     Locations.LH_BEAN_SPROUT_FAIRY3:                 SohLocData(1874, LocTag.Lake_Hylia),
-    Locations.GV_BEAN_SPROUT_FAIRY1:                 SohLocData(1875, LocTag.Overworld),
-    Locations.GV_BEAN_SPROUT_FAIRY2:                 SohLocData(1876, LocTag.Overworld),
-    Locations.GV_BEAN_SPROUT_FAIRY3:                 SohLocData(1877, LocTag.Overworld),
+    Locations.GV_BEAN_SPROUT_FAIRY1:                 SohLocData(1875, LocTag.Gerudo_Valley),
+    Locations.GV_BEAN_SPROUT_FAIRY2:                 SohLocData(1876, LocTag.Gerudo_Valley),
+    Locations.GV_BEAN_SPROUT_FAIRY3:                 SohLocData(1877, LocTag.Gerudo_Valley),
     Locations.COLOSSUS_BEAN_SPROUT_FAIRY1:           SohLocData(1878, LocTag.Overworld),
     Locations.COLOSSUS_BEAN_SPROUT_FAIRY2:           SohLocData(1879, LocTag.Overworld),
     Locations.COLOSSUS_BEAN_SPROUT_FAIRY3:           SohLocData(1880, LocTag.Overworld),
@@ -2622,10 +2623,10 @@ hundred_skulls_location_table: dict[str, SohLocData] = {
 }
 
 no_logic_crates_location_table: dict[str, SohLocData] = {
-    Locations.GV_NEAR_BRIDGE_CRATE1:        SohLocData(1336, LocTag.Overworld),
-    Locations.GV_NEAR_BRIDGE_CRATE2:        SohLocData(1337, LocTag.Overworld),
-    Locations.GV_NEAR_BRIDGE_CRATE3:        SohLocData(1338, LocTag.Overworld),
-    Locations.GV_NEAR_BRIDGE_CRATE4:        SohLocData(1339, LocTag.Overworld),
+    Locations.GV_NEAR_BRIDGE_CRATE1:        SohLocData(1336, LocTag.Gerudo_Valley),
+    Locations.GV_NEAR_BRIDGE_CRATE2:        SohLocData(1337, LocTag.Gerudo_Valley),
+    Locations.GV_NEAR_BRIDGE_CRATE3:        SohLocData(1338, LocTag.Gerudo_Valley),
+    Locations.GV_NEAR_BRIDGE_CRATE4:        SohLocData(1339, LocTag.Gerudo_Valley),
     Locations.GF_NORTH_TARGET_CHILD_CRATE:  SohLocData(1358, LocTag.Overworld)
 }
 
