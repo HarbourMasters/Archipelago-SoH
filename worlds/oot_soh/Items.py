@@ -1,5 +1,5 @@
 from typing import NamedTuple
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 from BaseClasses import Item, ItemClassification as IC
 from .Enums import *
 
@@ -14,6 +14,65 @@ class ItemType(IntEnum):
     song = 1
     magic = 2  # things that cost magic
 
+class GroupTag(IntFlag):
+    Clear = 0
+    Sword = auto()
+    Shield = auto()
+    Tunic = auto()
+    Lens = auto()
+    Hammer = auto()
+    Magic_Arrows = auto()
+    Beans = auto()
+    Token = auto()
+    Hookshot = auto()
+    Longshot = auto()
+    Strength_Upgrade = auto()
+    Goron_Bracelet = auto()
+    Silver_Gauntlets = auto()
+    Golden_Gauntlets = auto()
+    Bomb_Bag = auto()
+    Bombs = auto()
+    Bow = auto()
+    Slingshot = auto()
+    Wallet = auto()
+    Giant_Wallet = auto()
+    Adult_Wallet = auto()
+    Tycoon_Wallet = auto()
+    Bronze_Scale = auto()
+    Silver_Scale = auto()
+    Golden_Scale = auto()
+    Scale = auto()
+    Deku_Nut_Bag = auto()
+    Deku_Stick_Bag = auto()
+    Progressive_Bombchu_Bag = auto()
+    Magic_Meter = auto()
+    Ocarina = auto()
+    Bottle = auto()
+    Song = auto()
+    Map = auto()
+    Compass = auto()
+    Boss_Key = auto()
+    Small_Key = auto()
+    Forest_Temple_Key = auto()
+    Fire_Temple_Key = auto()
+    Water_Temple_Key = auto()
+    Spirit_Temple_Key = auto()
+    Shadow_Temple_Key = auto()
+    Bottom_of_the_Well_Key = auto()
+    BotW_Key = auto()
+    Gerudo_Training_Ground_Key = auto()
+    GTG_Key = auto()
+    Gerudo_Fortress_Key = auto()
+    Ganons_Castle_Key = auto()
+    Treasure_Game_Key = auto()
+    Spiritual_Stone = auto()
+    Medallion = auto()
+    Greg = auto()
+    Health_Upgrade = auto()
+    Trap = auto()
+    Boss_Soul = auto()
+    Ocarina_Button = auto()
+    Overworld_Key = auto()
 
 class SohItemData(NamedTuple):
     # None means it's just here for the data, and won't be added to the datapackage
@@ -24,36 +83,36 @@ class SohItemData(NamedTuple):
     child_only: bool = False
     adult_only: bool = False
     # todo: fill out more item groups
-    item_groups: list[str] = []  # for item_name_groups
+    item_groups: GroupTag = GroupTag.Clear
 
 
 item_data_table: dict[Items, SohItemData] = {
     # Items commented out that can never appear in the item pool and are only used on Ship internally
 
-    Items.KOKIRI_SWORD: SohItemData(1, IC.progression | IC.useful, 0, child_only=True, item_groups=["Swords"]),
-    Items.MASTER_SWORD: SohItemData(2, IC.progression | IC.useful, 0, adult_only=True, item_groups=["Swords"]),
-    Items.GIANTS_KNIFE: SohItemData(3, IC.progression, 0, adult_only=True, item_groups=["Swords"]),
-    Items.BIGGORONS_SWORD: SohItemData(4, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Swords"]),
-    Items.DEKU_SHIELD: SohItemData(5, IC.useful, 1, child_only=True, item_groups=["Shields"]),
-    Items.HYLIAN_SHIELD: SohItemData(6, IC.useful, 1, item_groups=["Shields"]),
-    Items.MIRROR_SHIELD: SohItemData(7, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Shields"]),
-    Items.GORON_TUNIC: SohItemData(8, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Tunics"]),
-    Items.ZORA_TUNIC: SohItemData(9, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Tunics"]),
+    Items.KOKIRI_SWORD: SohItemData(1, IC.progression | IC.useful, 0, child_only=True, item_groups=GroupTag.Sword),
+    Items.MASTER_SWORD: SohItemData(2, IC.progression | IC.useful, 0, adult_only=True, item_groups=GroupTag.Sword),
+    Items.GIANTS_KNIFE: SohItemData(3, IC.progression, 0, adult_only=True, item_groups=GroupTag.Sword),
+    Items.BIGGORONS_SWORD: SohItemData(4, IC.progression | IC.useful, 1, adult_only=True, item_groups=GroupTag.Sword),
+    Items.DEKU_SHIELD: SohItemData(5, IC.useful, 1, child_only=True, item_groups=GroupTag.Shield),
+    Items.HYLIAN_SHIELD: SohItemData(6, IC.useful, 1, item_groups=GroupTag.Shield),
+    Items.MIRROR_SHIELD: SohItemData(7, IC.progression | IC.useful, 1, adult_only=True, item_groups=GroupTag.Shield),
+    Items.GORON_TUNIC: SohItemData(8, IC.progression | IC.useful, 1, adult_only=True, item_groups=GroupTag.Tunic),
+    Items.ZORA_TUNIC: SohItemData(9, IC.progression | IC.useful, 1, adult_only=True, item_groups=GroupTag.Tunic),
     Items.IRON_BOOTS: SohItemData(10, IC.progression | IC.useful, 1, adult_only=True),
     Items.HOVER_BOOTS: SohItemData(11, IC.progression | IC.useful, 1, adult_only=True),
     Items.BOOMERANG: SohItemData(12, IC.progression | IC.useful, 1, child_only=True),
-    Items.LENS_OF_TRUTH: SohItemData(13, IC.progression | IC.useful, 1, item_type=ItemType.magic, item_groups=["Lens"]),
-    Items.MEGATON_HAMMER: SohItemData(14, IC.progression | IC.useful, 1, adult_only=True, item_groups=["Hammer"]),
+    Items.LENS_OF_TRUTH: SohItemData(13, IC.progression | IC.useful, 1, item_type=ItemType.magic, item_groups=GroupTag.Lens),
+    Items.MEGATON_HAMMER: SohItemData(14, IC.progression | IC.useful, 1, adult_only=True, item_groups=GroupTag.Hammer),
     Items.STONE_OF_AGONY: SohItemData(15, IC.progression | IC.useful, 1),
     Items.DINS_FIRE: SohItemData(16, IC.progression, 1, item_type=ItemType.magic),
     Items.FARORES_WIND: SohItemData(17, IC.progression, 1, item_type=ItemType.magic),
     Items.NAYRUS_LOVE: SohItemData(18, IC.progression, 1, item_type=ItemType.magic),
-    Items.FIRE_ARROW: SohItemData(19, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
-    Items.ICE_ARROW: SohItemData(20, IC.progression | IC.useful, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
-    Items.LIGHT_ARROW: SohItemData(21, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=["Magic Arrows"]),
+    Items.FIRE_ARROW: SohItemData(19, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=GroupTag.Magic_Arrows),
+    Items.ICE_ARROW: SohItemData(20, IC.progression | IC.useful, 1, adult_only=True, item_type=ItemType.magic, item_groups=GroupTag.Magic_Arrows),
+    Items.LIGHT_ARROW: SohItemData(21, IC.progression, 1, adult_only=True, item_type=ItemType.magic, item_groups=GroupTag.Magic_Arrows),
     Items.GERUDO_MEMBERSHIP_CARD: SohItemData(22, IC.progression, 0),
-    Items.MAGIC_BEAN: SohItemData(23, IC.progression, 0, child_only=True, item_groups=["Beans"]),
-    Items.MAGIC_BEAN_PACK: SohItemData(24, IC.progression, 0, child_only=True, item_groups=["Beans"]),
+    Items.MAGIC_BEAN: SohItemData(23, IC.progression, 0, child_only=True, item_groups=GroupTag.Beans),
+    Items.MAGIC_BEAN_PACK: SohItemData(24, IC.progression, 0, child_only=True, item_groups=GroupTag.Beans),
     Items.DOUBLE_DEFENSE: SohItemData(25, IC.useful, 1),
     Items.WEIRD_EGG: SohItemData(26, IC.progression, 0, child_only=True),
     Items.ZELDAS_LETTER: SohItemData(27, IC.progression, 0, child_only=True),
@@ -67,113 +126,113 @@ item_data_table: dict[Items, SohItemData] = {
     Items.EYEBALL_FROG: SohItemData(35, IC.progression, 0, adult_only=True),
     Items.WORLDS_FINEST_EYEDROPS: SohItemData(36, IC.progression, 0, adult_only=True),
     Items.CLAIM_CHECK: SohItemData(37, IC.progression, 1, adult_only=True),
-    Items.GOLD_SKULLTULA_TOKEN: SohItemData(38, IC.progression_deprioritized_skip_balancing, 0, item_groups=["Tokens"]),
-    Items.PROGRESSIVE_HOOKSHOT: SohItemData(39, IC.progression | IC.useful, 2, item_groups=["Hookshot", "Longshot"]),
-    Items.STRENGTH_UPGRADE: SohItemData(40, IC.progression | IC.useful, 3, item_groups=["Strength Upgrades", "Goron Bracelet", "Silver Gauntlets", "Golden Gauntlets"]),
-    Items.PROGRESSIVE_BOMB_BAG: SohItemData(41, IC.progression | IC.useful, 3, item_groups=["Bomb Bag", "Bombs"]),
-    Items.PROGRESSIVE_BOW: SohItemData(42, IC.progression | IC.useful, 3, item_groups=["Bow"]),
-    Items.PROGRESSIVE_SLINGSHOT: SohItemData(43, IC.progression | IC.useful, 3, item_groups=["Slingshot"]),
-    Items.PROGRESSIVE_WALLET: SohItemData(44, IC.progression, 2, item_groups=["Wallet", "Giant Wallet", "Adult Wallet", "Tycoon Wallet"]),
-    Items.PROGRESSIVE_SCALE: SohItemData(45, IC.progression | IC.useful, 2, item_groups=["Bronze Scale", "Silver Scale", "Golden Scale", "Scale"]),
-    Items.PROGRESSIVE_NUT_CAPACITY: SohItemData(46, IC.progression | IC.useful, 2, item_groups=["Deku Nut Bag"]),
-    Items.PROGRESSIVE_STICK_CAPACITY: SohItemData(47, IC.progression | IC.useful, 2, item_groups=["Deku Stick Bag"]),
-    Items.BOMBCHU_BAG: SohItemData(48, IC.progression | IC.useful, 0, item_groups=["Progressive Bombchu Bag", "Bombs"]),
-    Items.PROGRESSIVE_MAGIC_METER: SohItemData(49, IC.progression | IC.useful, 2, item_groups=["Magic Meter"]),
+    Items.GOLD_SKULLTULA_TOKEN: SohItemData(38, IC.progression_deprioritized_skip_balancing, 0, item_groups=GroupTag.Token),
+    Items.PROGRESSIVE_HOOKSHOT: SohItemData(39, IC.progression | IC.useful, 2, item_groups=GroupTag.Hookshot | GroupTag.Longshot),
+    Items.STRENGTH_UPGRADE: SohItemData(40, IC.progression | IC.useful, 3, item_groups=GroupTag.Strength_Upgrade | GroupTag.Goron_Bracelet | GroupTag.Silver_Gauntlets | GroupTag.Golden_Gauntlets),
+    Items.PROGRESSIVE_BOMB_BAG: SohItemData(41, IC.progression | IC.useful, 3, item_groups=GroupTag.Bomb_Bag | GroupTag.Bombs),
+    Items.PROGRESSIVE_BOW: SohItemData(42, IC.progression | IC.useful, 3, item_groups=GroupTag.Bow),
+    Items.PROGRESSIVE_SLINGSHOT: SohItemData(43, IC.progression | IC.useful, 3, item_groups=GroupTag.Slingshot),
+    Items.PROGRESSIVE_WALLET: SohItemData(44, IC.progression, 2, item_groups=GroupTag.Wallet | GroupTag.Giant_Wallet | GroupTag.Adult_Wallet | GroupTag.Tycoon_Wallet),
+    Items.PROGRESSIVE_SCALE: SohItemData(45, IC.progression | IC.useful, 2, item_groups=GroupTag.Bronze_Scale | GroupTag.Silver_Scale | GroupTag.Golden_Scale | GroupTag.Scale),
+    Items.PROGRESSIVE_NUT_CAPACITY: SohItemData(46, IC.progression | IC.useful, 2, item_groups=GroupTag.Deku_Nut_Bag),
+    Items.PROGRESSIVE_STICK_CAPACITY: SohItemData(47, IC.progression | IC.useful, 2, item_groups=GroupTag.Deku_Stick_Bag),
+    Items.BOMBCHU_BAG: SohItemData(48, IC.progression | IC.useful, 0, item_groups=GroupTag.Progressive_Bombchu_Bag | GroupTag.Bombs),
+    Items.PROGRESSIVE_MAGIC_METER: SohItemData(49, IC.progression | IC.useful, 2, item_groups=GroupTag.Magic_Meter),
     # Items.MAGIC_SINGLE: SohItemData( 50, IC.filler, 0 ),
     # Items.MAGIC_DOUBLE: SohItemData( 51, IC.filler, 0 ),
-    Items.PROGRESSIVE_OCARINA: SohItemData(52, IC.progression | IC.useful, 0, item_groups=["Ocarinas"]),
+    Items.PROGRESSIVE_OCARINA: SohItemData(52, IC.progression | IC.useful, 0, item_groups=GroupTag.Ocarina),
     # Items.PROGRESSIVE_GORON_SWORD: SohItemData(53, IC.progression, 0),
-    Items.EMPTY_BOTTLE: SohItemData(54, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_MILK: SohItemData(55, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_RED_POTION: SohItemData(56, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_GREEN_POTION: SohItemData(57, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_BLUE_POTION: SohItemData(58, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_FAIRY: SohItemData(59, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_FISH: SohItemData(60, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_BLUE_FIRE: SohItemData(61, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_BUGS: SohItemData(62, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_POE: SohItemData(63, IC.progression | IC.useful, 0, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_RUTOS_LETTER: SohItemData(64, IC.progression | IC.useful, 1, child_only=True, item_groups=["Bottles"]),
-    Items.BOTTLE_WITH_BIG_POE: SohItemData(65, IC.progression | IC.useful, 1, item_groups=["Bottles"]),
-    Items.ZELDAS_LULLABY: SohItemData(66, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.EPONAS_SONG: SohItemData(67, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.SARIAS_SONG: SohItemData(68, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.SUNS_SONG: SohItemData(69, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.SONG_OF_TIME: SohItemData(70, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.SONG_OF_STORMS: SohItemData(71, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.MINUET_OF_FOREST: SohItemData(72, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.BOLERO_OF_FIRE: SohItemData(73, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.SERENADE_OF_WATER: SohItemData(74, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.REQUIEM_OF_SPIRIT: SohItemData(75, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.NOCTURNE_OF_SHADOW: SohItemData(76, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.PRELUDE_OF_LIGHT: SohItemData(77, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=["Songs"]),
-    Items.GREAT_DEKU_TREE_MAP: SohItemData(78, IC.filler, 0, item_groups=["Maps"]),
-    Items.DODONGOS_CAVERN_MAP: SohItemData(79, IC.filler, 0, item_groups=["Maps"]),
-    Items.JABU_JABUS_BELLY_MAP: SohItemData(80, IC.filler, 0, item_groups=["Maps"]),
-    Items.FOREST_TEMPLE_MAP: SohItemData(81, IC.filler, 0, item_groups=["Maps"]),
-    Items.FIRE_TEMPLE_MAP: SohItemData(82, IC.filler, 0, item_groups=["Maps"]),
-    Items.WATER_TEMPLE_MAP: SohItemData(83, IC.filler, 0, item_groups=["Maps"]),
-    Items.SPIRIT_TEMPLE_MAP: SohItemData(84, IC.filler, 0, item_groups=["Maps"]),
-    Items.SHADOW_TEMPLE_MAP: SohItemData(85, IC.filler, 0, item_groups=["Maps"]),
-    Items.BOTTOM_OF_THE_WELL_MAP: SohItemData(86, IC.filler, 0, item_groups=["Maps"]),
-    Items.ICE_CAVERN_MAP: SohItemData(87, IC.filler, 0, item_groups=["Maps"]),
-    Items.GREAT_DEKU_TREE_COMPASS: SohItemData(88, IC.filler, 0, item_groups=["Compasses"]),
-    Items.DODONGOS_CAVERN_COMPASS: SohItemData(89, IC.filler, 0, item_groups=["Compasses"]),
-    Items.JABU_JABUS_BELLY_COMPASS: SohItemData(90, IC.filler, 0, item_groups=["Compasses"]),
-    Items.FOREST_TEMPLE_COMPASS: SohItemData(91, IC.filler, 0, item_groups=["Compasses"]),
-    Items.FIRE_TEMPLE_COMPASS: SohItemData(92, IC.filler, 0, item_groups=["Compasses"]),
-    Items.WATER_TEMPLE_COMPASS: SohItemData(93, IC.filler, 0, item_groups=["Compasses"]),
-    Items.SPIRIT_TEMPLE_COMPASS: SohItemData(94, IC.filler, 0, item_groups=["Compasses"]),
-    Items.SHADOW_TEMPLE_COMPASS: SohItemData(95, IC.filler, 0, item_groups=["Compasses"]),
-    Items.BOTTOM_OF_THE_WELL_COMPASS: SohItemData(96, IC.filler, 0, item_groups=["Compasses"]),
-    Items.ICE_CAVERN_COMPASS: SohItemData(97, IC.filler, 0, item_groups=["Compasses"]),
-    Items.FOREST_TEMPLE_BOSS_KEY: SohItemData(98, IC.progression, 1, item_groups=["Boss Keys"]),
-    Items.FIRE_TEMPLE_BOSS_KEY: SohItemData(99, IC.progression, 1, item_groups=["Boss Keys"]),
-    Items.WATER_TEMPLE_BOSS_KEY: SohItemData(100, IC.progression, 1, item_groups=["Boss Keys"]),
-    Items.SPIRIT_TEMPLE_BOSS_KEY: SohItemData(101, IC.progression, 1, item_groups=["Boss Keys"]),
-    Items.SHADOW_TEMPLE_BOSS_KEY: SohItemData(102, IC.progression, 1, item_groups=["Boss Keys"]),
-    Items.GANONS_CASTLE_BOSS_KEY: SohItemData(103, IC.progression, 0, item_groups=["Boss Keys"]),
-    Items.FOREST_TEMPLE_SMALL_KEY: SohItemData(104, IC.progression, 5, item_groups=["Small Keys", "Forest Temple Key"]),
-    Items.FIRE_TEMPLE_SMALL_KEY: SohItemData(105, IC.progression, 8, item_groups=["Small Keys", "Fire Temple Key"]),
-    Items.WATER_TEMPLE_SMALL_KEY: SohItemData(106, IC.progression, 6, item_groups=["Small Keys", "Water Temple Key"]),
-    Items.SPIRIT_TEMPLE_SMALL_KEY: SohItemData(107, IC.progression, 5, item_groups=["Small Keys", "Spirit Temple Key"]),
-    Items.SHADOW_TEMPLE_SMALL_KEY: SohItemData(108, IC.progression, 5, item_groups=["Small Keys", "Shadow Temple Key"]),
-    Items.BOTTOM_OF_THE_WELL_SMALL_KEY: SohItemData(109, IC.progression, 3, item_groups=["Small Keys", "Bottom of the Well Key", "BotW key"]),
-    Items.TRAINING_GROUND_SMALL_KEY: SohItemData(110, IC.progression, 9, item_groups=["Small Keys", "Gerudo Training Ground Key", "GTG key"]),
-    Items.GERUDO_FORTRESS_SMALL_KEY: SohItemData(111, IC.progression, 4, item_groups=["Small Keys", "Gerudo Fortress Key"]),
-    Items.GANONS_CASTLE_SMALL_KEY: SohItemData(112, IC.progression, 2, item_groups=["Small Keys", "Ganons Castle Key"]),
-    Items.TREASURE_GAME_SMALL_KEY: SohItemData(113, IC.progression, 0, item_groups=["Small Keys", "Treasure Game Key"]),
-    Items.FOREST_TEMPLE_KEY_RING: SohItemData(114, IC.progression, 0, item_groups=["Small Keys", "Forest Temple Key"]),
-    Items.FIRE_TEMPLE_KEY_RING: SohItemData(115, IC.progression, 0, item_groups=["Small Keys", "Fire Temple Key"]),
-    Items.WATER_TEMPLE_KEY_RING: SohItemData(116, IC.progression, 0, item_groups=["Small Keys", "Water Temple Key"]),
-    Items.SPIRIT_TEMPLE_KEY_RING: SohItemData(117, IC.progression, 0, item_groups=["Small Keys", "Spirit Temple Key"]),
-    Items.SHADOW_TEMPLE_KEY_RING: SohItemData(118, IC.progression, 0, item_groups=["Small Keys", "Shadow Temple Key"]),
-    Items.BOTTOM_OF_THE_WELL_KEY_RING: SohItemData(119, IC.progression, 0, item_groups=["Small Keys", "Bottom of the Well Key", "BotW key"]),
-    Items.TRAINING_GROUND_KEY_RING: SohItemData(120, IC.progression, 0, item_groups=["Small Keys", "Gerudo Training Ground Key", "GTG key"]),
-    Items.GERUDO_FORTRESS_KEY_RING: SohItemData(121, IC.progression, 0, item_groups=["Small Keys", "Gerudo Fortress Key"]),
-    Items.GANONS_CASTLE_KEY_RING: SohItemData(122, IC.progression, 0, item_groups=["Small Keys", "Ganons Castle Key"]),
-    Items.TREASURE_GAME_KEY_RING: SohItemData(123, IC.progression, 0, item_groups=["Small Keys", "Treasure Game Key"]),
-    Items.KOKIRIS_EMERALD: SohItemData(124, IC.progression, 0, item_groups=["Stones"]),
-    Items.GORONS_RUBY: SohItemData(125, IC.progression, 0, item_groups=["Stones"]),
-    Items.ZORAS_SAPPHIRE: SohItemData(126, IC.progression, 0, item_groups=["Stones"]),
-    Items.FOREST_MEDALLION: SohItemData(127, IC.progression, 0, item_groups=["Medallions"]),
-    Items.FIRE_MEDALLION: SohItemData(128, IC.progression, 0, item_groups=["Medallions"]),
-    Items.WATER_MEDALLION: SohItemData(129, IC.progression, 0, item_groups=["Medallions"]),
-    Items.SPIRIT_MEDALLION: SohItemData(130, IC.progression, 0, item_groups=["Medallions"]),
-    Items.SHADOW_MEDALLION: SohItemData(131, IC.progression, 0, item_groups=["Medallions"]),
-    Items.LIGHT_MEDALLION: SohItemData(132, IC.progression, 0, item_groups=["Medallions"]),
+    Items.EMPTY_BOTTLE: SohItemData(54, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_MILK: SohItemData(55, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_RED_POTION: SohItemData(56, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_GREEN_POTION: SohItemData(57, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_BLUE_POTION: SohItemData(58, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_FAIRY: SohItemData(59, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_FISH: SohItemData(60, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_BLUE_FIRE: SohItemData(61, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_BUGS: SohItemData(62, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_POE: SohItemData(63, IC.progression | IC.useful, 0, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_RUTOS_LETTER: SohItemData(64, IC.progression | IC.useful, 1, child_only=True, item_groups=GroupTag.Bottle),
+    Items.BOTTLE_WITH_BIG_POE: SohItemData(65, IC.progression | IC.useful, 1, item_groups=GroupTag.Bottle),
+    Items.ZELDAS_LULLABY: SohItemData(66, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.EPONAS_SONG: SohItemData(67, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.SARIAS_SONG: SohItemData(68, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.SUNS_SONG: SohItemData(69, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.SONG_OF_TIME: SohItemData(70, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.SONG_OF_STORMS: SohItemData(71, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.MINUET_OF_FOREST: SohItemData(72, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.BOLERO_OF_FIRE: SohItemData(73, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.SERENADE_OF_WATER: SohItemData(74, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.REQUIEM_OF_SPIRIT: SohItemData(75, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.NOCTURNE_OF_SHADOW: SohItemData(76, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.PRELUDE_OF_LIGHT: SohItemData(77, IC.progression | IC.useful, 0, item_type=ItemType.song, item_groups=GroupTag.Song),
+    Items.GREAT_DEKU_TREE_MAP: SohItemData(78, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.DODONGOS_CAVERN_MAP: SohItemData(79, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.JABU_JABUS_BELLY_MAP: SohItemData(80, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.FOREST_TEMPLE_MAP: SohItemData(81, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.FIRE_TEMPLE_MAP: SohItemData(82, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.WATER_TEMPLE_MAP: SohItemData(83, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.SPIRIT_TEMPLE_MAP: SohItemData(84, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.SHADOW_TEMPLE_MAP: SohItemData(85, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.BOTTOM_OF_THE_WELL_MAP: SohItemData(86, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.ICE_CAVERN_MAP: SohItemData(87, IC.filler, 0, item_groups=GroupTag.Map),
+    Items.GREAT_DEKU_TREE_COMPASS: SohItemData(88, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.DODONGOS_CAVERN_COMPASS: SohItemData(89, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.JABU_JABUS_BELLY_COMPASS: SohItemData(90, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.FOREST_TEMPLE_COMPASS: SohItemData(91, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.FIRE_TEMPLE_COMPASS: SohItemData(92, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.WATER_TEMPLE_COMPASS: SohItemData(93, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.SPIRIT_TEMPLE_COMPASS: SohItemData(94, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.SHADOW_TEMPLE_COMPASS: SohItemData(95, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.BOTTOM_OF_THE_WELL_COMPASS: SohItemData(96, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.ICE_CAVERN_COMPASS: SohItemData(97, IC.filler, 0, item_groups=GroupTag.Compass),
+    Items.FOREST_TEMPLE_BOSS_KEY: SohItemData(98, IC.progression, 1, item_groups=GroupTag.Boss_Key),
+    Items.FIRE_TEMPLE_BOSS_KEY: SohItemData(99, IC.progression, 1, item_groups=GroupTag.Boss_Key),
+    Items.WATER_TEMPLE_BOSS_KEY: SohItemData(100, IC.progression, 1, item_groups=GroupTag.Boss_Key),
+    Items.SPIRIT_TEMPLE_BOSS_KEY: SohItemData(101, IC.progression, 1, item_groups=GroupTag.Boss_Key),
+    Items.SHADOW_TEMPLE_BOSS_KEY: SohItemData(102, IC.progression, 1, item_groups=GroupTag.Boss_Key),
+    Items.GANONS_CASTLE_BOSS_KEY: SohItemData(103, IC.progression, 0, item_groups=GroupTag.Boss_Key),
+    Items.FOREST_TEMPLE_SMALL_KEY: SohItemData(104, IC.progression, 5, item_groups=GroupTag.Small_Key | GroupTag.Forest_Temple_Key),
+    Items.FIRE_TEMPLE_SMALL_KEY: SohItemData(105, IC.progression, 8, item_groups=GroupTag.Small_Key | GroupTag.Forest_Temple_Key),
+    Items.WATER_TEMPLE_SMALL_KEY: SohItemData(106, IC.progression, 6, item_groups=GroupTag.Small_Key | GroupTag.Water_Temple_Key),
+    Items.SPIRIT_TEMPLE_SMALL_KEY: SohItemData(107, IC.progression, 5, item_groups=GroupTag.Small_Key | GroupTag.Spirit_Temple_Key),
+    Items.SHADOW_TEMPLE_SMALL_KEY: SohItemData(108, IC.progression, 5, item_groups=GroupTag.Small_Key | GroupTag.Shadow_Temple_Key),
+    Items.BOTTOM_OF_THE_WELL_SMALL_KEY: SohItemData(109, IC.progression, 3, item_groups=GroupTag.Small_Key | GroupTag.Bottom_of_the_Well_Key | GroupTag.BotW_Key),
+    Items.TRAINING_GROUND_SMALL_KEY: SohItemData(110, IC.progression, 9, item_groups=GroupTag.Small_Key | GroupTag.Gerudo_Training_Ground_Key | GroupTag.GTG_Key),
+    Items.GERUDO_FORTRESS_SMALL_KEY: SohItemData(111, IC.progression, 4, item_groups=GroupTag.Small_Key | GroupTag.Gerudo_Fortress_Key),
+    Items.GANONS_CASTLE_SMALL_KEY: SohItemData(112, IC.progression, 2, item_groups=GroupTag.Small_Key | GroupTag.Ganons_Castle_Key),
+    Items.TREASURE_GAME_SMALL_KEY: SohItemData(113, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Treasure_Game_Key),
+    Items.FOREST_TEMPLE_KEY_RING: SohItemData(114, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Forest_Temple_Key),
+    Items.FIRE_TEMPLE_KEY_RING: SohItemData(115, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Fire_Temple_Key),
+    Items.WATER_TEMPLE_KEY_RING: SohItemData(116, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Water_Temple_Key),
+    Items.SPIRIT_TEMPLE_KEY_RING: SohItemData(117, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Spirit_Temple_Key),
+    Items.SHADOW_TEMPLE_KEY_RING: SohItemData(118, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Shadow_Temple_Key),
+    Items.BOTTOM_OF_THE_WELL_KEY_RING: SohItemData(119, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Bottom_of_the_Well_Key | GroupTag.BotW_Key),
+    Items.TRAINING_GROUND_KEY_RING: SohItemData(120, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Gerudo_Training_Ground_Key | GroupTag.GTG_Key),
+    Items.GERUDO_FORTRESS_KEY_RING: SohItemData(121, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Gerudo_Fortress_Key),
+    Items.GANONS_CASTLE_KEY_RING: SohItemData(122, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Ganons_Castle_Key),
+    Items.TREASURE_GAME_KEY_RING: SohItemData(123, IC.progression, 0, item_groups=GroupTag.Small_Key | GroupTag.Treasure_Game_Key),
+    Items.KOKIRIS_EMERALD: SohItemData(124, IC.progression, 0, item_groups=GroupTag.Spiritual_Stone),
+    Items.GORONS_RUBY: SohItemData(125, IC.progression, 0, item_groups=GroupTag.Spiritual_Stone),
+    Items.ZORAS_SAPPHIRE: SohItemData(126, IC.progression, 0, item_groups=GroupTag.Spiritual_Stone),
+    Items.FOREST_MEDALLION: SohItemData(127, IC.progression, 0, item_groups=GroupTag.Medallion),
+    Items.FIRE_MEDALLION: SohItemData(128, IC.progression, 0, item_groups=GroupTag.Medallion),
+    Items.WATER_MEDALLION: SohItemData(129, IC.progression, 0, item_groups=GroupTag.Medallion),
+    Items.SPIRIT_MEDALLION: SohItemData(130, IC.progression, 0, item_groups=GroupTag.Medallion),
+    Items.SHADOW_MEDALLION: SohItemData(131, IC.progression, 0, item_groups=GroupTag.Medallion),
+    Items.LIGHT_MEDALLION: SohItemData(132, IC.progression, 0, item_groups=GroupTag.Medallion),
     Items.RECOVERY_HEART: SohItemData(133, IC.filler, 0),
     Items.GREEN_RUPEE: SohItemData(134, IC.filler, 0),
-    Items.GREG_THE_GREEN_RUPEE: SohItemData(135, IC.progression_skip_balancing, 1, item_groups=["Greg"]),
+    Items.GREG_THE_GREEN_RUPEE: SohItemData(135, IC.progression_skip_balancing, 1, item_groups=GroupTag.Greg),
     Items.BLUE_RUPEE: SohItemData(136, IC.filler, 0),
     Items.RED_RUPEE: SohItemData(137, IC.filler, 0),
     Items.PURPLE_RUPEE: SohItemData(138, IC.filler, 0),
     Items.HUGE_RUPEE: SohItemData(139, IC.filler, 0),
     # 35
-    Items.PIECE_OF_HEART: SohItemData(140, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts"]),
+    Items.PIECE_OF_HEART: SohItemData(140, IC.useful | IC.skip_balancing, 0, item_groups=GroupTag.Health_Upgrade),
     # 8
-    Items.HEART_CONTAINER: SohItemData(141, IC.progression_skip_balancing, 0, item_groups=["Hearts"]),
-    Items.ICE_TRAP: SohItemData(142, IC.trap, 0, item_groups=["Traps", "Trap"]),
+    Items.HEART_CONTAINER: SohItemData(141, IC.progression_skip_balancing, 0, item_groups=GroupTag.Health_Upgrade),
+    Items.ICE_TRAP: SohItemData(142, IC.trap, 0, item_groups=GroupTag.Trap),
     # Items.MILK: SohItemData( 143, ),
     # Items.FISH: SohItemData( 144, ),
     Items.BOMBS_5: SohItemData(145, IC.filler, 0),
@@ -193,7 +252,7 @@ item_data_table: dict[Items, SohItemData] = {
     # Items.GREEN_POTION_REFILL: SohItemData( 159, IC.filler, 0 ),
     # Items.BLUE_POTION_REFILL: SohItemData( 160, IC.filler, 0 ),
     # 1
-    Items.PIECE_OF_HEART_WINNER: SohItemData(161, IC.useful | IC.skip_balancing, 0, item_groups=["Hearts"]),
+    Items.PIECE_OF_HEART_WINNER: SohItemData(161, IC.useful | IC.skip_balancing, 0, item_groups=GroupTag.Health_Upgrade),
     # Items.TREASURE_GAME_GREEN_RUPEE: SohItemData( 162, IC.filler, 0 ),
     Items.BUY_DEKU_NUTS5: SohItemData(None, IC.progression, 0),
     Items.BUY_ARROWS30: SohItemData(None, IC.progression, 0),
@@ -227,20 +286,20 @@ item_data_table: dict[Items, SohItemData] = {
     Items.BUY_RED_POTION50: SohItemData(None, IC.progression, 0),
     # Items.TRIFORCE: SohItemData( 193, IC.progression, 0 ),
     Items.TRIFORCE_PIECE: SohItemData(194, IC.useful | IC.skip_balancing, 0),
-    Items.GOHMAS_SOUL: SohItemData(195, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.KING_DODONGOS_SOUL: SohItemData(196, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.BARINADES_SOUL: SohItemData(197, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.PHANTOM_GANONS_SOUL: SohItemData(198, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.VOLVAGIAS_SOUL: SohItemData(199, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.MORPHAS_SOUL: SohItemData(200, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.BONGO_BONGOS_SOUL: SohItemData(201, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.TWINROVAS_SOUL: SohItemData(202, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.GANONS_SOUL: SohItemData(203, IC.progression, 0, item_groups=["Boss Souls"]),
-    Items.OCARINA_A_BUTTON: SohItemData(204, IC.progression, 0, item_groups=["Ocarina Buttons"]),
-    Items.OCARINA_CUP_BUTTON: SohItemData(205, IC.progression, 0, item_groups=["Ocarina Buttons"]),
-    Items.OCARINA_CDOWN_BUTTON: SohItemData(206, IC.progression, 0, item_groups=["Ocarina Buttons"]),
-    Items.OCARINA_CLEFT_BUTTON: SohItemData(207, IC.progression, 0, item_groups=["Ocarina Buttons"]),
-    Items.OCARINA_CRIGHT_BUTTON: SohItemData(208, IC.progression, 0, item_groups=["Ocarina Buttons"]),
+    Items.GOHMAS_SOUL: SohItemData(195, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.KING_DODONGOS_SOUL: SohItemData(196, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.BARINADES_SOUL: SohItemData(197, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.PHANTOM_GANONS_SOUL: SohItemData(198, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.VOLVAGIAS_SOUL: SohItemData(199, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.MORPHAS_SOUL: SohItemData(200, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.BONGO_BONGOS_SOUL: SohItemData(201, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.TWINROVAS_SOUL: SohItemData(202, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.GANONS_SOUL: SohItemData(203, IC.progression, 0, item_groups=GroupTag.Boss_Soul),
+    Items.OCARINA_A_BUTTON: SohItemData(204, IC.progression, 0, item_groups=GroupTag.Ocarina_Button),
+    Items.OCARINA_CUP_BUTTON: SohItemData(205, IC.progression, 0, item_groups=GroupTag.Ocarina_Button),
+    Items.OCARINA_CDOWN_BUTTON: SohItemData(206, IC.progression, 0, item_groups=GroupTag.Ocarina_Button),
+    Items.OCARINA_CLEFT_BUTTON: SohItemData(207, IC.progression, 0, item_groups=GroupTag.Ocarina_Button),
+    Items.OCARINA_CRIGHT_BUTTON: SohItemData(208, IC.progression, 0, item_groups=GroupTag.Ocarina_Button),
     Items.SKELETON_KEY: SohItemData(209, IC.progression, 0),
     Items.FISHING_POLE: SohItemData(210, IC.progression, 0),
     Items.DEKU_STICK_BAG: SohItemData(None),
@@ -283,30 +342,30 @@ item_data_table: dict[Items, SohItemData] = {
     Items.HOOKSHOT: SohItemData(None, adult_only=True),
     Items.LONGSHOT: SohItemData(None, adult_only=True),
     Items.SCARECROW: SohItemData(250, IC.progression, 0, adult_only=True),
-    Items.GUARD_HOUSE_KEY: SohItemData(251, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.MARKET_BAZAAR_KEY: SohItemData(252, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.MARKET_POTION_SHOP_KEY: SohItemData(253, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.MASK_SHOP_KEY: SohItemData(254, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.MARKET_SHOOTING_GALLERY_KEY: SohItemData(255, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.BOMBCHU_BOWLING_KEY: SohItemData(256, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.TREASURE_CHEST_GAME_BUILDING_KEY: SohItemData(257, IC.progression, 0, item_groups=["Keys"]),
-    Items.BOMBCHU_SHOP_KEY: SohItemData(258, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.RICHARDS_HOUSE_KEY: SohItemData(259, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.ALLEY_HOUSE_KEY: SohItemData(260, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.KAK_BAZAAR_KEY: SohItemData(261, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.KAK_POTION_SHOP_KEY: SohItemData(262, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.BOSS_HOUSE_KEY: SohItemData(263, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.GRANNYS_POTION_SHOP_KEY: SohItemData(264, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.SKULLTULA_HOUSE_KEY: SohItemData(265, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.IMPAS_HOUSE_KEY: SohItemData(266, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.WINDMILL_KEY: SohItemData(267, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.KAK_SHOOTING_GALLERY_KEY: SohItemData(268, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.DAMPES_HUT_KEY: SohItemData(269, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.TALONS_HOUSE_KEY: SohItemData(270, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.STABLES_KEY: SohItemData(271, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.BACK_TOWER_KEY: SohItemData(272, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.HYLIA_LAB_KEY: SohItemData(273, IC.progression, 0, item_groups=["Overworld Keys"]),
-    Items.FISHING_HOLE_KEY: SohItemData(274, IC.progression, 0, item_groups=["Overworld Keys"]),
+    Items.GUARD_HOUSE_KEY: SohItemData(251, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.MARKET_BAZAAR_KEY: SohItemData(252, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.MARKET_POTION_SHOP_KEY: SohItemData(253, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.MASK_SHOP_KEY: SohItemData(254, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.MARKET_SHOOTING_GALLERY_KEY: SohItemData(255, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.BOMBCHU_BOWLING_KEY: SohItemData(256, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.TREASURE_CHEST_GAME_BUILDING_KEY: SohItemData(257, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.BOMBCHU_SHOP_KEY: SohItemData(258, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.RICHARDS_HOUSE_KEY: SohItemData(259, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.ALLEY_HOUSE_KEY: SohItemData(260, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.KAK_BAZAAR_KEY: SohItemData(261, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.KAK_POTION_SHOP_KEY: SohItemData(262, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.BOSS_HOUSE_KEY: SohItemData(263, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.GRANNYS_POTION_SHOP_KEY: SohItemData(264, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.SKULLTULA_HOUSE_KEY: SohItemData(265, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.IMPAS_HOUSE_KEY: SohItemData(266, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.WINDMILL_KEY: SohItemData(267, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.KAK_SHOOTING_GALLERY_KEY: SohItemData(268, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.DAMPES_HUT_KEY: SohItemData(269, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.TALONS_HOUSE_KEY: SohItemData(270, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.STABLES_KEY: SohItemData(271, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.BACK_TOWER_KEY: SohItemData(272, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.HYLIA_LAB_KEY: SohItemData(273, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
+    Items.FISHING_HOLE_KEY: SohItemData(274, IC.progression, 0, item_groups=GroupTag.Overworld_Key),
     Items.DISTANT_SCARECROW: SohItemData(275, IC.progression, 0, adult_only=True),
     Items.ROCS_FEATHER: SohItemData(276, IC.progression, 0),
     Items.STICKS: SohItemData(None, child_only=True),
@@ -372,7 +431,12 @@ progressive_items: dict[str, tuple[str, ...]] = {
     Items.PROGRESSIVE_NUT_CAPACITY: (Items.DEKU_NUT_BAG,),
 }
 
-item_name_groups: dict[str, set[str]] = {}
-for item, data in item_data_table.items():
-    for group in data.item_groups:
-        item_name_groups.setdefault(group, set()).add(item.value)
+def create_item_groups() -> dict[str, set[str]]:
+    groups: dict[str, set[str]] = {tag.name.replace('_', ' '): set() for tag in GroupTag if tag is not GroupTag.Clear}
+    for item, data in item_data_table.items():
+        if data.item_groups == GroupTag.Clear:
+            continue
+        for tag in data.item_groups:
+            groups[tag.name.replace('_', ' ')].add(str(item))
+    return groups
+
