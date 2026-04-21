@@ -77,7 +77,7 @@ class LocTag(IntFlag):
     Grass = auto()
     Freestanding_Item = auto()
     # chest = auto()
-    # fairy_song = auto()
+    Song_Fairy = auto()
     Fountain_Fairy = auto()
     Gossip_Stone_Fairy = auto()
     # scrub = auto()
@@ -2108,24 +2108,24 @@ fairies_bean_location_table: dict[str, SohLocData] = {
 }
 
 fairies_song_location_table: dict[str, SohLocData] = {
-    Locations.LH_ISLAND_SUNS_SONG_FAIRY:                                          SohLocData(1972, LocTag.Lake_Hylia),
-    Locations.HF_POND_SONG_OF_STORMS_FAIRY:                                       SohLocData(1973, LocTag.Hyrule_Field),
-    Locations.HF_FENCE_GROTTO_STORMS_FAIRY:                                       SohLocData(1974, LocTag.Hyrule_Field),
-    Locations.DMT_FLAG_SUNS_SONG_FAIRY:                                           SohLocData(1975, LocTag.Death_Mountain_Trail),
-    Locations.DMT_COW_GROTTO_SONG_OF_STORMS_FAIRY:                                SohLocData(1976, LocTag.Death_Mountain_Trail),
-    Locations.LW_SHORTCUTS_SONG_OF_STORMS_FAIRY:                                  SohLocData(1977, LocTag.Lost_Woods),
-    Locations.TH_KITCHEN_SUN_FAIRY:                                               SohLocData(1978, LocTag.Thieves_Hideout),
-    Locations.LW_DEKU_SCRUB_GROTTO_SUN_FAIRY:                                     SohLocData(1979, LocTag.Lost_Woods),
-    Locations.GRAVEYARD_ROYAL_FAMILYS_TOMB_SUNS_SONG_FAIRY:                       SohLocData(1980, LocTag.Graveyard),
-    Locations.SPIRIT_TEMPLE_AFTER_BOULDER_ROOM_SUNS_SONG_FAIRY:                   SohLocData(1981, LocTag.Spirit_Temple, DungeonLocations.SPIRIT_TEMPLE),
-    Locations.SPIRIT_TEMPLE_FOUR_ARMOS_ROOM_SUNS_SONG_FAIRY:                      SohLocData(1982, LocTag.Spirit_Temple, DungeonLocations.SPIRIT_TEMPLE),
-    Locations.SHADOW_TEMPLE_BEAMOS_SONG_OF_STORMS_FAIRY:                          SohLocData(1983, LocTag.Shadow_Temple, DungeonLocations.SHADOW_TEMPLE),
-    Locations.SHADOW_TEMPLE_PIT_ROOM_SONG_OF_STORMS_FAIRY:                        SohLocData(1984, LocTag.Shadow_Temple, DungeonLocations.SHADOW_TEMPLE),
-    Locations.SHADOW_TEMPLE_WIND_HINT_SUNS_SONG_FAIRY:                            SohLocData(1985, LocTag.Shadow_Temple, DungeonLocations.SHADOW_TEMPLE),
-    Locations.BOTTOM_OF_THE_WELL_BASEMENT_SUNS_SONG_FAIRY:                        SohLocData(1986, LocTag.Bottom_of_the_Well, DungeonLocations.BOTTOM_OF_THE_WELL),
-    Locations.ICE_CAVERN_ENTRANCE_SONG_OF_STORMS_FAIRY:                           SohLocData(1987, LocTag.Ice_Cavern, DungeonLocations.ICE_CAVERN),
-    Locations.GERUDO_TRAINING_GROUND_ENTRANCE_SONG_OF_STORMS_FAIRY:               SohLocData(1988, LocTag.Gerudo_Training_Ground, DungeonLocations.GERUDO_TRAINING_GROUNDS),
-    Locations.GANONS_CASTLE_SPIRIT_TRIAL_BEAMOS_SUNS_SONG_FAIRY:                  SohLocData(1989, LocTag.Ganons_Castle, DungeonLocations.GANONS_CASTLE),
+    Locations.LH_ISLAND_SUNS_SONG_FAIRY:                                          SohLocData(1972, LocTag.Lake_Hylia | LocTag.Song_Fairy),
+    Locations.HF_POND_SONG_OF_STORMS_FAIRY:                                       SohLocData(1973, LocTag.Hyrule_Field | LocTag.Song_Fairy),
+    Locations.HF_FENCE_GROTTO_STORMS_FAIRY:                                       SohLocData(1974, LocTag.Hyrule_Field | LocTag.Song_Fairy),
+    Locations.DMT_FLAG_SUNS_SONG_FAIRY:                                           SohLocData(1975, LocTag.Death_Mountain_Trail | LocTag.Song_Fairy),
+    Locations.DMT_COW_GROTTO_SONG_OF_STORMS_FAIRY:                                SohLocData(1976, LocTag.Death_Mountain_Trail | LocTag.Song_Fairy),
+    Locations.LW_SHORTCUTS_SONG_OF_STORMS_FAIRY:                                  SohLocData(1977, LocTag.Lost_Woods | LocTag.Song_Fairy),
+    Locations.TH_KITCHEN_SUN_FAIRY:                                               SohLocData(1978, LocTag.Thieves_Hideout | LocTag.Song_Fairy),
+    Locations.LW_DEKU_SCRUB_GROTTO_SUN_FAIRY:                                     SohLocData(1979, LocTag.Lost_Woods | LocTag.Song_Fairy),
+    Locations.GRAVEYARD_ROYAL_FAMILYS_TOMB_SUNS_SONG_FAIRY:                       SohLocData(1980, LocTag.Graveyard | LocTag.Song_Fairy),
+    Locations.SPIRIT_TEMPLE_AFTER_BOULDER_ROOM_SUNS_SONG_FAIRY:                   SohLocData(1981, LocTag.Spirit_Temple | LocTag.Song_Fairy, DungeonLocations.SPIRIT_TEMPLE),
+    Locations.SPIRIT_TEMPLE_FOUR_ARMOS_ROOM_SUNS_SONG_FAIRY:                      SohLocData(1982, LocTag.Spirit_Temple | LocTag.Song_Fairy, DungeonLocations.SPIRIT_TEMPLE),
+    Locations.SHADOW_TEMPLE_BEAMOS_SONG_OF_STORMS_FAIRY:                          SohLocData(1983, LocTag.Shadow_Temple | LocTag.Song_Fairy, DungeonLocations.SHADOW_TEMPLE),
+    Locations.SHADOW_TEMPLE_PIT_ROOM_SONG_OF_STORMS_FAIRY:                        SohLocData(1984, LocTag.Shadow_Temple | LocTag.Song_Fairy, DungeonLocations.SHADOW_TEMPLE),
+    Locations.SHADOW_TEMPLE_WIND_HINT_SUNS_SONG_FAIRY:                            SohLocData(1985, LocTag.Shadow_Temple | LocTag.Song_Fairy, DungeonLocations.SHADOW_TEMPLE),
+    Locations.BOTTOM_OF_THE_WELL_BASEMENT_SUNS_SONG_FAIRY:                        SohLocData(1986, LocTag.Bottom_of_the_Well | LocTag.Song_Fairy, DungeonLocations.BOTTOM_OF_THE_WELL),
+    Locations.ICE_CAVERN_ENTRANCE_SONG_OF_STORMS_FAIRY:                           SohLocData(1987, LocTag.Ice_Cavern | LocTag.Song_Fairy, DungeonLocations.ICE_CAVERN),
+    Locations.GERUDO_TRAINING_GROUND_ENTRANCE_SONG_OF_STORMS_FAIRY:               SohLocData(1988, LocTag.Gerudo_Training_Ground | LocTag.Song_Fairy, DungeonLocations.GERUDO_TRAINING_GROUNDS),
+    Locations.GANONS_CASTLE_SPIRIT_TRIAL_BEAMOS_SUNS_SONG_FAIRY:                  SohLocData(1989, LocTag.Ganons_Castle | LocTag.Song_Fairy, DungeonLocations.GANONS_CASTLE),
     # Locations.FIRE_TEMPLE_MQ_LOWER_LOOP_STALFOS_ROOM_SUNS_SONG_FAIRY:           SohLocData(1990),
     # Locations.FIRE_TEMPLE_MQ_LOWER_LOOP_BEHIND_IRON_KNUCKLE_SUNS_SONG_FAIRY:    SohLocData(1991),
     # Locations.WATER_TEMPLE_MQ_BEFORE_DARK_LINK_PILAR_SUNS_SONG_FAIRY:           SohLocData(1992),
