@@ -63,6 +63,7 @@ class LocTag(IntFlag):
     Lake_Hylia = auto()
     Gerudo_Valley = auto()
     Gerudo_Fortress = auto()
+    Haunted_Wasteland = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -214,7 +215,7 @@ base_location_table: dict[str, SohLocData] = {
     # Locations.UNUSED3:                                                    SohLocData(133),
     # Locations.UNUSED4:                                                    SohLocData(134),
     # Locations.UNUSED5:                                                    SohLocData(135),
-    Locations.WASTELAND_CHEST:                                              SohLocData(136, LocTag.Overworld),
+    Locations.WASTELAND_CHEST:                                              SohLocData(136, LocTag.Haunted_Wasteland),
     Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Overworld),
     Locations.COLOSSUS_FREESTANDING_POH:                                    SohLocData(138, LocTag.Overworld),
     Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Overworld),
@@ -611,7 +612,7 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.GV_GS_PILLAR:                     SohLocData(528, LocTag.Gerudo_Valley | LocTag.Gold_Skulltula_Tokens),
     Locations.GF_GS_TOP_FLOOR:                  SohLocData(529, LocTag.Gerudo_Fortress | LocTag.Gold_Skulltula_Tokens),
     Locations.GF_GS_ARCHERY_RANGE:              SohLocData(530, LocTag.Gerudo_Fortress | LocTag.Gold_Skulltula_Tokens),
-    Locations.WASTELAND_GS:                     SohLocData(531, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.WASTELAND_GS:                     SohLocData(531, LocTag.Haunted_Wasteland | LocTag.Gold_Skulltula_Tokens),
     Locations.COLOSSUS_GS_BEAN_PATCH:           SohLocData(532, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.COLOSSUS_GS_TREE:                 SohLocData(533, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.COLOSSUS_GS_HILL:                 SohLocData(534, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
@@ -843,7 +844,7 @@ merchants_items_location_table: dict[Locations, SohLocData] = {
     Locations.KAK_GRANNYS_SHOP:             SohLocData(743, LocTag.Kakoriko_Village | LocTag.Merchants),
     Locations.GC_MEDIGORON:                 SohLocData(744, LocTag.Goron_City | LocTag.Merchants),
     Locations.ZR_MAGIC_BEAN_SALESMAN:       SohLocData(745, LocTag.Zoras_River | LocTag.Merchants),
-    Locations.WASTELAND_CARPET_SALESMAN:    SohLocData(746, LocTag.Overworld | LocTag.Merchants)
+    Locations.WASTELAND_CARPET_SALESMAN:    SohLocData(746, LocTag.Haunted_Wasteland | LocTag.Merchants)
 }
 
 cows_location_table: dict[str, SohLocData] = {
@@ -924,10 +925,10 @@ pots_overworld_location_table: dict[str, SohLocData] = {
     Locations.TH_RIGHT_MIDDLE_JAILED_POT:        SohLocData(812, LocTag.Overworld | LocTag.Pot),
     Locations.TH_LEFT_MIDDLE_JAILED_POT:         SohLocData(813, LocTag.Overworld | LocTag.Pot),
     Locations.TH_LEFTMOST_JAILED_POT:            SohLocData(814, LocTag.Overworld | LocTag.Pot),
-    Locations.WASTELAND_NEAR_GS_POT1:            SohLocData(815, LocTag.Overworld | LocTag.Pot),
-    Locations.WASTELAND_NEAR_GS_POT2:            SohLocData(816, LocTag.Overworld | LocTag.Pot),
-    Locations.WASTELAND_NEAR_GS_POT3:            SohLocData(817, LocTag.Overworld | LocTag.Pot),
-    Locations.WASTELAND_NEAR_GS_POT4:            SohLocData(818, LocTag.Overworld | LocTag.Pot),
+    Locations.WASTELAND_NEAR_GS_POT1:            SohLocData(815, LocTag.Haunted_Wasteland | LocTag.Pot),
+    Locations.WASTELAND_NEAR_GS_POT2:            SohLocData(816, LocTag.Haunted_Wasteland | LocTag.Pot),
+    Locations.WASTELAND_NEAR_GS_POT3:            SohLocData(817, LocTag.Haunted_Wasteland | LocTag.Pot),
+    Locations.WASTELAND_NEAR_GS_POT4:            SohLocData(818, LocTag.Haunted_Wasteland | LocTag.Pot),
     Locations.HF_COW_GROTTO_POT1:                SohLocData(819, LocTag.Hyrule_Field | LocTag.Pot),
     Locations.HF_COW_GROTTO_POT2:                SohLocData(820, LocTag.Hyrule_Field | LocTag.Pot),
     Locations.MARKET_GUARD_HOUSE_CHILD_POT1:     SohLocData(821, LocTag.Hyrule_Market | LocTag.Pot),
@@ -1484,11 +1485,11 @@ crates_overworld_location_table: dict[str, SohLocData] = {
     Locations.TH_DEAD_END_CELL_CRATE:                   SohLocData(1371, LocTag.Overworld),
     Locations.TH_DOUBLE_CELL_LEFT_CRATE:                SohLocData(1372, LocTag.Overworld),
     Locations.TH_DOUBLE_CELL_RIGHT_CRATE:               SohLocData(1373, LocTag.Overworld),
-    Locations.WASTELAND_BEFORE_QUICKSAND_CRATE:         SohLocData(1374, LocTag.Overworld),
-    Locations.WASTELAND_AFTER_QUICKSAND_CRATE1:         SohLocData(1375, LocTag.Overworld),
-    Locations.WASTELAND_AFTER_QUICKSAND_CRATE2:         SohLocData(1376, LocTag.Overworld),
-    Locations.WASTELAND_AFTER_QUICKSAND_CRATE3:         SohLocData(1377, LocTag.Overworld),
-    Locations.WASTELAND_NEAR_COLOSSUS_CRATE:            SohLocData(1378, LocTag.Overworld),
+    Locations.WASTELAND_BEFORE_QUICKSAND_CRATE:         SohLocData(1374, LocTag.Haunted_Wasteland),
+    Locations.WASTELAND_AFTER_QUICKSAND_CRATE1:         SohLocData(1375, LocTag.Haunted_Wasteland),
+    Locations.WASTELAND_AFTER_QUICKSAND_CRATE2:         SohLocData(1376, LocTag.Haunted_Wasteland),
+    Locations.WASTELAND_AFTER_QUICKSAND_CRATE3:         SohLocData(1377, LocTag.Haunted_Wasteland),
+    Locations.WASTELAND_NEAR_COLOSSUS_CRATE:            SohLocData(1378, LocTag.Haunted_Wasteland),
     Locations.MARKET_NEAR_BAZAAR_CRATE1:                SohLocData(1379, LocTag.Hyrule_Market),
     Locations.MARKET_NEAR_BAZAAR_CRATE2:                SohLocData(1380, LocTag.Hyrule_Market),
     Locations.MARKET_SHOOTING_GALLERY_CRATE1:           SohLocData(1381, LocTag.Hyrule_Market),
