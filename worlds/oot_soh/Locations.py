@@ -56,6 +56,7 @@ class LocTag(IntFlag):
     Death_Mountain_Crater = auto()
     Zoras_River = auto()
     Zoras_Domain = auto()
+    Zoras_Fountain = auto()
     # standard = auto()  # stuff that's always a location regardless of options
     # non_mq = auto()  # non-mq dungeon locations
     # mq = auto()  # mq dungeon locations
@@ -187,9 +188,9 @@ base_location_table: dict[str, SohLocData] = {
     Locations.ZD_DIVING_MINIGAME:                                           SohLocData(108, LocTag.Zoras_Domain | LocTag.Minigames),
     Locations.ZD_CHEST:                                                     SohLocData(109, LocTag.Zoras_Domain),
     Locations.ZD_KING_ZORA_THAWED:                                          SohLocData(110, LocTag.Zoras_Domain),
-    Locations.ZF_GREAT_FAIRY_REWARD:                                        SohLocData(111, LocTag.Overworld),
-    Locations.ZF_ICEBERG_FREESTANDING_POH:                                  SohLocData(112, LocTag.Overworld),
-    Locations.ZF_BOTTOM_FREESTANDING_POH:                                   SohLocData(113, LocTag.Overworld),
+    Locations.ZF_GREAT_FAIRY_REWARD:                                        SohLocData(111, LocTag.Zoras_Fountain),
+    Locations.ZF_ICEBERG_FREESTANDING_POH:                                  SohLocData(112, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_FREESTANDING_POH:                                   SohLocData(113, LocTag.Zoras_Fountain),
     Locations.LH_UNDERWATER_ITEM:                                           SohLocData(114, LocTag.Overworld),
     Locations.LH_CHILD_FISHING:                                             SohLocData(115, LocTag.Overworld),
     Locations.LH_ADULT_FISHING:                                             SohLocData(116, LocTag.Overworld),
@@ -590,9 +591,9 @@ gold_skulltula_overworld_location_table: dict[str, SohLocData] = {
     Locations.ZR_GS_NEAR_RAISED_GROTTOS:        SohLocData(514, LocTag.Zoras_River | LocTag.Gold_Skulltula_Tokens),
     Locations.ZR_GS_ABOVE_BRIDGE:               SohLocData(515, LocTag.Zoras_River | LocTag.Gold_Skulltula_Tokens),
     Locations.ZD_GS_FROZEN_WATERFALL:           SohLocData(516, LocTag.Zoras_Domain | LocTag.Gold_Skulltula_Tokens),
-    Locations.ZF_GS_ABOVE_THE_LOG:              SohLocData(517, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.ZF_GS_TREE:                       SohLocData(518, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
-    Locations.ZF_GS_HIDDEN_CAVE:                SohLocData(519, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
+    Locations.ZF_GS_ABOVE_THE_LOG:              SohLocData(517, LocTag.Zoras_Fountain | LocTag.Gold_Skulltula_Tokens),
+    Locations.ZF_GS_TREE:                       SohLocData(518, LocTag.Zoras_Fountain | LocTag.Gold_Skulltula_Tokens),
+    Locations.ZF_GS_HIDDEN_CAVE:                SohLocData(519, LocTag.Zoras_Fountain | LocTag.Gold_Skulltula_Tokens),
     Locations.LH_GS_BEAN_PATCH:                 SohLocData(520, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.LH_GS_LAB_WALL:                   SohLocData(521, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
     Locations.LH_GS_SMALL_ISLAND:               SohLocData(522, LocTag.Overworld | LocTag.Gold_Skulltula_Tokens),
@@ -1030,13 +1031,13 @@ pots_overworld_location_table: dict[str, SohLocData] = {
     Locations.ZD_NEAR_SHOP_POT3:                 SohLocData(925, LocTag.Zoras_Domain | LocTag.Pot),
     Locations.ZD_NEAR_SHOP_POT4:                 SohLocData(926, LocTag.Zoras_Domain | LocTag.Pot),
     Locations.ZD_NEAR_SHOP_POT5:                 SohLocData(927, LocTag.Zoras_Domain | LocTag.Pot),
-    Locations.ZF_HIDDEN_CAVE_POT1:               SohLocData(928, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_HIDDEN_CAVE_POT2:               SohLocData(929, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_HIDDEN_CAVE_POT3:               SohLocData(930, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_NEAR_JABU_POT1:                 SohLocData(931, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_NEAR_JABU_POT2:                 SohLocData(932, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_NEAR_JABU_POT3:                 SohLocData(933, LocTag.Overworld | LocTag.Pot),
-    Locations.ZF_NEAR_JABU_POT4:                 SohLocData(934, LocTag.Overworld | LocTag.Pot)
+    Locations.ZF_HIDDEN_CAVE_POT1:               SohLocData(928, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_HIDDEN_CAVE_POT2:               SohLocData(929, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_HIDDEN_CAVE_POT3:               SohLocData(930, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_NEAR_JABU_POT1:                 SohLocData(931, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_NEAR_JABU_POT2:                 SohLocData(932, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_NEAR_JABU_POT3:                 SohLocData(933, LocTag.Zoras_Fountain | LocTag.Pot),
+    Locations.ZF_NEAR_JABU_POT4:                 SohLocData(934, LocTag.Zoras_Fountain | LocTag.Pot)
 }
 
 pots_dungeon_location_table: dict[str, SohLocData] = {
@@ -1781,24 +1782,24 @@ freestanding_overworld_location_table: dict[str, SohLocData] = {
     Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_LEFT_RUPEE:      SohLocData(1669, LocTag.Zoras_River),
     Locations.ZR_BENEATH_DOMAIN_RED_MIDDLE_RIGHT_RUPEE:     SohLocData(1670, LocTag.Zoras_River),
     Locations.ZR_BENEATH_DOMAIN_RED_RIGHT_RUPEE:            SohLocData(1671, LocTag.Zoras_River),
-    Locations.ZF_BOTTOM_NORTH_INNER_RUPEE:                  SohLocData(1672, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHEAST_INNER_RUPEE:              SohLocData(1673, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHEAST_INNER_RUPEE:              SohLocData(1674, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTH_INNER_RUPEE:                  SohLocData(1675, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHWEST_INNER_RUPEE:              SohLocData(1676, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHWEST_INNER_RUPEE:              SohLocData(1677, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTH_MIDDLE_RUPEE:                 SohLocData(1678, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHEAST_MIDDLE_RUPEE:             SohLocData(1679, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHEAST_MIDDLE_RUPEE:             SohLocData(1680, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTH_MIDDLE_RUPEE:                 SohLocData(1681, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHWEST_MIDDLE_RUPEE:             SohLocData(1682, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHWEST_MIDDLE_RUPEE:             SohLocData(1683, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTH_OUTER_RUPEE:                  SohLocData(1684, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHEAST_OUTER_RUPEE:              SohLocData(1685, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHEAST_OUTER_RUPEE:              SohLocData(1686, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTH_OUTER_RUPEE:                  SohLocData(1687, LocTag.Overworld),
-    Locations.ZF_BOTTOM_SOUTHWEST_OUTER_RUPEE:              SohLocData(1688, LocTag.Overworld),
-    Locations.ZF_BOTTOM_NORTHWEST_OUTER_RUPEE:              SohLocData(1689, LocTag.Overworld)
+    Locations.ZF_BOTTOM_NORTH_INNER_RUPEE:                  SohLocData(1672, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHEAST_INNER_RUPEE:              SohLocData(1673, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHEAST_INNER_RUPEE:              SohLocData(1674, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTH_INNER_RUPEE:                  SohLocData(1675, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHWEST_INNER_RUPEE:              SohLocData(1676, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHWEST_INNER_RUPEE:              SohLocData(1677, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTH_MIDDLE_RUPEE:                 SohLocData(1678, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHEAST_MIDDLE_RUPEE:             SohLocData(1679, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHEAST_MIDDLE_RUPEE:             SohLocData(1680, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTH_MIDDLE_RUPEE:                 SohLocData(1681, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHWEST_MIDDLE_RUPEE:             SohLocData(1682, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHWEST_MIDDLE_RUPEE:             SohLocData(1683, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTH_OUTER_RUPEE:                  SohLocData(1684, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHEAST_OUTER_RUPEE:              SohLocData(1685, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHEAST_OUTER_RUPEE:              SohLocData(1686, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTH_OUTER_RUPEE:                  SohLocData(1687, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_SOUTHWEST_OUTER_RUPEE:              SohLocData(1688, LocTag.Zoras_Fountain),
+    Locations.ZF_BOTTOM_NORTHWEST_OUTER_RUPEE:              SohLocData(1689, LocTag.Zoras_Fountain)
 }
 
 freestanding_dungeon_location_table: dict[str, SohLocData] = {
@@ -2034,10 +2035,10 @@ fairies_stone_location_table: dict[str, SohLocData] = {
     Locations.SFM_SARIA_GOSSIP_STONE_BIG_FAIRY:                  SohLocData(1943, LocTag.Overworld),
     Locations.ZD_GOSSIP_STONE_FAIRY:                             SohLocData(1944, LocTag.Zoras_Domain),
     Locations.ZD_GOSSIP_STONE_BIG_FAIRY:                         SohLocData(1945, LocTag.Zoras_Domain),
-    Locations.ZF_FAIRY_GOSSIP_STONE_FAIRY:                       SohLocData(1946, LocTag.Overworld),
-    Locations.ZF_FAIRY_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1947, LocTag.Overworld),
-    Locations.ZF_JABU_GOSSIP_STONE_FAIRY:                        SohLocData(1948, LocTag.Overworld),
-    Locations.ZF_JABU_GOSSIP_STONE_BIG_FAIRY:                    SohLocData(1949, LocTag.Overworld),
+    Locations.ZF_FAIRY_GOSSIP_STONE_FAIRY:                       SohLocData(1946, LocTag.Zoras_Fountain),
+    Locations.ZF_FAIRY_GOSSIP_STONE_BIG_FAIRY:                   SohLocData(1947, LocTag.Zoras_Fountain),
+    Locations.ZF_JABU_GOSSIP_STONE_FAIRY:                        SohLocData(1948, LocTag.Zoras_Fountain),
+    Locations.ZF_JABU_GOSSIP_STONE_BIG_FAIRY:                    SohLocData(1949, LocTag.Zoras_Fountain),
     Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_FAIRY:                SohLocData(1950, LocTag.Zoras_River),
     Locations.ZR_NEAR_GROTTOS_GOSSIP_STONE_BIG_FAIRY:            SohLocData(1951, LocTag.Zoras_River),
     Locations.ZR_NEAR_DOMAIN_GOSSIP_STONE_FAIRY:                 SohLocData(1952, LocTag.Zoras_River),
@@ -2535,7 +2536,7 @@ tree_location_table: dict[str, SohLocData] = {
     Locations.HF_CHILD_SOUTHEAST_TREE_5:    SohLocData(2450, LocTag.Hyrule_Field),
     Locations.HF_CHILD_SOUTHEAST_TREE_6:    SohLocData(2451, LocTag.Hyrule_Field),
     Locations.HF_TEKTITE_GROTTO_TREE:       SohLocData(2452, LocTag.Hyrule_Field),
-    Locations.ZF_TREE:                      SohLocData(2453, LocTag.Overworld),
+    Locations.ZF_TREE:                      SohLocData(2453, LocTag.Zoras_Fountain),
     Locations.ZR_TREE:                      SohLocData(2454, LocTag.Zoras_River),
     Locations.KAK_TREE:                     SohLocData(2455, LocTag.Kakoriko_Village),
     Locations.LLR_TREE:                     SohLocData(2456, LocTag.Lon_Lon_Ranch),
