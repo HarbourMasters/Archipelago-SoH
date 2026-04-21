@@ -82,6 +82,7 @@ class LocTag(IntFlag):
     Great_Fairy_Reward = auto()
     Song_Fairy = auto()
     Fountain_Fairy = auto()
+    Bean_Fairy = auto()
     Gossip_Stone_Fairy = auto()
     Frog_Reward = auto()
     # no_logic = auto()
@@ -2078,36 +2079,36 @@ fairies_stone_location_table: dict[str, SohLocData] = {
 }
 
 fairies_bean_location_table: dict[str, SohLocData] = {
-    Locations.ZR_BEAN_SPROUT_FAIRY1:                 SohLocData(1860, LocTag.Zoras_River),
-    Locations.ZR_BEAN_SPROUT_FAIRY2:                 SohLocData(1861, LocTag.Zoras_River),
-    Locations.ZR_BEAN_SPROUT_FAIRY3:                 SohLocData(1862, LocTag.Zoras_River),
-    Locations.KF_BEAN_SPROUT_FAIRY1:                 SohLocData(1863, LocTag.Kokiri_Forest),
-    Locations.KF_BEAN_SPROUT_FAIRY2:                 SohLocData(1864, LocTag.Kokiri_Forest),
-    Locations.KF_BEAN_SPROUT_FAIRY3:                 SohLocData(1865, LocTag.Kokiri_Forest),
-    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY1:     SohLocData(1866, LocTag.Lost_Woods),
-    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY2:     SohLocData(1867, LocTag.Lost_Woods),
-    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY3:     SohLocData(1868, LocTag.Lost_Woods),
-    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY1:    SohLocData(1869, LocTag.Lost_Woods),
-    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY2:    SohLocData(1870, LocTag.Lost_Woods),
-    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY3:    SohLocData(1871, LocTag.Lost_Woods),
-    Locations.LH_BEAN_SPROUT_FAIRY1:                 SohLocData(1872, LocTag.Lake_Hylia),
-    Locations.LH_BEAN_SPROUT_FAIRY2:                 SohLocData(1873, LocTag.Lake_Hylia),
-    Locations.LH_BEAN_SPROUT_FAIRY3:                 SohLocData(1874, LocTag.Lake_Hylia),
-    Locations.GV_BEAN_SPROUT_FAIRY1:                 SohLocData(1875, LocTag.Gerudo_Valley),
-    Locations.GV_BEAN_SPROUT_FAIRY2:                 SohLocData(1876, LocTag.Gerudo_Valley),
-    Locations.GV_BEAN_SPROUT_FAIRY3:                 SohLocData(1877, LocTag.Gerudo_Valley),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY1:           SohLocData(1878, LocTag.Desert_Colossus),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY2:           SohLocData(1879, LocTag.Desert_Colossus),
-    Locations.COLOSSUS_BEAN_SPROUT_FAIRY3:           SohLocData(1880, LocTag.Desert_Colossus),
-    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY1:          SohLocData(1881, LocTag.Graveyard),
-    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY2:          SohLocData(1882, LocTag.Graveyard),
-    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY3:          SohLocData(1883, LocTag.Graveyard),
-    Locations.DMC_BEAN_SPROUT_FAIRY1:                SohLocData(1884, LocTag.Death_Mountain_Crater),
-    Locations.DMC_BEAN_SPROUT_FAIRY2:                SohLocData(1885, LocTag.Death_Mountain_Crater),
-    Locations.DMC_BEAN_SPROUT_FAIRY3:                SohLocData(1886, LocTag.Death_Mountain_Crater),
-    Locations.DMT_BEAN_SPROUT_FAIRY1:                SohLocData(1887, LocTag.Death_Mountain_Trail),
-    Locations.DMT_BEAN_SPROUT_FAIRY2:                SohLocData(1888, LocTag.Death_Mountain_Trail),
-    Locations.DMT_BEAN_SPROUT_FAIRY3:                SohLocData(1889, LocTag.Death_Mountain_Trail)
+    Locations.ZR_BEAN_SPROUT_FAIRY1:                 SohLocData(1860, LocTag.Zoras_River | LocTag.Bean_Fairy),
+    Locations.ZR_BEAN_SPROUT_FAIRY2:                 SohLocData(1861, LocTag.Zoras_River | LocTag.Bean_Fairy),
+    Locations.ZR_BEAN_SPROUT_FAIRY3:                 SohLocData(1862, LocTag.Zoras_River | LocTag.Bean_Fairy),
+    Locations.KF_BEAN_SPROUT_FAIRY1:                 SohLocData(1863, LocTag.Kokiri_Forest | LocTag.Bean_Fairy),
+    Locations.KF_BEAN_SPROUT_FAIRY2:                 SohLocData(1864, LocTag.Kokiri_Forest | LocTag.Bean_Fairy),
+    Locations.KF_BEAN_SPROUT_FAIRY3:                 SohLocData(1865, LocTag.Kokiri_Forest | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY1:     SohLocData(1866, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY2:     SohLocData(1867, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_BRIDGE_FAIRY3:     SohLocData(1868, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY1:    SohLocData(1869, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY2:    SohLocData(1870, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LW_BEAN_SPROUT_NEAR_THEATRE_FAIRY3:    SohLocData(1871, LocTag.Lost_Woods | LocTag.Bean_Fairy),
+    Locations.LH_BEAN_SPROUT_FAIRY1:                 SohLocData(1872, LocTag.Lake_Hylia | LocTag.Bean_Fairy),
+    Locations.LH_BEAN_SPROUT_FAIRY2:                 SohLocData(1873, LocTag.Lake_Hylia | LocTag.Bean_Fairy),
+    Locations.LH_BEAN_SPROUT_FAIRY3:                 SohLocData(1874, LocTag.Lake_Hylia | LocTag.Bean_Fairy),
+    Locations.GV_BEAN_SPROUT_FAIRY1:                 SohLocData(1875, LocTag.Gerudo_Valley | LocTag.Bean_Fairy),
+    Locations.GV_BEAN_SPROUT_FAIRY2:                 SohLocData(1876, LocTag.Gerudo_Valley | LocTag.Bean_Fairy),
+    Locations.GV_BEAN_SPROUT_FAIRY3:                 SohLocData(1877, LocTag.Gerudo_Valley | LocTag.Bean_Fairy),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY1:           SohLocData(1878, LocTag.Desert_Colossus | LocTag.Bean_Fairy),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY2:           SohLocData(1879, LocTag.Desert_Colossus | LocTag.Bean_Fairy),
+    Locations.COLOSSUS_BEAN_SPROUT_FAIRY3:           SohLocData(1880, LocTag.Desert_Colossus | LocTag.Bean_Fairy),
+    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY1:          SohLocData(1881, LocTag.Graveyard | LocTag.Bean_Fairy),
+    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY2:          SohLocData(1882, LocTag.Graveyard | LocTag.Bean_Fairy),
+    Locations.GRAVEYARD_BEAN_SPROUT_FAIRY3:          SohLocData(1883, LocTag.Graveyard | LocTag.Bean_Fairy),
+    Locations.DMC_BEAN_SPROUT_FAIRY1:                SohLocData(1884, LocTag.Death_Mountain_Crater | LocTag.Bean_Fairy),
+    Locations.DMC_BEAN_SPROUT_FAIRY2:                SohLocData(1885, LocTag.Death_Mountain_Crater | LocTag.Bean_Fairy),
+    Locations.DMC_BEAN_SPROUT_FAIRY3:                SohLocData(1886, LocTag.Death_Mountain_Crater | LocTag.Bean_Fairy),
+    Locations.DMT_BEAN_SPROUT_FAIRY1:                SohLocData(1887, LocTag.Death_Mountain_Trail | LocTag.Bean_Fairy),
+    Locations.DMT_BEAN_SPROUT_FAIRY2:                SohLocData(1888, LocTag.Death_Mountain_Trail | LocTag.Bean_Fairy),
+    Locations.DMT_BEAN_SPROUT_FAIRY3:                SohLocData(1889, LocTag.Death_Mountain_Trail | LocTag.Bean_Fairy)
 }
 
 fairies_song_location_table: dict[str, SohLocData] = {
