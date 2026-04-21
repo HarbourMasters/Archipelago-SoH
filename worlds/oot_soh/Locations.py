@@ -77,6 +77,7 @@ class LocTag(IntFlag):
     Grass = auto()
     Freestanding_Item = auto()
     # chest = auto()
+    Great_Fairy_Reward = auto()
     Song_Fairy = auto()
     Fountain_Fairy = auto()
     Gossip_Stone_Fairy = auto()
@@ -152,7 +153,7 @@ base_location_table: dict[str, SohLocData] = {
     # Locations.MARKET_CHEST_GAME_FIFTH_ROOM_KEY:                           SohLocData(58),
     Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE:                              SohLocData(59, LocTag.Temple_of_Time),
     Locations.MARKET_TOT_MASTER_SWORD:                                      SohLocData(60, LocTag.Temple_of_Time),
-    Locations.HC_GREAT_FAIRY_REWARD:                                        SohLocData(63, LocTag.Hyrule_Castle),
+    Locations.HC_GREAT_FAIRY_REWARD:                                        SohLocData(63, LocTag.Hyrule_Castle | LocTag.Great_Fairy_Reward),
     Locations.LLR_TALONS_CHICKENS:                                          SohLocData(64, LocTag.Lon_Lon_Ranch),
     Locations.LLR_FREESTANDING_POH:                                         SohLocData(65, LocTag.Lon_Lon_Ranch | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.KAK_ANJU_AS_CHILD:                                            SohLocData(66, LocTag.Kakoriko_Village),
@@ -179,7 +180,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.DMT_CHEST:                                                    SohLocData(88, LocTag.Death_Mountain_Trail),
     Locations.DMT_STORMS_GROTTO_CHEST:                                      SohLocData(89, LocTag.Death_Mountain_Trail),
     Locations.DMT_TRADE_CLAIM_CHECK:                                        SohLocData(90, LocTag.Death_Mountain_Trail),
-    Locations.DMT_GREAT_FAIRY_REWARD:                                       SohLocData(91, LocTag.Death_Mountain_Trail),
+    Locations.DMT_GREAT_FAIRY_REWARD:                                       SohLocData(91, LocTag.Death_Mountain_Trail | LocTag.Great_Fairy_Reward),
     Locations.GC_DARUNIAS_JOY:                                              SohLocData(92, LocTag.Goron_City),
     Locations.GC_POT_FREESTANDING_POH:                                      SohLocData(93, LocTag.Goron_City | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.GC_ROLLING_GORON_AS_CHILD:                                    SohLocData(94, LocTag.Goron_City),
@@ -190,7 +191,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.DMC_VOLCANO_FREESTANDING_POH:                                 SohLocData(99, LocTag.Death_Mountain_Crater | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.DMC_WALL_FREESTANDING_POH:                                    SohLocData(100, LocTag.Death_Mountain_Crater | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.DMC_UPPER_GROTTO_CHEST:                                       SohLocData(101, LocTag.Death_Mountain_Crater),
-    Locations.DMC_GREAT_FAIRY_REWARD:                                       SohLocData(102, LocTag.Death_Mountain_Crater),
+    Locations.DMC_GREAT_FAIRY_REWARD:                                       SohLocData(102, LocTag.Death_Mountain_Crater | LocTag.Great_Fairy_Reward),
     Locations.ZR_OPEN_GROTTO_CHEST:                                         SohLocData(103, LocTag.Zoras_River),
     Locations.ZR_FROGS_IN_THE_RAIN:                                         SohLocData(104, LocTag.Zoras_River),
     Locations.ZR_FROGS_OCARINA_GAME:                                        SohLocData(105, LocTag.Zoras_River | LocTag.Minigames),
@@ -199,7 +200,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.ZD_DIVING_MINIGAME:                                           SohLocData(108, LocTag.Zoras_Domain | LocTag.Minigames),
     Locations.ZD_CHEST:                                                     SohLocData(109, LocTag.Zoras_Domain),
     Locations.ZD_KING_ZORA_THAWED:                                          SohLocData(110, LocTag.Zoras_Domain),
-    Locations.ZF_GREAT_FAIRY_REWARD:                                        SohLocData(111, LocTag.Zoras_Fountain),
+    Locations.ZF_GREAT_FAIRY_REWARD:                                        SohLocData(111, LocTag.Zoras_Fountain | LocTag.Great_Fairy_Reward),
     Locations.ZF_ICEBERG_FREESTANDING_POH:                                  SohLocData(112, LocTag.Zoras_Fountain | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.ZF_BOTTOM_FREESTANDING_POH:                                   SohLocData(113, LocTag.Zoras_Fountain | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
     Locations.LH_UNDERWATER_ITEM:                                           SohLocData(114, LocTag.Lake_Hylia),
@@ -220,9 +221,9 @@ base_location_table: dict[str, SohLocData] = {
     # Locations.UNUSED4:                                                    SohLocData(134),
     # Locations.UNUSED5:                                                    SohLocData(135),
     Locations.WASTELAND_CHEST:                                              SohLocData(136, LocTag.Haunted_Wasteland),
-    Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Desert_Colossus),
+    Locations.COLOSSUS_GREAT_FAIRY_REWARD:                                  SohLocData(137, LocTag.Desert_Colossus | LocTag.Great_Fairy_Reward),
     Locations.COLOSSUS_FREESTANDING_POH:                                    SohLocData(138, LocTag.Desert_Colossus | LocTag.Freestanding_Item | LocTag.Piece_Of_Heart),
-    Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Outside_Ganons_Castle),
+    Locations.OGC_GREAT_FAIRY_REWARD:                                       SohLocData(139, LocTag.Outside_Ganons_Castle | LocTag.Great_Fairy_Reward),
     Locations.DEKU_TREE_MAP_CHEST:                                          SohLocData(140, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
     Locations.DEKU_TREE_SLINGSHOT_ROOM_SIDE_CHEST:                          SohLocData(141, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
     Locations.DEKU_TREE_SLINGSHOT_CHEST:                                    SohLocData(142, LocTag.Great_Deku_Tree, DungeonLocations.DEKU_TREE),
