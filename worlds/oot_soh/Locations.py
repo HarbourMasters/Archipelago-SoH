@@ -76,6 +76,7 @@ class LocTag(IntFlag):
     Crate = auto()
     Tree = auto()
     Grass = auto()
+    Cow = auto()
     Freestanding_Item = auto()
     Chest = auto()
     Great_Fairy_Reward = auto()
@@ -854,15 +855,15 @@ merchants_items_location_table: dict[Locations, SohLocData] = {
 }
 
 cows_location_table: dict[str, SohLocData] = {
-    Locations.KF_LINKS_HOUSE_COW:           SohLocData(747, LocTag.Kokiri_Forest),
-    Locations.HF_COW_GROTTO_COW:            SohLocData(748, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.LLR_STABLES_LEFT_COW:         SohLocData(749, LocTag.Lon_Lon_Ranch),
-    Locations.LLR_STABLES_RIGHT_COW:        SohLocData(750, LocTag.Lon_Lon_Ranch),
-    Locations.LLR_TOWER_LEFT_COW:           SohLocData(751, LocTag.Lon_Lon_Ranch),
-    Locations.LLR_TOWER_RIGHT_COW:          SohLocData(752, LocTag.Lon_Lon_Ranch),
-    Locations.KAK_IMPAS_HOUSE_COW:          SohLocData(753, LocTag.Kakoriko_Village),
-    Locations.DMT_COW_GROTTO_COW:           SohLocData(754, LocTag.Death_Mountain_Trail | LocTag.Grotto),
-    Locations.GV_COW:                       SohLocData(755, LocTag.Gerudo_Valley),
+    Locations.KF_LINKS_HOUSE_COW:           SohLocData(747, LocTag.Kokiri_Forest | LocTag.Cow),
+    Locations.HF_COW_GROTTO_COW:            SohLocData(748, LocTag.Hyrule_Field | LocTag.Cow | LocTag.Grotto),
+    Locations.LLR_STABLES_LEFT_COW:         SohLocData(749, LocTag.Lon_Lon_Ranch | LocTag.Cow),
+    Locations.LLR_STABLES_RIGHT_COW:        SohLocData(750, LocTag.Lon_Lon_Ranch | LocTag.Cow),
+    Locations.LLR_TOWER_LEFT_COW:           SohLocData(751, LocTag.Lon_Lon_Ranch | LocTag.Cow),
+    Locations.LLR_TOWER_RIGHT_COW:          SohLocData(752, LocTag.Lon_Lon_Ranch | LocTag.Cow),
+    Locations.KAK_IMPAS_HOUSE_COW:          SohLocData(753, LocTag.Kakoriko_Village | LocTag.Cow),
+    Locations.DMT_COW_GROTTO_COW:           SohLocData(754, LocTag.Death_Mountain_Trail | LocTag.Cow | LocTag.Grotto),
+    Locations.GV_COW:                       SohLocData(755, LocTag.Gerudo_Valley | LocTag.Cow),
     # Locations.JABU_JABUS_BELLY_MQ_COW:    SohLocData(756),
 }
 
