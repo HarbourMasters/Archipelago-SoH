@@ -87,6 +87,9 @@ class LocTag(IntFlag):
     Bean_Fairy = auto()
     Gossip_Stone_Fairy = auto()
     Frog_Reward = auto()
+    Overworld_Fish = auto()
+    Grotto_Fish = auto()
+    Pond_Fish = auto()
     # no_logic = auto()
 
 class SohLocData(NamedTuple):
@@ -2560,57 +2563,57 @@ tree_location_table: dict[str, SohLocData] = {
 }
 
 fish_pond_location_table: dict[str, SohLocData] = {
-    Locations.LH_CHILD_POND_FISH1:         SohLocData(2345, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH2:         SohLocData(2346, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH3:         SohLocData(2347, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH4:         SohLocData(2348, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH5:         SohLocData(2349, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH6:         SohLocData(2350, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH7:         SohLocData(2351, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH8:         SohLocData(2352, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH9:         SohLocData(2353, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH10:        SohLocData(2354, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH11:        SohLocData(2355, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH12:        SohLocData(2356, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH13:        SohLocData(2357, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH14:        SohLocData(2358, LocTag.Lake_Hylia),
-    Locations.LH_CHILD_POND_FISH15:        SohLocData(2359, LocTag.Lake_Hylia),
+    Locations.LH_CHILD_POND_FISH1:         SohLocData(2345, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH2:         SohLocData(2346, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH3:         SohLocData(2347, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH4:         SohLocData(2348, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH5:         SohLocData(2349, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH6:         SohLocData(2350, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH7:         SohLocData(2351, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH8:         SohLocData(2352, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH9:         SohLocData(2353, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH10:        SohLocData(2354, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH11:        SohLocData(2355, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH12:        SohLocData(2356, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH13:        SohLocData(2357, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH14:        SohLocData(2358, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_CHILD_POND_FISH15:        SohLocData(2359, LocTag.Lake_Hylia | LocTag.Pond_Fish),
     # Locations.LH_CHILD_POND_LOACH1:      SohLocData(2360),
     # Locations.LH_CHILD_POND_LOACH2:      SohLocData(2361),
     # Locations.LH_HYRULE_LOACH_REWARD:    SohLocData(2362),
-    Locations.LH_ADULT_POND_FISH1:         SohLocData(2363, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH2:         SohLocData(2364, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH3:         SohLocData(2365, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH4:         SohLocData(2366, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH5:         SohLocData(2367, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH6:         SohLocData(2368, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH7:         SohLocData(2369, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH8:         SohLocData(2370, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH9:         SohLocData(2371, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH10:        SohLocData(2372, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH11:        SohLocData(2373, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH12:        SohLocData(2374, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH13:        SohLocData(2375, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH14:        SohLocData(2376, LocTag.Lake_Hylia),
-    Locations.LH_ADULT_POND_FISH15:        SohLocData(2377, LocTag.Lake_Hylia),
+    Locations.LH_ADULT_POND_FISH1:         SohLocData(2363, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH2:         SohLocData(2364, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH3:         SohLocData(2365, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH4:         SohLocData(2366, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH5:         SohLocData(2367, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH6:         SohLocData(2368, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH7:         SohLocData(2369, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH8:         SohLocData(2370, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH9:         SohLocData(2371, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH10:        SohLocData(2372, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH11:        SohLocData(2373, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH12:        SohLocData(2374, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH13:        SohLocData(2375, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH14:        SohLocData(2376, LocTag.Lake_Hylia | LocTag.Pond_Fish),
+    Locations.LH_ADULT_POND_FISH15:        SohLocData(2377, LocTag.Lake_Hylia | LocTag.Pond_Fish),
     # Locations.LH_ADULT_POND_LOACH:       SohLocData(2378),
 }
 
 fish_overworld_location_table: dict[str, SohLocData] = {
-    Locations.DMC_UPPER_GROTTO_FISH:            SohLocData(2379, LocTag.Death_Mountain_Crater),
-    Locations.DMT_STORMS_GROTTO_FISH:           SohLocData(2380, LocTag.Death_Mountain_Trail),
-    Locations.HF_SOUTHEAST_GROTTO_FISH:         SohLocData(2381, LocTag.Hyrule_Field),
-    Locations.HF_NEAR_MARKET_GROTTO_FISH:       SohLocData(2382, LocTag.Hyrule_Field),
-    Locations.HF_OPEN_GROTTO_FISH:              SohLocData(2383, LocTag.Hyrule_Field),
-    Locations.KAK_OPEN_GROTTO_FISH:             SohLocData(2384, LocTag.Kakoriko_Village),
-    Locations.KF_STORMS_GROTTO_FISH:            SohLocData(2385, LocTag.Kokiri_Forest),
-    Locations.LW_NEAR_SHORTCUTS_GROTTO_FISH:    SohLocData(2386, LocTag.Lost_Woods),
-    Locations.ZR_OPEN_GROTTO_FISH:              SohLocData(2387, LocTag.Zoras_River),
-    Locations.ZD_FISH1:                         SohLocData(2388, LocTag.Zoras_Domain),
-    Locations.ZD_FISH2:                         SohLocData(2389, LocTag.Zoras_Domain),
-    Locations.ZD_FISH3:                         SohLocData(2390, LocTag.Zoras_Domain),
-    Locations.ZD_FISH4:                         SohLocData(2391, LocTag.Zoras_Domain),
-    Locations.ZD_FISH5:                         SohLocData(2392, LocTag.Zoras_Domain)
+    Locations.DMC_UPPER_GROTTO_FISH:            SohLocData(2379, LocTag.Death_Mountain_Crater | LocTag.Grotto_Fish),
+    Locations.DMT_STORMS_GROTTO_FISH:           SohLocData(2380, LocTag.Death_Mountain_Trail | LocTag.Grotto_Fish),
+    Locations.HF_SOUTHEAST_GROTTO_FISH:         SohLocData(2381, LocTag.Hyrule_Field | LocTag.Grotto_Fish),
+    Locations.HF_NEAR_MARKET_GROTTO_FISH:       SohLocData(2382, LocTag.Hyrule_Field | LocTag.Grotto_Fish),
+    Locations.HF_OPEN_GROTTO_FISH:              SohLocData(2383, LocTag.Hyrule_Field | LocTag.Grotto_Fish),
+    Locations.KAK_OPEN_GROTTO_FISH:             SohLocData(2384, LocTag.Kakoriko_Village | LocTag.Grotto_Fish),
+    Locations.KF_STORMS_GROTTO_FISH:            SohLocData(2385, LocTag.Kokiri_Forest | LocTag.Grotto_Fish),
+    Locations.LW_NEAR_SHORTCUTS_GROTTO_FISH:    SohLocData(2386, LocTag.Lost_Woods | LocTag.Grotto_Fish),
+    Locations.ZR_OPEN_GROTTO_FISH:              SohLocData(2387, LocTag.Zoras_River | LocTag.Grotto_Fish),
+    Locations.ZD_FISH1:                         SohLocData(2388, LocTag.Zoras_Domain | LocTag.Overworld_Fish),
+    Locations.ZD_FISH2:                         SohLocData(2389, LocTag.Zoras_Domain | LocTag.Overworld_Fish),
+    Locations.ZD_FISH3:                         SohLocData(2390, LocTag.Zoras_Domain | LocTag.Overworld_Fish),
+    Locations.ZD_FISH4:                         SohLocData(2391, LocTag.Zoras_Domain | LocTag.Overworld_Fish),
+    Locations.ZD_FISH5:                         SohLocData(2392, LocTag.Zoras_Domain | LocTag.Overworld_Fish)
 }
 
 links_pocket_location_table: dict[str, SohLocData] = {
