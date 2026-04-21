@@ -90,6 +90,7 @@ class LocTag(IntFlag):
     Overworld_Fish = auto()
     Grotto_Fish = auto()
     Pond_Fish = auto()
+    Bee_Hive = auto()
     Carpenter_Reward = auto()
     # no_logic = auto()
 
@@ -883,38 +884,38 @@ frogs_location_table: dict[str, SohLocData] = {
 }
 
 beehives_location_table: dict[str, SohLocData] = {
-    Locations.KF_STORMS_GROTTO_BEEHIVE_LEFT:             SohLocData(762, LocTag.Kokiri_Forest | LocTag.Grotto),
-    Locations.KF_STORMS_GROTTO_BEEHIVE_RIGHT:            SohLocData(763, LocTag.Kokiri_Forest | LocTag.Grotto),
-    Locations.LW_TUNNEL_GROTTO_BEEHIVE_LEFT:             SohLocData(764, LocTag.Lost_Woods | LocTag.Grotto),
-    Locations.LW_TUNNEL_GROTTO_BEEHIVE_RIGHT:            SohLocData(765, LocTag.Lost_Woods | LocTag.Grotto),
-    Locations.LW_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(766, LocTag.Lost_Woods | LocTag.Grotto),
-    Locations.SFM_DEKU_SCRUB_GROTTO_BEEHIVE:             SohLocData(767, LocTag.Sacred_Forest_Meadow | LocTag.Grotto),
-    Locations.HF_NEAR_MARKET_GROTTO_BEEHIVE_LEFT:        SohLocData(768, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_NEAR_MARKET_GROTTO_BEEHIVE_RIGHT:       SohLocData(769, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_OPEN_GROTTO_BEEHIVE_LEFT:               SohLocData(770, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_OPEN_GROTTO_BEEHIVE_RIGHT:              SohLocData(771, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_SOUTHEAST_GROTTO_BEEHIVE_LEFT:          SohLocData(772, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_SOUTHEAST_GROTTO_BEEHIVE_RIGHT:         SohLocData(773, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.HF_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(774, LocTag.Hyrule_Field | LocTag.Grotto),
-    Locations.LLR_DEKU_SCRUB_GROTTO_BEEHIVE:             SohLocData(775, LocTag.Lon_Lon_Ranch | LocTag.Grotto),
-    Locations.KAK_OPEN_GROTTO_BEEHIVE_LEFT:              SohLocData(776, LocTag.Kakoriko_Village | LocTag.Grotto),
-    Locations.KAK_OPEN_GROTTO_BEEHIVE_RIGHT:             SohLocData(777, LocTag.Kakoriko_Village | LocTag.Grotto),
-    Locations.DMT_COW_GROTTO_BEEHIVE:                    SohLocData(778, LocTag.Death_Mountain_Trail | LocTag.Grotto),
-    Locations.DMT_STORMS_GROTTO_BEEHIVE_LEFT:            SohLocData(779, LocTag.Death_Mountain_Trail | LocTag.Grotto),
-    Locations.DMT_STORMS_GROTTO_BEEHIVE_RIGHT:           SohLocData(780, LocTag.Death_Mountain_Trail | LocTag.Grotto),
-    Locations.GC_GROTTO_BEEHIVE:                         SohLocData(781, LocTag.Goron_City | LocTag.Grotto),
-    Locations.DMC_UPPER_GROTTO_BEEHIVE_LEFT:             SohLocData(782, LocTag.Death_Mountain_Crater | LocTag.Grotto),
-    Locations.DMC_UPPER_GROTTO_BEEHIVE_RIGHT:            SohLocData(783, LocTag.Death_Mountain_Crater | LocTag.Grotto),
-    Locations.DMC_HAMMER_GROTTO_BEEHIVE:                 SohLocData(784, LocTag.Death_Mountain_Crater | LocTag.Grotto),
-    Locations.ZR_OPEN_GROTTO_BEEHIVE_LEFT:               SohLocData(785, LocTag.Zoras_River | LocTag.Grotto),
-    Locations.ZR_OPEN_GROTTO_BEEHIVE_RIGHT:              SohLocData(786, LocTag.Zoras_River | LocTag.Grotto),
-    Locations.ZR_STORMS_GROTTO_BEEHIVE:                  SohLocData(787, LocTag.Zoras_River | LocTag.Grotto),
-    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_LEFT:     SohLocData(788, LocTag.Zoras_Domain),
-    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_RIGHT:    SohLocData(789, LocTag.Zoras_Domain),
-    Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Zoras_Domain),
-    Locations.LH_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(791, LocTag.Lake_Hylia | LocTag.Grotto),
-    Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Gerudo_Valley | LocTag.Grotto),
-    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Desert_Colossus | LocTag.Grotto)
+    Locations.KF_STORMS_GROTTO_BEEHIVE_LEFT:             SohLocData(762, LocTag.Kokiri_Forest | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.KF_STORMS_GROTTO_BEEHIVE_RIGHT:            SohLocData(763, LocTag.Kokiri_Forest | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.LW_TUNNEL_GROTTO_BEEHIVE_LEFT:             SohLocData(764, LocTag.Lost_Woods | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.LW_TUNNEL_GROTTO_BEEHIVE_RIGHT:            SohLocData(765, LocTag.Lost_Woods | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.LW_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(766, LocTag.Lost_Woods | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.SFM_DEKU_SCRUB_GROTTO_BEEHIVE:             SohLocData(767, LocTag.Sacred_Forest_Meadow | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_NEAR_MARKET_GROTTO_BEEHIVE_LEFT:        SohLocData(768, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_NEAR_MARKET_GROTTO_BEEHIVE_RIGHT:       SohLocData(769, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_OPEN_GROTTO_BEEHIVE_LEFT:               SohLocData(770, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_OPEN_GROTTO_BEEHIVE_RIGHT:              SohLocData(771, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_SOUTHEAST_GROTTO_BEEHIVE_LEFT:          SohLocData(772, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_SOUTHEAST_GROTTO_BEEHIVE_RIGHT:         SohLocData(773, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.HF_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(774, LocTag.Hyrule_Field | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.LLR_DEKU_SCRUB_GROTTO_BEEHIVE:             SohLocData(775, LocTag.Lon_Lon_Ranch | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.KAK_OPEN_GROTTO_BEEHIVE_LEFT:              SohLocData(776, LocTag.Kakoriko_Village | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.KAK_OPEN_GROTTO_BEEHIVE_RIGHT:             SohLocData(777, LocTag.Kakoriko_Village | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMT_COW_GROTTO_BEEHIVE:                    SohLocData(778, LocTag.Death_Mountain_Trail | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMT_STORMS_GROTTO_BEEHIVE_LEFT:            SohLocData(779, LocTag.Death_Mountain_Trail | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMT_STORMS_GROTTO_BEEHIVE_RIGHT:           SohLocData(780, LocTag.Death_Mountain_Trail | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.GC_GROTTO_BEEHIVE:                         SohLocData(781, LocTag.Goron_City | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMC_UPPER_GROTTO_BEEHIVE_LEFT:             SohLocData(782, LocTag.Death_Mountain_Crater | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMC_UPPER_GROTTO_BEEHIVE_RIGHT:            SohLocData(783, LocTag.Death_Mountain_Crater | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.DMC_HAMMER_GROTTO_BEEHIVE:                 SohLocData(784, LocTag.Death_Mountain_Crater | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.ZR_OPEN_GROTTO_BEEHIVE_LEFT:               SohLocData(785, LocTag.Zoras_River | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.ZR_OPEN_GROTTO_BEEHIVE_RIGHT:              SohLocData(786, LocTag.Zoras_River | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.ZR_STORMS_GROTTO_BEEHIVE:                  SohLocData(787, LocTag.Zoras_River | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_LEFT:     SohLocData(788, LocTag.Zoras_Domain | LocTag.Bee_Hive),
+    Locations.ZD_IN_FRONT_OF_KING_ZORA_BEEHIVE_RIGHT:    SohLocData(789, LocTag.Zoras_Domain | LocTag.Bee_Hive),
+    Locations.ZD_BEHIND_KING_ZORA_BEEHIVE:               SohLocData(790, LocTag.Zoras_Domain | LocTag.Bee_Hive),
+    Locations.LH_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(791, LocTag.Lake_Hylia | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.GV_DEKU_SCRUB_GROTTO_BEEHIVE:              SohLocData(792, LocTag.Gerudo_Valley | LocTag.Grotto | LocTag.Bee_Hive),
+    Locations.COLOSSUS_DEKU_SCRUB_GROTTO_BEEHIVE:        SohLocData(793, LocTag.Desert_Colossus | LocTag.Grotto | LocTag.Bee_Hive)
 }
 
 pots_overworld_location_table: dict[str, SohLocData] = {
