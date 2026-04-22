@@ -7,8 +7,8 @@ from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Loc
 from worlds.AutoWorld import WebWorld, World
 from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
-from .Items import SohItem, item_data_table, item_table, create_item_groups, progressive_items
-from .Locations import location_table, token_amounts, SohLocData, location_data_table, create_location_groups
+from .Items import SohItem, item_data_table, item_table, SohItemData, progressive_items
+from .Locations import location_table, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -82,8 +82,8 @@ class SohWorld(World):
     settings: ClassVar[SohSettings]
     location_name_to_id = location_table
     item_name_to_id = item_table
-    item_name_groups = create_item_groups()
-    location_name_groups = create_location_groups()
+    item_name_groups = self.create_groups(item_data_table)
+    location_name_groups = self.create_groups(location_data_table)
 
     # Universal Tracker stuff, does not do anything in normal gen
     glitches_item_name = Items.GLITCHED
@@ -199,6 +199,17 @@ class SohWorld(World):
             self.options.gerudo_training_ground_key_ring.value = self.passthrough.get("gerudo_training_ground_key_ring", False)
             self.options.ganons_castle_key_ring.value = self.passthrough.get("ganons_castle_key_ring", False)
        
+    def create_groups(self, obj: dict[Items, SohItemData] | dict[str, SohLocData]) -> dict[str, set[str]]:
+        groups: dict[str, set[str]] = dict()
+        for key, data in obj.items():
+            if data.tags is None:
+                continue
+            for tag in data.tags:
+                tag_name = tag.name.replace('_', ' ')
+                if tag_name not in groups:
+                    groups[tag_name] = set()
+                groups[tag_name].add(str(key))
+        return groups
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)

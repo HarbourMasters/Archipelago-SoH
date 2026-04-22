@@ -2654,17 +2654,6 @@ location_table = {str(name): locdata.loc_id for name,
                   locdata in location_data_table.items()}
 
 
-def create_location_groups() -> dict[str, set[str]]:
-    groups: dict[str, set[str]] = {tag.name.replace('_', " "): set() for tag in LocTag}
-    for location_name, location_data in location_data_table.items():
-        if location_data.tags is not None:
-            for tag in LocTag:
-                if location_data.tags & tag:
-                    groups[tag.name.replace('_', " ")].add(str(location_name))
-
-    return groups
-
-
 token_amounts: dict[str, int] = {
     Locations.KAK_50_GOLD_SKULLTULA_REWARD: 50,
     Locations.KAK_40_GOLD_SKULLTULA_REWARD: 40,
