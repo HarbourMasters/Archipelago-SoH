@@ -1085,7 +1085,7 @@ class IceTrapFillerReplacement(Range):
 
 class HintClarity(Choice):
     """
-    Sets teh difficulty of hints.
+    Sets the difficulty of hints.
 
     Obscure - Hints tell you the tier of an item but not what it is.
     Hookshot > Important Item
