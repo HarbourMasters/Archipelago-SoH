@@ -48,6 +48,7 @@ default_options: dict[str, Any] = {
     "start_with_requiem":       Toggle.option_false,
     "start_with_nocturne":      Toggle.option_false,
     "start_with_prelude":       Toggle.option_false,
+    "hint_clarity":             HintClarity.option_clear,
 }
 
 beginner_options = {

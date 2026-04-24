@@ -537,6 +537,7 @@ class SohWorld(World):
             "tricks_in_logic": self.options.tricks_in_logic.value,
             "medallion_locked_trials": self.options.medallion_locked_trials.value,
             "starting_hearts": self.options.starting_hearts.value,
+            "hint_clarity": self.options.hint_clarity.value,
             "tot_altar_hint": self.options.tot_altar_hint.value,
             "ganondorf_hint": self.options.ganondorf_hint.value,
             "sheik_la_hint": self.options.sheik_la_hint.value,
