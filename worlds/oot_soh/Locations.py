@@ -142,7 +142,7 @@ base_location_table: dict[str, SohLocData] = {
     Locations.SFM_WOLFOS_GROTTO_CHEST:                                      SohLocData(37, LocTag.Sacred_Forest_Meadow | LocTag.Chest | LocTag.Grotto),
     Locations.HF_OCARINA_OF_TIME_ITEM:                                      SohLocData(38, LocTag.Hyrule_Field),
     Locations.HF_NEAR_MARKET_GROTTO_CHEST:                                  SohLocData(39, LocTag.Hyrule_Field | LocTag.Chest | LocTag.Grotto),
-    Locations.HF_TEKTITE_GROTTO_FREESTANDING_POH:                           SohLocData(40, LocTag.Hyrule_Field | LocTag.Piece_Of_Heart | LocTag.Grotto),
+    Locations.HF_TEKTITE_GROTTO_FREESTANDING_POH:                           SohLocData(40, LocTag.Hyrule_Field | LocTag.Piece_Of_Heart | LocTag.Freestanding_Item | LocTag.Grotto),
     Locations.HF_SOUTHEAST_GROTTO_CHEST:                                    SohLocData(41, LocTag.Hyrule_Field | LocTag.Chest | LocTag.Grotto),
     Locations.HF_OPEN_GROTTO_CHEST:                                         SohLocData(42, LocTag.Hyrule_Field | LocTag.Chest | LocTag.Grotto),
     Locations.MARKET_SHOOTING_GALLERY:                                      SohLocData(43, LocTag.Hyrule_Market | LocTag.Shooting_Minigame | LocTag.Minigame),
