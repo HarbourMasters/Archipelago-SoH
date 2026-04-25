@@ -1,7 +1,13 @@
 from dataclasses import dataclass
 from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet
 from .Enums import Tricks, Items
-from .LogicHelpers import wallet_capacities
+
+wallet_capacities: dict[Items, int] = {
+    Items.CHILD_WALLET: 99,
+    Items.ADULT_WALLET: 200,
+    Items.GIANT_WALLET: 500,
+    Items.TYCOON_WALLET: 999
+}
 
 class ClosedForest(Choice):
     """
@@ -1675,7 +1681,7 @@ class SohOptions(PerGameCommonOptions):
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
         if self.door_of_time == DoorOfTime.option_closed and (
             any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
-                    self.shuffle_ocarinas == ShuffleOcarinas,
+                    self.shuffle_ocarinas == ShuffleOcarinas.option_false,
                     self.shuffle_songs == ShuffleSongs.option_off])):
             self.starting_age.value = StartingAge.option_child
             return

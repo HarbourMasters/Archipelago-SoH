@@ -8,6 +8,7 @@ from worlds.generic.Rules import set_rule
 from worlds.AutoWorld import LogicMixin
 from .Enums import *
 from .Items import SohItem, item_data_table, ItemType, no_rules_bottles, GroupTag
+from .Options import wallet_capacities
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -180,14 +181,6 @@ def has_item(item: Items | Events | StrEnum, bundle: tuple[CollectionState, Regi
         return has_bottle(bundle)
 
     return state.has(item, player, count)
-
-
-wallet_capacities: dict[Items, int] = {
-    Items.CHILD_WALLET: 99,
-    Items.ADULT_WALLET: 200,
-    Items.GIANT_WALLET: 500,
-    Items.TYCOON_WALLET: 999
-}
 
 def can_afford_slot(slot: Locations, bundle: tuple[CollectionState, Regions, "SohWorld"]) -> bool:
     world = bundle[2]
