@@ -15,7 +15,6 @@ class ItemType(IntEnum):
     magic = 2  # things that cost magic
 
 class GroupTag(IntFlag):
-    Clear = 0
     Sword = auto()
     Melee_Weapon = auto()
     Ranged_Weapon = auto()
