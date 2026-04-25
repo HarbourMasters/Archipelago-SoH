@@ -50,8 +50,8 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.DEKU_TREE_LOBBY_GRASS1, lambda bundle: can_cut_shrubs(bundle)),
         (Locations.DEKU_TREE_LOBBY_GRASS2, lambda bundle: can_cut_shrubs(bundle)),
         (Locations.DEKU_TREE_LOBBY_GRASS3, lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_LOBBY_GRASS4, lambda bundle: can_cut_shrubs(bundle)),
-        (Locations.DEKU_TREE_LOBBY_GRASS5, lambda bundle: can_cut_shrubs(bundle))
+        (Locations.DEKU_TREE_2F_GRASS_1, lambda bundle: can_cut_shrubs(bundle)),
+        (Locations.DEKU_TREE_2F_GRASS_2, lambda bundle: can_cut_shrubs(bundle))
     ])
     # Connections
     connect_regions(Regions.DEKU_TREE_LOBBY, world, [
