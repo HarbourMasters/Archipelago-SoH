@@ -3654,7 +3654,7 @@ class Tricks(StrEnum):
     DC_SLINGSHOT_SKIP = "DC Slingshot Skip"
     DC_SCRUB_ROOM = "DC Scrub Room"
     DC_JUMP = "DC Jump"
-#    DC_HAMMER_FLOOR = "DC Hammer Floor"
+    DC_HAMMER_FLOOR = "DC Hammer Floor"
 #    DC_MQ_STAIRS_WITH_ONLY_STRENGTH = "DC MQ Stairs With Only Strength"
 #    DC_MQ_CHILD_BOMBS = "DC MQ Child Bombs"
 #    DC_MQ_CHILD_EYES = "DC MQ Child Eyes"
