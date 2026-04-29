@@ -7,8 +7,8 @@ from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Loc
 from worlds.AutoWorld import WebWorld, World
 from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
-from .Items import SohItem, item_data_table, item_table, item_name_groups, progressive_items
-from .Locations import location_table, token_amounts, SohLocData, location_data_table, create_location_groups
+from .Items import SohItem, item_data_table, item_table, SohItemData, progressive_items
+from .Locations import location_table, token_amounts, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -72,6 +72,19 @@ class SohSettings(Group):
     soh_install_path: SOHInstallPath | None = None
 
 
+@staticmethod
+def create_groups(obj: dict[Items, SohItemData] | dict[str, SohLocData]) -> dict[str, set[str]]:
+    groups: dict[str, set[str]] = dict()
+    for key, data in obj.items():
+        if data.tags is None:
+            continue
+        for tag in data.tags:
+            tag_name = tag.name.replace('_', ' ')
+            if tag_name not in groups:
+                groups[tag_name] = set()
+            groups[tag_name].add(str(key))
+    return groups
+
 class SohWorld(World):
     """A PC Port of Ocarina of Time"""
 
@@ -82,8 +95,8 @@ class SohWorld(World):
     settings: ClassVar[SohSettings]
     location_name_to_id = location_table
     item_name_to_id = item_table
-    item_name_groups = item_name_groups
-    location_name_groups = create_location_groups()
+    item_name_groups = create_groups(item_data_table)
+    location_name_groups = create_groups(location_data_table)
 
     # Universal Tracker stuff, does not do anything in normal gen
     glitches_item_name = Items.GLITCHED
@@ -198,7 +211,7 @@ class SohWorld(World):
             self.options.bottom_of_the_well_key_ring.value = self.passthrough.get("bottom_of_the_well_key_ring", False)
             self.options.gerudo_training_ground_key_ring.value = self.passthrough.get("gerudo_training_ground_key_ring", False)
             self.options.ganons_castle_key_ring.value = self.passthrough.get("ganons_castle_key_ring", False)
-       
+
 
     def create_regions(self) -> None:
         create_regions_and_locations(self)
@@ -537,6 +550,7 @@ class SohWorld(World):
             "tricks_in_logic": self.options.tricks_in_logic.value,
             "medallion_locked_trials": self.options.medallion_locked_trials.value,
             "starting_hearts": self.options.starting_hearts.value,
+            "hint_clarity": self.options.hint_clarity.value,
             "tot_altar_hint": self.options.tot_altar_hint.value,
             "ganondorf_hint": self.options.ganondorf_hint.value,
             "sheik_la_hint": self.options.sheik_la_hint.value,

@@ -7,7 +7,7 @@ from .Locations import SohLocation
 from worlds.generic.Rules import set_rule
 from worlds.AutoWorld import LogicMixin
 from .Enums import *
-from .Items import SohItem, item_data_table, ItemType, no_rules_bottles
+from .Items import SohItem, item_data_table, ItemType, no_rules_bottles, GroupTag
 
 if TYPE_CHECKING:
     from . import SohWorld
@@ -877,25 +877,26 @@ def can_detonate_upright_bomb_flower(bundle: tuple[CollectionState, Regions, "So
                      or can_use(Items.NAYRUS_LOVE, bundle))))
 
 
-def item_group_count(bundle: tuple[CollectionState, Regions, "SohWorld"], item_group: str) -> int:
+def item_group_count(bundle: tuple[CollectionState, Regions, "SohWorld"], item_group: GroupTag) -> int:
     state = bundle[0]
     world = bundle[2]
-    return state.count_group_unique(item_group, world.player)
+    group_name = item_group.name.replace('_', " ")
+    return state.count_group_unique(group_name, world.player)
 
 
 def ocarina_button_count(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> int:
     world = bundle[2]
     if world.options.shuffle_ocarina_buttons:
-        return item_group_count(bundle, "Ocarina Buttons")
+        return item_group_count(bundle, GroupTag.Ocarina_Button)
     return 5
 
 
 def stone_count(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> int:
-    return item_group_count(bundle, "Stones")
+    return item_group_count(bundle, GroupTag.Spiritual_Stone)
 
 
 def medallion_count(bundle: tuple[CollectionState, Regions, "SohWorld"]) -> int:
-    return item_group_count(bundle, "Medallions")
+    return item_group_count(bundle, GroupTag.Medallion)
 
 
 dungeon_events: list[Events] = [Events.DEKU_TREE_COMPLETED, Events.DODONGOS_CAVERN_COMPLETED,

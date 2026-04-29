@@ -52,6 +52,7 @@ default_options: dict[str, Any] = {
     "ganondorf_hint":               Toggle.option_true,
     "sheik_la_hint":                Toggle.option_true,
     "warp_song_hint":               Toggle.option_true,
+    "hint_clarity":                 HintClarity.option_clear,
 }
 
 beginner_options = {

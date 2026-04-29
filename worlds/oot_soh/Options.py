@@ -1083,6 +1083,26 @@ class IceTrapFillerReplacement(Range):
     range_end = 100
     default = 0
 
+class HintClarity(Choice):
+    """
+    Sets the difficulty of hints.
+
+    Obscure - Hints tell you the tier of an item but not what it is.
+    Hookshot > Important Item
+
+    Ambiguous (Experimental) - Hints tell you what the item could be based on its item group.
+    Light Arrows > Magic Arrows
+    (Quality of groups depends on game)
+
+    Clear - Hints tell you exactly what the item is and opens the hint in the hint tab for free.
+    Boomerang > Boomerang
+    """
+    display_name = "Hint Clarity"
+    option_obscure = 0
+    option_ambiguous = 1
+    option_clear = 2
+    default = 2
+
 class ToTAltarHint(Toggle):
     """
     Reading the Temple of Time altar as child will tell you the locations of the spiritual stones.
@@ -1611,6 +1631,7 @@ class SohOptions(PerGameCommonOptions):
     shop_affordable_prices: ShopAffordablePrices
     scrub_affordable_prices: ScrubAffordablePrices
     merchant_affordable_prices: MerchantAffordablePrices
+    hint_clarity: HintClarity
     tot_altar_hint: ToTAltarHint
     ganondorf_hint: GanondorfHint
     sheik_la_hint: SheikLightArrowHint
@@ -1845,6 +1866,7 @@ soh_option_groups = [
     ]),
     OptionGroup("Hints", [
         #GossipStoneHints
+        HintClarity,
         #HintDistribution
         ToTAltarHint,
         GanondorfHint,
