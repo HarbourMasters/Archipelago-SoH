@@ -2,7 +2,23 @@ import asyncio
 import os
 import json
 from CommonClient import get_base_parser, handle_url_arg
+from Utils import open_filename
 from . import SohWorld
+
+# Stolen from SC2 client
+# worlds/sc2/client.py
+_has_forced_save = False
+def force_settings_save_on_close() -> None:
+    """
+    Settings has an existing auto-save feature, but it only triggers if a new key was introduced.
+    Force it to mark things as changed by introducing a new key and then cleaning up.
+    """
+    global _has_forced_save
+    if _has_forced_save:
+        return
+    SohWorld.settings.update({'invalid_attribute': True})
+    del SohWorld.settings.invalid_attribute
+    _has_forced_save = True
 
 def launch(*launch_args: str):
     async def main():
@@ -22,6 +38,22 @@ def launch(*launch_args: str):
             password = "" if args.password == "None" else args.password
 
         path = SohWorld.settings.soh_install_path
+
+        # If there is no path to the Ship install, prompt them until there is one
+        while path is None or path == "" or not os.path.exists(path):
+            try:
+                tempPath = os.path.realpath(open_filename("Select Ship of Harkinian AP Client", (("Ship of Harkinian AP Client", (".exe", ".appimage")), ('Any File', '')), ""))
+
+                # Check this exists
+                if os.path.exists(tempPath):
+                    path = tempPath
+                    SohWorld.settings.soh_install_path = path
+                    force_settings_save_on_close()
+
+            except Exception as e:
+                # Log an error? Unlikely to happen unless they close the file dialog
+                return
+
         if path is not None:
             directory, filename = os.path.split(path)
 

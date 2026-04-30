@@ -588,5 +588,4 @@ def launch_client(*args: str):
     from .Client import launch
     launch_component(launch, name="Ship of Harkinian Client", args=args)
 
-if SohWorld.settings.soh_install_path is not None:
-    components.append(Component("Ship Of Harkinian Client", game_name="Ship of Harkinian", func=launch_client, component_type=Type.CLIENT, supports_uri=True))
+components.append(Component("Ship Of Harkinian Client", game_name="Ship of Harkinian", func=launch_client, component_type=Type.CLIENT, supports_uri=True))
