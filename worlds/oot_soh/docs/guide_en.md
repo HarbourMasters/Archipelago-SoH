@@ -43,4 +43,4 @@ To update your SoH client, simply download the newer version, and extract + over
 
 ### Configure Your YAML File
 
-In the Archipelago launcher, choose "Install APWorld" and pick the "oot_soh.apworld" file that came with your download. Afterwards, in the Archipelago launcher you can use the built-in Options editor which you can find inside the Archipelago Launcher itself.
+In the Archipelago launcher, choose "Install APWorld" and pick the "oot_soh.apworld" file that came with your download. Afterwards, in the Archipelago launcher, you can use the built-in Options editor which you can find inside the Archipelago Launcher itself.
