@@ -4,7 +4,8 @@
 
 - Until AP is integrated into the main Ship of Harkinian releases, a separate version of Ship of Harkinian including it (see releases [here](https://github.com/HarbourMasters/Archipelago-SoH/releases)). Windows, Linux (including Steam Deck) and Mac are supported!
 - An Ocarina of Time ROM. Every version of OoT is supported!
-- If hosting or wanting to use the options creator to generate your yaml, the .apworld also found on our releases page.
+- Archipelago Client v0.6.7 or higher for creating yaml files and generating games
+- The .apworld found on our releases page for creating yaml files and generating games
 
 
 ## Installation
@@ -24,7 +25,8 @@ In the ESC menu you can find the built-in Archipelago console. To find this, nav
 
 Co-op play on the same slot is available! Just make a save file with the same slot details, and locations will automatically get synced between players.
 
-Anchor multiplayer is also supported, simply join the same room as your friends and you'll be able to see each other running around.
+Anchor multiplayer is also supported, simply join the same room as your friends and you'll be able to see each other running around. 
+Check and Item synchronization is handled through Archipelago so single slot coop and parallel multiworld play will function side by side.
 
 Please take a look at the other options inside the ESC menu to tweak your experience. Pretty much every regular SoH enhancement will work perfectly fine within
 Archipelago saves, including all the trackers, installed graphical mods and QoL enhancements!
@@ -43,4 +45,4 @@ To update your SoH client, simply download the newer version, and extract + over
 
 ### Configure Your YAML File
 
-In the Archipelago launcher, choose "Install APWorld" and pick the "oot_soh.apworld" file that came with your download. Afterwards, in the Archipelago launcher, you can use the built-in Options editor which you can find inside the Archipelago Launcher itself.
+In the Archipelago launcher, choose "Install APWorld" and pick the "oot_soh.apworld" file that came with your download. Afterwards, in the Archipelago launcher, you can use the built-in Options Creator which you can find inside the Archipelago Launcher itself.
