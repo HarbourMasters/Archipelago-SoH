@@ -1,6 +1,7 @@
 import asyncio
 import os
 import json
+import sys
 from CommonClient import get_base_parser, handle_url_arg
 from Utils import open_directory, open_filename
 from . import SohWorld
@@ -43,9 +44,7 @@ def launch(*launch_args: str):
         # If there is no path to the Ship install, prompt them until there is one
         while executable_path is None or executable_path == "" or not os.path.exists(executable_path):
             try:
-                # Calling realpath on the executable path is unsound in environments where executables are symlinked into place
-                # we should be able to execve(2) through a symlink anyways.
-                # TODO: what other common binary format extensions are there?
+                # Calling realpath on the executable path is unsound in environments where executables are symlinked into place we should be able to exec(3) through a symlink anyways.
                 tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client",  (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
 
                 # Check this exists
@@ -65,17 +64,16 @@ def launch(*launch_args: str):
                 # Log an error? Unlikely to happen unless they close the file dialog
                 return
 
+        # Similarly for the path to the folder which contains other ship related files, continually prompt until it is valid.
         while settings_folder is None or settings_folder == "" or not os.path.exists(settings_folder):
             try:
-                import sys
-
-                suggestedPath = ""
+                suggested_path = ""
                 if sys.platform == "linux":
-                    suggestedPath = os.path.realpath(os.path.join(os.environ["HOME"], ".local/share"))
-                tempPath = os.path.realpath(open_directory("Select folder containing Ship of Harkinian settings, mods, etc", suggestedPath))
+                    suggested_path = os.path.realpath(os.path.join(os.environ["HOME"], ".local/share"))
+                tempt_path = os.path.realpath(open_directory("Select folder containing Ship of Harkinian settings, mods, etc", suggested_path))
 
-                if os.path.exists(os.path.join(tempPath, "shipofharkinian.json")):
-                    settings_folder = tempPath
+                if os.path.exists(os.path.join(tempt_path, "shipofharkinian.json")):
+                    settings_folder = tempt_path
                     SohWorld.settings.soh_settings_folder = settings_folder
                     force_settings_save_on_close()
 
