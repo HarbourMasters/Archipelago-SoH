@@ -2,7 +2,7 @@ import asyncio
 import os
 import json
 from CommonClient import get_base_parser, handle_url_arg
-from Utils import open_filename
+from Utils import open_directory, open_filename
 from . import SohWorld
 
 # Stolen from SC2 client
@@ -37,25 +37,54 @@ def launch(*launch_args: str):
             username = args.name
             password = "" if args.password == "None" else args.password
 
-        path = SohWorld.settings.soh_install_path
+        executable_path = SohWorld.settings.executable_path
+        settings_folder = SohWorld.settings.soh_settings_folder
 
         # If there is no path to the Ship install, prompt them until there is one
-        while path is None or path == "" or not os.path.exists(path):
+        while executable_path is None or executable_path == "" or not os.path.exists(executable_path):
             try:
-                tempPath = os.path.realpath(open_filename("Select Ship of Harkinian AP Client", (("Ship of Harkinian AP Client", (".exe", ".appimage")), ('Any File', '')), ""))
+                # Calling realpath on the executable path is unsound in environments where executables are symlinked into place
+                # we should be able to execve(2) through a symlink anyways.
+                # TODO: what other common binary format extensions are there?
+                tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client",  (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
 
                 # Check this exists
                 if os.path.exists(tempPath):
-                    path = tempPath
-                    SohWorld.settings.soh_install_path = path
+                    executable_path = tempPath
+                    SohWorld.settings.executable_path = executable_path
+                    force_settings_save_on_close()
+
+                settings_path = os.path.join(os.path.split(tempPath)[0], "shipofharkinian.json")
+
+                if os.path.exists(settings_path):
+                    settings_folder = os.path.split(settings_path)[0]
+                    SohWorld.settings.soh_settings_folder = settings_folder
                     force_settings_save_on_close()
 
             except Exception as e:
                 # Log an error? Unlikely to happen unless they close the file dialog
                 return
 
-        if path is not None:
-            directory, filename = os.path.split(path)
+        while settings_folder is None or settings_folder == "" or not os.path.exists(settings_folder):
+            try:
+                import sys
+
+                suggestedPath = ""
+                if sys.platform == "linux":
+                    suggestedPath = os.path.realpath(os.path.join(os.environ["HOME"], ".local/share"))
+                tempPath = os.path.realpath(open_directory("Select folder containing Ship of Harkinian settings, mods, etc", suggestedPath))
+
+                if os.path.exists(os.path.join(tempPath, "shipofharkinian.json")):
+                    settings_folder = tempPath
+                    SohWorld.settings.soh_settings_folder = settings_folder
+                    force_settings_save_on_close()
+
+            except Exception as e:
+                # It's also unlikely for errors to occur here.
+                return
+
+        if executable_path is not None and settings_folder is not None:
+            directory = settings_folder
 
             # Parse JSON to update credentials
             if hostname is not None:
@@ -82,7 +111,7 @@ def launch(*launch_args: str):
 
             # Open Ship
             proc = await asyncio.create_subprocess_exec(
-                path,
+                executable_path,
                 cwd=directory,
                 stdout=None,
                 stderr=None

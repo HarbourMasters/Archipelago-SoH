@@ -62,14 +62,20 @@ class SohSettings(Group):
         By default when an item can't be placed in prefill it will be added to the item pool as a backup. This disables that behavoir.
         """
 
-    class SOHInstallPath(str):
+    class SOHExecutablePath(str):
         """
-        Where the game is installed. Used for opening the game through the AP launcher or Webhost
+        Where the game executable is installed. Used for opening the game through the AP launcher or Webhost
+        """
+
+    class SOHSettingsFolder(str):
+        """
+        Where game files and configuration is contained. Used to change shipofharkinian.json settings
         """
 
     allow_true_no_logic: AllowTrueNoLogic | bool = False
     disable_fill_overflow: DisableFillOverflow | bool = False
-    soh_install_path: SOHInstallPath | None = None
+    executable_path: SOHExecutablePath | None = None
+    soh_settings_folder: SOHSettingsFolder | None = None
 
 
 @staticmethod
