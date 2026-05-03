@@ -44,7 +44,6 @@ def launch(*launch_args: str):
         # If there is no path to the Ship install, prompt them until there is one
         while executable_path is None or executable_path == "" or not os.path.exists(executable_path):
             try:
-                # Calling realpath on the executable path is unsound in environments where executables are symlinked into place we should be able to exec(3) through a symlink anyways.
                 tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client",  (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
 
                 # Check this exists
@@ -64,7 +63,7 @@ def launch(*launch_args: str):
                 # Log an error? Unlikely to happen unless they close the file dialog
                 return
 
-        # Similarly for the path to the folder which contains other ship related files, continually prompt until it is valid.
+        # Similarly for the path to the folder which contains other ship related files, prompt until it is valid.
         while settings_folder is None or settings_folder == "" or not os.path.exists(settings_folder):
             try:
                 suggested_path = ""
