@@ -44,7 +44,7 @@ def launch(*launch_args: str):
         # If there is no path to the Ship install, prompt them until there is one
         while executable_path is None or executable_path == "" or not os.path.exists(executable_path):
             try:
-                tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client",  (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
+                tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client", (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
 
                 # Check this exists
                 if os.path.exists(tempPath):
