@@ -30,18 +30,6 @@ def set_region_rules(world: "SohWorld") -> None:
             bundle) or has_item(Events.TIME_TRAVEL, bundle))
     ])
 
-    # Event and connection for Zeldas Letter/Impas Song
-    if (bool(world.options.skip_child_zelda)):
-        # Events
-        add_events(Regions.ROOT, world, [
-            (EventLocations.ZELDAS_LETTER_FROM_SKIP_OPTION,
-             Items.ZELDAS_LETTER, lambda bundle: True)
-        ])
-        # Connections
-        connect_regions(Regions.ROOT, world, [
-            (Regions.HC_GARDEN_SONG_FROM_IMPA, lambda bundle: True)
-        ])
-
     # Connection for Master Sword as you start with it when starting age is adult and MS is not shuffled.
     if (world.options.starting_age == "adult" and not world.options.shuffle_master_sword):
         # Connections

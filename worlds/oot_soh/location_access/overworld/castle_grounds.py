@@ -80,20 +80,16 @@ def set_region_rules(world: "SohWorld") -> None:
 
     # Hyrule Castle Garden
     # Locations
+    add_locations(Regions.HC_GARDEN, world, [
+        (Locations.HC_ZELDAS_LETTER, lambda bundle: True),
+        (Locations.SONG_FROM_IMPA, lambda bundle: True)
+
+    ])
     if not world.options.skip_child_zelda:
-        add_locations(Regions.HC_GARDEN, world, [
-            (Locations.HC_ZELDAS_LETTER, lambda bundle: True)
-        ])
         # Connections
         connect_regions(Regions.HC_GARDEN, world, [
             (Regions.HYRULE_CASTLE_GROUNDS, lambda bundle: True),
-            (Regions.HC_GARDEN_SONG_FROM_IMPA, lambda bundle: True)
         ])
-
-    # Hyrule Castle Garden Song From Impa
-    add_locations(Regions.HC_GARDEN_SONG_FROM_IMPA, world, [
-        (Locations.SONG_FROM_IMPA, lambda bundle: True)
-    ])
 
     # Hyrule Castle Great Fairy Fountain
     # Locations
