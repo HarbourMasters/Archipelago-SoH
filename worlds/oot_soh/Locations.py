@@ -174,11 +174,11 @@ base_location_table: dict[str, SohLocData] = {
     Locations.KAK_OPEN_GROTTO_CHEST:                                        SohLocData(71, LocTag.Kakariko_Village | LocTag.Chest | LocTag.Grotto),
     Locations.KAK_REDEAD_GROTTO_CHEST:                                      SohLocData(72, LocTag.Kakariko_Village | LocTag.Chest | LocTag.Grotto),
     Locations.KAK_SHOOTING_GALLERY_REWARD:                                  SohLocData(73, LocTag.Kakariko_Village | LocTag.Shooting_Minigame | LocTag.Minigame),
-    Locations.KAK_10_GOLD_SKULLTULA_REWARD:                                 SohLocData(74, LocTag.Kakariko_Village | LocTag.Gold_Skulltula),
-    Locations.KAK_20_GOLD_SKULLTULA_REWARD:                                 SohLocData(75, LocTag.Kakariko_Village | LocTag.Gold_Skulltula),
-    Locations.KAK_30_GOLD_SKULLTULA_REWARD:                                 SohLocData(76, LocTag.Kakariko_Village | LocTag.Gold_Skulltula),
-    Locations.KAK_40_GOLD_SKULLTULA_REWARD:                                 SohLocData(77, LocTag.Kakariko_Village | LocTag.Gold_Skulltula),
-    Locations.KAK_50_GOLD_SKULLTULA_REWARD:                                 SohLocData(78, LocTag.Kakariko_Village | LocTag.Gold_Skulltula),
+    Locations.KAK_10_GOLD_SKULLTULA_REWARD:                                 SohLocData(74, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward),
+    Locations.KAK_20_GOLD_SKULLTULA_REWARD:                                 SohLocData(75, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward),
+    Locations.KAK_30_GOLD_SKULLTULA_REWARD:                                 SohLocData(76, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward),
+    Locations.KAK_40_GOLD_SKULLTULA_REWARD:                                 SohLocData(77, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward),
+    Locations.KAK_50_GOLD_SKULLTULA_REWARD:                                 SohLocData(78, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward),
     Locations.GRAVEYARD_SHIELD_GRAVE_CHEST:                                 SohLocData(80, LocTag.Graveyard | LocTag.Chest),
     Locations.GRAVEYARD_HEART_PIECE_GRAVE_CHEST:                            SohLocData(81, LocTag.Graveyard | LocTag.Chest),
     Locations.GRAVEYARD_ROYAL_FAMILYS_TOMB_CHEST:                           SohLocData(82, LocTag.Graveyard | LocTag.Chest),
@@ -2636,7 +2636,7 @@ carpenters_location_table: dict[str, SohLocData] = {
 }
 
 hundred_skulls_location_table: dict[str, SohLocData] = {
-    Locations.KAK_100_GOLD_SKULLTULA_REWARD: SohLocData(79, LocTag.Kakariko_Village | LocTag.Gold_Skulltula)
+    Locations.KAK_100_GOLD_SKULLTULA_REWARD: SohLocData(79, LocTag.Kakariko_Village | LocTag.House_of_Skulltula_Reward)
 }
 
 no_logic_crates_location_table: dict[str, SohLocData] = {
