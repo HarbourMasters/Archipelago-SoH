@@ -127,6 +127,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.start_with_requiem.value = world.passthrough.get("start_with_requiem", StartWithRequiem.default)
             world.options.start_with_nocturne.value = world.passthrough.get("start_with_nocturne", StartWithNocturne.default)
             world.options.start_with_prelude.value = world.passthrough.get("start_with_prelude", StartWithPrelude.default)
+            world.options.shuffle_songs.value = world.passthrough.get("shuffle_songs", ShuffleSongs.default)
             world.options.full_wallets.value = world.passthrough["full_wallets"]
             world.options.bombchu_bag.value = world.passthrough["bombchu_bag"]
             world.options.bombchu_drops.value = world.passthrough["bombchu_drops"]
