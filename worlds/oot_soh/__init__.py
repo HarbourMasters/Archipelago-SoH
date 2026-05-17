@@ -460,7 +460,7 @@ class SohWorld(World):
             "shuffle_master_sword": self.options.shuffle_master_sword.value,
             "shuffle_childs_wallet": self.options.shuffle_childs_wallet.value,
             "shuffle_tycoon_wallet": self.options.shuffle_tycoon_wallet.value,
-            "shuffle_ocarinas": self.options.shuffle_ocarina_buttons.value,
+            "shuffle_ocarinas": self.options.shuffle_ocarinas.value,
             "shuffle_ocarina_buttons": self.options.shuffle_ocarina_buttons.value,
             "shuffle_swim": self.options.shuffle_swim.value,
             "shuffle_gerudo_membership_card": self.options.shuffle_gerudo_membership_card.value,
