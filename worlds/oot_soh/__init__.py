@@ -564,7 +564,7 @@ class SohWorld(CachedRuleBuilderWorld):
             "malon_hint": self.options.malon_hint.value,
             "horseback_archery_hint": self.options.horseback_archery_hint.value,
             "fishing_pole_hint": self.options.fishing_pole_hint.value,
-            "warp_song_hint": self.options.warp_song_hint.value,
+            #"warp_song_hint": self.options.warp_song_hint.value,
             "scrub_hints": self.options.scrub_hints.value,
             "merchant_hints": self.options.merchant_hints.value,
             "gs_10_hint": self.options.gs_10_hint.value,

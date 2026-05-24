@@ -1230,12 +1230,12 @@ class FishingPoleHint(Toggle):
     """
     display_name = "Fishing Pole Hint"
 
-class WarpSongHint(Toggle):
-    """
-    Playing a warp song will tell you where it leads.
-    (If warp song destinations are vanilla, this is always enabled)
-    """
-    display_name = "Warp Song Hints"
+#class WarpSongHint(Toggle):
+#    """
+#    Playing a warp song will tell you where it leads.
+#    (If warp song destinations are vanilla, this is always enabled)
+#    """
+#    display_name = "Warp Song Hints"
 
 class ScrubHintText(Toggle):
     """
@@ -1662,7 +1662,7 @@ class SohOptions(PerGameCommonOptions):
     malon_hint: MalonHint
     horseback_archery_hint: HorsebackArcheryHint
     fishing_pole_hint: FishingPoleHint
-    warp_song_hint: WarpSongHint
+    #warp_song_hint: WarpSongHint   # Not required until they can be randomized
     scrub_hints: ScrubHintText
     merchant_hints: MerchantHintText
     gs_10_hint: GS10Hint
@@ -1935,7 +1935,7 @@ soh_option_groups = [
         MalonHint,
         HorsebackArcheryHint,
         FishingPoleHint,
-        WarpSongHint,
+        #WarpSongHint,
         ScrubHintText,
         MerchantHintText,
         GS10Hint,
