@@ -13,14 +13,14 @@ class TestAllTrialsOpen(SohTestBase):
     def test_require_none(self):
         self.sweep()
         self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_ENTRYWAY), "The entryway should be accessible")
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_FOREST_TRIAL), "The forest Trial should be accessible when medallion locked trials are dissabled")
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_FIRE_TRIAL), "The fire Trial should be accessible when medallion locked trials are dissabled")
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_WATER_TRIAL), "The water Trial should be accessible when medallion locked trials are dissabled")
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_SHADOW_TRIAL), "The shadow Trial should be accessible when medallion locked trials are dissabled")
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_SPIRIT_TRIAL), "The spirit Trial should be accessible when medallion locked trials are dissabled")
-        self.assertFalse(self.can_reach_region(Regions.GANONS_CASTLE_LIGHT_TRIAL), "The light Trial should be not be accessible when medallion locked trials are dissabled, until the gold gauntlets are obtained")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_FOREST_TRIAL), "The Forest Trial should be accessible when medallion locked trials are disabled")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_FIRE_TRIAL), "The Fire Trial should be accessible when medallion locked trials are disabled")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_WATER_TRIAL), "The Water Trial should be accessible when medallion locked trials are disabled")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_SHADOW_TRIAL), "The Shadow Trial should be accessible when medallion locked trials are disabled")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_SPIRIT_TRIAL), "The Spirit Trial should be accessible when medallion locked trials are disabled")
+        self.assertFalse(self.can_reach_region(Regions.GANONS_CASTLE_LIGHT_TRIAL), "The Light Trial should be not be accessible when medallion locked trials are disabled, until the gold gauntlets are obtained")
         self.collect([self.create_item(Items.STRENGTH_UPGRADE)] * 3)
-        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_LIGHT_TRIAL), "The light Trial should be not be accessible when medallion locked trials are dissabled, until the gold gauntlets are obtained")
+        self.assertTrue(self.can_reach_region(Regions.GANONS_CASTLE_LIGHT_TRIAL), "The Light Trial should be not be accessible when medallion locked trials are disabled, until the gold gauntlets are obtained")
 
 class TestAllTrialsClosed(SohTestBase):
     options = {"starting_age": "adult",
