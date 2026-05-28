@@ -1937,7 +1937,6 @@ soh_option_groups = [
         IceTrapFillerReplacement
     ]),
     OptionGroup("Hints", [
-        #GossipStoneHints
         HintClarity,
         #HintDistribution
         GossipStoneHints,
