@@ -540,6 +540,7 @@ class SohWorld(CachedRuleBuilderWorld):
             "medallion_locked_trials": self.options.medallion_locked_trials.value,
             "starting_hearts": self.options.starting_hearts.value,
             "hint_clarity": self.options.hint_clarity.value,
+            "gossip_stone_hints": self.options.gossip_stone_hints.value,
             "tot_altar_hint": self.options.tot_altar_hint.value,
             "ganondorf_hint": self.options.ganondorf_hint.value,
             "sheik_la_hint": self.options.sheik_la_hint.value,

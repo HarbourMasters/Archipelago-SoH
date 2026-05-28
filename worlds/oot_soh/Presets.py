@@ -48,6 +48,7 @@ default_options: dict[str, Any] = {
     "start_with_requiem":           Toggle.option_false,
     "start_with_nocturne":          Toggle.option_false,
     "start_with_prelude":           Toggle.option_false,
+    "gossip_stone_hints":           Toggle.option_true,
     "tot_altar_hint":               Toggle.option_true,
     "ganondorf_hint":               Toggle.option_true,
     "sheik_la_hint":                Toggle.option_true,

@@ -1117,6 +1117,27 @@ class HintClarity(Choice):
     option_clear = 2
     default = 2
 
+class GossipStoneHints(Choice):
+    """
+    Choose wether gossip stones should give hints and what is required to read them. Currently
+    the stones can only give out location hints and junk hints. Way of the hero and barren hints
+    are not yet implemented.
+
+    None: Gossip stones do not give out hints.
+
+    Need nothing: Gossip stones give out hints and you don't need anything to read them.
+
+    Need truth: Gossip stones give out hints but you need Mask of Truth to read them.
+
+    Need stone: Gossip stones give out hints but you need Stone of Agony to read them.
+    """
+    display_name = "Gossip Stone Hints"
+    option_none = 0
+    option_need_nothing = 1
+    option_need_truth = 2
+    option_need_stone = 3
+    default = 1
+
 class ToTAltarHint(Toggle):
     """
     Reading the Temple of Time altar as child will tell you the locations of the spiritual stones.
@@ -1645,6 +1666,7 @@ class SohOptions(PerGameCommonOptions):
     scrub_affordable_prices: ScrubAffordablePrices
     merchant_affordable_prices: MerchantAffordablePrices
     hint_clarity: HintClarity
+    gossip_stone_hints: GossipStoneHints
     tot_altar_hint: ToTAltarHint
     ganondorf_hint: GanondorfHint
     sheik_la_hint: SheikLightArrowHint
@@ -1918,6 +1940,7 @@ soh_option_groups = [
         #GossipStoneHints
         HintClarity,
         #HintDistribution
+        GossipStoneHints,
         ToTAltarHint,
         GanondorfHint,
         SheikLightArrowHint,

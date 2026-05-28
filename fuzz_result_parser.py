@@ -194,6 +194,7 @@ initial_bools_dict: Dict[str, bool | None] = {
     "skip_epona_race": None,
     "complete_mask_quest": None,
     "skip_scarecrows_song": None,
+    "gossip_stone_hints": None,
     "tot_altar_hint": None,
     "ganondorf_hint": None,
     "sheik_la_hint": None,
