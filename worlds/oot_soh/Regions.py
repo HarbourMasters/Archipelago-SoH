@@ -403,12 +403,11 @@ def place_locked_items(world: "SohWorld") -> None:
     if world.options.start_with_links_pocket == "advancement":
         world.get_location(Locations.LINKS_POCKET).progress_type = LocationProgressType.PRIORITY
 
+    if world.options.skip_child_zelda or not world.options.shuffle_weird_egg:
+        place_locked_item(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
+
     # If skip_child_zelda, connect the locations to root
-    if not world.options.skip_child_zelda:
-        # If not skip_child_zelda and not shuffle_weird_egg, place the weird egg
-        if not world.options.shuffle_weird_egg:
-            place_locked_item(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
-    else:
+    if world.options.skip_child_zelda:
         connect_to_root(Locations.HC_MALON_EGG, world)
         connect_to_root(Locations.HC_ZELDAS_LETTER, world)
         connect_to_root(Locations.SONG_FROM_IMPA, world)
