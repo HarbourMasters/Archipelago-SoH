@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet, Accessibility
 from .Enums import Tricks, Items, TokenCounts
-from .LogicHelpers import wallet_capacities
 
 wallet_capacities: dict[Items, int] = {
     Items.CHILD_WALLET: 99,
