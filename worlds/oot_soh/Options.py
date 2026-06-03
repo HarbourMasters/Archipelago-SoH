@@ -1145,6 +1145,7 @@ class ToTAltarHint(Toggle):
     as well as the conditions for building the Rainbow Bridge and getting the Boss Key for Gannon's Castle.
     """
     display_name = "ToT Altar Hint"
+    default = 1
 
 class GanondorfHint(Toggle):
     """
@@ -1153,6 +1154,7 @@ class GanondorfHint(Toggle):
     Gossip stones will never hint the appropriate items.
     """
     display_name = "Ganondorf Hint"
+    default = 1
 
 class SheikLightArrowHint(Toggle):
     """
@@ -1173,12 +1175,14 @@ class DampeDiaryHint(Toggle):
     Reading the diary of Dampé the gravekeeper as adult will tell you the location of one of the Hookshots.
     """
     display_name = "Dampe's Diary Hint"
+    default = 1
 
 class GregHint(Toggle):
     """
     Talking to the chest game owner after buying a key will tell you the location of Greg the Green Rupee.
     """
     display_name = "Greg the Green Rupee Hint"
+    default = 1
 
 #class HyruleLoachHint(Toggle):
 #    """
@@ -1194,6 +1198,7 @@ class SariasHint(Toggle):
     Talking to Saria either in person or through Saria's Song will tell you the location of a progressive magic meter.
     """
     display_name = "Saria's Hint"
+    default = 1
 
 class MidosHint(Toggle):
     """
@@ -1206,6 +1211,7 @@ class FrogOcarinaGameHint(Toggle):
     Standing near the pedestal for the frogs in Zora's River will tell you the reward for the frogs' Ocarina game.
     """
     display_name = "Frog Ocarina Game Hint"
+    default = 1
 
 class OcarinaOfTimeHint(Toggle):
     """
@@ -1218,6 +1224,7 @@ class BigGoronHint(Toggle):
     Talking to Biggoron will tell you the item he will give you in exchange for the Claim Check.
     """
     display_name = "Biggoron's Hint"
+    default = 1
 
 class BigPoeHint(Toggle):
     """
@@ -1237,6 +1244,7 @@ class MalonHint(Toggle):
     the cow you win from beating her time on the Lon Lon Obstacle Course.
     """
     display_name = "Malon Hint"
+    default = 1
 
 class HorsebackArcheryHint(Toggle):
     """
@@ -1244,6 +1252,7 @@ class HorsebackArcheryHint(Toggle):
     will tell you what you win for scoring 1000 and 1500 points on Horseback Archery.
     """
     display_name = "Horseback Archery Hint"
+    default = 1
 
 class FishingPoleHint(Toggle):
     """
@@ -1263,6 +1272,7 @@ class ScrubHintText(Toggle):
     Business scrubs will reveal the identity of what they're selling.
     """
     display_name = "Scrub Hint Text"
+    default = 1
 
 class MerchantHintText(Toggle):
     """
@@ -1270,36 +1280,42 @@ class MerchantHintText(Toggle):
     (Shops are not affected by this setting)
     """
     display_name = "Merchant Hint Text"
+    default = 1
 
 class GS10Hint(Toggle):
     """
     Talking to the Cursed Resident in the Skulltula House who is saved after 10 tokens will tell you the reward.
     """
     display_name = "10 GS Hint"
+    default = 1
 
 class GS20Hint(Toggle):
     """
     Talking to the Cursed Resident in the Skulltula House who is saved after 20 tokens will tell you the reward.
     """
     display_name = "20 GS Hint"
+    default = 1
 
 class GS30Hint(Toggle):
     """
     Talking to the Cursed Resident in the Skulltula House who is saved after 30 tokens will tell you the reward.
     """
     display_name = "30 GS Hint"
+    default = 1
 
 class GS40Hint(Toggle):
     """
     Talking to the Cursed Resident in the Skulltula House who is saved after 40 tokens will tell you the reward.
     """
     display_name = "40 GS Hint"
+    default = 1
 
 class GS50Hint(Toggle):
     """
     Talking to the Cursed Resident in the Skulltula House who is saved after 50 tokens will tell you the reward.
     """
     display_name = "50 GS Hint"
+    default = 1
 
 class GS100Hint(Toggle):
     """
