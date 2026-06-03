@@ -31,3 +31,7 @@ class TestHearts(SohTestBase):
 
         self.remove(heart)
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 4)  # type: ignore
+
+    def test_collecting_all_hearts_count(self):
+        self.collect_by_name([Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER, Items.HEART_CONTAINER ])
+        self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 20, "after collecting all heart pieces and containers we should have 20 hearts") # type: ignore 

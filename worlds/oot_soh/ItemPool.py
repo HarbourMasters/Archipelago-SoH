@@ -517,7 +517,7 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PIECE_OF_HEART] -= create_special_progression_item(
                 world, Items.PIECE_OF_HEART, ItemClassification.useful | ItemClassification.skip_balancing, non_progression_piece_amount - 1)
             items_to_create[Items.PIECE_OF_HEART_WINNER] -= create_special_progression_item(
-                world, Items.HEART_CONTAINER, ItemClassification.useful | ItemClassification.skip_balancing, 1)
+                world, Items.PIECE_OF_HEART_WINNER, ItemClassification.useful | ItemClassification.skip_balancing, 1)
         
 
     # if Greg isn't necessary to win, make him filler
@@ -553,6 +553,9 @@ def create_item_pool(world: "SohWorld") -> None:
 
 
 def create_special_progression_item(world: "SohWorld", item: Items, classification: ItemClassification, amount: int = 1) -> int:
+    if amount < 1:
+        return 0
+
     items = [world.create_item(item, classification=classification)
              for _ in range(amount)]
 
