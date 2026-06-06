@@ -1061,7 +1061,8 @@ class StartingAge(Choice):
     Decide whether to start as child Link or adult Link.
     Child Link starts in Link's House in Kokiri Forest.
     Adult Link starts in the Temple of Time.
-    CAUTION: When Door of Time is set to closed and either Shuffle Dungeon Rewards set to off or Ocarinas aren't shuffled, this option will be forced to child.
+    CAUTION: When "Closed Forest" is set to "On" or "Door of Time" is set to closed with either "Shuffle Dungeon Rewards" set to "Off" or Ocarinas aren't shuffled
+    this option will be forced to child.
     """
     display_name = "Starting Age"
     option_child = 0
@@ -1375,6 +1376,7 @@ class StartWithLinksPocket(Choice):
     Advancement starts you with a random major item
     Anything starts you with a random item
     Nothing starts you with nothing in link's pocket
+    CAUTION: When "Shuffle Dungeon Rewards" is set to "Off" or "End of Dungeons" this option will be forced to "Dungeon Reward"
     """
     display_name = "Link's Pocket"
     option_dungeon_reward = 0
