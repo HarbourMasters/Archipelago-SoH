@@ -249,6 +249,19 @@ class TriforceHuntPiecesRequiredPercentage(Range):
     default = 60
 
 
+class TriforceHuntPiecesLocation(Choice):
+    """
+    Any dungeon - Triforce Pieces can only appear inside of any dungeon.
+    Overworld - Triforce Pieces can only appear outside of dungeons.
+    Anywhere - Triforce Pieces can appear anywhere in the world.
+    """
+    display_name = "Triforce Hunt Pieces Location"
+    option_any_dungeon = 0
+    option_overworld = 1
+    option_anywhere = 2
+    default = 2
+
+
 class ShuffleSongs(Choice):
     """
     Shuffles songs into the item pool.
@@ -1571,6 +1584,7 @@ class SohOptions(PerGameCommonOptions):
     triforce_hunt: TriforceHunt
     triforce_hunt_pieces_total: TriforceHuntPiecesTotal
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
+    triforce_hunt_pieces_location: TriforceHuntPiecesLocation
     shuffle_songs: ShuffleSongs
     shuffle_skull_tokens: ShuffleTokens
     skulls_sun_song: SkullsSunSong
@@ -1915,6 +1929,7 @@ soh_option_groups = [
         TriforceHunt,
         TriforceHuntPiecesTotal,
         TriforceHuntPiecesRequiredPercentage,
+        TriforceHuntPiecesLocation,
     ]),
     # OptionGroup("Shuffle Entrances", [
     #     # Dungeon Entrances

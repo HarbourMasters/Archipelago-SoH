@@ -578,24 +578,16 @@ def create_special_progression_item(world: "SohWorld", item: Items, classificati
 
 
 def create_triforce_pieces(world: "SohWorld") -> None:
-    total_triforce_pieces: int = min(
-        get_open_location_count(world), world.options.triforce_hunt_pieces_total.value)
+    world.calculate_triforce_pieces(get_open_location_count(world))
 
-    triforce_pieces_to_win: int = max(1, round(
-        total_triforce_pieces * (world.options.triforce_hunt_pieces_required_percentage.value * .01)))
-
-    triforce_pieces_made = [world.create_item(Items.TRIFORCE_PIECE) 
-                            for _ in range(triforce_pieces_to_win)]
-    triforce_pieces_made += [world.create_item(Items.TRIFORCE_PIECE, classification=ItemClassification.useful | ItemClassification.skip_balancing) 
-                             for _ in range(total_triforce_pieces - triforce_pieces_to_win)]
-
-    world.add_items_to_item_pool_list(triforce_pieces_made)
-
-    world.options.triforce_hunt_pieces_total.value = total_triforce_pieces
-    world.triforce_pieces_required = triforce_pieces_to_win
-
-    if world.using_ut:
-        world.triforce_pieces_required = world.passthrough["triforce_hunt_pieces_required"]
+    world.add_items_to_item_pool_list([
+        world.create_item(Items.TRIFORCE_PIECE)
+        for _ in range(world.triforce_pieces_required)
+    ])
+    world.add_items_to_item_pool_list([
+        world.create_item(Items.TRIFORCE_PIECE, classification=ItemClassification.useful | ItemClassification.skip_balancing)
+        for _ in range(world.options.triforce_hunt_pieces_total.value - world.triforce_pieces_required)
+    ])
 
 
 def create_filler_item_pool(world: "SohWorld") -> None:
