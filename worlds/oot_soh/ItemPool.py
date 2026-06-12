@@ -88,7 +88,7 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PROGRESSIVE_OCARINA] = 1
 
     # Songs
-    if world.options.shuffle_songs == "anywhere":
+    if world.options.shuffle_songs != "off":
         for song in get_shuffled_songs(world):
             items_to_create[song] = 1
 
@@ -158,7 +158,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GANONS_SOUL] = 1
 
     # Dungeon Rewards
-    if world.options.shuffle_dungeon_rewards == "anywhere":
+    if world.options.shuffle_dungeon_rewards != "off":
         # remove potentially pre-placed pocket item
         pocket_item = None
         if world.options.start_with_links_pocket != "nothing":
@@ -171,7 +171,7 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[reward] = 1
 
     # Maps and Compasses
-    if world.options.maps_and_compasses == "anywhere":
+    if world.options.maps_and_compasses not in ("start_with", "vanilla"):
         items_to_create[Items.GREAT_DEKU_TREE_MAP] = 1
         items_to_create[Items.DODONGOS_CAVERN_MAP] = 1
         items_to_create[Items.JABU_JABUS_BELLY_MAP] = 1
@@ -198,7 +198,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GANONS_CASTLE_BOSS_KEY] = 1
 
     # Keys
-    if world.options.small_key_shuffle == "anywhere":
+    if world.options.small_key_shuffle not in ("start_with", "vanilla"):
         if world.options.forest_temple_key_ring:
             items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
             items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
@@ -242,7 +242,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
 
     # Gerudo Fortress Keys
-    if world.options.gerudo_fortress_key_shuffle == "anywhere":
+    if world.options.gerudo_fortress_key_shuffle != "vanilla":
         if world.options.gerudo_fortress_key_ring:
             items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
             items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
@@ -250,7 +250,7 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
 
     # Boss Keys
-    if world.options.boss_key_shuffle != "anywhere":
+    if world.options.boss_key_shuffle in ("start_with", "vanilla"):
         items_to_create[Items.FOREST_TEMPLE_BOSS_KEY] = 0
         items_to_create[Items.FIRE_TEMPLE_BOSS_KEY] = 0
         items_to_create[Items.WATER_TEMPLE_BOSS_KEY] = 0
@@ -437,7 +437,7 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.HYLIA_LAB_KEY] += 1
                 items_to_create[Items.FISHING_HOLE_KEY] += 1
 
-            if world.options.small_key_shuffle == "anywhere":
+            if world.options.small_key_shuffle not in ("start_with", "vanilla"):
                 small_key_mapping = small_key_option_matching(world)
                 for key in small_key_vanilla_mapping.keys():
                     if small_key_mapping[key].Option:
@@ -445,7 +445,7 @@ def create_item_pool(world: "SohWorld") -> None:
                     else:
                         items_to_create[key] += 1
 
-            if world.options.boss_key_shuffle == "anywhere":
+            if world.options.boss_key_shuffle not in ("start_with", "vanilla"):
                 for key in dungeon_boss_key_vanilla_mapping.values():
                     items_to_create[key] += 1
 
