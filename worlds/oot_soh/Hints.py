@@ -77,7 +77,8 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
                     if placed_item == None:
                         # I don't know anymore
                         continue
-                hint_locations.append(locationPair(placed_item.location.player, placed_item.location.address))
+                if placed_item.location.address != None:
+                    hint_locations.append(locationPair(placed_item.location.player, placed_item.location.address))
         hints.append(StaticHint(hint_key, hint_locations))
 
     return hints
