@@ -70,6 +70,13 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
             if not placed_item:
                 placed_item = FindHintedItemInPool(hinted_item, world.preplaced_items)
             if placed_item:
+                if placed_item.location.address == None:
+                    # the item is in our world but has no location for some reason, this means it could be an item link
+                    # search the entire world for the real items location
+                    placed_item = FindHintedItemFromWorld(hinted_item, world)
+                    if placed_item == None:
+                        # I don't know anymore
+                        continue
                 hint_locations.append(locationPair(placed_item.location.player, placed_item.location.address))
         hints.append(StaticHint(hint_key, hint_locations))
 
@@ -81,4 +88,17 @@ def FindHintedItemInPool(hinted_item: Items, pool: Iterable[Item]) -> Item | Non
             continue
         return item
 
+    return None
+
+def FindHintedItemFromWorld(hinted_item: Items, world: "SohWorld") -> Item | None:
+    for location in world.get_locations():
+        if location.address == None:
+            continue
+        if location.item == None:
+            continue
+
+        if location.item.name == hinted_item:
+            if location.item.location.address == None:
+                continue
+            return location.item
     return None
