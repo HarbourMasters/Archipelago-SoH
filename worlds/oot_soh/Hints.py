@@ -2,7 +2,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Callable, Iterable, NamedTuple
 from collections import Counter
 
-from BaseClasses import Options, Item
+from BaseClasses import MultiWorld, Options, Item
 from .Locations import location_data_table
 from worlds.generic.Rules import set_rule
 from worlds.AutoWorld import LogicMixin
@@ -73,7 +73,7 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
                 if placed_item.location.address == None:
                     # the item is in our world but has no location for some reason, this means it could be an item link
                     # search the entire world for the real items location
-                    placed_item = FindHintedItemFromWorld(hinted_item, world)
+                    placed_item = FindHintedItemFromWorld(hinted_item, world.multiworld)
                     if placed_item == None:
                         # I don't know anymore
                         continue
@@ -91,8 +91,8 @@ def FindHintedItemInPool(hinted_item: Items, pool: Iterable[Item]) -> Item | Non
 
     return None
 
-def FindHintedItemFromWorld(hinted_item: Items, world: "SohWorld") -> Item | None:
-    for location in world.get_locations():
+def FindHintedItemFromMultiWorld(hinted_item: Items, multiworld: MultiWorld) -> Item | None:
+    for location in multiworld.get_locations():
         if location.address == None:
             continue
         if location.item == None:
