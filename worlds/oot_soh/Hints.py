@@ -73,7 +73,7 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
                 if placed_item.location.address == None:
                     # the item is in our world but has no location for some reason, this means it could be an item link
                     # search the entire world for the real items location
-                    placed_item = FindHintedItemFromWorld(hinted_item, world.multiworld)
+                    placed_item = FindHintedItemFromMultiWorld(hinted_item, world.multiworld)
                     if placed_item == None:
                         # I don't know anymore
                         continue
