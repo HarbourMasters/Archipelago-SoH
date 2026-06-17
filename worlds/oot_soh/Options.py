@@ -1750,10 +1750,10 @@ class SohOptions(PerGameCommonOptions):
         
 
     def adjust_starting_items(self):
-        if self.shuffle_deku_stick_bag == ShuffleDekuStickBag.option_false:
+        if self.shuffle_deku_stick_bag == ShuffleDekuStickBag.option_true:
             self.start_with_stick_ammo.value = StartWithStickAmmo.option_false
 
-        if self.shuffle_deku_nut_bag == ShuffleDekuNutBag.option_false:
+        if self.shuffle_deku_nut_bag == ShuffleDekuNutBag.option_true:
             self.start_with_nut_ammo.value = StartWithNutAmmo.option_false
 
         if any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
