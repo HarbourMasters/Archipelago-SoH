@@ -506,6 +506,10 @@ def is_child(bundle: tuple[Regions, "SohWorld"]):
 def is_adult(bundle: tuple[Regions, "SohWorld"]):
     return IsAdult(bundle[0])
 
+def dungeon_entrances_shuffled(bundle: tuple[Regions, "SohWorld"]) -> Rule:
+    return (True_(options=[OptionFilter(ShuffleDungeonEntrances, ShuffleDungeonEntrances.option_simple)])
+            | True_(options=[OptionFilter(ShuffleDungeonEntrances, ShuffleDungeonEntrances.option_all)]))
+
 def at_day(bundle: tuple[Regions, "SohWorld"]) -> Rule:
     return ((is_child(bundle) & has_item(Events.CHILD_CAN_PASS_TIME, bundle))
             | (is_adult(bundle) & has_item(Events.ADULT_CAN_PASS_TIME, bundle)))

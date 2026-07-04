@@ -150,6 +150,8 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "item_pool", 0)
             world.options.medallion_locked_trials.value = world.passthrough.get("medallion_locked_trials", MedallionLockedTrials.default)
             world.options.starting_hearts.value = world.passthrough.get("starting_hearts", StartingHearts.default)
+            world.options.shuffle_dungeon_entrances.value = world.passthrough.get(
+                "shuffle_dungeon_entrances", ShuffleDungeonEntrances.default)
             # when adding new options to this, use .get, and set the default to whatever was before the option was made
             # this will make it back-compatible with seeds generated on earlier versions
             # the below do not need to be handled in UT at all, since they do not affect logic

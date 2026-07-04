@@ -19,6 +19,8 @@ from . import RegionAgeAccess
 from .DungeonRewardShuffle import pre_fill_dungeon_rewards, get_pre_fill_rewards
 from .KeyShuffle import pre_fill_own_dungeon_items, pre_fill_any_dungeon_keys, pre_fill_overworld_items, get_own_dungeon_prefill_items, get_dungeon_item_prefill_items
 from .SongShuffle import pre_fill_songs, get_prefill_songs
+from .EntranceShuffle import shuffle_dungeon_entrances, apply_dungeon_entrance_layout
+from .Options import ShuffleDungeonEntrances
 from .ShopItems import fill_shop_items, generate_prices
 from .Presets import oot_soh_options_presets
 from .UniversalTracker import setup_options_from_slot_data
@@ -125,6 +127,10 @@ class SohWorld(CachedRuleBuilderWorld):
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
         self.static_hints = dict[str, list[list[int, int]]]()
+        # Dungeon entrance randomization layout: [original_entryway, new_entryway] name pairs.
+        self.entrance_pairings = list[list[str]]()
+        # entryway name -> ages that must reach it; derived in shuffle_dungeon_entrances.
+        self.dungeon_age_requirements = dict[str, set]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
             __name__, "archipelago.json").decode("utf-8"))
@@ -263,6 +269,18 @@ class SohWorld(CachedRuleBuilderWorld):
     def set_rules(self) -> None:
         # Set price rules in advance
         generate_prices(self)
+
+    def connect_entrances(self) -> None:
+        # Runs after create_items and set_rules, so the item pool is populated for the
+        # generic entrance randomizer's reachability analysis.
+        if self.options.shuffle_dungeon_entrances == ShuffleDungeonEntrances.option_off:
+            return
+        if self.using_ut and self.passthrough.get("dungeon_entrance_layout"):
+            # Universal Tracker: reproduce the seed's exact layout rather than re-rolling.
+            self.entrance_pairings = [list(pair) for pair in self.passthrough["dungeon_entrance_layout"]]
+            apply_dungeon_entrance_layout(self, self.entrance_pairings)
+        else:
+            self.entrance_pairings = shuffle_dungeon_entrances(self)
 
 
     def create_items(self) -> None:
@@ -568,6 +586,8 @@ class SohWorld(CachedRuleBuilderWorld):
             "static_hints": self.static_hints,
             "hintable_items": {item.code for item in self.item_pool + self.preplaced_items if item.code is not None},
             "starting_hearts": self.options.starting_hearts.value,
+            "shuffle_dungeon_entrances": self.options.shuffle_dungeon_entrances.value,
+            "dungeon_entrance_layout": self.entrance_pairings,
             "archipelago_seed": self.random.randint(0, 4294967295) #This is a uint32_t in ship
         }
 
