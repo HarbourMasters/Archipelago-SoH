@@ -269,8 +269,6 @@ class CanAffordSlot(Rule, game="Ship of Harkinian"):
 
 
 def get_wallet_for_shop_slot(location: Locations, world: "SohWorld") -> tuple[str, int]:
-    assert location in world.shop_prices, f'Shop location "{str(location)}" does not have a price assigned'
-
     price = world.shop_prices.get(location, 500)
     for wallet, amount in wallet_capacities.items():
         if amount >= price:
@@ -1205,7 +1203,7 @@ def effective_health_at_least(bundle: tuple[Regions, "SohWorld"], count: int) ->
 
 
 def is_fire_loop_unlocked(bundle: tuple[Regions, "SohWorld"]) -> Rule:
-    return True_(options=[OptionFilter(SmallKeyShuffle, [SmallKeyShuffle.option_anywhere, SmallKeyShuffle.option_overworld, SmallKeyShuffle.option_any_dungeon], operator="in")])
+    return False_(options=[OptionFilter(SmallKeyShuffle, [SmallKeyShuffle.option_anywhere, SmallKeyShuffle.option_overworld, SmallKeyShuffle.option_any_dungeon], operator="in")], filtered_resolution=True)
 
 
 def can_ground_jump(bundle: tuple[Regions, "SohWorld"], hasBombFlower: bool = False) -> Rule:

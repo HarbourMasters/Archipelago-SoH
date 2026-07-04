@@ -3,8 +3,35 @@ from ..Options import *
 from ..Items import Items, SohItem
 from ..Enums import Events
 from .bases import SohTestBase
-from ..LogicHelpers import can_trigger_lacs, can_build_rainbow_bridge, scarecrows_song, bombchu_refill, trade_quest_step
+from ..LogicHelpers import can_trigger_lacs, can_build_rainbow_bridge, scarecrows_song, bombchu_refill, trade_quest_step, is_fire_loop_unlocked
 from itertools import combinations
+
+# Fire Loop 
+class FireLoopLockedAnywhere(SohTestBase):
+    options = {"small_key_shuffle": SmallKeyShuffle.option_anywhere}
+    def test_fire_loop_unlocked(self):
+        self.assertFalse(is_fire_loop_unlocked(self.get_bundle()).resolve(self.world)._evaluate(self.multiworld.state), f"Fire Loop was unlocked but should have been.")
+
+class FireLoopLockedAnyDungeon(SohTestBase):
+    options = {"small_key_shuffle": SmallKeyShuffle.option_any_dungeon}
+    def test_fire_loop_unlocked(self):
+        self.assertFalse(is_fire_loop_unlocked(self.get_bundle()).resolve(self.world)._evaluate(self.multiworld.state), f"Fire Loop was unlocked but should have been.")
+
+class FireLoopLockedOverworld(SohTestBase):
+    options = {"small_key_shuffle": SmallKeyShuffle.option_overworld}
+    def test_fire_loop_unlocked(self):
+        self.assertFalse(is_fire_loop_unlocked(self.get_bundle()).resolve(self.world)._evaluate(self.multiworld.state), f"Fire Loop was unlocked but should have been.")
+
+class FireLoopUnlockedOwnDungeon(SohTestBase):
+    options = {"small_key_shuffle": SmallKeyShuffle.option_own_dungeon}
+    def test_fire_loop_locked(self):
+        self.assertTrue(is_fire_loop_unlocked(self.get_bundle()).resolve(self.world)._evaluate(self.multiworld.state), f"Fire Loop was locked but should not have been.")
+
+class FireLoopUnlockedVanilla(SohTestBase):
+    options = {"small_key_shuffle": SmallKeyShuffle.option_vanilla}
+    def test_fire_loop_locked(self):
+        self.assertTrue(is_fire_loop_unlocked(self.get_bundle()).resolve(self.world)._evaluate(self.multiworld.state), f"Fire Loop was locked but should not have been.")
+
 
 # LACS
 class LACSBase(SohTestBase):

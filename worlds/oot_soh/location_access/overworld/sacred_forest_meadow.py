@@ -84,7 +84,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.SFM_WOLFOS_GROTTO, world, [
-        (Regions.SACRED_FOREST_MEADOW, lambda bundle: True_()),
+        (Regions.SFM_ENTRYWAY, lambda bundle: True_()),
     ])
 
     # SFM Storms Grotto

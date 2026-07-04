@@ -253,8 +253,9 @@ def set_region_rules(world: "SohWorld") -> None:
     connect_regions(Regions.DEKU_TREE_BASEMENT_UPPER, world, [
         (Regions.DEKU_TREE_BASEMENT_LOWER, lambda bundle: True_() ),
         (Regions.DEKU_TREE_BASEMENT_BACK_LOBBY, lambda bundle: is_child(bundle)),
-        (Regions.DEKU_TREE_OUTSIDE_BOSS_ROOM, lambda bundle: has_fire_source_with_torch(bundle) |
-         (can_do_trick(Tricks.DEKU_B1_BOW_WEBS, bundle) & is_adult(bundle) & can_use(Items.FAIRY_BOW, bundle)))
+        (Regions.DEKU_TREE_OUTSIDE_BOSS_ROOM, lambda bundle:
+        (has_fire_source_with_torch(bundle) | (can_do_trick(Tricks.DEKU_B1_BOW_WEBS, bundle) & is_adult(bundle) & can_use(Items.FAIRY_BOW, bundle)))
+        & (has_item(Items.BRONZE_SCALE, bundle) | can_use(Items.IRON_BOOTS, bundle)))
     ])
 
     # Deku outside boss room
@@ -275,9 +276,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.DEKU_TREE_OUTSIDE_BOSS_ROOM, world, [
-        (Regions.DEKU_TREE_BASEMENT_UPPER, lambda bundle: True_() ),
-        (Regions.DEKU_TREE_BOSS_ENTRYWAY, lambda bundle: (has_item(Items.BRONZE_SCALE, bundle) | can_use(Items.IRON_BOOTS, bundle))
-            & can_reflect_nuts(bundle))
+        (Regions.DEKU_TREE_BASEMENT_UPPER, lambda bundle: has_item(Items.BRONZE_SCALE, bundle) | can_use(Items.HOOKSHOT, bundle)),
+        (Regions.DEKU_TREE_BOSS_ENTRYWAY, lambda bundle: can_reflect_nuts(bundle))
     ])
 
     # Skipping master quest for now

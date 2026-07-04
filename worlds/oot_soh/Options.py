@@ -1129,6 +1129,8 @@ class HintClarity(Choice):
     (Quality of groups depends on game)
 
     Clear - Hints tell you exactly what the item is and opens the hint in the hint tab for free.
+    Hints will not be automatically opened for Gossip Stones as not all Gossip Stone hints point
+    to a location directly.
     Boomerang > Boomerang
     """
     display_name = "Hint Clarity"

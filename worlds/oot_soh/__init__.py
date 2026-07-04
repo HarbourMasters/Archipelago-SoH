@@ -126,7 +126,6 @@ class SohWorld(CachedRuleBuilderWorld):
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
-        self.static_hints = dict[str, list[list[int, int]]]()
         # Dungeon entrance randomization layout: [original_entryway, new_entryway] name pairs.
         self.entrance_pairings = list[list[str]]()
         # entryway name -> ages that must reach it; derived in shuffle_dungeon_entrances.
@@ -324,11 +323,6 @@ class SohWorld(CachedRuleBuilderWorld):
 
         self.set_completion_rule()
 
-    def post_fill(self) -> None:
-        hints = CreateNonlocalHints(self)
-        for hint in hints:
-            self.static_hints.update(hint.serialize())
-            
     def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, original_goal: Callable[[CollectionState], bool] | None = None):
         def create_new_goal(empty_locations: list[Location]):
             goal = True_()
@@ -429,6 +423,12 @@ class SohWorld(CachedRuleBuilderWorld):
     #                      regions_to_highlight=self.multiworld.get_all_state().reachable_regions[self.player])
 
     def fill_slot_data(self) -> dict[str, Any]:
+        # Create the relevant foreign hints
+        hints = CreateNonlocalHints(self)
+        static_hints = dict[str, list[list[int, int]]]()
+        for hint in hints:
+            static_hints.update(hint.serialize())
+
         return {
             "closed_forest": self.options.closed_forest.value,
             "kakariko_gate": self.options.kakariko_gate.value,
@@ -583,7 +583,7 @@ class SohWorld(CachedRuleBuilderWorld):
             "gs_50_hint": self.options.gs_50_hint.value,
             "gs_100_hint": self.options.gs_100_hint.value,
             "mask_shop_hint": self.options.mask_shop_hint.value,
-            "static_hints": self.static_hints,
+            "static_hints": static_hints,
             "hintable_items": {item.code for item in self.item_pool + self.preplaced_items if item.code is not None},
             "starting_hearts": self.options.starting_hearts.value,
             "shuffle_dungeon_entrances": self.options.shuffle_dungeon_entrances.value,

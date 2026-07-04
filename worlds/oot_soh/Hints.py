@@ -36,7 +36,7 @@ def GetNonlocalHintOptionMapping(world: "SohWorld") -> dict[hk, OptionItemMappin
         hk.DAMPES_DIARY: OptionItemMapping(world.options.dampe_diary_hint, [Items.PROGRESSIVE_HOOKSHOT]),
         hk.GREG_RUPEE: OptionItemMapping(world.options.greg_hint, [Items.GREG_THE_GREEN_RUPEE]),
         hk.ALTAR_CHILD: OptionItemMapping(world.options.tot_altar_hint, [Items.KOKIRIS_EMERALD, Items.GORONS_RUBY, Items.ZORAS_SAPPHIRE]),
-        hk.ALTAR_ADULT: OptionItemMapping(world.options.tot_altar_hint, [Items.LIGHT_MEDALLION, Items.FOREST_MEDALLION, Items.FIRE_MEDALLION, Items.WATER_MEDALLION, Items.SHADOW_MEDALLION, Items.SPIRIT_MEDALLION]),
+        hk.ALTAR_ADULT: OptionItemMapping(world.options.tot_altar_hint, [Items.LIGHT_MEDALLION, Items.FOREST_MEDALLION, Items.FIRE_MEDALLION, Items.WATER_MEDALLION, Items.SPIRIT_MEDALLION, Items.SHADOW_MEDALLION]),
         hk.FOREST_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.FOREST_TEMPLE_BOSS_KEY]),
         hk.FIRE_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.FIRE_TEMPLE_BOSS_KEY]),
         hk.WATER_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.WATER_TEMPLE_BOSS_KEY]),

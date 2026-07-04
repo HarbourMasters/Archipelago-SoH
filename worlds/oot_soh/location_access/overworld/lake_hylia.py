@@ -217,6 +217,7 @@ def set_region_rules(world: "SohWorld") -> None:
         (Locations.LH_LAB_DIVE, lambda bundle: has_item(Items.GOLDEN_SCALE, bundle) |
          (can_do_trick(Tricks.LH_LAB_DIVING, bundle) &
           can_use(Items.IRON_BOOTS, bundle) &
+          can_use(Items.HOOKSHOT, bundle) &
           has_item(Items.BRONZE_SCALE, bundle))),
         (Locations.LH_LAB_TRADE_EYEBALL_FROG, lambda bundle: is_adult(bundle) &
          can_use(Items.EYEBALL_FROG, bundle)),
