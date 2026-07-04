@@ -9,9 +9,13 @@ from .bases import SohTestBase
 SEEDS = 25
 
 
-def _build(option: str, seed: int) -> SohWorld:
+def _build(option: str, seed: int, extra_options: dict[str, object] | None = None) -> SohWorld:
+    opts: dict[str, object] = {"shuffle_dungeon_entrances": option}
+    if extra_options:
+        opts.update(extra_options)
+
     class _T(SohTestBase):
-        options: ClassVar[dict[str, str]] = {"shuffle_dungeon_entrances": option}
+        options: ClassVar[dict[str, object]] = opts
 
         def runTest(self):  # noqa: N802 - satisfies TestCase construction
             pass
@@ -143,6 +147,41 @@ class TestDungeonERRobustness(SohTestBase):
             first, _ = _build(option, 12345)
             second, _ = _build(option, 12345)
             self.assertEqual(first.entrance_pairings, second.entrance_pairings)
+
+
+class TestDungeonERTrickMonotonicity(SohTestBase):
+    """Tricks only add access, so dungeon_age_requirements can only shrink as tricks are
+    enabled, never grow. Catches age gating wired with the wrong sign, which beatability
+    sweeps can't. Requirements are derived pre-shuffle, so they're seed independent."""
+
+    options: ClassVar[dict[str, object]] = {"shuffle_dungeon_entrances": "all",
+                                            "enable_all_tricks": True}
+    world: SohWorld
+
+    def test_tricks_never_add_an_age_gate(self):
+        base, _ = _build("all", 0, {"enable_all_tricks": False})
+        tricked, _ = _build("all", 0, {"enable_all_tricks": True})
+        base_reqs = base.dungeon_age_requirements
+        tricked_reqs = tricked.dungeon_age_requirements
+        self.assertEqual(set(base_reqs), set(tricked_reqs))
+        for dungeon, req in tricked_reqs.items():
+            self.assertLessEqual(
+                set(req), set(base_reqs[dungeon]),
+                f"enabling tricks ADDED an age gate to {dungeon}: "
+                f"no_tricks={sorted(str(a) for a in base_reqs[dungeon])} "
+                f"all_tricks={sorted(str(a) for a in req)}")
+
+    def test_dodongos_cavern_reopened_by_tricks(self):
+        # Keeps the invariant test from passing vacuously: DC is adult-pinned in base logic
+        # (scarecrow GS) and unconstrained once the armos-onto-ledge trick is enabled.
+        from ..Enums import Regions
+        dc = str(Regions.DODONGOS_CAVERN_ENTRYWAY)
+        base, _ = _build("all", 0, {"enable_all_tricks": False})
+        tricked, _ = _build("all", 0, {"enable_all_tricks": True})
+        self.assertTrue(base.dungeon_age_requirements[dc],
+                        "DC should be age-pinned in base logic")
+        self.assertFalse(tricked.dungeon_age_requirements[dc],
+                         "DC should be unconstrained once tricks are enabled")
 
 
 def _region_graph(multiworld, player):
