@@ -3,7 +3,7 @@
 ## Required Software
 
 - Until AP is integrated into the main Ship of Harkinian releases, a separate version of Ship of Harkinian including it (see releases [here](https://github.com/HarbourMasters/Archipelago-SoH/releases)). Windows, Linux (including Steam Deck) and Mac are supported!
-- An Ocarina of Time ROM. Every version of OoT is supported!
+- An Ocarina of Time ROM. Every version of OoT that isn't Master Quest is supported, with MQ support coming down the line at some point.
 - Archipelago Client v0.6.7 or higher for creating yaml files and generating games
 - The .apworld found on our releases page for creating yaml files and generating games
 
