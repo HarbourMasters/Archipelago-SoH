@@ -44,7 +44,7 @@ def set_region_rules(world: "SohWorld") -> None:
          & has_item(LocalEvents.DMT_BEAN_PLANTED, bundle) & (has_explosives(bundle) | has_item(Items.GORONS_BRACELET, bundle)))),
         (Locations.DMT_GS_BEAN_PATCH, lambda bundle: can_spawn_soil_skull(bundle) & (has_explosives(bundle) | has_item(Items.GORONS_BRACELET, bundle) | (
             can_do_trick(Tricks.DMT_SOIL_GS, bundle) & (take_damage(bundle) | can_use(Items.HOVER_BOOTS, bundle)) & can_use(Items.BOOMERANG, bundle)))),
-        (Locations.DMT_GS_NEAR_KAK, lambda bundle: blast_or_smash(bundle)),
+        (Locations.DMT_GS_NEAR_KAK, lambda bundle: blast_or_smash(bundle) & has_projectile(bundle)),
         (Locations.DMT_GS_ABOVE_DODONGOS_CAVERN, lambda bundle: is_adult(bundle) & at_night(bundle) & (can_use(Items.MEGATON_HAMMER, bundle) | (can_do_trick(Tricks.DMT_HOOKSHOT_LOWER_GS, bundle) & can_use(Items.HOOKSHOT, bundle)) | (can_do_trick(
             Tricks.DMT_BEAN_LOWER_GS, bundle) & has_item(LocalEvents.DMT_BEAN_PLANTED, bundle)) | (can_do_trick(Tricks.DMT_HOVERS_LOWER_GS, bundle) & can_use(Items.HOVER_BOOTS, bundle)) | can_do_trick(Tricks.DMT_JS_LOWER_GS, bundle)) & can_get_nighttime_gs(bundle)),
         (Locations.DMT_BLUE_RUPEE_UNDER_BOULDER,
