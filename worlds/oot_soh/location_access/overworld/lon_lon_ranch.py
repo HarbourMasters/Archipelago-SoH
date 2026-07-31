@@ -20,8 +20,7 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Locations
     add_locations(Regions.LON_LON_RANCH, world, [
-        (Locations.SONG_FROM_MALON, lambda bundle: is_child(bundle) & has_item(
-            Items.ZELDAS_LETTER, bundle) & has_item(Items.FAIRY_OCARINA, bundle) & at_day(bundle)),
+        (Locations.SONG_FROM_MALON, lambda bundle: is_child(bundle) & can_use(Items.WEIRD_EGG, bundle) & has_item(Items.FAIRY_OCARINA, bundle) & at_day(bundle)),
         (Locations.LLR_GS_TREE, lambda bundle: is_child(
             bundle) & can_bonk_trees(bundle)),
         (Locations.LLR_GS_RAIN_SHED, lambda bundle: is_child(
@@ -65,7 +64,7 @@ def set_region_rules(world: "SohWorld") -> None:
     # Locations
     add_locations(Regions.LLR_TALONS_HOUSE, world, [
         (Locations.LLR_TALONS_CHICKENS, lambda bundle: has_item(Items.CHILD_WALLET, bundle)
-         & is_child(bundle) & at_day(bundle) & has_item(Items.ZELDAS_LETTER, bundle)),
+         & is_child(bundle) & at_day(bundle) & can_use(Items.WEIRD_EGG, bundle)),
         (Locations.LLR_TALONS_HOUSE_POT1, lambda bundle: can_break_pots(bundle)),
         (Locations.LLR_TALONS_HOUSE_POT2, lambda bundle: can_break_pots(bundle)),
         (Locations.LLR_TALONS_HOUSE_POT3, lambda bundle: can_break_pots(bundle)),
