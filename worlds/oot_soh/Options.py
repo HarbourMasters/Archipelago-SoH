@@ -91,6 +91,21 @@ class LockOverworldDoors(Toggle):
     display_name = "Lock Overworld Doors"
 
 
+class ShuffleDungeonEntrances(Choice):
+    """
+    Shuffles the entrances to dungeons among each other. Entrances are coupled: the exit
+    from a dungeon always returns to the overworld spot you entered from.
+    Off - Dungeon entrances are not shuffled.
+    Simple - The 11 standard dungeon entrances are shuffled among themselves.
+    All - Also mixes Ganon's Castle entrance into the pool.
+    """
+    display_name = "Shuffle Dungeon Entrances"
+    option_off = 0
+    option_simple = 1
+    option_all = 2
+    default = 0
+
+
 class FortressCarpenters(Choice):
     """
     Sets the state of the carpenters captured by Gerudo in Gerudo Fortress, and with it the number of guards that spawn.
@@ -1564,6 +1579,7 @@ class SohOptions(PerGameCommonOptions):
     sleeping_waterfall: SleepingWaterfall
     jabu_jabu: JabuJabu
     lock_overworld_doors: LockOverworldDoors
+    shuffle_dungeon_entrances: ShuffleDungeonEntrances
     fortress_carpenters: FortressCarpenters
     rainbow_bridge: RainbowBridge
     rainbow_bridge_stones_required: RainbowBridgeStonesRequired
@@ -1922,17 +1938,17 @@ soh_option_groups = [
         TriforceHuntPiecesTotal,
         TriforceHuntPiecesRequiredPercentage,
     ]),
-    # OptionGroup("Shuffle Entrances", [
-    #     # Dungeon Entrances
-    #     # Boss Entrances
-    #     # Overworld Entrances
-    #     # Interior Entrances
-    #     # Grotto Entrances
-    #     # Owl Drops
-    #     # Warp Songs
-    #     # Overworld Spawns
-    #     # Decouple Entrances
-    # ]),
+    OptionGroup("Shuffle Entrances", [
+        ShuffleDungeonEntrances,
+        # Boss Entrances
+        # Overworld Entrances
+        # Interior Entrances
+        # Grotto Entrances
+        # Owl Drops
+        # Warp Songs
+        # Overworld Spawns
+        # Decouple Entrances
+    ]),
     OptionGroup("Shuffle Items", [
         ShuffleSongs,
         ShuffleTokens,
