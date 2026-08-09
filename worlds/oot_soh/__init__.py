@@ -93,6 +93,19 @@ def create_groups(obj: dict[Items, SohItemData] | dict[str, SohLocData]) -> dict
             groups[tag_name].add(str(key))
     return groups
 
+
+def get_item_from_pool(item: Items, item_pool: list[SohItem]) -> SohItem|None:
+    item_id = item_data_table[item].item_id
+    found_item = None
+    for soh_item in item_pool:
+        if soh_item.code == item_id:
+            found_item = soh_item
+            break
+    if found_item:
+        item_pool.remove(found_item)
+    return found_item
+
+
 class SohWorld(CachedRuleBuilderWorld):
     """A PC Port of Ocarina of Time"""
 
@@ -122,7 +135,7 @@ class SohWorld(CachedRuleBuilderWorld):
         self.triforce_pieces_required: int = 0
         self.randomized_progressive_skulltula_count: int = 0
         self.ganons_trials = list[GanonsTrials]()
-        self.pre_fill_pool = list[Items]()
+        self.pre_fill_pool = list[SohItem]()
         self.reserved_pre_fill_locations = list[Locations]()
 
         apworld_manifest = orjson.loads(pkgutil.get_data(
@@ -166,15 +179,6 @@ class SohWorld(CachedRuleBuilderWorld):
                 key_ring_options[index].value = True
         elif self.options.key_rings == "selection" and self.options.fortress_carpenters == "normal" and self.options.gerudo_fortress_key_shuffle == "vanilla":
             self.options.gerudo_fortress_key_ring.value = False
-
-        # generate the prefill pool
-        self.pre_fill_pool += get_pre_fill_rewards(self)
-        self.pre_fill_pool += get_prefill_songs(self)
-        for key_shuffle in get_own_dungeon_prefill_items(self).values():
-            self.pre_fill_pool += key_shuffle
-        self.pre_fill_pool += get_dungeon_item_prefill_items(self, False)
-        self.pre_fill_pool += get_dungeon_item_prefill_items(self, True)
-        self.pre_fill_pool += ShopItems.get_vanilla_shop_pool(self)
 
         if self.options.ganons_trials == "set_number" and self.options.ganons_trials_count.value > 0:
             self.ganons_trials = [str(trial) for trial in GanonsTrials]
@@ -225,7 +229,7 @@ class SohWorld(CachedRuleBuilderWorld):
                        None if create_as_event else item_data_table[item_entry].item_id, self.player)
 
     def get_pre_fill_items(self) -> list[Item]:
-        return [self.create_item(item) for item in self.pre_fill_pool]
+        return self.pre_fill_pool
 
     def get_filler_item_name(self) -> str:
         return get_filler_item(self)
@@ -255,7 +259,7 @@ class SohWorld(CachedRuleBuilderWorld):
         for item in self.item_pool:
             prefill_state.collect(item, True)
         for item in self.pre_fill_pool:
-            prefill_state.collect(self.create_item(item), True)
+            prefill_state.collect(item, True)
         prefill_state.sweep_for_advancements(my_locations)
         return prefill_state
     
@@ -283,7 +287,21 @@ class SohWorld(CachedRuleBuilderWorld):
         if self.options.small_key_shuffle in ("vanilla", "own_dungeon"):
             self.multiworld.push_precollected(
                 self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
-            
+
+        # generate the prefill pool
+        pre_fill_items = []
+        pre_fill_items += get_pre_fill_rewards(self)
+        pre_fill_items += get_prefill_songs(self)
+        for key_shuffle in get_own_dungeon_prefill_items(self).values():
+            pre_fill_items += key_shuffle
+        pre_fill_items += get_dungeon_item_prefill_items(self, False)
+        pre_fill_items += get_dungeon_item_prefill_items(self, True)
+
+        vanilla_shop_pool = ShopItems.get_vanilla_shop_pool(self)
+        pre_fill_items += vanilla_shop_pool
+        self.item_pool += [self.create_item(item) for item in vanilla_shop_pool]
+
+        # Generate the item pool
         give_starting_items(self)
 
         create_item_pool(self)
@@ -292,6 +310,14 @@ class SohWorld(CachedRuleBuilderWorld):
             create_triforce_pieces(self)
 
         create_filler_item_pool(self)
+
+        # Extract pre fill items from the pool
+        for item in pre_fill_items:
+            if (pre_fill_item := get_item_from_pool(item, self.item_pool)):
+                self.pre_fill_pool.append(pre_fill_item)
+
+        # Send items to the multiworld
+        self.multiworld.itempool.extend(self.item_pool)
 
         self.set_completion_rule()
 
@@ -305,21 +331,21 @@ class SohWorld(CachedRuleBuilderWorld):
 
         self.set_completion_rule()
 
-    def run_prefill(self, item_pool: list[Items], locations: list[Locations], prefill_state: CollectionState | None = None, original_goal: Callable[[CollectionState], bool] | None = None):
+    def run_prefill(self, item_pool: list[Items], locations: list[Locations], original_goal: Callable[[CollectionState], bool] | None = None):
         def create_new_goal(empty_locations: list[Location]):
             goal = True_()
             # set region accessability of locations as the goal
             for reg in empty_locations:
                 goal &= CanReachLocation(str(reg.name))
             return goal
-        
-        # check if we're using specific collectionstate
-        if prefill_state is None:
-            for item in item_pool:
-                if item in self.pre_fill_pool: 
-                    self.pre_fill_pool.remove(item)
-            
-            prefill_state = self.get_pre_fill_state()
+
+        # Get the items from the prefill pool
+        items = []
+        for item in item_pool:
+            if (pre_fill_item := get_item_from_pool(item, self.pre_fill_pool)):
+                items.append(pre_fill_item)
+
+        prefill_state = self.get_pre_fill_state()
 
         # get empty, non reserved locations
         empty_locations_all = self.get_empty_locations_from_list_shuffled(locations)
@@ -332,7 +358,6 @@ class SohWorld(CachedRuleBuilderWorld):
         else:
             empty_locations = empty_locations_all[:chunk]
 
-        items = [self.create_item(str(item)) for item in item_pool]
         self.preplaced_items.extend(items)
         
         if original_goal is None:
@@ -353,7 +378,9 @@ class SohWorld(CachedRuleBuilderWorld):
             fill_restrictive(self.multiworld, prefill_state, empty_locations, items, single_player_placement=True, lock=True, allow_partial=True, name="SOH_Prefill_Secondary")
         
         # Add any unplaced items to the item pool
-        self.add_items_to_item_pool_list(items)
+        if len(items) > 0:
+            self.item_pool.extend(items)
+            self.multiworld.itempool.extend(items)
 
         for item in items:
             self.preplaced_items.remove(item)
@@ -378,7 +405,6 @@ class SohWorld(CachedRuleBuilderWorld):
     def add_items_to_item_pool_list(self, items: list[SohItem]) -> None:
         if len(items) > 0:
             self.item_pool.extend(items)
-            self.multiworld.itempool.extend(items)
 
     def remove(self, state: CollectionState, item: Item) -> bool:
         changed = super().remove(state, item)
