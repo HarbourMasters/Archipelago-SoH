@@ -48,15 +48,31 @@ default_options: dict[str, Any] = {
     "start_with_requiem":           Toggle.option_false,
     "start_with_nocturne":          Toggle.option_false,
     "start_with_prelude":           Toggle.option_false,
+    "slingbow_break_beehives":      Toggle.option_false,
     "gossip_stone_hints":           Toggle.option_true,
     "tot_altar_hint":               Toggle.option_true,
     "ganondorf_hint":               Toggle.option_true,
     "sheik_la_hint":                Toggle.option_true,
     #"warp_song_hint":               Toggle.option_true,
     "hint_clarity":                 HintClarity.option_clear,
+    "dampe_diary_hint":             Toggle.option_false,
+    "greg_hint":                    Toggle.option_false,
+    "saria_hint":                   Toggle.option_false,
+    "frog_game_hint":               Toggle.option_false,
+    "big_goron_hint":               Toggle.option_false,
+    "malon_hint":                   Toggle.option_false,
+    "horseback_archery_hint":       Toggle.option_false,
+    "scrub_hints":                  Toggle.option_false,
+    "merchant_hints":               Toggle.option_false,
+    "gs_10_hint":                   Toggle.option_false,
+    "gs_20_hint":                   Toggle.option_false,
+    "gs_30_hint":                   Toggle.option_false,
+    "gs_40_hint":                   Toggle.option_false,
+    "gs_50_hint":                   Toggle.option_false,
 }
 
 beginner_options = {
+    "closed_forest":                                    ClosedForest.option_off,
     "kakariko_gate":                                    KakarikoGate.option_open,
     "door_of_time":                                     DoorOfTime.option_open,
     "zoras_fountain":                                   ZorasFountain.option_closed_as_child,
@@ -100,6 +116,7 @@ beginner_options = {
 }
 
 standard_options = {
+    "closed_forest":                                    ClosedForest.option_off,
     "kakariko_gate":                                    KakarikoGate.option_open,
     "door_of_time":                                     DoorOfTime.option_open,
     "zoras_fountain":                                   ZorasFountain.option_closed_as_child,
@@ -156,6 +173,7 @@ standard_options = {
 
 # Missing ER
 advanced_options = {
+    "closed_forest":                                    ClosedForest.option_off,
     "kakariko_gate":                                    KakarikoGate.option_open,
     "door_of_time":                                     DoorOfTime.option_open,
     "fortress_carpenters":                              FortressCarpenters.option_fast,
@@ -199,6 +217,7 @@ advanced_options = {
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "starting_age":                                     "random",
     "small_key_shuffle":                                SmallKeyShuffle.option_anywhere,
+    "gerudo_fortress_key_shuffle":                      GerudoFortressKeyShuffle.option_anywhere,
     "boss_key_shuffle":                                 BossKeyShuffle.option_anywhere,
     "sheik_la_hint":                                    Toggle.option_false,
     "dampe_diary_hint":                                 Toggle.option_true,
@@ -216,6 +235,7 @@ advanced_options = {
 # Missing ER
 # Missing Starting Health at 1 heart
 hell_mode_options = {
+    "closed_forest":                                    ClosedForest.option_off,
     "kakariko_gate":                                    KakarikoGate.option_open,
     "door_of_time":                                     DoorOfTime.option_open,
     "lock_overworld_doors":                             LockOverworldDoors.option_true,
@@ -247,7 +267,7 @@ hell_mode_options = {
     "shuffle_cows":                                     ShuffleCows.option_true,
     "shuffle_pots":                                     ShufflePots.option_all,
     "shuffle_crates":                                   ShuffleCrates.option_all,
-    "shuffle_trees":                                    ShuffleTrees.option_false,
+    "shuffle_trees":                                    ShuffleTrees.option_true,
     "shuffle_merchants":                                ShuffleMerchants.option_all,
     "shuffle_frog_song_rupees":                         ShuffleFrogSongRupees.option_true,
     "shuffle_adult_trade_items":                        ShuffleAdultTradeItems.option_true,
@@ -264,12 +284,14 @@ hell_mode_options = {
     "ganons_castle_boss_key_medallions_required":       GanonsCastleBossKeyMedallionsRequired.default,
     "ganons_castle_boss_key_dungeon_rewards_required":  10,
     "ganons_castle_boss_key_greg_modifier":             GanonsCastleBossKeyGregModifier.option_reward,
+    "medallion_locked_trials":                          MedallionLockedTrials.option_true,
     "big_poe_target_count":                             1,
-    "skip_epona_race":                                  SkipEponaRace.option_true,
-    "bombchu_bag":                                      BombchuBag.option_single_bag,
+    "skip_epona_race":                                  SkipEponaRace.option_false,
+    "bombchu_bag":                                      BombchuBag.option_progressive_bags,
     "blue_fire_arrows":                                 BlueFireArrows.option_true,
     "sunlight_arrows":                                  SunlightArrows.option_true,
     "starting_age":                                     "random",
+    "starting_hearts":                                  1,
     "shuffle_100_gs_reward":                            Shuffle100GSReward.option_true,
     "small_key_shuffle":                                SmallKeyShuffle.option_anywhere,
     "gerudo_fortress_key_shuffle":                      GerudoFortressKeyShuffle.option_anywhere,
