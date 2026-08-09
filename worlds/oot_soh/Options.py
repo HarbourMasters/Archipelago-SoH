@@ -1102,6 +1102,7 @@ class IceTrapFillerReplacement(Range):
     range_end = 100
     default = 0
 
+
 class HintClarity(Choice):
     """
     Sets the clarity of hints.
@@ -1555,6 +1556,17 @@ class MerchantAffordablePrices(Toggle):
     display_name = "Merchant Affordable Prices"
 
 
+class LocalFillerPercentage(Range):
+    """
+    Specify a percentage of filler items to enforce as a local item (Stay in Ship). 
+    0% just means all the filler will be distributed across all games.
+    """
+    display_name = "Percentage of Local Filler"
+    range_start = 0
+    range_end = 100
+    default = 0
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
     closed_forest: ClosedForest
@@ -1718,6 +1730,7 @@ class SohOptions(PerGameCommonOptions):
     gs_50_hint: GS50Hint
     gs_100_hint: GS100Hint
     mask_shop_hint: MaskShopHint
+    local_filler_percentage: LocalFillerPercentage
 
     def apply_any_required_option_adjustments(self):
         self.adjust_for_forced_child_starts()
@@ -2019,7 +2032,8 @@ soh_option_groups = [
     OptionGroup("Item Pool & Traps", [
         ItemPool,
         IceTrapCount,
-        IceTrapFillerReplacement
+        IceTrapFillerReplacement,
+        LocalFillerPercentage
     ]),
     OptionGroup("Hints", [
         HintClarity,

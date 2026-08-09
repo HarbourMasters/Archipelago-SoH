@@ -7,7 +7,7 @@ from BaseClasses import CollectionState, Item, Tutorial, ItemClassification, Loc
 from rule_builder.cached_world import CachedRuleBuilderWorld
 from rule_builder.rules import Has
 from worlds.AutoWorld import WebWorld, World
-from Fill import fill_restrictive
+from Fill import fill_restrictive, fast_fill
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, SohItemData, progressive_items
 from .Locations import location_table, token_amounts, SohLocData, location_data_table
@@ -115,6 +115,7 @@ class SohWorld(CachedRuleBuilderWorld):
     def __init__(self, multiworld, player):
         super().__init__(multiworld, player)
         self.item_pool = list[SohItem]()
+        self.filler_pool = list[SohItem]()
         self.preplaced_items = list[SohItem]()
         self.included_locations = dict[str, SohLocData]()
         self.shop_prices = dict[Locations, int]()
@@ -238,11 +239,11 @@ class SohWorld(CachedRuleBuilderWorld):
             else:
                 super().set_completion_rule(goal)
 
-    def get_empty_locations_from_list_shuffled(self, location_list: list[Locations]) -> list[Location]:
+    def get_empty_locations_from_list_shuffled(self, location_list: list[Locations], check_priority: bool = False) -> list[Location]:
         locations = []
         for location in location_list:
             loc = self.get_location(str(location))
-            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations:
+            if loc.item != None or loc.locked or location in self.reserved_pre_fill_locations or (check_priority and loc.name in self.options.priority_locations):
                 continue
             locations.append(loc)
         self.random.shuffle(locations)
@@ -302,6 +303,15 @@ class SohWorld(CachedRuleBuilderWorld):
         pre_fill_any_dungeon_keys(self)
         pre_fill_overworld_items(self)
         fill_shop_items(self)
+
+        # If they have chosen to to keep some filler local fastfill it
+        if self.options.local_filler_percentage.value > 0:
+            amount = int(len(self.filler_pool) * (self.options.local_filler_percentage.value * .01))
+            filler_items = self.filler_pool[:amount]
+            filler_locations = self.get_empty_locations_from_list_shuffled(self.get_locations(), True)[: amount]
+            self.random.shuffle(filler_items)
+            fast_fill(self.multiworld, filler_items, filler_locations)
+            self.multiworld.itempool += self.filler_pool[amount:]
 
         self.set_completion_rule()
 

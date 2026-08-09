@@ -603,7 +603,7 @@ def create_filler_item_pool(world: "SohWorld") -> None:
 
     # Ice Trap Count
     ice_trap_count = min(filler_item_count, world.options.ice_trap_count.value)
-    world.multiworld.itempool += [world.create_item(
+    world.filler_pool += [world.create_item(
         Items.ICE_TRAP) for _ in range(ice_trap_count)]
 
     filler_item_count -= ice_trap_count
@@ -611,14 +611,17 @@ def create_filler_item_pool(world: "SohWorld") -> None:
     # Ice Trap Filler Replacement
     ice_traps_to_place: int = int(
         filler_item_count * (world.options.ice_trap_filler_replacement.value * .01))
-    world.multiworld.itempool += [world.create_item(
+    world.filler_pool += [world.create_item(
         Items.ICE_TRAP) for _ in range(ice_traps_to_place)]
 
     filler_item_count -= ice_traps_to_place
 
     # Add junk items to fill remaining locations
-    world.multiworld.itempool += [world.create_item(
+    world.filler_pool += [world.create_item(
         get_filler_item(world)) for _ in range(filler_item_count)]
+    
+    if world.options.local_filler_percentage.value == 0:
+        world.multiworld.itempool += world.filler_pool
 
 
 def get_open_location_count(world: "SohWorld") -> int:
