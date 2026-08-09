@@ -40,6 +40,10 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             # triforce_pieces_required is handled at the end of create_triforce_pieces
             world.options.shuffle_skull_tokens.value = world.passthrough["shuffle_skull_tokens"]
             world.options.skulls_sun_song.value = world.passthrough["skulls_sun_song"]
+            # shuffle_100_gs_reward affects logic: it conditionally creates the
+            # "Kak 100 GS Reward" location, which must exist identically under UT.
+            world.options.shuffle_100_gs_reward.value = world.passthrough.get(
+                "shuffle_100_gs_reward", Shuffle100GSReward.default)
             world.options.shuffle_kokiri_sword.value = world.passthrough["shuffle_kokiri_sword"]
             world.options.shuffle_master_sword.value = world.passthrough["shuffle_master_sword"]
             world.options.shuffle_childs_wallet.value = world.passthrough["shuffle_childs_wallet"]
@@ -49,7 +53,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "shuffle_ocarina_buttons"]
             world.options.shuffle_swim.value = world.passthrough["shuffle_swim"]
             world.options.shuffle_weird_egg.value = world.passthrough["shuffle_weird_egg"]
-            world.options.shuffle_gerudo_membership_card = world.passthrough[
+            world.options.shuffle_gerudo_membership_card.value = world.passthrough[
                 "shuffle_gerudo_membership_card"]
             world.options.shuffle_fishing_pole.value = world.passthrough["shuffle_fishing_pole"]
             world.options.shuffle_deku_stick_bag.value = world.passthrough[

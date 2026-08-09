@@ -493,11 +493,6 @@ def create_item_pool(world: "SohWorld") -> None:
             items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] -= 2
             items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 2
 
-    # It there are more randomized skulltula tokens than required progression, set the excess to useful
-    if items_to_create[Items.GOLD_SKULLTULA_TOKEN] > world.randomized_progressive_skulltula_count:
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] -= create_special_progression_item(
-            world, Items.GOLD_SKULLTULA_TOKEN, ItemClassification.useful | ItemClassification.deprioritized | ItemClassification.skip_balancing, items_to_create[Items.GOLD_SKULLTULA_TOKEN] - world.randomized_progressive_skulltula_count)
-
     # If you start with enough hearts to do everything and tricks aren't enabled make the rest of them useful
     if not (world.options.enable_all_tricks or str(Tricks.FEWER_TUNIC_REQUIREMENTS) in world.options.tricks_in_logic.value):
         min_hearts_needed: int = 3
@@ -658,9 +653,13 @@ def give_starting_items(world: "SohWorld") -> None:
         world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK, True))
     
         # Songs
-    starting_songs =  set(song_vanilla_locations.values()) - get_shuffled_songs(world)
-    for song in starting_songs:
-        world.push_precollected(world.create_item(song, True))
+    # Iterate over the ordered mapping (not the set) so precollected order is
+    # deterministic; set iteration order of item-name strings varies with
+    # PYTHONHASHSEED and breaks generation determinism / UT.
+    shuffled_songs = get_shuffled_songs(world)
+    for song in song_vanilla_locations.values():
+        if song not in shuffled_songs:
+            world.push_precollected(world.create_item(song, True))
 
     if world.options.small_key_shuffle == "start_with":
         for key_ring in key_to_ring.values():

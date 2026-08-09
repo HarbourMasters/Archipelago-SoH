@@ -10,7 +10,7 @@ from worlds.AutoWorld import WebWorld, World
 from Fill import fill_restrictive
 from .location_access.overworld.castle_grounds import LocalEvents
 from .Items import SohItem, item_data_table, item_table, SohItemData, progressive_items
-from .Locations import location_table, token_amounts, SohLocData, location_data_table
+from .Locations import location_table, SohLocData, location_data_table
 from .Options import SohOptions, soh_option_groups, wallet_capacities
 from .Regions import create_regions_and_locations, place_locked_items
 from .Enums import *
@@ -120,7 +120,6 @@ class SohWorld(CachedRuleBuilderWorld):
         self.shop_prices = dict[Locations, int]()
         self.shop_vanilla_items = dict[str, str]()
         self.triforce_pieces_required: int = 0
-        self.randomized_progressive_skulltula_count: int = 0
         self.ganons_trials = list[GanonsTrials]()
         self.pre_fill_pool = list[Items]()
         self.reserved_pre_fill_locations = list[Locations]()
@@ -141,8 +140,6 @@ class SohWorld(CachedRuleBuilderWorld):
                               "your host.yaml settings.")
 
         self.options.apply_any_required_option_adjustments()
-     
-        self.randomized_progressive_skulltula_count = self.options.calculate_progression_skulltula_count(token_reward_counts=token_amounts)
 
         # Figure out Keyring Situation
         key_ring_options: list = [self.options.gerudo_fortress_key_ring, self.options.forest_temple_key_ring, self.options.fire_temple_key_ring, self.options.water_temple_key_ring,

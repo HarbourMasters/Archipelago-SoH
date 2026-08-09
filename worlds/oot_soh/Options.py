@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet, Accessibility
-from .Enums import Tricks, Items, TokenCounts
+from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet
+from .Enums import Tricks, Items
 
 wallet_capacities: dict[Items, int] = {
     Items.CHILD_WALLET: 99,
@@ -1793,66 +1793,6 @@ class SohOptions(PerGameCommonOptions):
 
         if self.shuffle_100_gs_reward == Shuffle100GSReward.option_false:
             self.gs_100_hint.value = GS100Hint.option_false
-
-
-    def calculate_progression_skulltula_count(self, token_reward_counts) -> int:
-        # First we need to figure out how many skulltula tokens are shuffled.
-        # This lets us know how many vanilla tokes there are in the seed
-        if self.shuffle_skull_tokens == ShuffleTokens.option_all:
-            shuffled_token_count = TokenCounts.TOTAL
-        elif self.shuffle_skull_tokens == ShuffleTokens.option_dungeon:
-            shuffled_token_count = TokenCounts.DUNGEON
-        elif self.shuffle_skull_tokens == ShuffleTokens.option_overworld:
-            shuffled_token_count = TokenCounts.OVERWORLD
-        else:
-            shuffled_token_count = 0
-        vanilla_token_count = TokenCounts.TOTAL - shuffled_token_count
-
-        # Start with 50 tokens for 0-50 rewards
-        required_skulltula_count = 50
-
-        # All 100 required to obtain 100gs reward, so all are progression if reward is shuffled
-        if self.shuffle_100_gs_reward:
-            required_skulltula_count = TokenCounts.TOTAL
-
-        if self.accessibility == Accessibility.option_minimal:
-            # Find the highest non-excluded token reward and set that as the required count
-            # This assumes that the locations are in descending order of token amounts e.g. 50 -> 40 -> 30
-            # Should end up with 50 most of the time since that's the biggest reward, but if 50 is excluded then it would be 40, etc.
-            for location, amount in token_reward_counts.items():
-                if str(location) not in self.exclude_locations:
-                    required_skulltula_count = amount
-
-        # Then we need to know if there's any other token count requirements. This is for things like 
-        # Skulltula requires for Rainbow Bridge or Ganon's Castle Boss Key
-        rainbow_bridge_tokens = 0
-        ganons_castle_boss_key_tokens = 0
-        
-        if self.rainbow_bridge == RainbowBridge.option_tokens:
-            rainbow_bridge_tokens = self.rainbow_bridge_skull_tokens_required.value
-        if self.ganons_castle_boss_key == GanonsCastleBossKey.option_lacs_skull_tokens:
-            ganons_castle_boss_key_tokens = self.ganons_castle_boss_key_skull_tokens_required.value
-        
-        required_skulltula_count = max(required_skulltula_count, rainbow_bridge_tokens, ganons_castle_boss_key_tokens)
-
-        if self.accessibility == Accessibility.option_full:
-            # If full accessibility is enabled, assume all vanilla tokens are available and calculate the required shuffled tokens
-            # This will be the total required skulltula count minus the amount of vanilla tokens
-            # that are still available based on the skull shuffle settings.
-            #
-            # For example, if you need 80 GS tokens to complete the seed, and dungeon tokens are shuffled
-            # then you have 56 vanilla tokens available to you, so you would require 24 of the shuffled
-            # tokens to finish the game. The rest would be optional
-            needed_shuffled_tokens = max(0, required_skulltula_count - vanilla_token_count)
-        else:
-            # If accessibility is set to minimal, set all the shuffled tokens to be progression.
-            # This aims to better act in the spirit of minimal accessibility by reducing the number
-            # of vanilla tokens that are available to the player that are considered 'progression'
-            # This should hopefully allow for lower access minimal seeds.
-            needed_shuffled_tokens = max(0, shuffled_token_count)
-
-        # Make sure this can't exceed the total amount of shuffled tokens
-        return min(needed_shuffled_tokens, shuffled_token_count)
 
 
     def adjust_greg_modifiers(self):

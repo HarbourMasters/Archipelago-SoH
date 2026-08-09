@@ -2688,12 +2688,3 @@ location_data_table: dict[str, SohLocData] = {
 
 location_table = {str(name): locdata.loc_id for name,
                   locdata in location_data_table.items()}
-
-
-token_amounts: dict[str, int] = {
-    Locations.KAK_50_GOLD_SKULLTULA_REWARD: 50,
-    Locations.KAK_40_GOLD_SKULLTULA_REWARD: 40,
-    Locations.KAK_30_GOLD_SKULLTULA_REWARD: 30,
-    Locations.KAK_20_GOLD_SKULLTULA_REWARD: 20,
-    Locations.KAK_10_GOLD_SKULLTULA_REWARD: 10
-}
