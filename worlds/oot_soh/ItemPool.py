@@ -2,15 +2,46 @@ from typing import TYPE_CHECKING
 
 from .Enums import *
 from .Items import item_data_table, filler_items, no_rules_bottles, SohItem
-from .Regions import dungeon_reward_item_mapping, small_key_vanilla_mapping, dungeon_boss_key_vanilla_mapping
+from .Regions import dungeon_reward_item_mapping, dungeon_boss_key_vanilla_mapping
 from .LogicHelpers import key_to_ring
-from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
 from .SongShuffle import song_vanilla_locations, get_shuffled_songs
 from .ShopItems import get_vanilla_shop_pool
 
 if TYPE_CHECKING:
     from . import SohWorld
+
+
+def item_pool_quantity(world: "SohWorld", item: Items) -> int:
+    """Number of copies of an item for the currently selected item_pool option.
+
+    Falls back to balanced when other amounts are -1"""
+    data = item_data_table[item]
+    balanced = data.quantity_in_item_pool
+    if world.options.item_pool == "plentiful":
+        return data.plentiful_quantity if data.plentiful_quantity >= 0 else balanced
+    if world.options.item_pool == "scarce":
+        return data.scarce_quantity if data.scarce_quantity >= 0 else balanced
+    if world.options.item_pool == "minimal":
+        return data.minimal_quantity if data.minimal_quantity >= 0 else balanced
+    return balanced
+
+
+def apply_pool_tier(world: "SohWorld", items_to_create: dict[str, int], item: Items) -> None:
+    """Rewrite an already-present item's count to its selected item_pool amount."""
+    if items_to_create[item] <= 0:
+        return
+    data = item_data_table[item]
+    if world.options.item_pool == "plentiful":
+        tier = data.plentiful_quantity
+    elif world.options.item_pool == "scarce":
+        tier = data.scarce_quantity
+    elif world.options.item_pool == "minimal":
+        tier = data.minimal_quantity
+    else:
+        tier = -1
+    if tier >= 0:
+        items_to_create[item] = tier
 
 
 def create_item_pool(world: "SohWorld") -> None:
@@ -48,13 +79,6 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.HYLIA_LAB_KEY] = 1
         items_to_create[Items.FISHING_HOLE_KEY] = 1
 
-    # Gerudo Fortress Keys
-    if world.options.fortress_carpenters == "fast":
-        items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 1
-
-    if world.options.fortress_carpenters == "free":
-        items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
-
     # Overworld Skull Tokens
     if world.options.shuffle_skull_tokens == "overworld" or world.options.shuffle_skull_tokens == "all":
         items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(
@@ -72,20 +96,17 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.shuffle_master_sword and not world.options.start_with_master_sword:
         items_to_create[Items.MASTER_SWORD] = 1
 
-    # Child's Wallet
-    if world.options.shuffle_childs_wallet:
-        items_to_create[Items.PROGRESSIVE_WALLET] += 1
-
-    # Tycoon Wallet
-    if world.options.shuffle_tycoon_wallet:
-        items_to_create[Items.PROGRESSIVE_WALLET] += 1
-
-    # Fiary Ocarina and Ocarina of time
+    # Fairy Ocarina and Ocarina of Time
     if world.options.shuffle_ocarinas:
+        ocarinas = 0
         if world.options.start_with_ocarina == "off":
-            items_to_create[Items.PROGRESSIVE_OCARINA] = 2
-        if world.options.start_with_ocarina == "fairy_ocarina":
-            items_to_create[Items.PROGRESSIVE_OCARINA] = 1
+            ocarinas = 2
+        elif world.options.start_with_ocarina == "fairy_ocarina":
+            ocarinas = 1
+        # The plentiful pool adds an extra ocarina, but never when starting with the Ocarina of Time
+        if ocarinas and world.options.item_pool == "plentiful":
+            ocarinas += 1
+        items_to_create[Items.PROGRESSIVE_OCARINA] = ocarinas
 
     # Songs
     if world.options.shuffle_songs == "anywhere":
@@ -100,10 +121,6 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.OCARINA_CRIGHT_BUTTON] = 1
         items_to_create[Items.OCARINA_CUP_BUTTON] = 1
 
-    # Swim
-    if world.options.shuffle_swim:
-        items_to_create[Items.PROGRESSIVE_SCALE] += 1
-
     # Weird Egg
     if not world.options.skip_child_zelda and world.options.shuffle_weird_egg:
         items_to_create[Items.WEIRD_EGG] = 1
@@ -115,14 +132,6 @@ def create_item_pool(world: "SohWorld") -> None:
     # Fishing Pole
     if world.options.shuffle_fishing_pole:
         items_to_create[Items.FISHING_POLE] = 1
-
-    # Deku Stick Bag
-    if world.options.shuffle_deku_stick_bag:
-        items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
-
-    # Deku Nut Bag
-    if world.options.shuffle_deku_nut_bag:
-        items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
 
     # Merchants
     if world.options.shuffle_merchants in ("all", "bean_merchant_only") and not world.options.start_with_magic_beans:
@@ -242,10 +251,16 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
 
     # Gerudo Fortress Keys
-    if world.options.gerudo_fortress_key_shuffle == "anywhere":
-        if world.options.gerudo_fortress_key_ring:
+    fortress_plentiful = world.options.item_pool == "plentiful"
+    if world.options.fortress_carpenters != "free" and world.options.gerudo_fortress_key_shuffle == "anywhere":
+        if world.options.fortress_carpenters == "fast":
+            # Only one key is needed, freeing a single carpenter
+            items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 2 if fortress_plentiful else 1
+        elif world.options.gerudo_fortress_key_ring:
             items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
-            items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
+            items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 2 if fortress_plentiful else 1
+        else:
+            items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 5 if fortress_plentiful else 4
     else:
         items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
 
@@ -261,29 +276,37 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.big_poe_target_count == 0:
         items_to_create[Items.BOTTLE_WITH_BIG_POE] = 0
 
-    # Bombchu bag
+    # Bombchu bag. Loose bombchus (set in item_data_table) are only kept when no bag is shuffled.
     if world.options.bombchu_bag == "single_bag":
         items_to_create[Items.BOMBCHUS_5] = 0
         items_to_create[Items.BOMBCHUS_10] = 0
         items_to_create[Items.BOMBCHUS_20] = 0
-        if world.options.shuffle_merchants in ("all_but_beans", "all"):
-            items_to_create[Items.BOMBCHU_BAG] = 6
+        if world.options.item_pool == "plentiful":
+            bombchu_bags = 6
+        elif world.options.item_pool == "scarce":
+            bombchu_bags = 3
+        elif world.options.item_pool == "minimal":
+            bombchu_bags = 1
         else:
-            items_to_create[Items.BOMBCHU_BAG] = 5
+            bombchu_bags = 5
+        if world.options.shuffle_merchants in ("all_but_beans", "all"):
+            bombchu_bags += 1
+        items_to_create[Items.BOMBCHU_BAG] = bombchu_bags
     elif world.options.bombchu_bag == "progressive_bags":
-        items_to_create[Items.BOMBCHU_BAG] = 3
-
-    # Infinite Upgrades
-    if world.options.infinite_upgrades == "progressive":
-        items_to_create[Items.PROGRESSIVE_BOMB_BAG] += 1
-        items_to_create[Items.PROGRESSIVE_BOW] += 1
-        items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
-        items_to_create[Items.PROGRESSIVE_SLINGSHOT] += 1
-        items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
-        items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
-        items_to_create[Items.PROGRESSIVE_WALLET] += 1
-        if world.options.bombchu_bag == "progressive_bags":
-            items_to_create[Items.BOMBCHU_BAG] += 1
+        items_to_create[Items.BOMBCHUS_5] = 0
+        items_to_create[Items.BOMBCHUS_10] = 0
+        items_to_create[Items.BOMBCHUS_20] = 0
+        if world.options.item_pool == "plentiful":
+            bombchu_bags = 4
+        elif world.options.item_pool == "scarce":
+            bombchu_bags = 2
+        elif world.options.item_pool == "minimal":
+            bombchu_bags = 1
+        else:
+            bombchu_bags = 3
+        if world.options.infinite_upgrades == "progressive":
+            bombchu_bags += 1
+        items_to_create[Items.BOMBCHU_BAG] = bombchu_bags
 
     # Skeleton Key
     if world.options.skeleton_key:
@@ -316,182 +339,28 @@ def create_item_pool(world: "SohWorld") -> None:
             elif world.options.item_pool == "scarce":
                 items_to_create[Items.PIECE_OF_HEART] += hearts_to_place * 4
 
-    # Item Pool Modifications
-    if world.options.item_pool.value:
-        if world.options.item_pool == "plentiful":
-            # This plentiful stuff we might want to add to when we check these above. For simplicity I'll recheck stuff here for now
-            if world.options.shuffle_ocarinas and not world.options.start_with_ocarina == "ocarina_of_time":
-                items_to_create[Items.PROGRESSIVE_OCARINA] += 1
+    # Item Pool Modifications: apply the selected item_pool amount to every item that is
+    # already in the pool and defines a per-option amount in item_data_table.
+    for item in items_to_create:
+        apply_pool_tier(world, items_to_create, item)
 
-            if world.options.shuffle_merchants in ("all", "bean_merchant_only") and not world.options.start_with_magic_beans:
-                items_to_create[Items.MAGIC_BEAN_PACK] += 1
+    # Progressive upgrades take their per-option amount plus any extra copies granted by
+    # other options (infinite upgrades, extra wallets, and the deku bag/swim shuffles).
+    infinite_upgrades = 1 if world.options.infinite_upgrades == "progressive" else 0
+    extra_wallets = (1 if world.options.shuffle_childs_wallet else 0) + (1 if world.options.shuffle_tycoon_wallet else 0)
 
-            if world.options.shuffle_skull_tokens:
-                items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 10
+    items_to_create[Items.PROGRESSIVE_BOW] = item_pool_quantity(world, Items.PROGRESSIVE_BOW) + infinite_upgrades
+    items_to_create[Items.PROGRESSIVE_SLINGSHOT] = item_pool_quantity(world, Items.PROGRESSIVE_SLINGSHOT) + infinite_upgrades
+    items_to_create[Items.PROGRESSIVE_BOMB_BAG] = item_pool_quantity(world, Items.PROGRESSIVE_BOMB_BAG) + infinite_upgrades
+    items_to_create[Items.PROGRESSIVE_MAGIC_METER] = item_pool_quantity(world, Items.PROGRESSIVE_MAGIC_METER) + infinite_upgrades
+    items_to_create[Items.PROGRESSIVE_WALLET] = item_pool_quantity(world, Items.PROGRESSIVE_WALLET) + infinite_upgrades + extra_wallets
+    items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] = item_pool_quantity(world, Items.PROGRESSIVE_STICK_CAPACITY) + infinite_upgrades + (1 if world.options.shuffle_deku_stick_bag else 0)
+    items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] = item_pool_quantity(world, Items.PROGRESSIVE_NUT_CAPACITY) + infinite_upgrades + (1 if world.options.shuffle_deku_nut_bag else 0)
+    items_to_create[Items.PROGRESSIVE_SCALE] = item_pool_quantity(world, Items.PROGRESSIVE_SCALE) + (1 if world.options.shuffle_swim else 0)
 
-            if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal":
-                items_to_create[Items.GERUDO_FORTRESS_KEY_RING] += 1
-            else:
-                items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] += 1
-
-            if world.options.shuffle_gerudo_membership_card:
-                items_to_create[Items.GERUDO_MEMBERSHIP_CARD] += 1
-
-            if world.options.bombchu_bag in ("single_bag", "progressive_bags"):
-                items_to_create[Items.BOMBCHU_BAG] += 1
-
-            items_to_create[Items.BOOMERANG] += 1
-            items_to_create[Items.LENS_OF_TRUTH] += 1
-            items_to_create[Items.MEGATON_HAMMER] += 1
-            items_to_create[Items.IRON_BOOTS] += 1
-            items_to_create[Items.GORON_TUNIC] += 1
-            items_to_create[Items.ZORA_TUNIC] += 1
-            items_to_create[Items.HOVER_BOOTS] += 1
-            items_to_create[Items.MIRROR_SHIELD] += 1
-            items_to_create[Items.STONE_OF_AGONY] += 1
-            items_to_create[Items.FIRE_ARROW] += 1
-            items_to_create[Items.ICE_ARROW] += 1
-            items_to_create[Items.LIGHT_ARROW] += 1
-            items_to_create[Items.DINS_FIRE] += 1
-            items_to_create[Items.NAYRUS_LOVE] += 1
-            items_to_create[Items.STRENGTH_UPGRADE] += 1
-            items_to_create[Items.DOUBLE_DEFENSE] += 1
-            items_to_create[Items.PROGRESSIVE_BOW] += 1
-            items_to_create[Items.PROGRESSIVE_SLINGSHOT] += 1
-            items_to_create[Items.PROGRESSIVE_BOMB_BAG] += 1
-            items_to_create[Items.PROGRESSIVE_MAGIC_METER] += 1
-            items_to_create[Items.PROGRESSIVE_WALLET] += 1
-            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] += 1
-            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] += 1
-
-            if world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
-                items_to_create[Items.KOKIRI_SWORD] += 1
-
-            if world.options.shuffle_master_sword and not world.options.start_with_master_sword:
-                items_to_create[Items.MASTER_SWORD] += 1
-
-            if world.options.shuffle_weird_egg:
-                items_to_create[Items.WEIRD_EGG] += 1
-
-            if world.options.shuffle_ocarina_buttons:
-                items_to_create[Items.OCARINA_A_BUTTON] += 1
-                items_to_create[Items.OCARINA_CUP_BUTTON] += 1
-                items_to_create[Items.OCARINA_CDOWN_BUTTON] += 1
-                items_to_create[Items.OCARINA_CLEFT_BUTTON] += 1
-                items_to_create[Items.OCARINA_CRIGHT_BUTTON] += 1
-
-            items_to_create[Items.PROGRESSIVE_SCALE] += 1
-
-            if world.options.shuffle_fishing_pole:
-                items_to_create[Items.FISHING_POLE] += 1
-
-            if world.options.shuffle_adult_trade_items:
-                items_to_create[Items.POCKET_EGG] += 1
-                items_to_create[Items.COJIRO] += 1
-                items_to_create[Items.ODD_MUSHROOM] += 1
-                items_to_create[Items.POACHERS_SAW] += 1
-                items_to_create[Items.BROKEN_GORONS_SWORD] += 1
-                items_to_create[Items.PRESCRIPTION] += 1
-                items_to_create[Items.EYEBALL_FROG] += 1
-                items_to_create[Items.WORLDS_FINEST_EYEDROPS] += 1
-
-            items_to_create[Items.CLAIM_CHECK] += 1
-
-            # TODO Bean Souls
-
-            if world.options.shuffle_boss_souls:
-                items_to_create[Items.GOHMAS_SOUL] += 1
-                items_to_create[Items.KING_DODONGOS_SOUL] += 1
-                items_to_create[Items.BARINADES_SOUL] += 1
-                items_to_create[Items.PHANTOM_GANONS_SOUL] += 1
-                items_to_create[Items.VOLVAGIAS_SOUL] += 1
-                items_to_create[Items.MORPHAS_SOUL] += 1
-                items_to_create[Items.BONGO_BONGOS_SOUL] += 1
-                items_to_create[Items.TWINROVAS_SOUL] += 1
-                if world.options.shuffle_boss_souls == "on_plus_ganons":
-                    items_to_create[Items.GANONS_SOUL] += 1
-
-            if world.options.lock_overworld_doors:
-                items_to_create[Items.GUARD_HOUSE_KEY] += 1
-                items_to_create[Items.MARKET_BAZAAR_KEY] += 1
-                items_to_create[Items.MARKET_POTION_SHOP_KEY] += 1
-                items_to_create[Items.MASK_SHOP_KEY] += 1
-                items_to_create[Items.MARKET_SHOOTING_GALLERY_KEY] += 1
-                items_to_create[Items.BOMBCHU_BOWLING_KEY] += 1
-                items_to_create[Items.TREASURE_CHEST_GAME_BUILDING_KEY] += 1
-                items_to_create[Items.BOMBCHU_SHOP_KEY] += 1
-                items_to_create[Items.RICHARDS_HOUSE_KEY] += 1
-                items_to_create[Items.ALLEY_HOUSE_KEY] += 1
-                items_to_create[Items.KAK_BAZAAR_KEY] += 1
-                items_to_create[Items.KAK_POTION_SHOP_KEY] += 1
-                items_to_create[Items.BOSS_HOUSE_KEY] += 1
-                items_to_create[Items.GRANNYS_POTION_SHOP_KEY] += 1
-                items_to_create[Items.SKULLTULA_HOUSE_KEY] += 1
-                items_to_create[Items.IMPAS_HOUSE_KEY] += 1
-                items_to_create[Items.WINDMILL_KEY] += 1
-                items_to_create[Items.KAK_SHOOTING_GALLERY_KEY] += 1
-                items_to_create[Items.DAMPES_HUT_KEY] += 1
-                items_to_create[Items.TALONS_HOUSE_KEY] += 1
-                items_to_create[Items.STABLES_KEY] += 1
-                items_to_create[Items.BACK_TOWER_KEY] += 1
-                items_to_create[Items.HYLIA_LAB_KEY] += 1
-                items_to_create[Items.FISHING_HOLE_KEY] += 1
-
-            if world.options.small_key_shuffle == "anywhere":
-                small_key_mapping = small_key_option_matching(world)
-                for key in small_key_vanilla_mapping.keys():
-                    if small_key_mapping[key].Option:
-                        items_to_create[key_to_ring[key]] += 1
-                    else:
-                        items_to_create[key] += 1
-
-            if world.options.boss_key_shuffle == "anywhere":
-                for key in dungeon_boss_key_vanilla_mapping.values():
-                    items_to_create[key] += 1
-
-            if world.options.ganons_castle_boss_key == "anywhere":
-                items_to_create[Items.GANONS_CASTLE_BOSS_KEY] += 1
-
-            if world.options.shuffle_songs == "anywhere":
-                for song in get_shuffled_songs(world):
-                    items_to_create[song] += 1
-
-        elif world.options.item_pool == "scarce":
-            if world.options.bombchu_bag == "single_bag":
-                items_to_create[Items.BOMBCHU_BAG] = 3
-            elif world.options.bombchu_bag == "progressive_bags":
-                items_to_create[Items.BOMBCHU_BAG] -= 1
-
-            items_to_create[Items.BOMBCHUS_5] = 1
-            items_to_create[Items.BOMBCHUS_10] = 2
-            items_to_create[Items.BOMBCHUS_20] = 0
-            items_to_create[Items.NAYRUS_LOVE] = 0
-            items_to_create[Items.DOUBLE_DEFENSE] = 0
-
-            items_to_create[Items.PROGRESSIVE_BOW] -= 1
-            items_to_create[Items.PROGRESSIVE_SLINGSHOT] -= 1
-            items_to_create[Items.PROGRESSIVE_BOMB_BAG] -= 1
-            items_to_create[Items.PROGRESSIVE_MAGIC_METER] -= 1
-            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] -= 1
-            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 1
-
-        elif world.options.item_pool == "minimal":
-            if world.options.bombchu_bag == "single_bag":
-                items_to_create[Items.BOMBCHU_BAG] = 1
-            elif world.options.bombchu_bag == "progressive_bags":
-                items_to_create[Items.BOMBCHU_BAG] -= 2
-            items_to_create[Items.BOMBCHUS_5] = 1
-            items_to_create[Items.BOMBCHUS_10] = 0
-            items_to_create[Items.BOMBCHUS_20] = 0
-            items_to_create[Items.NAYRUS_LOVE] = 0
-            items_to_create[Items.DOUBLE_DEFENSE] = 0
-
-            items_to_create[Items.PROGRESSIVE_BOW] -= 2
-            items_to_create[Items.PROGRESSIVE_SLINGSHOT] -= 2
-            items_to_create[Items.PROGRESSIVE_BOMB_BAG] -= 2
-            items_to_create[Items.PROGRESSIVE_MAGIC_METER] -= 1
-            items_to_create[Items.PROGRESSIVE_STICK_CAPACITY] -= 2
-            items_to_create[Items.PROGRESSIVE_NUT_CAPACITY] -= 2
+    # The plentiful pool adds in extra Gold Skulltula Tokens
+    if world.options.item_pool == "plentiful" and world.options.shuffle_skull_tokens:
+        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += 10
 
     # It there are more randomized skulltula tokens than required progression, set the excess to useful
     if items_to_create[Items.GOLD_SKULLTULA_TOKEN] > world.randomized_progressive_skulltula_count:

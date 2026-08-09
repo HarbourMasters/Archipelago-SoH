@@ -90,7 +90,7 @@ class TestHeartsMinimal(SohTestBase):
                 container.append(item)    
         self.assertEqual(len(poh), 3, "Should have been 3 PoH")
         self.assertEqual(len(winner), 1, "Should have been 1 Winner PoH")
-        self.assertEqual(len(container), 0, "Should have been 0 Containers")
+        self.assertEqual(len(container), 1, "Should have been 1 Containers")
 
 
     def test_count_heart_total(self):
