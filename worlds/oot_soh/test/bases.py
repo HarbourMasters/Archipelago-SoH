@@ -1,11 +1,12 @@
 from test.bases import WorldTestBase
-from ..Enums import Items, Regions
+from ..Enums import Items
+from ..enums_gen import Regions
 from .. Items import SohItem
 from BaseClasses import ItemClassification as IC
 
 class SohTestBase(WorldTestBase):
     game = "Ship of Harkinian"
-    glitches_item_name = Items.GLITCHED
+    glitches_item_name = Items.RG_GLITCHED
 
     def enable_glitched_item(self):
         """
@@ -13,7 +14,7 @@ class SohTestBase(WorldTestBase):
 
         Also automatically award the item for convenience sake.
         """
-        self.collect(self.world.create_item(Items.GLITCHED))
+        self.collect(self.world.create_item(Items.RG_GLITCHED))
 
     def get_bundle(self) -> tuple:
         """
@@ -21,7 +22,7 @@ class SohTestBase(WorldTestBase):
 
         This will ignore age requirements on items because both ages can reach root.
         """
-        return Regions.ROOT, self.world
+        return Regions.RR_ROOT, self.world
     
     def get_reg_bundle(self, region) -> tuple:
         """

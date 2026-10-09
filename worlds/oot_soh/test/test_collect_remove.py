@@ -12,7 +12,7 @@ class TestCollectRemoveNonProgressive(SohTestBase):
         Testing to make sure that collecting items properly gives the player a single copy.
         """
         self.sweep()
-        items = [Items.KOKIRI_SWORD, Items.MEGATON_HAMMER, Items.FIRE_ARROW, Items.SUNS_SONG, Items.BOOMERANG]
+        items = [Items.RG_KOKIRI_SWORD, Items.RG_MEGATON_HAMMER, Items.RG_FIRE_ARROWS, Items.RG_SUNS_SONG, Items.RG_BOOMERANG]
         for item in items:
             self.assertFalse(self.multiworld.state.has(item, self.player), f"Should not have {item} before collecting it.")
 
@@ -29,7 +29,7 @@ class TestCollectRemoveNonProgressive(SohTestBase):
         Testing to make sure that removing items properly removes them.
         """
         self.sweep()
-        items = [Items.BIGGORONS_SWORD, Items.LENS_OF_TRUTH, Items.ICE_ARROW, Items.SONG_OF_STORMS, Items.FARORES_WIND]
+        items = [Items.RG_BIGGORON_SWORD, Items.RG_LENS_OF_TRUTH, Items.RG_ICE_ARROWS, Items.RG_SONG_OF_STORMS, Items.RG_FARORES_WIND]
         for item in items:
             self.assertFalse(self.multiworld.state.has(item, self.player), f"Should not have {item} before collecting it.")
 
@@ -45,7 +45,7 @@ class TestCollectRemoveNonProgressive(SohTestBase):
         Testing to ensure that starting items are collected properly, based on settings.
         """
         self.sweep()
-        items = [Items.SARIAS_SONG, Items.MASTER_SWORD, Items.EPONAS_SONG]
+        items = [Items.RG_SARIAS_SONG, Items.RG_MASTER_SWORD, Items.RG_EPONAS_SONG]
         for item in items:
             self.assertTrue(self.multiworld.state.has(item, self.player), f"{item} should be precollected, but isn't.")
             self.assertTrue(self.multiworld.state.count(item, self.player) == 1,
@@ -65,10 +65,10 @@ class ProgressiveTestsMixin:
             for i in range(start, total):
                 self.collect(self.world.create_item(item_name))
                 for rank in range(i + 1):
-                    self.assertTrue(has_item(prog_items[rank], self.get_bundle())._instantiate(self.world)._evaluate(self.multiworld.state),
+                    self.assertTrue(has_item(self.get_bundle(), prog_items[rank])._instantiate(self.world)._evaluate(self.multiworld.state),
                                     f"Failed for {item_name}, we do not have {prog_items[rank]}")
                 for rank in range(i + 1, total):
-                    self.assertFalse(has_item(prog_items[rank], self.get_bundle())._instantiate(self.world)._evaluate(
+                    self.assertFalse(has_item(self.get_bundle(), prog_items[rank])._instantiate(self.world)._evaluate(
                         self.multiworld.state),
                                     f"Failed for {item_name}, we should not have {prog_items[rank]}")
 
@@ -86,10 +86,10 @@ class ProgressiveTestsMixin:
             for i in range(count):
                 self.remove(self.get_item_by_name(item_name))
                 for rank in range(count - i - 1):
-                    self.assertTrue(has_item(prog_items[rank], self.get_bundle())._instantiate(self.world)._evaluate(self.multiworld.state),
+                    self.assertTrue(has_item(self.get_bundle(), prog_items[rank])._instantiate(self.world)._evaluate(self.multiworld.state),
                                     f"Failed for {item_name}, we do not have {prog_items[rank]}")
                 for rank in range(count- i - 1, total):
-                    self.assertFalse(has_item(prog_items[rank], self.get_bundle())._instantiate(self.world)._evaluate(
+                    self.assertFalse(has_item(self.get_bundle(), prog_items[rank])._instantiate(self.world)._evaluate(
                         self.multiworld.state),
                                     f"Failed for {item_name}, we should not have {prog_items[rank]}")
 
@@ -102,20 +102,20 @@ class ProgressiveTestsMixin:
         for item_name, prog_items in progressive_items.items():
             first_rank = prog_items[0]
             if item_name in self.optional_prog_item_set:
-                self.assertTrue(has_item(first_rank, self.get_bundle())._instantiate(self.world)._evaluate(
+                self.assertTrue(has_item(self.get_bundle(), first_rank)._instantiate(self.world)._evaluate(
                     self.multiworld.state),
                     f"Failed for {item_name}, we do not have {first_rank}")
             else:
-                self.assertFalse(has_item(first_rank, self.get_bundle())._instantiate(self.world)._evaluate(
+                self.assertFalse(has_item(self.get_bundle(), first_rank)._instantiate(self.world)._evaluate(
                     self.multiworld.state),
                     f"Failed for {item_name}, we should not have {first_rank}")
 
 class TestCollectRemoveProgressiveAllOff(ProgressiveTestsMixin, SohTestBase):
-    options = {"shuffle_childs_wallet": False, "shuffle_swim": False, "shuffle_deku_stick_bag": False,
+    options = {"shuffle_childs_wallet": False, "shuffle_swim": False, "shuffle_grab": False, "shuffle_deku_stick_bag": False,
                "shuffle_deku_nut_bag": False, "bombchu_bag": "none", "shuffle_ocarinas": True}
-    optional_prog_item_set = {Items.PROGRESSIVE_SCALE, Items.PROGRESSIVE_WALLET, Items.PROGRESSIVE_STICK_CAPACITY,
-                              Items.PROGRESSIVE_NUT_CAPACITY, Items.BOMBCHU_BAG}
+    optional_prog_item_set = {Items.RG_PROGRESSIVE_SCALE, Items.RG_PROGRESSIVE_STRENGTH, Items.RG_PROGRESSIVE_WALLET, Items.RG_PROGRESSIVE_STICK_UPGRADE,
+                              Items.RG_PROGRESSIVE_NUT_UPGRADE, Items.RG_PROGRESSIVE_BOMBCHU_BAG}
 
 class TestCollectRemoveProgressiveAllOn(ProgressiveTestsMixin, SohTestBase):
-    options = {"shuffle_childs_wallet": True, "shuffle_swim": True, "shuffle_deku_stick_bag": True,
+    options = {"shuffle_childs_wallet": True, "shuffle_swim": True, "shuffle_grab": True, "shuffle_deku_stick_bag": True,
                "shuffle_deku_nut_bag": True, "bombchu_bag": "single_bag", "shuffle_ocarinas": True}

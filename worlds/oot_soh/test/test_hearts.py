@@ -12,18 +12,18 @@ class TestHearts(SohTestBase):
         # it doesn't actually matter whether the heart pieces are useful or prog for this test
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 3)  # type: ignore
 
-        self.collect(self.world.create_item(Items.HEART_CONTAINER))
+        self.collect(self.world.create_item(Items.RG_HEART_CONTAINER))
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 4)  # type: ignore
 
         for _ in range(3):
-            self.collect(self.world.create_item(Items.PIECE_OF_HEART))
+            self.collect(self.world.create_item(Items.RG_PIECE_OF_HEART))
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 4)  # type: ignore
 
-        heart = self.world.create_item(Items.HEART_CONTAINER)
+        heart = self.world.create_item(Items.RG_HEART_CONTAINER)
         self.collect(heart)
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 5)  # type: ignore
 
-        heart_piece = self.world.create_item(Items.PIECE_OF_HEART)
+        heart_piece = self.world.create_item(Items.RG_PIECE_OF_HEART)
         self.collect(heart_piece)
         self.assertTrue(self.multiworld.state.soh_heart_count[self.player] == 6)  # type: ignore
 
@@ -37,7 +37,7 @@ class TestHeartsBalanced(SohTestBase):
     options = {"starting_hearts": 1, "item_pool": "balanced"}
     def test_collecting_all_hearts_count(self):
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 1, "start with 1 heart") # type: ignore 
-        self.collect_by_name([Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER, Items.HEART_CONTAINER])
+        self.collect_by_name([Items.RG_PIECE_OF_HEART, Items.RG_TREASURE_GAME_HEART, Items.RG_HEART_CONTAINER])
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 20, "after collecting all heart pieces and containers we should have 20 hearts") # type: ignore 
 
     def test_count_hearts_progression(self):
@@ -45,11 +45,11 @@ class TestHeartsBalanced(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_TREASURE_GAME_HEART and (item.classification & IC.progression) == IC.progression:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
                 container.append(item)    
         self.assertEqual(len(poh), 0, "Should have been 0 PoH")
         self.assertEqual(len(winner), 0, "Should have been 0 Winner PoH")
@@ -60,11 +60,11 @@ class TestHeartsBalanced(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART:
+            if item.name == Items.RG_PIECE_OF_HEART:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER:
+            if item.name == Items.RG_TREASURE_GAME_HEART:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER:
+            if item.name == Items.RG_HEART_CONTAINER:
                 container.append(item)   
         self.assertEqual(len(poh), 39, "Should have been 39 PoH")
         self.assertEqual(len(winner), 1, "Should have been 1 Winner PoH")
@@ -74,7 +74,7 @@ class TestHeartsMinimal(SohTestBase):
     options = {"starting_hearts": 1, "item_pool": "minimal"}
     def test_collecting_all_hearts_count(self):
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 1, "start with 1 heart") # type: ignore 
-        self.collect_by_name([Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER, Items.HEART_CONTAINER])
+        self.collect_by_name([Items.RG_PIECE_OF_HEART, Items.RG_TREASURE_GAME_HEART, Items.RG_HEART_CONTAINER])
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 3, "after collecting all heart pieces and containers we should have 3 hearts") # type: ignore 
 
     def test_count_hearts_progression(self):
@@ -82,11 +82,11 @@ class TestHeartsMinimal(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_TREASURE_GAME_HEART and (item.classification & IC.progression) == IC.progression:
                 winner.append(item)
-            if item.name == Items.HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
                 container.append(item)    
         self.assertEqual(len(poh), 3, "Should have been 3 PoH")
         self.assertEqual(len(winner), 1, "Should have been 1 Winner PoH")
@@ -98,11 +98,11 @@ class TestHeartsMinimal(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART:
+            if item.name == Items.RG_PIECE_OF_HEART:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER:
+            if item.name == Items.RG_TREASURE_GAME_HEART:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER:
+            if item.name == Items.RG_HEART_CONTAINER:
                 container.append(item)   
         self.assertEqual(len(container), 1, "Should have been 0 Containers")
         self.assertEqual(len(poh), 3, "Should have been 3 PoH")
@@ -112,7 +112,7 @@ class TestHeartsScarce(SohTestBase):
     options = {"starting_hearts": 1, "item_pool": "scarce"}
     def test_collecting_all_hearts_count(self):
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 1, "start with 1 heart") # type: ignore 
-        self.collect_by_name([Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER, Items.HEART_CONTAINER])
+        self.collect_by_name([Items.RG_PIECE_OF_HEART, Items.RG_TREASURE_GAME_HEART, Items.RG_HEART_CONTAINER])
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 12, "after collecting all heart pieces and containers we should have 12 hearts") # type: ignore 
 
     def test_count_hearts_progression(self):
@@ -120,11 +120,11 @@ class TestHeartsScarce(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_TREASURE_GAME_HEART and (item.classification & IC.progression) == IC.progression:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
                 container.append(item)   
         self.assertEqual(len(poh), 8, "Should have been 8 PoH")
         self.assertEqual(len(winner), 0, "Should have been 0 Winner PoH")
@@ -135,11 +135,11 @@ class TestHeartsScarce(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART:
+            if item.name == Items.RG_PIECE_OF_HEART:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER:
+            if item.name == Items.RG_TREASURE_GAME_HEART:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER:
+            if item.name == Items.RG_HEART_CONTAINER:
                 container.append(item)   
         self.assertEqual(len(container), 0, "Should have been 0 Containers")
         self.assertEqual(len(poh), 43, "Should have been 43 PoH")
@@ -149,7 +149,7 @@ class TestHeartsPlentiful(SohTestBase):
     options = {"starting_hearts": 1, "item_pool": "plentiful"}
     def test_collecting_all_hearts_count(self):
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 1, "start with 1 heart") # type: ignore 
-        self.collect_by_name([Items.PIECE_OF_HEART, Items.PIECE_OF_HEART_WINNER, Items.HEART_CONTAINER])
+        self.collect_by_name([Items.RG_PIECE_OF_HEART, Items.RG_TREASURE_GAME_HEART, Items.RG_HEART_CONTAINER])
         self.assertEqual(self.multiworld.state.soh_heart_count[self.player], 20, "after collecting all heart pieces and containers we should have 20 hearts") # type: ignore 
 
     def test_count_hearts_progression(self):
@@ -157,11 +157,11 @@ class TestHeartsPlentiful(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_PIECE_OF_HEART and (item.classification & IC.progression) == IC.progression:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_TREASURE_GAME_HEART and (item.classification & IC.progression) == IC.progression:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
+            if item.name == Items.RG_HEART_CONTAINER and (item.classification & IC.progression) == IC.progression:
                 container.append(item)    
         self.assertEqual(len(poh), 0, "Should have been 0 PoH")
         self.assertEqual(len(winner), 0, "Should have been 0 Winner PoH")
@@ -172,11 +172,11 @@ class TestHeartsPlentiful(SohTestBase):
         winner = list()
         container = list()
         for item in self.multiworld.itempool:
-            if item.name == Items.PIECE_OF_HEART:
+            if item.name == Items.RG_PIECE_OF_HEART:
                 poh.append(item)
-            if item.name == Items.PIECE_OF_HEART_WINNER:
+            if item.name == Items.RG_TREASURE_GAME_HEART:
                 winner.append(item)    
-            if item.name == Items.HEART_CONTAINER:
+            if item.name == Items.RG_HEART_CONTAINER:
                 container.append(item)   
         self.assertEqual(len(poh), 3, "Should have been 3 PoH")
         self.assertEqual(len(winner), 1, "Should have been 1 Winner PoH")

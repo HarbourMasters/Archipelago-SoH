@@ -1,87 +1,17 @@
-from typing import NamedTuple, TYPE_CHECKING
-from worlds.AutoWorld import LogicMixin
-from BaseClasses import MultiWorld, Region, ItemClassification, LocationProgressType
-from .Enums import *
-from .Locations import SohLocation, base_location_table, \
-    gold_skulltula_overworld_location_table, \
-    gold_skulltula_dungeon_location_table, \
-    shops_location_table, \
-    scrubs_location_table, \
-    scrubs_one_time_only, \
-    trade_items_location_table, \
-    merchants_items_location_table, \
-    cows_location_table, \
-    frogs_location_table, \
-    beehives_location_table, \
-    pots_overworld_location_table, \
-    pots_dungeon_location_table, \
-    crates_overworld_location_table, \
-    crates_dungeon_location_table, \
-    tree_location_table, \
-    freestanding_overworld_location_table, \
-    freestanding_dungeon_location_table, \
-    fairies_fountain_location_table, \
-    fairies_stone_location_table, \
-    fairies_bean_location_table, \
-    fairies_song_location_table, \
-    grass_overworld_location_table, \
-    grass_dungeon_location_table, \
-    fish_pond_location_table, \
-    fish_overworld_location_table, \
-    links_pocket_location_table,\
-    child_zelda_location_table, \
-    carpenters_location_table, \
-    hundred_skulls_location_table, \
-    no_logic_crates_location_table, \
-    no_logic_trees_location_table, \
-    SohLocData, \
-    LocTag
-from .location_access import root
-from .location_access.overworld import \
-    castle_grounds, \
-    death_mountain_crater, \
-    death_mountain_trail, \
-    desert_colossus, \
-    gerudo_fortress, \
-    gerudo_valley, \
-    goron_city, \
-    graveyard, \
-    haunted_wasteland, \
-    hyrule_field, \
-    kakariko, \
-    kokiri_forest, \
-    lake_hylia, \
-    lon_lon_ranch, \
-    lost_woods, \
-    market, \
-    sacred_forest_meadow, \
-    temple_of_time, \
-    thieves_hideout, \
-    zoras_domain, \
-    zoras_fountain, \
-    zoras_river
-from .location_access.dungeons import \
-    bottom_of_the_well, \
-    deku_tree, \
-    dodongos_cavern, \
-    fire_temple, \
-    forest_temple, \
-    ganons_castle, \
-    gerudo_training_ground, \
-    ice_cavern, \
-    jabujabus_belly, \
-    shadow_temple, \
-    spirit_temple, \
-    water_temple
+from typing import TYPE_CHECKING
+from BaseClasses import MultiWorld, Region, LocationProgressType
+from rule_builder.rules import True_
+from .Enums import Ages, HostEvents, Items, Locations
+from .Locations import SohLocation, location_data_table, scrubs_one_time_only
+from .ship_data_gen import SHIP_LOCATIONS, ShipLocation, CheckType, DUNGEON_SMALL_KEYS
+from .enums_gen import Regions
+from .LogicHelpers import add_host_events, add_events, is_pruned
+from .regions_gen import set_region_rules
 from .SongShuffle import song_vanilla_locations, get_shuffled_songs
 from .ShopItems import no_shop_shuffle
 
 if TYPE_CHECKING:
     from . import SohWorld
-
-
-class SohRegionData(NamedTuple):
-    connecting_regions: list[str] = []
 
 
 class SohRegion(Region):
@@ -104,296 +34,177 @@ class SohRegion(Region):
             return self in state._soh_child_reachable_regions[self.player] or self in state._soh_adult_reachable_regions[self.player]
 
 
+def location_enabled(world: "SohWorld", location: Locations, data: ShipLocation) -> bool:
+    """Whether this seed's options shuffle a location, decided by Ship's check type."""
+    o = world.options
+
+    def split(choice) -> bool:
+        # Options offering overworld / dungeon / all, split by Ship's Location::IsDungeon.
+        return choice in ("all", "dungeon" if data.dungeon else "overworld")
+
+    # Checks with an option of their own, whatever their check type.
+    if location in (Locations.RC_HC_MALON_EGG, Locations.RC_HC_ZELDAS_LETTER):
+        return not o.skip_child_zelda
+    if location == Locations.RC_KAK_100_GOLD_SKULLTULA_REWARD:
+        return bool(o.shuffle_100_gs_reward)
+    if location == Locations.RC_ZR_MAGIC_BEAN_SALESMAN:
+        return o.shuffle_merchants in ("bean_merchant_only", "all")
+    if location == Locations.RC_TH_FREED_CARPENTERS or data.type == CheckType.RCTYPE_GF_KEY:
+        return o.fortress_carpenters == "normal" or (
+            o.fortress_carpenters == "fast"
+            and location in (Locations.RC_TH_FREED_CARPENTERS, Locations.RC_TH_1_TORCH_CARPENTER))
+
+    match data.type:
+        case CheckType.RCTYPE_SCRUB:
+            return o.shuffle_scrubs == "all" or (o.shuffle_scrubs == "one_time_only"
+                                                 and location in scrubs_one_time_only)
+        case CheckType.RCTYPE_ADULT_TRADE:
+            return bool(o.shuffle_adult_trade_items)
+        case CheckType.RCTYPE_MERCHANT:
+            return o.shuffle_merchants in ("all_but_beans", "all")
+        case CheckType.RCTYPE_COW:
+            return bool(o.shuffle_cows)
+        case CheckType.RCTYPE_FROG_SONG:
+            return bool(o.shuffle_frog_song_rupees)
+        case CheckType.RCTYPE_BEEHIVE:
+            return bool(o.shuffle_beehives)
+        case CheckType.RCTYPE_POT:
+            return split(o.shuffle_pots)
+        case CheckType.RCTYPE_CRATE | CheckType.RCTYPE_SMALL_CRATE:
+            return split(o.shuffle_crates)
+        case CheckType.RCTYPE_NLCRATE:
+            return bool(o.true_no_logic) and o.shuffle_crates in ("overworld", "all")
+        case CheckType.RCTYPE_TREE:
+            return bool(o.shuffle_trees)
+        case CheckType.RCTYPE_BUSH:
+            return bool(o.shuffle_bushes)
+        case CheckType.RCTYPE_NLTREE:
+            return bool(o.true_no_logic and o.shuffle_trees)
+        case CheckType.RCTYPE_FREESTANDING:
+            return split(o.shuffle_freestanding_items)
+        case CheckType.RCTYPE_GRASS:
+            return split(o.shuffle_grass)
+        case CheckType.RCTYPE_FOUNTAIN_FAIRY:
+            return bool(o.shuffle_fountain_fairies)
+        case CheckType.RCTYPE_STONE_FAIRY:
+            return bool(o.shuffle_stone_fairies)
+        case CheckType.RCTYPE_BEAN_FAIRY:
+            return bool(o.shuffle_bean_fairies)
+        case CheckType.RCTYPE_SONG_FAIRY:
+            return bool(o.shuffle_song_fairies)
+        case CheckType.RCTYPE_FISH:
+            return o.shuffle_fish in ("all", "pond" if data.scene == "SCENE_FISHING_POND" else "overworld")
+        case CheckType.RCTYPE_LINKS_POCKET:
+            return o.start_with_links_pocket != "nothing"
+    return True
+
+
+def materialize_locations(world: "SohWorld") -> list[str]:
+    pending, world._soh_pending_locations = world._soh_pending_locations, {}
+    dropped: list[str] = []
+
+    events = _location_events(world)
+    for location, claims in pending.items():
+        name = str(location)
+        if name not in world.included_locations:
+            # Not a check this seed. Check if it still matters
+            if event := events.get(location):
+                for parent, rule in claims:
+                    event_name = name if len(claims) == 1 else f"{name} ({parent})"
+                    add_events(parent, world, [(event_name, event, rule)])
+            continue
+
+        if world.options.true_no_logic:
+            edges = [(claims[0][0], True_())]
+        else:
+            edges = [(parent, built) for parent, rule in claims
+                     if not is_pruned(built := rule((parent, world)), world)]
+
+        if not edges:
+            dropped.append(name)
+            continue
+
+        # Determine if location is in one more more regions
+        if len(edges) == 1:
+            parent, rule = edges[0]
+            region = world.get_region(str(parent))
+        else:
+            rule = None
+            region = SohRegion(f"{name} (Access)", world.player, world.multiworld)
+            world.multiworld.regions.append(region)
+            for parent, built in edges:
+                world.create_entrance(world.get_region(str(parent)), region, built)
+
+        region.add_locations({name: world.included_locations.pop(location).loc_id}, SohLocation)
+        if rule is not None:
+            world.set_rule(world.get_location(name), rule)
+
+    return dropped
+
+
+def _location_events(world: "SohWorld") -> dict:
+    victory = Locations.RC_TRIFORCE_COMPLETED if world.options.triforce_hunt else Locations.RC_GANON
+    return {
+        victory: HostEvents.GAME_COMPLETED,
+        Locations.RC_ZR_MAGIC_BEAN_SALESMAN: HostEvents.CAN_BUY_BEANS,  # sells beans unless shuffled
+    }
+
+
 def create_regions_and_locations(world: "SohWorld") -> None:
+    for region_name in Regions:
+        if region_name != Regions.RR_NONE:
+            world.multiworld.regions.append(SohRegion(region_name, world.player, world.multiworld))
 
-    # Fill region data table based on the regions enum list
-    region_data_table: dict[str, SohRegionData] = {}
-    for entry in Regions:
-        region_data_table[entry] = SohRegionData([])
-
-    # exclusions
-
-    # Create regions.
-    for region_name in region_data_table.keys():
-        region = SohRegion(region_name, world.player, world.multiworld)
-        world.multiworld.regions.append(region)
-        region.add_exits(region_data_table[region_name].connecting_regions)
-
-    # Create locations
-
-    # Base locations
-    world.included_locations.update(base_location_table)
-
-    # Gold Skulltulas (Overworld)
-    world.included_locations.update(
-        gold_skulltula_overworld_location_table)
-
-    # Gold Skulltulas (Dungeon)
-    world.included_locations.update(gold_skulltula_dungeon_location_table)
-
-    # Shops, Add all shop locations vanilla items will get prefilled and locked
-    # Todo: maybe we have to add the vanilla locations as events (id = None)
-    # check if vanilla items show up in the list of checks
-    world.included_locations.update(shops_location_table)
-
-    # Scrubs
-    if world.options.shuffle_scrubs == "all":
-        world.included_locations.update(scrubs_location_table)
-    
-    if world.options.shuffle_scrubs == "one_time_only":
-        for location_name in scrubs_one_time_only:
-            world.included_locations[location_name] = scrubs_location_table[location_name]
-
-    # Adult Trade Items
-    if world.options.shuffle_adult_trade_items:
-        world.included_locations.update(trade_items_location_table)
-
-    # Merchants
-    if world.options.shuffle_merchants == "bean_merchant_only" or world.options.shuffle_merchants == "all":
-        world.included_locations[Locations.ZR_MAGIC_BEAN_SALESMAN] \
-            = merchants_items_location_table[Locations.ZR_MAGIC_BEAN_SALESMAN]
-
-    if world.options.shuffle_merchants == "all_but_beans" or world.options.shuffle_merchants == "all":
-        for location_name in (Locations.KAK_GRANNYS_SHOP, Locations.GC_MEDIGORON,
-                                Locations.WASTELAND_CARPET_SALESMAN):
-            world.included_locations[location_name] = merchants_items_location_table[location_name]
-
-    # Cows
-    if world.options.shuffle_cows:
-        world.included_locations.update(cows_location_table)
-
-    # Frogs
-    if world.options.shuffle_frog_song_rupees:
-        world.included_locations.update(frogs_location_table)
-
-    # Beehives
-    if world.options.shuffle_beehives:
-        world.included_locations.update(beehives_location_table)
-
-    # Pots (Overworld)
-    if world.options.shuffle_pots == "overworld" or world.options.shuffle_pots == "all":
-        world.included_locations.update(pots_overworld_location_table)
-
-    # Pots (Dungeon)
-    if world.options.shuffle_pots == "dungeon" or world.options.shuffle_pots == "all":
-        world.included_locations.update(pots_dungeon_location_table)
-
-    # Crates (Overworld)
-    if world.options.shuffle_crates == "overworld" or world.options.shuffle_crates == "all":
-        world.included_locations.update(crates_overworld_location_table)
-
-    # Crates (Dungeon)
-    if world.options.shuffle_crates == "dungeon" or world.options.shuffle_crates == "all":
-        world.included_locations.update(crates_dungeon_location_table)
-
-    # Trees
-    if world.options.shuffle_trees:
-        world.included_locations.update(tree_location_table)
-
-    # Freestanding (Overworld)
-    if world.options.shuffle_freestanding_items == "overworld" or world.options.shuffle_freestanding_items == "all":
-        world.included_locations.update(
-            freestanding_overworld_location_table)
-
-    # Freestanding (Dungeon)
-    if world.options.shuffle_freestanding_items == "dungeon" or world.options.shuffle_freestanding_items == "all":
-        world.included_locations.update(
-            freestanding_dungeon_location_table)
-
-    # Fairies
-    if world.options.shuffle_fountain_fairies:
-        world.included_locations.update(fairies_fountain_location_table)
-    if world.options.shuffle_stone_fairies:
-        world.included_locations.update(fairies_stone_location_table)
-    if world.options.shuffle_bean_fairies:
-        world.included_locations.update(fairies_bean_location_table)
-    if world.options.shuffle_song_fairies:
-        world.included_locations.update(fairies_song_location_table)
-
-    # Grass (Overworld)
-    if world.options.shuffle_grass == "overworld" or world.options.shuffle_grass == "all":
-        world.included_locations.update(grass_overworld_location_table)
-
-    # Grass (Dungeon)
-    if world.options.shuffle_grass == "dungeon" or world.options.shuffle_grass == "all":
-        world.included_locations.update(grass_dungeon_location_table)
-
-    # Fish (Pond)
-    if world.options.shuffle_fish == "pond" or world.options.shuffle_fish == "all":
-        world.included_locations.update(fish_pond_location_table)
-
-    # Fish (Overworld)
-    if world.options.shuffle_fish == "overworld" or world.options.shuffle_fish == "all":
-        world.included_locations.update(fish_overworld_location_table)
-
-    # Link's Pocket
-    if world.options.start_with_links_pocket != "nothing":
-        world.included_locations.update(links_pocket_location_table)
-
-    # Child Zelda
-    if not world.options.skip_child_zelda:
-        world.included_locations.update(child_zelda_location_table)
-
-    # Carpenters
-    if world.options.fortress_carpenters == "normal":
-        world.included_locations.update(carpenters_location_table)
-
-    if world.options.fortress_carpenters == "fast":
-        for location_name in (Locations.GF_GERUDO_MEMBERSHIP_CARD, Locations.TH_1_TORCH_CARPENTER):
-            world.included_locations[location_name] = carpenters_location_table[location_name]
-
-    if world.options.shuffle_100_gs_reward:
-        world.included_locations.update(hundred_skulls_location_table)
-
-    if world.options.true_no_logic:
-        if world.options.shuffle_crates == "overworld" or world.options.shuffle_crates == "all":
-            world.included_locations.update(no_logic_crates_location_table)
-        if world.options.shuffle_trees:
-            world.included_locations.update(no_logic_trees_location_table)
+    world.included_locations.update({name: data for name, data in location_data_table.items()
+                                     if location_enabled(world, name, SHIP_LOCATIONS[name])})
 
     # Set region rules and location rules after all locations are created
-    all_regions = [root, castle_grounds, death_mountain_crater, death_mountain_trail, desert_colossus, gerudo_fortress,
-                   gerudo_valley, goron_city, graveyard, haunted_wasteland, hyrule_field, kakariko, kokiri_forest,
-                   lake_hylia, lon_lon_ranch, lost_woods, market, sacred_forest_meadow, temple_of_time, thieves_hideout,
-                   zoras_domain, zoras_fountain, zoras_river, bottom_of_the_well, deku_tree, dodongos_cavern,
-                   fire_temple, forest_temple, ganons_castle, gerudo_training_ground, ice_cavern, jabujabus_belly,
-                   shadow_temple, spirit_temple, water_temple]
-    for region in all_regions:
-        region.set_region_rules(world)
+    set_region_rules(world)
+    materialize_locations(world)
+    add_host_events(world)
 
 
 # Create a dictionary mapping blue warp rewards to their vanilla items
 dungeon_reward_item_mapping = {
-    Locations.QUEEN_GOHMA: Items.KOKIRIS_EMERALD,
-    Locations.KING_DODONGO: Items.GORONS_RUBY,
-    Locations.BARINADE: Items.ZORAS_SAPPHIRE,
-    Locations.PHANTOM_GANON: Items.FOREST_MEDALLION,
-    Locations.VOLVAGIA: Items.FIRE_MEDALLION,
-    Locations.MORPHA: Items.WATER_MEDALLION,
-    Locations.BONGO_BONGO: Items.SHADOW_MEDALLION,
-    Locations.TWINROVA: Items.SPIRIT_MEDALLION,
-    Locations.LINKS_POCKET: Items.LIGHT_MEDALLION
+    Locations.RC_QUEEN_GOHMA: Items.RG_KOKIRI_EMERALD,
+    Locations.RC_KING_DODONGO: Items.RG_GORON_RUBY,
+    Locations.RC_BARINADE: Items.RG_ZORA_SAPPHIRE,
+    Locations.RC_PHANTOM_GANON: Items.RG_FOREST_MEDALLION,
+    Locations.RC_VOLVAGIA: Items.RG_FIRE_MEDALLION,
+    Locations.RC_MORPHA: Items.RG_WATER_MEDALLION,
+    Locations.RC_BONGO_BONGO: Items.RG_SHADOW_MEDALLION,
+    Locations.RC_TWINROVA: Items.RG_SPIRIT_MEDALLION,
+    Locations.RC_LINKS_POCKET: Items.RG_LIGHT_MEDALLION
 }
 
 
-forest_temple_small_key_chests = [
-    Locations.FOREST_TEMPLE_FIRST_ROOM_CHEST,
-    Locations.FOREST_TEMPLE_FIRST_STALFOS_CHEST,
-    Locations.FOREST_TEMPLE_FLOORMASTER_CHEST,
-    Locations.FOREST_TEMPLE_WELL_CHEST,
-    Locations.FOREST_TEMPLE_RED_POE_CHEST
+dungeon_boss_keys = [Items.RG_FOREST_TEMPLE_BOSS_KEY, Items.RG_FIRE_TEMPLE_BOSS_KEY, Items.RG_WATER_TEMPLE_BOSS_KEY,
+                     Items.RG_SPIRIT_TEMPLE_BOSS_KEY, Items.RG_SHADOW_TEMPLE_BOSS_KEY]
+
+maps_and_compasses = [
+    Items.RG_DEKU_TREE_MAP, Items.RG_DEKU_TREE_COMPASS,
+    Items.RG_DODONGOS_CAVERN_MAP, Items.RG_DODONGOS_CAVERN_COMPASS,
+    Items.RG_JABU_JABUS_BELLY_MAP, Items.RG_JABU_JABUS_BELLY_COMPASS,
+    Items.RG_FOREST_TEMPLE_MAP, Items.RG_FOREST_TEMPLE_COMPASS,
+    Items.RG_FIRE_TEMPLE_MAP, Items.RG_FIRE_TEMPLE_COMPASS,
+    Items.RG_WATER_TEMPLE_MAP, Items.RG_WATER_TEMPLE_COMPASS,
+    Items.RG_SPIRIT_TEMPLE_MAP, Items.RG_SPIRIT_TEMPLE_COMPASS,
+    Items.RG_SHADOW_TEMPLE_MAP, Items.RG_SHADOW_TEMPLE_COMPASS,
+    Items.RG_BOTTOM_OF_THE_WELL_MAP, Items.RG_BOTTOM_OF_THE_WELL_COMPASS,
+    Items.RG_ICE_CAVERN_MAP, Items.RG_ICE_CAVERN_COMPASS,
 ]
 
 
-fire_temple_small_key_chests = [
-    Locations.FIRE_TEMPLE_NEAR_BOSS_CHEST,
-    Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_LOWER_OPEN_DOOR_CHEST,
-    Locations.FIRE_TEMPLE_BIG_LAVA_ROOM_BLOCKED_DOOR_CHEST,
-    Locations.FIRE_TEMPLE_BOULDER_MAZE_LOWER_CHEST,
-    Locations.FIRE_TEMPLE_BOULDER_MAZE_SIDE_ROOM_CHEST,
-    Locations.FIRE_TEMPLE_BOULDER_MAZE_SHORTCUT_CHEST,
-    Locations.FIRE_TEMPLE_BOULDER_MAZE_UPPER_CHEST,
-    Locations.FIRE_TEMPLE_HIGHEST_GORON_CHEST
-]
+SMALL_KEY_BY_AREA = {dungeon: key for key, (dungeon, _, _) in DUNGEON_SMALL_KEYS.items()}
 
 
-water_temple_small_key_chests = [
-    Locations.WATER_TEMPLE_TORCHES_CHEST,
-    Locations.WATER_TEMPLE_CRACKED_WALL_CHEST,
-    Locations.WATER_TEMPLE_DRAGON_CHEST,
-    Locations.WATER_TEMPLE_CENTRAL_PILLAR_CHEST,
-    Locations.WATER_TEMPLE_RIVER_CHEST,
-    Locations.WATER_TEMPLE_CENTRAL_BOW_TARGET_CHEST
-]
+def place_vanilla_items(world: "SohWorld", types: set[CheckType]) -> None:
+    for location in world.get_locations():
+        data = SHIP_LOCATIONS.get(location.name)
+        if data and data.type in types and location.item is None:
+            item = SMALL_KEY_BY_AREA[data.area] if data.type == CheckType.RCTYPE_SMALL_KEY else data.vanilla_item
+            place_locked_item(location.name, item, world)
 
-
-spirit_temple_small_key_chests = [
-    Locations.SPIRIT_TEMPLE_CHILD_EARLY_TORCHES_CHEST,
-    Locations.SPIRIT_TEMPLE_SUN_BLOCK_ROOM_CHEST,
-    Locations.SPIRIT_TEMPLE_EARLY_ADULT_RIGHT_CHEST,
-    Locations.SPIRIT_TEMPLE_STATUE_ROOM_HAND_CHEST,
-    Locations.SPIRIT_TEMPLE_NEAR_FOUR_ARMOS_CHEST
-]
-
-
-shadow_temple_small_key_chests = [
-    Locations.SHADOW_TEMPLE_EARLY_SILVER_RUPEE_CHEST,
-    Locations.SHADOW_TEMPLE_FREESTANDING_KEY,
-    Locations.SHADOW_TEMPLE_FALLING_SPIKES_SWITCH_CHEST,
-    Locations.SHADOW_TEMPLE_AFTER_WIND_HIDDEN_CHEST,
-    Locations.SHADOW_TEMPLE_INVISIBLE_FLOORMASTER_CHEST
-]
-
-
-botw_small_key_chests = [
-    Locations.BOTTOM_OF_THE_WELL_FRONT_LEFT_FAKE_WALL_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_RIGHT_BOTTOM_FAKE_WALL_CHEST,
-    Locations.BOTTOM_OF_THE_WELL_FREESTANDING_KEY
-]
-
-
-ganons_castle_small_key_chests = [
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_INVISIBLE_ENEMIES_CHEST,
-    Locations.GANONS_CASTLE_LIGHT_TRIAL_LULLABY_CHEST,
-]
-
-
-gtg_small_key_chests = [
-    Locations.GERUDO_TRAINING_GROUND_STALFOS_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HEAVY_BLOCK_THIRD_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_EYE_STATUE_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_NEAR_SCARECROW_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_FREESTANDING_KEY,
-    Locations.GERUDO_TRAINING_GROUND_HAMMER_ROOM_SWITCH_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_UNDERWATER_SILVER_RUPEE_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_BEAMOS_CHEST,
-    Locations.GERUDO_TRAINING_GROUND_HIDDEN_CEILING_CHEST
-]
-
-
-dungeon_boss_key_vanilla_mapping = {
-    Locations.FOREST_TEMPLE_BOSS_KEY_CHEST: Items.FOREST_TEMPLE_BOSS_KEY,
-    Locations.FIRE_TEMPLE_BOSS_KEY_CHEST: Items.FIRE_TEMPLE_BOSS_KEY,
-    Locations.WATER_TEMPLE_BOSS_KEY_CHEST: Items.WATER_TEMPLE_BOSS_KEY,
-    Locations.SPIRIT_TEMPLE_BOSS_KEY_CHEST: Items.SPIRIT_TEMPLE_BOSS_KEY,
-    Locations.SHADOW_TEMPLE_BOSS_KEY_CHEST: Items.SHADOW_TEMPLE_BOSS_KEY
-}
-
-
-small_key_vanilla_mapping = {
-    Items.FOREST_TEMPLE_SMALL_KEY: forest_temple_small_key_chests,
-    Items.FIRE_TEMPLE_SMALL_KEY: fire_temple_small_key_chests,
-    Items.WATER_TEMPLE_SMALL_KEY: water_temple_small_key_chests,
-    Items.SPIRIT_TEMPLE_SMALL_KEY: spirit_temple_small_key_chests,
-    Items.SHADOW_TEMPLE_SMALL_KEY: shadow_temple_small_key_chests,
-    Items.BOTTOM_OF_THE_WELL_SMALL_KEY: botw_small_key_chests,
-    Items.GANONS_CASTLE_SMALL_KEY: ganons_castle_small_key_chests,
-    Items.TRAINING_GROUND_SMALL_KEY: gtg_small_key_chests
-}
-
-
-map_and_compass_vanilla_mapping = {
-    Locations.DEKU_TREE_MAP_CHEST: Items.GREAT_DEKU_TREE_MAP,
-    Locations.DEKU_TREE_COMPASS_CHEST: Items.GREAT_DEKU_TREE_COMPASS,
-    Locations.DODONGOS_CAVERN_MAP_CHEST: Items.DODONGOS_CAVERN_MAP,
-    Locations.DODONGOS_CAVERN_COMPASS_CHEST: Items.DODONGOS_CAVERN_COMPASS,
-    Locations.JABU_JABUS_BELLY_MAP_CHEST: Items.JABU_JABUS_BELLY_MAP,
-    Locations.JABU_JABUS_BELLY_COMPASS_CHEST: Items.JABU_JABUS_BELLY_COMPASS,
-    Locations.FOREST_TEMPLE_MAP_CHEST: Items.FOREST_TEMPLE_MAP,
-    Locations.FOREST_TEMPLE_BLUE_POE_CHEST: Items.FOREST_TEMPLE_COMPASS,
-    Locations.FIRE_TEMPLE_MAP_CHEST: Items.FIRE_TEMPLE_MAP,
-    Locations.FIRE_TEMPLE_COMPASS_CHEST: Items.FIRE_TEMPLE_COMPASS,
-    Locations.WATER_TEMPLE_MAP_CHEST: Items.WATER_TEMPLE_MAP,
-    Locations.WATER_TEMPLE_COMPASS_CHEST: Items.WATER_TEMPLE_COMPASS,
-    Locations.SPIRIT_TEMPLE_MAP_CHEST: Items.SPIRIT_TEMPLE_MAP,
-    Locations.SPIRIT_TEMPLE_COMPASS_CHEST: Items.SPIRIT_TEMPLE_COMPASS,
-    Locations.SHADOW_TEMPLE_MAP_CHEST: Items.SHADOW_TEMPLE_MAP,
-    Locations.SHADOW_TEMPLE_COMPASS_CHEST: Items.SHADOW_TEMPLE_COMPASS,
-    Locations.BOTTOM_OF_THE_WELL_MAP_CHEST: Items.BOTTOM_OF_THE_WELL_MAP,
-    Locations.BOTTOM_OF_THE_WELL_COMPASS_CHEST: Items.BOTTOM_OF_THE_WELL_COMPASS,
-    Locations.ICE_CAVERN_MAP_CHEST: Items.ICE_CAVERN_MAP,
-    Locations.ICE_CAVERN_COMPASS_CHEST: Items.ICE_CAVERN_COMPASS
-}
 
 def place_locked_item(location: Locations, item: Items, world: "SohWorld") -> None:
     soh_item = world.create_item(item)
@@ -402,21 +213,18 @@ def place_locked_item(location: Locations, item: Items, world: "SohWorld") -> No
 
 def place_locked_items(world: "SohWorld") -> None:
     if world.options.start_with_links_pocket == "advancement":
-        world.get_location(Locations.LINKS_POCKET).progress_type = LocationProgressType.PRIORITY
+        world.get_location(Locations.RC_LINKS_POCKET).progress_type = LocationProgressType.PRIORITY
 
     # If skip_child_zelda, connect the locations to root and push items precollected
     if not world.options.skip_child_zelda:
         # Zeldas Letter gets placed to it's location
-        place_locked_item(Locations.HC_ZELDAS_LETTER, Items.ZELDAS_LETTER, world)
+        place_locked_item(Locations.RC_HC_ZELDAS_LETTER, Items.RG_ZELDAS_LETTER, world)
         # If not skip_child_zelda and not shuffle_weird_egg, place the weird egg
         if not world.options.shuffle_weird_egg:
-            place_locked_item(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
+            place_locked_item(Locations.RC_HC_MALON_EGG, Items.RG_WEIRD_EGG, world)
     else:
-        world.push_precollected(world.create_item(Items.ZELDAS_LETTER, True))
-        world.push_precollected(world.create_item(Items.WEIRD_EGG, True))
-
-        connect_to_root(Locations.SONG_FROM_IMPA, world)
-        world.multiworld.regions.region_cache[world.player].pop(Regions.HC_GARDEN)
+        world.push_precollected(world.create_item(Items.RG_ZELDAS_LETTER, True))
+        world.push_precollected(world.create_item(Items.RG_WEIRD_EGG, True))
 
         
     if world.options.shuffle_songs == "off":
@@ -428,35 +236,35 @@ def place_locked_items(world: "SohWorld") -> None:
 
     # Place Kokiri Sword on vanilla location if not shuffled
     if not world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
-        place_locked_item(Locations.KF_KOKIRI_SWORD_CHEST, Items.KOKIRI_SWORD, world)
+        place_locked_item(Locations.RC_KF_KOKIRI_SWORD_CHEST, Items.RG_KOKIRI_SWORD, world)
 
     # Place Master Sword on vanilla location if not shuffled
     if not world.options.shuffle_master_sword:
         if world.options.starting_age == "adult" or world.options.start_with_master_sword:
             # Start with the master sword in your starting inventory
-            world.multiworld.push_precollected(world.create_item(Items.MASTER_SWORD, create_as_event=True))
+            world.multiworld.push_precollected(world.create_item(Items.RG_MASTER_SWORD, create_as_event=True))
 
         # place locked mastersword so this location doesn't get counted as an empty location
-        world.get_location(Locations.MARKET_TOT_MASTER_SWORD).place_locked_item(
-            world.create_item(Items.MASTER_SWORD, create_as_event=True))
-        world.get_location(Locations.MARKET_TOT_MASTER_SWORD).address = None
+        world.get_location(Locations.RC_TOT_MASTER_SWORD).place_locked_item(
+            world.create_item(Items.RG_MASTER_SWORD, create_as_event=True))
+        world.get_location(Locations.RC_TOT_MASTER_SWORD).address = None
         
     # Place the Ocarinas on their vanilla locations if not shuffled
     if not world.options.shuffle_ocarinas:
         if world.options.start_with_ocarina == "off":
-            place_locked_item(Locations.LW_GIFT_FROM_SARIA, Items.PROGRESSIVE_OCARINA, world)
+            place_locked_item(Locations.RC_LW_GIFT_FROM_SARIA, Items.RG_PROGRESSIVE_OCARINA, world)
         if world.options.start_with_ocarina != "ocarina_of_time":
-            place_locked_item(Locations.HF_OCARINA_OF_TIME_ITEM, Items.PROGRESSIVE_OCARINA, world)
+            place_locked_item(Locations.RC_HF_OCARINA_OF_TIME_ITEM, Items.RG_PROGRESSIVE_OCARINA, world)
 
         
     # place the gerudo membership card
     if not world.options.shuffle_gerudo_membership_card:
         if world.options.fortress_carpenters == "free":
             # start with the membership card
-            world.multiworld.push_precollected(world.create_item(Items.GERUDO_MEMBERSHIP_CARD, create_as_event=True))
+            world.multiworld.push_precollected(world.create_item(Items.RG_GERUDO_MEMBERSHIP_CARD, create_as_event=True))
         else:
             # Place the Gerudo Membership Card on vanilla location if not shuffled
-            place_locked_item(Locations.GF_GERUDO_MEMBERSHIP_CARD, Items.GERUDO_MEMBERSHIP_CARD, world)
+            place_locked_item(Locations.RC_TH_FREED_CARPENTERS, Items.RG_GERUDO_MEMBERSHIP_CARD, world)
 
     # Preplace dungeon rewards in vanilla locations when not shuffled
     if world.options.shuffle_dungeon_rewards == "off":
@@ -467,66 +275,42 @@ def place_locked_items(world: "SohWorld") -> None:
         if world.options.start_with_links_pocket == "dungeon_reward":
             dungeon_rewards = list(dungeon_reward_item_mapping.values())
             world.random.shuffle(dungeon_rewards)
-            place_locked_item(Locations.LINKS_POCKET, dungeon_rewards[0], world)
+            place_locked_item(Locations.RC_LINKS_POCKET, dungeon_rewards[0], world)
 
     # Place Ganons Boss Key
     if not world.options.ganons_castle_boss_key == "vanilla" and not world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:
-        place_locked_item(Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE, Items.GANONS_CASTLE_BOSS_KEY, world)
+        place_locked_item(Locations.RC_TOT_LIGHT_ARROWS_CUTSCENE, Items.RG_GANONS_CASTLE_BOSS_KEY, world)
 
     if world.options.ganons_castle_boss_key == "vanilla" and not world.options.triforce_hunt:
-        place_locked_item(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST, Items.GANONS_CASTLE_BOSS_KEY, world)
+        place_locked_item(Locations.RC_GANONS_TOWER_BOSS_KEY_CHEST, Items.RG_GANONS_CASTLE_BOSS_KEY, world)
 
     # Place vanilla shop items if they're not shuffled
     if not world.options.shuffle_shops:
         no_shop_shuffle(world)
 
     # Preplace tokens based on settings.
-    if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
-        for location_name, address in gold_skulltula_overworld_location_table.items():
-            token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
-            world.get_location(location_name).place_locked_item(token_item)
-            world.get_location(location_name).address = None
-            world.get_location(location_name).item.code = None
+    token_overworld = world.options.shuffle_skull_tokens in ("off", "dungeon")
+    token_dungeon = world.options.shuffle_skull_tokens in ("off", "overworld")
+    for location in world.get_locations():
+        data = SHIP_LOCATIONS.get(location.name)
+        if data and data.type == CheckType.RCTYPE_SKULL_TOKEN and (token_dungeon if data.dungeon else token_overworld):
+            location.place_locked_item(world.create_item(Items.RG_GOLD_SKULLTULA_TOKEN, True))
+            location.address = None
+            location.item.code = None
 
-    if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "overworld":
-        for location_name, address in gold_skulltula_dungeon_location_table.items():
-            token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
-            world.get_location(location_name).place_locked_item(token_item)
-            world.get_location(location_name).address = None
-            world.get_location(location_name).item.code = None
-
-    # Boss Keys
+    vanilla: set[CheckType] = set()
     if world.options.boss_key_shuffle == "vanilla":
-        for location, key in dungeon_boss_key_vanilla_mapping.items():
-            place_locked_item(location, key, world)
-
-    # Small Keys
+        vanilla.add(CheckType.RCTYPE_BOSS_KEY)
     if world.options.small_key_shuffle == "vanilla":
-        for key, locations in small_key_vanilla_mapping.items():
-            for location in locations:
-                place_locked_item(location, key, world)
+        vanilla.add(CheckType.RCTYPE_SMALL_KEY)
+    if world.options.maps_and_compasses == "vanilla":
+        vanilla |= {CheckType.RCTYPE_MAP, CheckType.RCTYPE_COMPASS}
+    place_vanilla_items(world, vanilla)
 
     # Gerudo Fortress Keys
     if world.options.fortress_carpenters != "free" and world.options.gerudo_fortress_key_shuffle == "vanilla":
         if world.options.fortress_carpenters != "fast":
-            for location in (Locations.TH_1_TORCH_CARPENTER, Locations.TH_DEAD_END_CARPENTER, Locations.TH_DOUBLE_CELL_CARPENTER, Locations.TH_STEEP_SLOPE_CARPENTER):
-                place_locked_item(location, Items.GERUDO_FORTRESS_SMALL_KEY, world)
+            for location in (Locations.RC_TH_1_TORCH_CARPENTER, Locations.RC_TH_DEAD_END_CARPENTER, Locations.RC_TH_DOUBLE_CELL_CARPENTER, Locations.RC_TH_STEEP_SLOPE_CARPENTER):
+                place_locked_item(location, Items.RG_GERUDO_FORTRESS_SMALL_KEY, world)
         else:
-            place_locked_item(Locations.TH_1_TORCH_CARPENTER, Items.GERUDO_FORTRESS_SMALL_KEY, world)
-
-
-    # Maps and Compasses
-    if world.options.maps_and_compasses == "vanilla":
-        for location, item in map_and_compass_vanilla_mapping.items():
-            place_locked_item(location, item, world)
-
-def connect_to_root(location: Locations, world: "SohWorld"):
-    loc = world.get_location(location)
-
-    # Connect to Root if not already
-    region = loc.parent_region
-    root = world.get_region(Regions.ROOT)
-    if region != root:
-        region.locations.remove(loc)
-        loc.parent_region = root
-        root.locations.append(loc)
+            place_locked_item(Locations.RC_TH_1_TORCH_CARPENTER, Items.RG_GERUDO_FORTRESS_SMALL_KEY, world)

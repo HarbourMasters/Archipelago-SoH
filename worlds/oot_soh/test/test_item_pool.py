@@ -30,42 +30,42 @@ Tier = {"balanced": 0, "plentiful": 1, "scarce": 2, "minimal": 3}
 # item -> (balanced, plentiful, scarce, minimal) expected copies in the pool.
 ExpectedCounts: dict[Items, tuple[int, int, int, int]] = {
     # Unconditional single-copy items
-    Items.BOOMERANG: (1, 2, 1, 1),
-    Items.CLAIM_CHECK: (1, 2, 1, 1),
-    Items.PROGRESSIVE_HOOKSHOT: (2, 2, 2, 2),
-    Items.NAYRUS_LOVE: (1, 2, 1, 0),        
-    Items.FARORES_WIND: (1, 2, 1, 0),
-    Items.BIGGORONS_SWORD: (1, 2, 1, 0),
-    Items.DOUBLE_DEFENSE: (1, 2, 0, 0),
-    Items.STRENGTH_UPGRADE: (3, 4, 3, 3),
-    Items.PROGRESSIVE_BOW: (3, 4, 2, 1),
-    Items.PROGRESSIVE_SLINGSHOT: (3, 4, 2, 1),
-    Items.PROGRESSIVE_BOMB_BAG: (3, 4, 2, 1),
-    Items.PROGRESSIVE_MAGIC_METER: (2, 3, 1, 1),
-    Items.PROGRESSIVE_STICK_CAPACITY: (2, 3, 1, 0),
-    Items.PROGRESSIVE_NUT_CAPACITY: (2, 3, 1, 0),
-    Items.PROGRESSIVE_WALLET: (2, 3, 2, 2),
-    Items.PROGRESSIVE_SCALE: (2, 3, 2, 2),
-    Items.BOMBCHUS_5: (1, 1, 1, 1),
-    Items.BOMBCHUS_10: (3, 3, 2, 0),
-    Items.BOMBCHUS_20: (1, 2, 0, 0),
-    Items.KOKIRI_SWORD: (1, 2, 1, 1),
-    Items.MASTER_SWORD: (1, 2, 1, 1),
-    Items.POCKET_EGG: (1, 2, 1, 1),
-    Items.ODD_POTION: (1, 2, 1, 1),
-    Items.GOHMAS_SOUL: (1, 2, 1, 1),
-    Items.GANONS_SOUL: (1, 2, 1, 1),
-    Items.OCARINA_A_BUTTON: (1, 2, 1, 1),
-    Items.GUARD_HOUSE_KEY: (1, 2, 1, 1),
-    Items.FISHING_POLE: (1, 2, 1, 1),
-    Items.GERUDO_MEMBERSHIP_CARD: (1, 2, 1, 1),
-    Items.ZELDAS_LULLABY: (1, 2, 1, 1),
-    Items.FOREST_TEMPLE_SMALL_KEY: (5, 6, 5, 5),
-    Items.FIRE_TEMPLE_SMALL_KEY: (8, 9, 8, 8),
-    Items.GANONS_CASTLE_SMALL_KEY: (2, 3, 2, 2),
-    Items.FOREST_TEMPLE_BOSS_KEY: (1, 2, 1, 1),
-    Items.GANONS_CASTLE_BOSS_KEY: (1, 2, 1, 1),
-    Items.GERUDO_FORTRESS_SMALL_KEY: (4, 5, 4, 4),
+    Items.RG_BOOMERANG: (1, 2, 1, 1),
+    Items.RG_CLAIM_CHECK: (1, 2, 1, 1),
+    Items.RG_PROGRESSIVE_HOOKSHOT: (2, 2, 2, 2),
+    Items.RG_NAYRUS_LOVE: (1, 2, 1, 0),        
+    Items.RG_FARORES_WIND: (1, 2, 1, 0),
+    Items.RG_BIGGORON_SWORD: (1, 2, 1, 0),
+    Items.RG_DOUBLE_DEFENSE: (1, 2, 0, 0),
+    Items.RG_PROGRESSIVE_STRENGTH: (3, 4, 3, 3),
+    Items.RG_PROGRESSIVE_BOW: (3, 4, 2, 1),
+    Items.RG_PROGRESSIVE_SLINGSHOT: (3, 4, 2, 1),
+    Items.RG_PROGRESSIVE_BOMB_BAG: (3, 4, 2, 1),
+    Items.RG_PROGRESSIVE_MAGIC_METER: (2, 3, 1, 1),
+    Items.RG_PROGRESSIVE_STICK_UPGRADE: (2, 3, 1, 0),
+    Items.RG_PROGRESSIVE_NUT_UPGRADE: (2, 3, 1, 0),
+    Items.RG_PROGRESSIVE_WALLET: (2, 3, 2, 2),
+    Items.RG_PROGRESSIVE_SCALE: (2, 3, 2, 2),
+    Items.RG_BOMBCHU_5: (1, 1, 1, 1),
+    Items.RG_BOMBCHU_10: (3, 3, 2, 0),
+    Items.RG_BOMBCHU_20: (1, 2, 0, 0),
+    Items.RG_KOKIRI_SWORD: (1, 2, 1, 1),
+    Items.RG_MASTER_SWORD: (1, 2, 1, 1),
+    Items.RG_POCKET_EGG: (1, 2, 1, 1),
+    Items.RG_ODD_POTION: (1, 2, 1, 1),
+    Items.RG_GOHMA_SOUL: (1, 2, 1, 1),
+    Items.RG_GANON_SOUL: (1, 2, 1, 1),
+    Items.RG_OCARINA_A_BUTTON: (1, 2, 1, 1),
+    Items.RG_GUARD_HOUSE_KEY: (1, 2, 1, 1),
+    Items.RG_FISHING_POLE: (1, 2, 1, 1),
+    Items.RG_GERUDO_MEMBERSHIP_CARD: (1, 2, 1, 1),
+    Items.RG_ZELDAS_LULLABY: (1, 2, 1, 1),
+    Items.RG_FOREST_TEMPLE_SMALL_KEY: (5, 6, 5, 5),
+    Items.RG_FIRE_TEMPLE_SMALL_KEY: (8, 9, 8, 8),
+    Items.RG_GANONS_CASTLE_SMALL_KEY: (2, 3, 2, 2),
+    Items.RG_FOREST_TEMPLE_BOSS_KEY: (1, 2, 1, 1),
+    Items.RG_GANONS_CASTLE_BOSS_KEY: (1, 2, 1, 1),
+    Items.RG_GERUDO_FORTRESS_SMALL_KEY: (4, 5, 4, 4),
 }
 
 
@@ -114,7 +114,7 @@ class TestItemPoolMinimal(SohTestBase):
 
 
 class TestItemPoolProgressiveDeltas(SohTestBase):
-    """Options that add extra copies (infinite upgrades, extra wallets, deku bags, swim) should stack on top of the per-option base amount."""
+    """Options that add extra copies (infinite upgrades, extra wallets, deku bags, swim, grab) should stack on top of the per-option base amount."""
     run_default_tests = False
     options = {
         "item_pool": "balanced",
@@ -125,23 +125,24 @@ class TestItemPoolProgressiveDeltas(SohTestBase):
         "shuffle_deku_stick_bag": "true",
         "shuffle_deku_nut_bag": "true",
         "shuffle_swim": "true",
+        "shuffle_grab": "true",
     }
 
     def test_progressive_deltas(self):
         # base balanced amount + infinite upgrade copy
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_BOW), 4)          # 3 + 1
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_SLINGSHOT), 4)    # 3 + 1
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_BOMB_BAG), 4)     # 3 + 1
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_MAGIC_METER), 3)  # 2 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_BOW), 4)          # 3 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_SLINGSHOT), 4)    # 3 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_BOMB_BAG), 4)     # 3 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_MAGIC_METER), 3)  # 2 + 1
         # base + infinite + both wallets
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_WALLET), 5)       # 2 + 1 + 2
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_WALLET), 5)       # 2 + 1 + 2
         # base + infinite + deku bag
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_STICK_CAPACITY), 4)  # 2 + 1 + 1
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_NUT_CAPACITY), 4)    # 2 + 1 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_STICK_UPGRADE), 4)  # 2 + 1 + 1
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_NUT_UPGRADE), 4)    # 2 + 1 + 1
         # scale gets the swim copy but not an infinite-upgrade copy
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_SCALE), 3)        # 2 + 1
-        # strength gets neither
-        self.assertEqual(count_in_pool(self, Items.STRENGTH_UPGRADE), 3)
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_SCALE), 3)        # 2 + 1
+        # strength gets the grab copy (the Power Bracelet stage) but not an infinite-upgrade copy
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_STRENGTH), 4)     # 3 + 1
 
 
 class TestItemPoolBombchuBagProgressive(SohTestBase):
@@ -150,10 +151,10 @@ class TestItemPoolBombchuBagProgressive(SohTestBase):
 
     def test_bombchu_bag(self):
         # progressive bombchu bag: balanced 3 + infinite upgrade copy, and no loose bombchus
-        self.assertEqual(count_in_pool(self, Items.BOMBCHU_BAG), 4)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_5), 0)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_10), 0)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_20), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_BOMBCHU_BAG), 4)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_5), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_10), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_20), 0)
 
 
 class TestItemPoolBombchuBagSingle(SohTestBase):
@@ -162,10 +163,10 @@ class TestItemPoolBombchuBagSingle(SohTestBase):
 
     def test_bombchu_bag(self):
         # single bombchu bag: plentiful amount 6, and no loose bombchus
-        self.assertEqual(count_in_pool(self, Items.BOMBCHU_BAG), 6)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_5), 0)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_10), 0)
-        self.assertEqual(count_in_pool(self, Items.BOMBCHUS_20), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_BOMBCHU_BAG), 6)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_5), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_10), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_BOMBCHU_20), 0)
 
 
 class TestItemPoolKeyRing(SohTestBase):
@@ -178,8 +179,8 @@ class TestItemPoolKeyRing(SohTestBase):
     }
 
     def test_key_ring_replaces_small_keys(self):
-        self.assertEqual(count_in_pool(self, Items.FOREST_TEMPLE_KEY_RING), 1)
-        self.assertEqual(count_in_pool(self, Items.FOREST_TEMPLE_SMALL_KEY), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_FOREST_TEMPLE_KEY_RING), 1)
+        self.assertEqual(count_in_pool(self, Items.RG_FOREST_TEMPLE_SMALL_KEY), 0)
 
 
 class TestItemPoolKeyRingPlentiful(SohTestBase):
@@ -192,8 +193,8 @@ class TestItemPoolKeyRingPlentiful(SohTestBase):
     }
 
     def test_key_ring_plentiful(self):
-        self.assertEqual(count_in_pool(self, Items.FOREST_TEMPLE_KEY_RING), 2)
-        self.assertEqual(count_in_pool(self, Items.FOREST_TEMPLE_SMALL_KEY), 0)
+        self.assertEqual(count_in_pool(self, Items.RG_FOREST_TEMPLE_KEY_RING), 2)
+        self.assertEqual(count_in_pool(self, Items.RG_FOREST_TEMPLE_SMALL_KEY), 0)
 
 
 class TestItemPoolGerudoFortressFast(SohTestBase):
@@ -202,7 +203,7 @@ class TestItemPoolGerudoFortressFast(SohTestBase):
 
     def test_fast_carpenters_single_key(self):
         # Fast carpenters only need one key; plentiful adds one more
-        self.assertEqual(count_in_pool(self, Items.GERUDO_FORTRESS_SMALL_KEY), 2)
+        self.assertEqual(count_in_pool(self, Items.RG_GERUDO_FORTRESS_SMALL_KEY), 2)
 
 
 class TestItemPoolOcarina(SohTestBase):
@@ -211,4 +212,4 @@ class TestItemPoolOcarina(SohTestBase):
 
     def test_ocarina_plentiful(self):
         # Starting without an ocarina puts 2 in the pool; plentiful adds one more
-        self.assertEqual(count_in_pool(self, Items.PROGRESSIVE_OCARINA), 3)
+        self.assertEqual(count_in_pool(self, Items.RG_PROGRESSIVE_OCARINA), 3)

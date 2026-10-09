@@ -31,21 +31,21 @@ class OptionItemMapping(NamedTuple):
 
 def GetNonlocalHintOptionMapping(world: "SohWorld") -> dict[hk, OptionItemMapping]:
     return {
-        hk.GANONDORF_HINT: OptionItemMapping(world.options.ganondorf_hint, [Items.LIGHT_ARROW, Items.MASTER_SWORD]),
-        hk.SHEIK_HINT: OptionItemMapping(world.options.sheik_la_hint, [Items.LIGHT_ARROW]),
-        hk.DAMPES_DIARY: OptionItemMapping(world.options.dampe_diary_hint, [Items.PROGRESSIVE_HOOKSHOT]),
-        hk.GREG_RUPEE: OptionItemMapping(world.options.greg_hint, [Items.GREG_THE_GREEN_RUPEE]),
-        hk.ALTAR_CHILD: OptionItemMapping(world.options.tot_altar_hint, [Items.KOKIRIS_EMERALD, Items.GORONS_RUBY, Items.ZORAS_SAPPHIRE]),
-        hk.ALTAR_ADULT: OptionItemMapping(world.options.tot_altar_hint, [Items.LIGHT_MEDALLION, Items.FOREST_MEDALLION, Items.FIRE_MEDALLION, Items.WATER_MEDALLION, Items.SPIRIT_MEDALLION, Items.SHADOW_MEDALLION]),
-        hk.FOREST_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.FOREST_TEMPLE_BOSS_KEY]),
-        hk.FIRE_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.FIRE_TEMPLE_BOSS_KEY]),
-        hk.WATER_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.WATER_TEMPLE_BOSS_KEY]),
-        hk.SPIRIT_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.SPIRIT_TEMPLE_BOSS_KEY]),
-        hk.SHADOW_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.SHADOW_TEMPLE_BOSS_KEY]),
-        hk.GANONS_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.GANONS_CASTLE_BOSS_KEY]),
-        hk.SARIA_HINT: OptionItemMapping(world.options.saria_hint, [Items.PROGRESSIVE_MAGIC_METER]),
-        hk.MIDO_HINT: OptionItemMapping(world.options.mido_hint, [Items.KOKIRI_SWORD]),
-        hk.FISHING_POLE: OptionItemMapping(world.options.fishing_pole_hint, [Items.FISHING_POLE])
+        hk.GANONDORF_HINT: OptionItemMapping(world.options.ganondorf_hint, [Items.RG_LIGHT_ARROWS, Items.RG_MASTER_SWORD]),
+        hk.SHEIK_HINT: OptionItemMapping(world.options.sheik_la_hint, [Items.RG_LIGHT_ARROWS]),
+        hk.DAMPES_DIARY: OptionItemMapping(world.options.dampe_diary_hint, [Items.RG_PROGRESSIVE_HOOKSHOT]),
+        hk.GREG_RUPEE: OptionItemMapping(world.options.greg_hint, [Items.RG_GREG_RUPEE]),
+        hk.ALTAR_CHILD: OptionItemMapping(world.options.tot_altar_hint, [Items.RG_KOKIRI_EMERALD, Items.RG_GORON_RUBY, Items.RG_ZORA_SAPPHIRE]),
+        hk.ALTAR_ADULT: OptionItemMapping(world.options.tot_altar_hint, [Items.RG_LIGHT_MEDALLION, Items.RG_FOREST_MEDALLION, Items.RG_FIRE_MEDALLION, Items.RG_WATER_MEDALLION, Items.RG_SPIRIT_MEDALLION, Items.RG_SHADOW_MEDALLION]),
+        hk.FOREST_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_FOREST_TEMPLE_BOSS_KEY]),
+        hk.FIRE_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_FIRE_TEMPLE_BOSS_KEY]),
+        hk.WATER_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_WATER_TEMPLE_BOSS_KEY]),
+        hk.SPIRIT_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_SPIRIT_TEMPLE_BOSS_KEY]),
+        hk.SHADOW_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_SHADOW_TEMPLE_BOSS_KEY]),
+        hk.GANONS_BOSS_KEY_HINT: OptionItemMapping(world.options.boss_key_hint, [Items.RG_GANONS_CASTLE_BOSS_KEY]),
+        hk.SARIA_HINT: OptionItemMapping(world.options.saria_hint, [Items.RG_PROGRESSIVE_MAGIC_METER]),
+        hk.MIDO_HINT: OptionItemMapping(world.options.mido_hint, [Items.RG_KOKIRI_SWORD]),
+        hk.FISHING_POLE: OptionItemMapping(world.options.fishing_pole_hint, [Items.RG_FISHING_POLE])
     }
 
 def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
@@ -62,7 +62,7 @@ def CreateNonlocalHints(world: "SohWorld") -> list[StaticHint]:
             # check if we start with the item first
             placed_item = FindHintedItemInPool(hinted_item, world.multiworld.precollected_items[world.player])
             if placed_item:
-                hint_locations.append(locationPair(world.player, location_data_table[Locations.LINKS_POCKET].loc_id))
+                hint_locations.append(locationPair(world.player, location_data_table[Locations.RC_LINKS_POCKET].loc_id))
                 continue
 
             # then check if it's placed somewhere in the multiworld

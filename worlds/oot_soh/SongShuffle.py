@@ -3,66 +3,56 @@ from typing import TYPE_CHECKING
 from . import SohItem
 from .Locations import Locations
 from .Items import Items
+from .ship_data_gen import SHIP_LOCATIONS, CheckType
 
 if TYPE_CHECKING:
     from . import SohWorld
 
 song_vanilla_locations: dict[Locations, Items] = {
-    Locations.SONG_FROM_IMPA: Items.ZELDAS_LULLABY,
-    Locations.SONG_FROM_MALON: Items.EPONAS_SONG,
-    Locations.SONG_FROM_SARIA: Items.SARIAS_SONG,
-    Locations.SONG_FROM_ROYAL_FAMILYS_TOMB: Items.SUNS_SONG,
-    Locations.SONG_FROM_OCARINA_OF_TIME: Items.SONG_OF_TIME,
-    Locations.SONG_FROM_WINDMILL: Items.SONG_OF_STORMS,
-    Locations.SHEIK_IN_FOREST: Items.MINUET_OF_FOREST,
-    Locations.SHEIK_IN_CRATER: Items.BOLERO_OF_FIRE,
-    Locations.SHEIK_IN_ICE_CAVERN: Items.SERENADE_OF_WATER,
-    Locations.SHEIK_IN_KAKARIKO: Items.NOCTURNE_OF_SHADOW,
-    Locations.SHEIK_AT_COLOSSUS: Items.REQUIEM_OF_SPIRIT,
-    Locations.SHEIK_AT_TEMPLE: Items.PRELUDE_OF_LIGHT
+    Locations.RC_SONG_FROM_IMPA: Items.RG_ZELDAS_LULLABY,
+    Locations.RC_SONG_FROM_MALON: Items.RG_EPONAS_SONG,
+    Locations.RC_SONG_FROM_SARIA: Items.RG_SARIAS_SONG,
+    Locations.RC_SONG_FROM_ROYAL_FAMILYS_TOMB: Items.RG_SUNS_SONG,
+    Locations.RC_SONG_FROM_OCARINA_OF_TIME: Items.RG_SONG_OF_TIME,
+    Locations.RC_SONG_FROM_WINDMILL: Items.RG_SONG_OF_STORMS,
+    Locations.RC_SHEIK_IN_FOREST: Items.RG_MINUET_OF_FOREST,
+    Locations.RC_SHEIK_IN_CRATER: Items.RG_BOLERO_OF_FIRE,
+    Locations.RC_SHEIK_IN_ICE_CAVERN: Items.RG_SERENADE_OF_WATER,
+    Locations.RC_SHEIK_IN_KAKARIKO: Items.RG_NOCTURNE_OF_SHADOW,
+    Locations.RC_SHEIK_AT_COLOSSUS: Items.RG_REQUIEM_OF_SPIRIT,
+    Locations.RC_SHEIK_AT_TEMPLE: Items.RG_PRELUDE_OF_LIGHT
 }
 
-dungeon_reward_song_locations: list[Locations] = [
-    Locations.DEKU_TREE_QUEEN_GOHMA_HEART_CONTAINER,
-    Locations.DODONGOS_CAVERN_KING_DODONGO_HEART_CONTAINER,
-    Locations.JABU_JABUS_BELLY_BARINADE_HEART_CONTAINER,
-    Locations.FOREST_TEMPLE_PHANTOM_GANON_HEART_CONTAINER,
-    Locations.FIRE_TEMPLE_VOLVAGIA_HEART_CONTAINER,
-    Locations.WATER_TEMPLE_MORPHA_HEART_CONTAINER,
-    Locations.SHADOW_TEMPLE_BONGO_BONGO_HEART_CONTAINER,
-    Locations.SPIRIT_TEMPLE_TWINROVA_HEART_CONTAINER,
-    Locations.SONG_FROM_IMPA,
-    Locations.SHEIK_IN_ICE_CAVERN,
-    Locations.BOTTOM_OF_THE_WELL_LENS_OF_TRUTH_CHEST,   # todo MQ lens of truth chest
-    Locations.GERUDO_TRAINING_GROUND_MAZE_PATH_FINAL_CHEST # todo MQ ice arrow chest
+dungeon_reward_song_locations: list[Locations] = [Locations.RC_SONG_FROM_IMPA, Locations.RC_SHEIK_IN_ICE_CAVERN] + [
+    loc for loc, data in SHIP_LOCATIONS.items() if data.type == CheckType.RCTYPE_BOSS_HEART_OR_OTHER_REWARD
 ]
 
 def get_shuffled_songs(world: "SohWorld") -> set[Items]:
     included_songs = set[Items]()
     if not world.options.start_with_zeldas_lullaby:
-        included_songs.add(Items.ZELDAS_LULLABY)
+        included_songs.add(Items.RG_ZELDAS_LULLABY)
     if not world.options.start_with_eponas_song:
-        included_songs.add(Items.EPONAS_SONG)
+        included_songs.add(Items.RG_EPONAS_SONG)
     if not world.options.start_with_sarias_song:
-        included_songs.add(Items.SARIAS_SONG)
+        included_songs.add(Items.RG_SARIAS_SONG)
     if not world.options.start_with_suns_song:
-        included_songs.add(Items.SUNS_SONG)
+        included_songs.add(Items.RG_SUNS_SONG)
     if not world.options.start_with_song_of_time:
-        included_songs.add(Items.SONG_OF_TIME)
+        included_songs.add(Items.RG_SONG_OF_TIME)
     if not world.options.start_with_song_of_storms:
-        included_songs.add(Items.SONG_OF_STORMS)
+        included_songs.add(Items.RG_SONG_OF_STORMS)
     if not world.options.start_with_minuet:
-        included_songs.add(Items.MINUET_OF_FOREST)
+        included_songs.add(Items.RG_MINUET_OF_FOREST)
     if not world.options.start_with_bolero:
-        included_songs.add(Items.BOLERO_OF_FIRE)
+        included_songs.add(Items.RG_BOLERO_OF_FIRE)
     if not world.options.start_with_serenade:
-        included_songs.add(Items.SERENADE_OF_WATER)
+        included_songs.add(Items.RG_SERENADE_OF_WATER)
     if not world.options.start_with_requiem:
-        included_songs.add(Items.REQUIEM_OF_SPIRIT)
+        included_songs.add(Items.RG_REQUIEM_OF_SPIRIT)
     if not world.options.start_with_nocturne:
-        included_songs.add(Items.NOCTURNE_OF_SHADOW)
+        included_songs.add(Items.RG_NOCTURNE_OF_SHADOW)
     if not world.options.start_with_prelude:
-        included_songs.add(Items.PRELUDE_OF_LIGHT)
+        included_songs.add(Items.RG_PRELUDE_OF_LIGHT)
     return included_songs
 
 def get_prefill_songs(world: "SohWorld") -> list[Items]:
