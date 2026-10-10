@@ -5,7 +5,7 @@ from .Enums import Ages, HostEvents, Items, Locations
 from .Locations import SohLocation, location_data_table, scrubs_one_time_only
 from .ship_data_gen import SHIP_LOCATIONS, ShipLocation, CheckType, DUNGEON_SMALL_KEYS
 from .enums_gen import Regions
-from .LogicHelpers import add_host_events, add_events, is_pruned
+from .LogicHelpers import add_host_events, add_events
 from .regions_gen import set_region_rules
 from .SongShuffle import song_vanilla_locations, get_shuffled_songs
 from .ShopItems import no_shop_shuffle
@@ -118,7 +118,7 @@ def materialize_locations(world: "SohWorld") -> list[str]:
             edges = [(claims[0][0], True_())]
         else:
             edges = [(parent, built) for parent, rule in claims
-                     if not is_pruned(built := rule((parent, world)), world)]
+                     if not (built := rule((parent, world)).resolve(world)).always_false]
 
         if not edges:
             dropped.append(name)

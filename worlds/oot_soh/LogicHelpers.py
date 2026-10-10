@@ -150,11 +150,6 @@ import logging
 logger = logging.getLogger("SOH_OOT.Logic")
 
 
-def is_pruned(rule: Rule, world: "SohWorld") -> bool:
-    """An option filter has made this rule permanently false, so whatever it guards is never built."""
-    return rule.resolve(world).always_false
-
-
 def connect_regions(parent_region: Regions, world: "SohWorld", child_regions: list[tuple[Regions, Callable[[tuple[Regions, "SohWorld"]], Rule]]]) -> None:
     if not region_is_active(parent_region, world):
         return
@@ -178,8 +173,8 @@ def add_events(parent_region: Regions, world: "SohWorld", events: list[tuple[Str
     for event in events:
         eventName = str(event[0])
         eventItemName = str(event[1])
-        eventRule = event[2]((parent_region, world))
-        if is_pruned(eventRule, world):
+        eventRule = event[2]((parent_region, world)).resolve(world)
+        if eventRule.always_false:
             continue
         parentRegion.add_event(eventName, eventItemName, eventRule, SohLocation, SohItem)
 
