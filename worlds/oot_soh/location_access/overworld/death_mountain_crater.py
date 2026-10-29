@@ -154,8 +154,7 @@ def set_region_rules(world: "SohWorld") -> None:
          bundle)) | can_use(Items.HOVER_BOOTS, bundle) | can_use(Items.HOOKSHOT, bundle)),
         (Regions.DMC_UPPER_NEARBY, lambda bundle: is_adult(bundle)
          & has_item(LocalEvents.DMC_BEAN_PLANTED, bundle)),
-         # TODO Implement Dungeon Shuffle Option to replace False
-        (Regions.FIRE_TEMPLE_ENTRYWAY, lambda bundle: (is_child(bundle) & hearts_at_least(bundle, 3) & False_()) | (is_adult(bundle) & fire_timer_at_least(bundle, 24))),
+        (Regions.FIRE_TEMPLE_ENTRYWAY, lambda bundle: (is_child(bundle) & hearts_at_least(bundle, 3) & dungeon_entrances_shuffled(bundle)) | (is_adult(bundle) & fire_timer_at_least(bundle, 24))),
         (Regions.DMC_DISTANT_PLATFORM, lambda bundle: (fire_timer_at_least(bundle, 48) | hearts_at_least(bundle, 2)) & can_use(Items.DISTANT_SCARECROW, bundle)),
     ])
 

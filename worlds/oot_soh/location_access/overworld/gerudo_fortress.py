@@ -80,9 +80,8 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.GF_OUTSIDE_GTG, world, [
-        # TODO: Check for entrance rando
-        (Regions.GF_TO_GTG, lambda bundle: has_item(
-            LocalEvents.GTG_GATE_OPEN, bundle) & is_adult(bundle)),
+        (Regions.GF_TO_GTG, lambda bundle: has_item(LocalEvents.GTG_GATE_OPEN, bundle)
+            & (is_adult(bundle) | dungeon_entrances_shuffled(bundle))),
         (Regions.GF_JAIL_WINDOW, lambda bundle: can_use(Items.HOOKSHOT, bundle)),
         (Regions.GERUDO_FORTRESS_OUTSKIRTS, lambda bundle: True_()),
         (Regions.GF_NEAR_GROTTO, lambda bundle: is_child(bundle)
