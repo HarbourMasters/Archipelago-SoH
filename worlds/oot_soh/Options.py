@@ -1725,6 +1725,7 @@ class SohOptions(PerGameCommonOptions):
         self.adjust_starting_items()
         self.adjust_irrelevant_hints()
         self.adjust_greg_modifiers()
+        self.adjust_key_rings()
 
 
     def adjust_for_forced_child_starts(self):
@@ -1891,6 +1892,22 @@ class SohOptions(PerGameCommonOptions):
 
             decrement_option(option)
 
+    def adjust_key_rings(self):
+        if self.small_key_shuffle not in ("start_with", "vanilla"):
+            return
+        
+        as_ring = Toggle.option_false
+        if self.small_key_shuffle == "start_with":
+            as_ring = Toggle.option_true
+
+        self.forest_temple_key_ring.value = as_ring
+        self.fire_temple_key_ring.value = as_ring
+        self.water_temple_key_ring.value = as_ring
+        self.spirit_temple_key_ring.value = as_ring
+        self.shadow_temple_key_ring.value = as_ring
+        self.bottom_of_the_well_key_ring.value = as_ring
+        self.gerudo_training_ground_key_ring.value = as_ring
+        self.ganons_castle_key_ring.value = as_ring
 
 soh_option_groups = [
     OptionGroup("Area Access", [

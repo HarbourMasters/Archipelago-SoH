@@ -2,6 +2,7 @@ from typing import NamedTuple, TYPE_CHECKING
 from worlds.AutoWorld import LogicMixin
 from BaseClasses import MultiWorld, Region, ItemClassification, LocationProgressType
 from .Enums import *
+from .Items import SohItem
 from .Locations import SohLocation, base_location_table, \
     gold_skulltula_overworld_location_table, \
     gold_skulltula_dungeon_location_table, \
@@ -395,10 +396,20 @@ map_and_compass_vanilla_mapping = {
     Locations.ICE_CAVERN_COMPASS_CHEST: Items.ICE_CAVERN_COMPASS
 }
 
-def place_locked_item(location: Locations, item: Items, world: "SohWorld") -> None:
-    soh_item = world.create_item(item)
-    world.get_location(location).place_locked_item(soh_item)
-    world.preplaced_items.append(soh_item)
+def place_locked_item(location: Locations, item: Items | SohItem, world: "SohWorld") -> None:
+    if isinstance(item, Items):
+        item = world.create_item(item)
+    world.get_location(location).place_locked_item(item)
+    world.preplaced_items.append(item)
+
+def place_from_pool(location: Locations, item: Items, world: "SohWorld", as_event: bool = False):
+    world_item = world.get_item_from_pool(item, world.item_pool)
+    if not world_item:
+        return
+
+    if as_event:
+        world_item.code = None
+    place_locked_item(location, world_item, world)
 
 def place_locked_items(world: "SohWorld") -> None:
     if world.options.start_with_links_pocket == "advancement":
@@ -407,34 +418,34 @@ def place_locked_items(world: "SohWorld") -> None:
     # If skip_child_zelda, connect the locations to root and push items precollected
     if not world.options.skip_child_zelda:
         # Zeldas Letter gets placed to it's location
-        place_locked_item(Locations.HC_ZELDAS_LETTER, Items.ZELDAS_LETTER, world)
+        place_from_pool(Locations.HC_ZELDAS_LETTER, Items.ZELDAS_LETTER, world)
+
         # If not skip_child_zelda and not shuffle_weird_egg, place the weird egg
         if not world.options.shuffle_weird_egg:
-            place_locked_item(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
+            place_from_pool(Locations.HC_MALON_EGG, Items.WEIRD_EGG, world)
     else:
-        world.push_precollected(world.create_item(Items.ZELDAS_LETTER, True))
-        world.push_precollected(world.create_item(Items.WEIRD_EGG, True))
+        world.precollect_from_pool(Items.ZELDAS_LETTER)
+        world.precollect_from_pool(Items.WEIRD_EGG)
 
         connect_to_root(Locations.SONG_FROM_IMPA, world)
         world.multiworld.regions.region_cache[world.player].pop(Regions.HC_GARDEN)
 
-        
     if world.options.shuffle_songs == "off":
         for location, song in song_vanilla_locations.items():
             included_songs = get_shuffled_songs(world)
             if song not in included_songs:
                 continue
-            place_locked_item(location, song, world)
+            place_from_pool(location, song, world)
 
     # Place Kokiri Sword on vanilla location if not shuffled
     if not world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
-        place_locked_item(Locations.KF_KOKIRI_SWORD_CHEST, Items.KOKIRI_SWORD, world)
+        place_from_pool(Locations.KF_KOKIRI_SWORD_CHEST, Items.KOKIRI_SWORD, world)
 
     # Place Master Sword on vanilla location if not shuffled
     if not world.options.shuffle_master_sword:
         if world.options.starting_age == "adult" or world.options.start_with_master_sword:
             # Start with the master sword in your starting inventory
-            world.multiworld.push_precollected(world.create_item(Items.MASTER_SWORD, create_as_event=True))
+            world.precollect_from_pool(Items.MASTER_SWORD)
 
         # place locked mastersword so this location doesn't get counted as an empty location
         world.get_location(Locations.MARKET_TOT_MASTER_SWORD).place_locked_item(
@@ -444,37 +455,40 @@ def place_locked_items(world: "SohWorld") -> None:
     # Place the Ocarinas on their vanilla locations if not shuffled
     if not world.options.shuffle_ocarinas:
         if world.options.start_with_ocarina == "off":
-            place_locked_item(Locations.LW_GIFT_FROM_SARIA, Items.PROGRESSIVE_OCARINA, world)
+            place_from_pool(Locations.LW_GIFT_FROM_SARIA, Items.PROGRESSIVE_OCARINA, world)
         if world.options.start_with_ocarina != "ocarina_of_time":
-            place_locked_item(Locations.HF_OCARINA_OF_TIME_ITEM, Items.PROGRESSIVE_OCARINA, world)
+            place_from_pool(Locations.HF_OCARINA_OF_TIME_ITEM, Items.PROGRESSIVE_OCARINA, world)
 
         
     # place the gerudo membership card
     if not world.options.shuffle_gerudo_membership_card:
-        if world.options.fortress_carpenters == "free":
-            # start with the membership card
-            world.multiworld.push_precollected(world.create_item(Items.GERUDO_MEMBERSHIP_CARD, create_as_event=True))
-        else:
+        if world.options.fortress_carpenters != "free":
             # Place the Gerudo Membership Card on vanilla location if not shuffled
-            place_locked_item(Locations.GF_GERUDO_MEMBERSHIP_CARD, Items.GERUDO_MEMBERSHIP_CARD, world)
+            place_from_pool(Locations.GF_GERUDO_MEMBERSHIP_CARD, Items.GERUDO_MEMBERSHIP_CARD, world)
 
     # Preplace dungeon rewards in vanilla locations when not shuffled
     if world.options.shuffle_dungeon_rewards == "off":
         # Loop through dungeons rewards and set their items to the vanilla reward.
-        for location_name, reward_name in zip(dungeon_reward_item_mapping.keys(), dungeon_reward_item_mapping.values()):
-            place_locked_item(location_name, reward_name, world)
-    elif world.options.shuffle_dungeon_rewards != "end_of_dungeons":
-        if world.options.start_with_links_pocket == "dungeon_reward":
-            dungeon_rewards = list(dungeon_reward_item_mapping.values())
-            world.random.shuffle(dungeon_rewards)
-            place_locked_item(Locations.LINKS_POCKET, dungeon_rewards[0], world)
+        for location, reward in zip(dungeon_reward_item_mapping.keys(), dungeon_reward_item_mapping.values()):
+            place_from_pool(location, reward, world)
+
+    if world.options.start_with_links_pocket == "dungeon_reward":
+        # put the first reward from the randomized list that's also in the pool into links pocket
+        dungeon_rewards = list(dungeon_reward_item_mapping.values())
+        world.random.shuffle(dungeon_rewards)
+        for reward in dungeon_rewards:
+            reward_item = world.get_item_from_pool(reward, world.item_pool)
+            if not reward_item:
+                continue
+            place_locked_item(Locations.LINKS_POCKET, reward_item, world)
+            break
 
     # Place Ganons Boss Key
-    if not world.options.ganons_castle_boss_key == "vanilla" and not world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:
-        place_locked_item(Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE, Items.GANONS_CASTLE_BOSS_KEY, world)
+    if not world.options.ganons_castle_boss_key == "vanilla" and not world.options.ganons_castle_boss_key == "anywhere":
+        place_from_pool(Locations.MARKET_TOT_LIGHT_ARROW_CUTSCENE, Items.GANONS_CASTLE_BOSS_KEY, world)
 
     if world.options.ganons_castle_boss_key == "vanilla" and not world.options.triforce_hunt:
-        place_locked_item(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST, Items.GANONS_CASTLE_BOSS_KEY, world)
+        place_from_pool(Locations.GANONS_CASTLE_TOWER_BOSS_KEY_CHEST, Items.GANONS_CASTLE_BOSS_KEY, world)
 
     # Place vanilla shop items if they're not shuffled
     if not world.options.shuffle_shops:
@@ -483,6 +497,9 @@ def place_locked_items(world: "SohWorld") -> None:
     # Preplace tokens based on settings.
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "dungeon":
         for location_name, address in gold_skulltula_overworld_location_table.items():
+            if not world.get_item_from_pool(Items.GOLD_SKULLTULA_TOKEN, world.item_pool):
+                continue
+
             token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
             world.get_location(location_name).place_locked_item(token_item)
             world.get_location(location_name).address = None
@@ -490,6 +507,9 @@ def place_locked_items(world: "SohWorld") -> None:
 
     if world.options.shuffle_skull_tokens == "off" or world.options.shuffle_skull_tokens == "overworld":
         for location_name, address in gold_skulltula_dungeon_location_table.items():
+            if not world.get_item_from_pool(Items.GOLD_SKULLTULA_TOKEN, world.item_pool):
+                continue
+
             token_item = world.create_item(Items.GOLD_SKULLTULA_TOKEN, True)
             world.get_location(location_name).place_locked_item(token_item)
             world.get_location(location_name).address = None
@@ -498,13 +518,13 @@ def place_locked_items(world: "SohWorld") -> None:
     # Boss Keys
     if world.options.boss_key_shuffle == "vanilla":
         for location, key in dungeon_boss_key_vanilla_mapping.items():
-            place_locked_item(location, key, world)
+            place_from_pool(location, key, world)
 
     # Small Keys
     if world.options.small_key_shuffle == "vanilla":
         for key, locations in small_key_vanilla_mapping.items():
             for location in locations:
-                place_locked_item(location, key, world)
+                place_from_pool(location, key, world)
 
     # Gerudo Fortress Keys
     if world.options.fortress_carpenters != "free" and world.options.gerudo_fortress_key_shuffle == "vanilla":

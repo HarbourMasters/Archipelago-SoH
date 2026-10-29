@@ -132,20 +132,12 @@ def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
                 
             key_shuffle_locations[dungeon].append(Locations(name))
 
-        # remove the items from the pre-fill pool
-        for items in own_dungeon_items.values():
-            for item in items:
-                world.pre_fill_pool.remove(item)
-        
-        # get a single pre-fill state, this state is shared between the different dungeons but that's fine
-        prefill_state = world.get_pre_fill_state()
-
         # Resolve own_dungeon
         for dungeon, items in own_dungeon_items.items():
             if not items:
                 continue
 
-            world.run_prefill(items, key_shuffle_locations[dungeon], prefill_state)
+            world.run_prefill(items, key_shuffle_locations[dungeon])
 
 def pre_fill_any_dungeon_keys(world: "SohWorld") -> None:
         any_dungeon_items = get_dungeon_item_prefill_items(world, False)

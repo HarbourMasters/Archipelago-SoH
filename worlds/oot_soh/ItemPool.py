@@ -55,23 +55,6 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.fortress_carpenters == "free":
         items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
 
-    # Overworld Skull Tokens
-    if world.options.shuffle_skull_tokens == "overworld" or world.options.shuffle_skull_tokens == "all":
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(
-            TokenCounts.OVERWORLD)
-
-    # Dungeon Skull Tokens
-    if world.options.shuffle_skull_tokens == "dungeon" or world.options.shuffle_skull_tokens == "all":
-        items_to_create[Items.GOLD_SKULLTULA_TOKEN] += int(TokenCounts.DUNGEON)
-
-    # Kokiri Sword
-    if world.options.shuffle_kokiri_sword and not world.options.start_with_kokiri_sword:
-        items_to_create[Items.KOKIRI_SWORD] = 1
-
-    # Master Sword
-    if world.options.shuffle_master_sword and not world.options.start_with_master_sword:
-        items_to_create[Items.MASTER_SWORD] = 1
-
     # Child's Wallet
     if world.options.shuffle_childs_wallet:
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
@@ -79,18 +62,6 @@ def create_item_pool(world: "SohWorld") -> None:
     # Tycoon Wallet
     if world.options.shuffle_tycoon_wallet:
         items_to_create[Items.PROGRESSIVE_WALLET] += 1
-
-    # Fiary Ocarina and Ocarina of time
-    if world.options.shuffle_ocarinas:
-        if world.options.start_with_ocarina == "off":
-            items_to_create[Items.PROGRESSIVE_OCARINA] = 2
-        if world.options.start_with_ocarina == "fairy_ocarina":
-            items_to_create[Items.PROGRESSIVE_OCARINA] = 1
-
-    # Songs
-    if world.options.shuffle_songs == "anywhere":
-        for song in get_shuffled_songs(world):
-            items_to_create[song] = 1
 
     # Ocarina Buttons
     if world.options.shuffle_ocarina_buttons:
@@ -103,14 +74,6 @@ def create_item_pool(world: "SohWorld") -> None:
     # Swim
     if world.options.shuffle_swim:
         items_to_create[Items.PROGRESSIVE_SCALE] += 1
-
-    # Weird Egg
-    if not world.options.skip_child_zelda and world.options.shuffle_weird_egg:
-        items_to_create[Items.WEIRD_EGG] = 1
-
-    # Gerudo Membership Card
-    if world.options.shuffle_gerudo_membership_card:
-        items_to_create[Items.GERUDO_MEMBERSHIP_CARD] = 1
 
     # Fishing Pole
     if world.options.shuffle_fishing_pole:
@@ -157,21 +120,8 @@ def create_item_pool(world: "SohWorld") -> None:
     if world.options.shuffle_boss_souls == "on_plus_ganons":
         items_to_create[Items.GANONS_SOUL] = 1
 
-    # Dungeon Rewards
-    if world.options.shuffle_dungeon_rewards == "anywhere":
-        # remove potentially pre-placed pocket item
-        pocket_item = None
-        if world.options.start_with_links_pocket != "nothing":
-            placed_item = world.get_location(Locations.LINKS_POCKET).item
-            if placed_item:
-                pocket_item = Items(placed_item.name)
-        for reward in dungeon_reward_item_mapping.values():
-            if reward == pocket_item:
-                continue
-            items_to_create[reward] = 1
-
     # Maps and Compasses
-    if world.options.maps_and_compasses == "anywhere":
+    if world.options.maps_and_compasses not in ("start_with", "vanilla"):
         items_to_create[Items.GREAT_DEKU_TREE_MAP] = 1
         items_to_create[Items.DODONGOS_CAVERN_MAP] = 1
         items_to_create[Items.JABU_JABUS_BELLY_MAP] = 1
@@ -194,68 +144,42 @@ def create_item_pool(world: "SohWorld") -> None:
         items_to_create[Items.ICE_CAVERN_COMPASS] = 1
 
     # Ganon's Castle Boss Key
-    if world.options.ganons_castle_boss_key == "anywhere" and not world.options.triforce_hunt:
+    if not world.options.triforce_hunt:
         items_to_create[Items.GANONS_CASTLE_BOSS_KEY] = 1
 
     # Keys
-    if world.options.small_key_shuffle == "anywhere":
-        if world.options.forest_temple_key_ring:
-            items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
-            items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
-
-        if world.options.fire_temple_key_ring:
-            items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
-            items_to_create[Items.FIRE_TEMPLE_KEY_RING] = 1
-
-        if world.options.water_temple_key_ring:
-            items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
-            items_to_create[Items.WATER_TEMPLE_KEY_RING] = 1
-
-        if world.options.spirit_temple_key_ring:
-            items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
-            items_to_create[Items.SPIRIT_TEMPLE_KEY_RING] = 1
-
-        if world.options.shadow_temple_key_ring:
-            items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
-            items_to_create[Items.SHADOW_TEMPLE_KEY_RING] = 1
-
-        if world.options.bottom_of_the_well_key_ring:
-            items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
-            items_to_create[Items.BOTTOM_OF_THE_WELL_KEY_RING] = 1
-
-        if world.options.gerudo_training_ground_key_ring:
-            items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
-            items_to_create[Items.TRAINING_GROUND_KEY_RING] = 1
-
-        if world.options.ganons_castle_key_ring:
-            items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
-            items_to_create[Items.GANONS_CASTLE_KEY_RING] = 1
-
-    else:
+    if world.options.forest_temple_key_ring:
         items_to_create[Items.FOREST_TEMPLE_SMALL_KEY] = 0
+        items_to_create[Items.FOREST_TEMPLE_KEY_RING] = 1
+    if world.options.fire_temple_key_ring:
         items_to_create[Items.FIRE_TEMPLE_SMALL_KEY] = 0
+        items_to_create[Items.FIRE_TEMPLE_KEY_RING] = 1
+    if world.options.water_temple_key_ring:
         items_to_create[Items.WATER_TEMPLE_SMALL_KEY] = 0
+        items_to_create[Items.WATER_TEMPLE_KEY_RING] = 1
+    if world.options.spirit_temple_key_ring:
         items_to_create[Items.SPIRIT_TEMPLE_SMALL_KEY] = 0
+        items_to_create[Items.SPIRIT_TEMPLE_KEY_RING] = 1
+    if world.options.shadow_temple_key_ring:
         items_to_create[Items.SHADOW_TEMPLE_SMALL_KEY] = 0
+        items_to_create[Items.SHADOW_TEMPLE_KEY_RING] = 1
+    if world.options.bottom_of_the_well_key_ring:
         items_to_create[Items.BOTTOM_OF_THE_WELL_SMALL_KEY] = 0
+        items_to_create[Items.BOTTOM_OF_THE_WELL_KEY_RING] = 1
+    if world.options.gerudo_training_ground_key_ring:
         items_to_create[Items.TRAINING_GROUND_SMALL_KEY] = 0
+        items_to_create[Items.TRAINING_GROUND_KEY_RING] = 1
+    if world.options.ganons_castle_key_ring:
         items_to_create[Items.GANONS_CASTLE_SMALL_KEY] = 0
+        items_to_create[Items.GANONS_CASTLE_KEY_RING] = 1
 
     # Gerudo Fortress Keys
-    if world.options.gerudo_fortress_key_shuffle == "anywhere":
+    if world.options.gerudo_fortress_key_shuffle != "vanilla":
         if world.options.gerudo_fortress_key_ring:
             items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
             items_to_create[Items.GERUDO_FORTRESS_KEY_RING] = 1
     else:
         items_to_create[Items.GERUDO_FORTRESS_SMALL_KEY] = 0
-
-    # Boss Keys
-    if world.options.boss_key_shuffle != "anywhere":
-        items_to_create[Items.FOREST_TEMPLE_BOSS_KEY] = 0
-        items_to_create[Items.FIRE_TEMPLE_BOSS_KEY] = 0
-        items_to_create[Items.WATER_TEMPLE_BOSS_KEY] = 0
-        items_to_create[Items.SPIRIT_TEMPLE_BOSS_KEY] = 0
-        items_to_create[Items.SHADOW_TEMPLE_BOSS_KEY] = 0
 
     # Big Poe Bottle
     if world.options.big_poe_target_count == 0:
@@ -437,7 +361,7 @@ def create_item_pool(world: "SohWorld") -> None:
                 items_to_create[Items.HYLIA_LAB_KEY] += 1
                 items_to_create[Items.FISHING_HOLE_KEY] += 1
 
-            if world.options.small_key_shuffle == "anywhere":
+            if world.options.small_key_shuffle not in ("start_with", "vanilla"):
                 small_key_mapping = small_key_option_matching(world)
                 for key in small_key_vanilla_mapping.keys():
                     if small_key_mapping[key].Option:
@@ -445,7 +369,7 @@ def create_item_pool(world: "SohWorld") -> None:
                     else:
                         items_to_create[key] += 1
 
-            if world.options.boss_key_shuffle == "anywhere":
+            if world.options.boss_key_shuffle not in ("start_with", "vanilla"):
                 for key in dungeon_boss_key_vanilla_mapping.values():
                     items_to_create[key] += 1
 
@@ -638,34 +562,37 @@ def get_filler_bottle(world: "SohWorld") -> str:
 
 def give_starting_items(world: "SohWorld") -> None:
     if world.options.start_with_kokiri_sword:
-        world.push_precollected(world.create_item(Items.KOKIRI_SWORD, True))
+        world.precollect_from_pool(Items.KOKIRI_SWORD)
 
     if world.options.start_with_master_sword and world.options.shuffle_master_sword:
-        world.push_precollected(world.create_item(Items.MASTER_SWORD, True))
+        world.precollect_from_pool(Items.MASTER_SWORD)
 
     # doesn't actually do anything logically since deku shields can be lost
     if world.options.start_with_deku_shield:
         world.push_precollected(world.create_item(Items.DEKU_SHIELD, True))
 
     if world.options.start_with_ocarina == "fairy_ocarina":
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
+        world.precollect_from_pool(Items.PROGRESSIVE_OCARINA)
 
     if world.options.start_with_ocarina == "ocarina_of_time":
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
-        world.push_precollected(world.create_item(Items.PROGRESSIVE_OCARINA, True))
+        world.precollect_from_pool(Items.PROGRESSIVE_OCARINA)
+        world.precollect_from_pool(Items.PROGRESSIVE_OCARINA)
     
     if world.options.start_with_magic_beans:
         world.push_precollected(world.create_item(Items.MAGIC_BEAN_PACK, True))
     
+    if world.options.fortress_carpenters == "free":
+        world.precollect_from_pool(Items.GERUDO_MEMBERSHIP_CARD)
+
         # Songs
     starting_songs =  set(song_vanilla_locations.values()) - get_shuffled_songs(world)
     for song in starting_songs:
-        world.push_precollected(world.create_item(song, True))
+        world.precollect_from_pool(song)
 
     if world.options.small_key_shuffle == "start_with":
         for key_ring in key_to_ring.values():
-            world.push_precollected(world.create_item(key_ring, True))
+            world.precollect_from_pool(key_ring)
         
     if world.options.boss_key_shuffle == "start_with":
         for boss_key in dungeon_boss_key_vanilla_mapping.values():
-            world.push_precollected(world.create_item(boss_key, True))
+            world.precollect_from_pool(boss_key)
