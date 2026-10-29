@@ -1,0 +1,3 @@
+[submodule "worlds/oot_soh/logic"]
+	path = worlds/oot_soh/logic
+	url = https://github.com/xxAtrain223/ShipOfHarkinian-RandoLogic.git

@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 
 from .Items import Items, item_data_table
 from .Locations import location_data_table
-from .Regions import map_and_compass_vanilla_mapping
-from .Enums import DungeonLocations, Locations
+from .Regions import maps_and_compasses
+from .Enums import Locations
+from .ship_data_gen import CheckArea
 from .LogicHelpers import key_to_ring
+from .MasterQuest import small_key_count
 from .DungeonRewardShuffle import dungeon_reward_item_mapping
 
 if TYPE_CHECKING:
@@ -13,18 +15,16 @@ if TYPE_CHECKING:
 
 option_mapping = namedtuple('Key_Mapping', ['Dungeon', 'Option', 'Quantity'])
 
-def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[DungeonLocations, list[Items]]:
-        key_shuffle_locations = dict[DungeonLocations, list[Items]]()
-        for location_type in DungeonLocations:
-            key_shuffle_locations[location_type] = list[Items]()
+def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[CheckArea, list[Items]]:
+        key_shuffle_locations: dict[CheckArea, list[Items]] = defaultdict(list)
 
         # Boss Keys
         if world.options.boss_key_shuffle == "own_dungeon":
-            key_shuffle_locations[DungeonLocations.FOREST_TEMPLE].append(Items.FOREST_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[DungeonLocations.FIRE_TEMPLE].append(Items.FIRE_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[DungeonLocations.WATER_TEMPLE].append(Items.WATER_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[DungeonLocations.SPIRIT_TEMPLE].append(Items.SPIRIT_TEMPLE_BOSS_KEY)
-            key_shuffle_locations[DungeonLocations.SHADOW_TEMPLE].append(Items.SHADOW_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[CheckArea.RCAREA_FOREST_TEMPLE].append(Items.RG_FOREST_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[CheckArea.RCAREA_FIRE_TEMPLE].append(Items.RG_FIRE_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[CheckArea.RCAREA_WATER_TEMPLE].append(Items.RG_WATER_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[CheckArea.RCAREA_SPIRIT_TEMPLE].append(Items.RG_SPIRIT_TEMPLE_BOSS_KEY)
+            key_shuffle_locations[CheckArea.RCAREA_SHADOW_TEMPLE].append(Items.RG_SHADOW_TEMPLE_BOSS_KEY)
 
         # Small Keys
         small_key_option_mapping = small_key_option_matching(world)
@@ -47,17 +47,17 @@ def get_own_dungeon_prefill_items(world: "SohWorld") -> dict[DungeonLocations, l
 
         # Maps and Compasses
         if world.options.maps_and_compasses == "own_dungeon":
-            map_and_compass_dungeon_mapping: dict[DungeonLocations, list[Items]] = {
-                DungeonLocations.DEKU_TREE : [Items.GREAT_DEKU_TREE_MAP, Items.GREAT_DEKU_TREE_COMPASS],
-                DungeonLocations.DODONGOS_CAVERN : [Items.DODONGOS_CAVERN_MAP, Items.DODONGOS_CAVERN_COMPASS],
-                DungeonLocations.JABU_JABUS_BELLY : [Items.JABU_JABUS_BELLY_MAP, Items.JABU_JABUS_BELLY_COMPASS],
-                DungeonLocations.FOREST_TEMPLE : [Items.FOREST_TEMPLE_MAP, Items.FOREST_TEMPLE_COMPASS],
-                DungeonLocations.FIRE_TEMPLE : [Items.FIRE_TEMPLE_MAP, Items.FIRE_TEMPLE_COMPASS],
-                DungeonLocations.WATER_TEMPLE : [Items.WATER_TEMPLE_MAP, Items.WATER_TEMPLE_COMPASS],
-                DungeonLocations.SPIRIT_TEMPLE : [Items.SPIRIT_TEMPLE_MAP, Items.SPIRIT_TEMPLE_COMPASS],
-                DungeonLocations.SHADOW_TEMPLE : [Items.SHADOW_TEMPLE_MAP, Items.SHADOW_TEMPLE_COMPASS],
-                DungeonLocations.BOTTOM_OF_THE_WELL : [Items.BOTTOM_OF_THE_WELL_MAP, Items.BOTTOM_OF_THE_WELL_COMPASS],
-                DungeonLocations.ICE_CAVERN : [Items.ICE_CAVERN_MAP, Items.ICE_CAVERN_COMPASS]
+            map_and_compass_dungeon_mapping: dict[CheckArea, list[Items]] = {
+                CheckArea.RCAREA_DEKU_TREE : [Items.RG_DEKU_TREE_MAP, Items.RG_DEKU_TREE_COMPASS],
+                CheckArea.RCAREA_DODONGOS_CAVERN : [Items.RG_DODONGOS_CAVERN_MAP, Items.RG_DODONGOS_CAVERN_COMPASS],
+                CheckArea.RCAREA_JABU_JABUS_BELLY : [Items.RG_JABU_JABUS_BELLY_MAP, Items.RG_JABU_JABUS_BELLY_COMPASS],
+                CheckArea.RCAREA_FOREST_TEMPLE : [Items.RG_FOREST_TEMPLE_MAP, Items.RG_FOREST_TEMPLE_COMPASS],
+                CheckArea.RCAREA_FIRE_TEMPLE : [Items.RG_FIRE_TEMPLE_MAP, Items.RG_FIRE_TEMPLE_COMPASS],
+                CheckArea.RCAREA_WATER_TEMPLE : [Items.RG_WATER_TEMPLE_MAP, Items.RG_WATER_TEMPLE_COMPASS],
+                CheckArea.RCAREA_SPIRIT_TEMPLE : [Items.RG_SPIRIT_TEMPLE_MAP, Items.RG_SPIRIT_TEMPLE_COMPASS],
+                CheckArea.RCAREA_SHADOW_TEMPLE : [Items.RG_SHADOW_TEMPLE_MAP, Items.RG_SHADOW_TEMPLE_COMPASS],
+                CheckArea.RCAREA_BOTTOM_OF_THE_WELL : [Items.RG_BOTTOM_OF_THE_WELL_MAP, Items.RG_BOTTOM_OF_THE_WELL_COMPASS],
+                CheckArea.RCAREA_ICE_CAVERN : [Items.RG_ICE_CAVERN_MAP, Items.RG_ICE_CAVERN_COMPASS]
             }
 
             for shuffle_location, items in map_and_compass_dungeon_mapping.items():
@@ -75,7 +75,7 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
 
         # Boss Keys
         if world.options.boss_key_shuffle == shuffle_setting:
-            shuffle_items += [Items.FOREST_TEMPLE_BOSS_KEY, Items.FIRE_TEMPLE_BOSS_KEY, Items.WATER_TEMPLE_BOSS_KEY, Items.SPIRIT_TEMPLE_BOSS_KEY, Items.SHADOW_TEMPLE_BOSS_KEY]
+            shuffle_items += [Items.RG_FOREST_TEMPLE_BOSS_KEY, Items.RG_FIRE_TEMPLE_BOSS_KEY, Items.RG_WATER_TEMPLE_BOSS_KEY, Items.RG_SPIRIT_TEMPLE_BOSS_KEY, Items.RG_SHADOW_TEMPLE_BOSS_KEY]
 
         # Small Keys
         small_key_option_mapping = small_key_option_matching(world)
@@ -99,14 +99,14 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
         if world.options.fortress_carpenters != "free":
             if world.options.gerudo_fortress_key_shuffle == shuffle_setting:
                 if world.options.gerudo_fortress_key_ring and world.options.fortress_carpenters == "normal" and world.options.gerudo_fortress_key_shuffle != "vanilla":
-                    shuffle_items.append(Items.GERUDO_FORTRESS_KEY_RING)
+                    shuffle_items.append(Items.RG_GERUDO_FORTRESS_KEY_RING)
                 else:
-                    for _ in range(item_data_table[Items.GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if world.options.fortress_carpenters == "normal" else 1):
-                        shuffle_items.append(Items.GERUDO_FORTRESS_SMALL_KEY)
+                    for _ in range(item_data_table[Items.RG_GERUDO_FORTRESS_SMALL_KEY].quantity_in_item_pool if world.options.fortress_carpenters == "normal" else 1):
+                        shuffle_items.append(Items.RG_GERUDO_FORTRESS_SMALL_KEY)
 
         # Maps and Compasses
         if world.options.maps_and_compasses == shuffle_setting:
-            shuffle_items += list(map_and_compass_vanilla_mapping.values())
+            shuffle_items += maps_and_compasses
 
         # Dungeon Rewards
         if world.options.shuffle_dungeon_rewards == shuffle_setting:
@@ -117,7 +117,7 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
 
 def pre_fill_own_dungeon_items(world: "SohWorld") -> None:
         own_dungeon_items = get_own_dungeon_prefill_items(world)
-        key_shuffle_locations = dict[DungeonLocations, list[Locations]]()
+        key_shuffle_locations = dict[CheckArea, list[Locations]]()
         for location in world.multiworld.get_unfilled_locations(world.player):
             name = location.name
             if name not in location_data_table:
@@ -162,12 +162,12 @@ def pre_fill_overworld_items(world: "SohWorld") -> None:
 
 def small_key_option_matching(world: "SohWorld") -> dict[Items, option_mapping]:
     return {
-            Items.FOREST_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.FOREST_TEMPLE, world.options.forest_temple_key_ring, item_data_table[Items.FOREST_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.FIRE_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.FIRE_TEMPLE, world.options.fire_temple_key_ring, item_data_table[Items.FIRE_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.WATER_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.WATER_TEMPLE, world.options.water_temple_key_ring, item_data_table[Items.WATER_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.SPIRIT_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.SPIRIT_TEMPLE, world.options.spirit_temple_key_ring, item_data_table[Items.SPIRIT_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.SHADOW_TEMPLE_SMALL_KEY: option_mapping(DungeonLocations.SHADOW_TEMPLE, world.options.shadow_temple_key_ring, item_data_table[Items.SHADOW_TEMPLE_SMALL_KEY].quantity_in_item_pool),
-            Items.BOTTOM_OF_THE_WELL_SMALL_KEY: option_mapping(DungeonLocations.BOTTOM_OF_THE_WELL, world.options.bottom_of_the_well_key_ring, item_data_table[Items.BOTTOM_OF_THE_WELL_SMALL_KEY].quantity_in_item_pool),
-            Items.GANONS_CASTLE_SMALL_KEY: option_mapping(DungeonLocations.GANONS_CASTLE, world.options.ganons_castle_key_ring, item_data_table[Items.GANONS_CASTLE_SMALL_KEY].quantity_in_item_pool),
-            Items.TRAINING_GROUND_SMALL_KEY: option_mapping(DungeonLocations.GERUDO_TRAINING_GROUNDS, world.options.gerudo_training_ground_key_ring, item_data_table[Items.TRAINING_GROUND_SMALL_KEY].quantity_in_item_pool)
+            Items.RG_FOREST_TEMPLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_FOREST_TEMPLE, world.options.forest_temple_key_ring, small_key_count(world, Items.RG_FOREST_TEMPLE_SMALL_KEY)),
+            Items.RG_FIRE_TEMPLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_FIRE_TEMPLE, world.options.fire_temple_key_ring, small_key_count(world, Items.RG_FIRE_TEMPLE_SMALL_KEY)),
+            Items.RG_WATER_TEMPLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_WATER_TEMPLE, world.options.water_temple_key_ring, small_key_count(world, Items.RG_WATER_TEMPLE_SMALL_KEY)),
+            Items.RG_SPIRIT_TEMPLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_SPIRIT_TEMPLE, world.options.spirit_temple_key_ring, small_key_count(world, Items.RG_SPIRIT_TEMPLE_SMALL_KEY)),
+            Items.RG_SHADOW_TEMPLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_SHADOW_TEMPLE, world.options.shadow_temple_key_ring, small_key_count(world, Items.RG_SHADOW_TEMPLE_SMALL_KEY)),
+            Items.RG_BOTTOM_OF_THE_WELL_SMALL_KEY: option_mapping(CheckArea.RCAREA_BOTTOM_OF_THE_WELL, world.options.bottom_of_the_well_key_ring, small_key_count(world, Items.RG_BOTTOM_OF_THE_WELL_SMALL_KEY)),
+            Items.RG_GANONS_CASTLE_SMALL_KEY: option_mapping(CheckArea.RCAREA_GANONS_CASTLE, world.options.ganons_castle_key_ring, small_key_count(world, Items.RG_GANONS_CASTLE_SMALL_KEY)),
+            Items.RG_GERUDO_TRAINING_GROUND_SMALL_KEY: option_mapping(CheckArea.RCAREA_GERUDO_TRAINING_GROUND, world.options.gerudo_training_ground_key_ring, small_key_count(world, Items.RG_GERUDO_TRAINING_GROUND_SMALL_KEY))
         }

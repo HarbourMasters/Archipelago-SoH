@@ -48,6 +48,12 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.shuffle_ocarina_buttons.value = world.passthrough[
                 "shuffle_ocarina_buttons"]
             world.options.shuffle_swim.value = world.passthrough["shuffle_swim"]
+            world.options.shuffle_climb.value = world.passthrough["shuffle_climb"]
+            world.options.shuffle_crawl.value = world.passthrough["shuffle_crawl"]
+            world.options.shuffle_grab.value = world.passthrough["shuffle_grab"]
+            world.options.shuffle_jabber_nuts.value = world.passthrough["shuffle_jabber_nuts"]
+            world.options.shuffle_open_chest.value = world.passthrough["shuffle_open_chest"]
+            world.options.shuffle_bean_souls.value = world.passthrough["shuffle_bean_souls"]
             world.options.shuffle_weird_egg.value = world.passthrough["shuffle_weird_egg"]
             world.options.shuffle_gerudo_membership_card = world.passthrough[
                 "shuffle_gerudo_membership_card"]
@@ -69,6 +75,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
             world.options.shuffle_pots.value = world.passthrough["shuffle_pots"]
             world.options.shuffle_crates.value = world.passthrough["shuffle_crates"]
             world.options.shuffle_trees.value = world.passthrough["shuffle_trees"]
+            world.options.shuffle_bushes.value = world.passthrough["shuffle_bushes"]
             world.options.shuffle_merchants.value = world.passthrough["shuffle_merchants"]
             world.options.shuffle_frog_song_rupees.value = world.passthrough[
                 "shuffle_frog_song_rupees"]
@@ -148,7 +155,7 @@ def setup_options_from_slot_data(world: "SohWorld") -> None:
                 "tricks_in_logic", set())
             world.options.item_pool.value = world.passthrough.get(
                 "item_pool", 0)
-            world.options.medallion_locked_trials.value = world.passthrough.get("medallion_locked_trials", MedallionLockedTrials.default)
+            world.options.medallion_locked_trials.value = world.passthrough.get("medallion_locked_trials", RSK_MEDALLION_LOCKED_TRIALS.default)
             world.options.starting_hearts.value = world.passthrough.get("starting_hearts", StartingHearts.default)
             # when adding new options to this, use .get, and set the default to whatever was before the option was made
             # this will make it back-compatible with seeds generated on earlier versions

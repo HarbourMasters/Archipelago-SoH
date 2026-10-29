@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from Options import Choice, Toggle, DefaultOnToggle, Range, PerGameCommonOptions, StartInventoryPool, Visibility, OptionGroup, OptionSet, Accessibility
-from .Enums import Tricks, Items, TokenCounts
+from .Enums import Tricks, DISABLED_TRICKS, Items, TokenCounts
 
 wallet_capacities: dict[Items, int] = {
-    Items.CHILD_WALLET: 99,
-    Items.ADULT_WALLET: 200,
-    Items.GIANT_WALLET: 500,
-    Items.TYCOON_WALLET: 999
+    Items.RG_CHILD_WALLET: 99,
+    Items.RG_ADULT_WALLET: 200,
+    Items.RG_GIANT_WALLET: 500,
+    Items.RG_TYCOON_WALLET: 999
 }
 
-class ClosedForest(Choice):
+class RSK_FOREST(Choice):
     """
     On - Kokiri Sword & Deku Shield are required to access the Deku Tree, and completing the Deku Tree is required to access the Lost Woods Bridge Exit.
     Deku Only - Kokiri boy no longer blocks the path to the Bridge but Mido still requires the Kokiri Sword and Deku Shield to access the tree.
@@ -22,7 +22,7 @@ class ClosedForest(Choice):
     default = 2
 
 
-class KakarikoGate(Choice):
+class RSK_KAK_GATE(Choice):
     """
     Closed - The gate will remain closed until Zelda's Letter is shown to the guard.
     Open - The gate is always open. The Happy Mask Shop will open immediately after obtaining Zelda's Letter.
@@ -33,7 +33,7 @@ class KakarikoGate(Choice):
     default = 1
 
 
-class DoorOfTime(Choice):
+class RSK_DOOR_OF_TIME(Choice):
     """
     Closed - The Ocarina of Time, the Song of Time and all three Spiritual Stones are required to open the Door of Time.
     Song only - Play the Song of Time in front of the Door of Time to open it.
@@ -46,7 +46,7 @@ class DoorOfTime(Choice):
     default = 2
 
 
-class ZorasFountain(Choice):
+class RSK_ZORAS_FOUNTAIN(Choice):
     """
     Closed - King Zora obstructs the way to Zora's Fountain. Ruto's Letter must be shown as child Link in order to move him in both time periods.
     Closed as child - Ruto's Letter is only required to move King Zora as child Link. Zora's Fountain starts open as adult.
@@ -59,7 +59,7 @@ class ZorasFountain(Choice):
     default = 1
 
 
-class SleepingWaterfall(Choice):
+class RSK_SLEEPING_WATERFALL(Choice):
     """
     Closed:
     Sleeping Waterfall obstructs the entrance to Zora's Domain. Zelda's Lullaby must be played in order to open it.
@@ -73,7 +73,7 @@ class SleepingWaterfall(Choice):
     default = 0
 
 
-class JabuJabu(Choice):
+class RSK_JABU_OPEN(Choice):
     """
     Closed - A fish is required to open Jabu-Jabu's mouth.
     Open - Jabu-Jabu's mouth opens without the need for a fish.
@@ -84,14 +84,14 @@ class JabuJabu(Choice):
     default = 0
 
 
-class LockOverworldDoors(Toggle):
+class RSK_LOCK_OVERWORLD_DOORS(Toggle):
     """
     Adds locks to all wooden overworld doors, requiring specific small keys to open them.
     """
     display_name = "Lock Overworld Doors"
 
 
-class FortressCarpenters(Choice):
+class RSK_GERUDO_FORTRESS(Choice):
     """
     Sets the state of the carpenters captured by Gerudo in Gerudo Fortress, and with it the number of guards that spawn.
     Normal - All 4 carpenters are required to be saved.
@@ -286,7 +286,7 @@ class ShuffleTokens(Choice):
     default = 0
 
 
-class SkullsSunSong(Toggle):
+class RSK_SKULLS_SUNS_SONG(Toggle):
     """
     All Gold Skulltulas that require nighttime to appear will only be expected to be collected after getting Sun's Song.
     """
@@ -341,6 +341,50 @@ class ShuffleSwim(Toggle):
     If you void out in Water Temple you will immediately be kicked out to prevent a softlock.
     """
     display_name = "Shuffle Swim"
+
+
+class ShuffleClimb(Toggle):
+    """
+    Shuffles the ability to climb vines and ladders into the item pool.
+    """
+    display_name = "Shuffle Climb"
+
+
+class ShuffleCrawl(Toggle):
+    """
+    Shuffles the ability to crawl through crawlspaces into the item pool.
+    """
+    display_name = "Shuffle Crawl"
+
+
+class ShuffleGrab(Toggle):
+    """
+    Shuffles the ability to grab and lift objects into the item pool.
+    """
+    display_name = "Shuffle Grab"
+
+
+class ShuffleJabberNuts(Toggle):
+    """
+    Shuffles the ability to understand each race's language into the item pool, as six Jabber
+    Nuts. Without the matching nut you cannot make sense of what that race says.
+    """
+    display_name = "Shuffle Jabber Nuts"
+
+
+class ShuffleOpenChest(Toggle):
+    """
+    Shuffles the ability to open chests into the item pool.
+    """
+    display_name = "Shuffle Open Chest"
+
+
+class ShuffleBeanSouls(Toggle):
+    """
+    Shuffles a soul for each bean-planting spot into the item pool. A spot can only be used once
+    its soul has been found.
+    """
+    display_name = "Shuffle Bean Souls"
 
 
 class ShuffleWeirdEgg(Toggle):
@@ -457,7 +501,7 @@ class ShuffleFish(Choice):
     default = 0
 
 
-class ShuffleScrubs(Choice):
+class RSK_SHUFFLE_SCRUBS(Choice):
     """
     Shuffles Deku Scrub merchants in the game.
     Off - Scrubs will not be shuffled. The 3 Scrubs that give one-time items in the vanilla game (POH, Deku Nut capacity, and Deku Stick capacity) will not spawn.
@@ -506,7 +550,7 @@ class ShuffleCows(Toggle):
     display_name = "Shuffle Cows"
 
 
-class ShufflePots(Choice):
+class RSK_SHUFFLE_POTS(Choice):
     """
     Pots will drop a randomized item the first time they're broken and collected. This does not include the flying pots.
     With this option enabled, Ganon's boss key door is moved further up the stairs to allow access to the pots before obtaining Ganon's Boss Key.
@@ -593,14 +637,14 @@ class ShuffleFrogSongRupees(Toggle):
     display_name = "Shuffle Frog Song Rupees"
 
 
-class ShuffleAdultTradeItems(Toggle):
+class RSK_SHUFFLE_ADULT_TRADE(Toggle):
     """
     Adds all adult trade quest items to the pool. If this is turned off, only the Claim Check is in the pool.
     """
     display_name = "Shuffle Adult Trade Items"
 
 
-class ShuffleBossSouls(Choice):
+class RSK_SHUFFLE_BOSS_SOULS(Choice):
     """
     Shuffles 8 boss souls (one for each blue warp dungeon). A boss will not appear until you collect its respective soul.
     On + Ganon will also hide Ganon and Ganondorf behind a boss soul.
@@ -643,13 +687,20 @@ class ShuffleSongFairies(Toggle):
     display_name = "Shuffle Fairy Spots"
 
 
+class ShuffleBushes(Toggle):
+    """
+    Bushes in Hyrule Field & Zora's Fountain will contain randomized items when first walked through.
+    """
+    display_name = "Shuffle Bushes"
+
+
 class ShuffleGrass(Choice):
     """
-    Grass/Bushes will drop a randomized item the first time they're cut and collected.
-    Off - Grass/Bushes will not be shuffled.
-    Dungeons - Only shuffle grass/bushes that are within dungeons.
-    Overworld - Only shuffle grass/bushes that are outside of dungeons.
-    All Grass/Bushes - Shuffle all grass/bushes.
+    Grass will drop a randomized item the first time it's cut and collected.
+    Off - Grass will not be shuffled.
+    Dungeons - Only shuffle grass that is within dungeons.
+    Overworld - Only shuffle grass that is outside of dungeons.
+    All Grass - Shuffle all grass.
     """
     display_name = "Shuffle Grass"
     option_off = 0
@@ -795,7 +846,7 @@ class GanonsCastleBossKeySkullTokensRequired(Range):
     default = 50
 
 
-class SmallKeyShuffle(Choice):
+class RSK_KEYSANITY(Choice):
     """
     Vanilla - Small Keys will appear in their vanilla locations. You start with 3 keys in Spirit Temple MQ because the vanilla key layout is not beatable in logic.
     Own Dungeon - Small Keys can only appear in their respective dungeon. If Fire Temple is not a Master Quest dungeon, the door to the Boss Key chest will be unlocked.
@@ -950,28 +1001,36 @@ class BigPoeTargetCount(Range):
     default = 1
 
 
-class SkipChildZelda(DefaultOnToggle):
+class RSK_SKIP_CHILD_ZELDA(DefaultOnToggle):
     """
     Start with Zelda's Letter and the item Impa would normally give you and skip the sequence up until after meeting Zelda. Disables the ability to shuffle Weird Egg.
     """
     display_name = "Skip Child Zelda"
 
 
-class SkipEponaRace(DefaultOnToggle):
+class RSK_SKIP_EPONA_RACE(DefaultOnToggle):
     """
     Epona can be summoned with Epona's Song without needing to race Ingo.
     """
     display_name = "Skip Epona Race"
 
 
-class CompleteMaskQuest(DefaultOnToggle):
+class RSK_MASK_QUEST(Choice):
     """
-    Once the Happy Mask Shop is opened, all masks will be available to be borrowed.
+    Vanilla: the mask trade chain must be run in order, one mask at a time.
+    Completed: once the Happy Mask Shop is opened, all masks are available to be borrowed.
+    Shuffle: the Happy Mask Shop never opens and the eight masks are shuffled into the item pool.
     """
-    display_name = "Complete Mask Quest"
+    display_name = "Mask Quest"
+    option_vanilla = 0
+    option_completed = 1
+    option_shuffle = 2
+    alias_false = 0
+    alias_true = 1
+    default = 1
 
 
-class SkipScarecrowsSong(DefaultOnToggle):
+class RSK_SKIP_SCARECROWS_SONG(DefaultOnToggle):
     """
     Start with the ability to summon Pierre the Scarecrow. Pulling out an Ocarina in Pierre's locations will automatically summon him.
     With Shuffle Ocarina Buttons enabled, you'll need at least two Ocarina buttons to summon him.
@@ -1003,7 +1062,7 @@ class BombchuBag(Choice):
     default = 0
 
 
-class BombchuDrops(DefaultOnToggle):
+class RSK_ENABLE_BOMBCHU_DROPS(DefaultOnToggle):
     """
     Once you obtain a Bombchu Bag, refills will sometimes replace Bomb drops that would spawn.
     If you have Bombchu Bag disabled, you will need a Bomb Bag and existing Bombchus for Bombchus to drop.
@@ -1011,14 +1070,14 @@ class BombchuDrops(DefaultOnToggle):
     display_name = "Bombchu Drops"
 
 
-class BlueFireArrows(DefaultOnToggle):
+class RSK_BLUE_FIRE_ARROWS(DefaultOnToggle):
     """
     Ice Arrows act like Blue Fire, making them able to melt red ice. 
     """
     display_name = "Blue Fire Arrows"
 
 
-class SunlightArrows(DefaultOnToggle):
+class RSK_SUNLIGHT_ARROWS(DefaultOnToggle):
     """
     Light Arrows can be used to light up the sun switches instead of using the Mirror Shield.
     """
@@ -1053,14 +1112,14 @@ class SkeletonKey(Toggle):
     display_name = "Skeleton Key"
 
 
-class SlingbowBreakBeehives(DefaultOnToggle):
+class RSK_SLINGBOW_BREAK_BEEHIVES(DefaultOnToggle):
     """
     Allows Slingshot and Bow to break beehives when Beehive Shuffle is turned on.
     """
     display_name = "Slingshot and Bow Can Break Beehives"
 
 
-class StartingAge(Choice):
+class RSK_SELECTED_STARTING_AGE(Choice):
     """
     Decide whether to start as child Link or adult Link.
     Child Link starts in Link's House in Kokiri Forest.
@@ -1354,7 +1413,7 @@ class EnableAllTricks(Toggle):
 
 class TricksInLogic(OptionSet):
     display_name = "Tricks in Logic"
-    valid_keys = [str(trick) for trick in Tricks]
+    valid_keys = [str(trick) for trick in Tricks if trick not in DISABLED_TRICKS]
     __doc__ = ("Define what tricks or glitches are considered in logic. "
                "For more information on what each trick does, check the Ship of Harkinian "
                "Randomizer -> Tricks/Glitches settings.\n"
@@ -1511,7 +1570,7 @@ class ItemPool(Choice):
     default = 0
 
 
-class MedallionLockedTrials(Toggle):
+class RSK_MEDALLION_LOCKED_TRIALS(Toggle):
     """
     Doors to trials will be barred until their corresponding medallion is acquired.
     """
@@ -1555,16 +1614,262 @@ class MerchantAffordablePrices(Toggle):
     display_name = "Merchant Affordable Prices"
 
 
+class MQDungeons(Choice):
+    """
+    Sets how many dungeons use their Master Quest layout.
+    None - Every dungeon is its vanilla version.
+    Set Number - Exactly the number of dungeons chosen below, picked at random.
+    Random Number - A random number of dungeons, chosen at random.
+    Selection Only - Each dungeon uses its own setting below, rolled individually.
+    """
+    display_name = "MQ Dungeon Setting"
+    option_none = 0
+    option_set_number = 1
+    option_random_number = 2
+    option_selection_only = 3
+    default = 0
+
+
+class MQDungeonCount(Range):
+    """
+    How many dungeons are Master Quest when MQ Dungeon Setting is Set Number.
+
+    Dungeons set to Master Quest below count towards this total, and dungeons set to Vanilla are
+    never chosen -- so if fewer dungeons are available than this number, you get fewer.
+    """
+    display_name = "MQ Dungeon Count"
+    range_start = 0
+    range_end = 12
+    default = 0
+
+
+class DekuTreeQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Deku Tree Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class DodongosCavernQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Dodongo's Cavern Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class JabuJabusBellyQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Jabu-Jabu's Belly Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class ForestTempleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Forest Temple Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class FireTempleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Fire Temple Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class WaterTempleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Water Temple Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class SpiritTempleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Spirit Temple Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class ShadowTempleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Shadow Temple Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class BottomOfTheWellQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Bottom of the Well Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class IceCavernQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Ice Cavern Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class GerudoTrainingGroundQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Gerudo Training Ground Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+class GanonsCastleQuest(Choice):
+    """
+    Whether this dungeon uses its vanilla or Master Quest layout.
+    Random Quest - Choose a random quest and hide it in the in game tracker
+    """
+    display_name = "Ganon's Castle Quest"
+    option_vanilla = 0
+    option_master_quest = 1
+    option_random_quest = 2
+    default = 0
+
+
+# == Not implemented =========================================================================
+
+class NotImplementedChoice(Choice):
+    visibility = Visibility.none
+
+    @classmethod
+    def from_any(cls, data):
+        option = super().from_any(data)
+        if option.value != cls.default:
+            raise ValueError(f"{cls.display_name} is not implemented yet; "
+                             f"only {cls.name_lookup[cls.default]} is supported")
+        return option
+
+
+class RSK_SHUFFLE_DUNGEON_ENTRANCES(NotImplementedChoice):
+    display_name = "Shuffle Dungeon Entrances"
+    option_off = 0
+    option_on = 1
+    option_on_plus_ganon = 2
+    default = 0
+
+
+class RSK_SHUFFLE_BOSS_ENTRANCES(NotImplementedChoice):
+    display_name = "Shuffle Boss Entrances"
+    option_off = 0
+    option_age_restricted = 1
+    option_full = 2
+    default = 0
+
+
+class RSK_MIX_BOSS_ENTRANCES(NotImplementedChoice):
+    display_name = "Mix Boss Entrances"
+    option_off = 0
+    option_on = 1
+    default = 0
+
+
+class RSK_MIX_INTERIOR_ENTRANCES(NotImplementedChoice):
+    display_name = "Mix Interior Entrances"
+    option_off = 0
+    option_on = 1
+    default = 0
+
+
+class RSK_MIX_OVERWORLD_ENTRANCES(NotImplementedChoice):
+    display_name = "Mix Overworld Entrances"
+    option_off = 0
+    option_on = 1
+    default = 0
+
+
+class RSK_DECOUPLED_ENTRANCES(NotImplementedChoice):
+    display_name = "Decoupled Entrances"
+    option_off = 0
+    option_on = 1
+    default = 0
+
+
+class RSK_SHUFFLE_CHEST_MINIGAME(NotImplementedChoice):
+    display_name = "Shuffle Chest Minigame"
+    option_off = 0
+    option_on_separate = 1
+    option_on_pack = 2
+    default = 0
+
+
+class RSK_FISHSANITY_AGE_SPLIT(NotImplementedChoice):
+    display_name = "Pond Age Split"
+    option_off = 0
+    option_on = 1
+    default = 1
+
+
 @dataclass
 class SohOptions(PerGameCommonOptions):
-    closed_forest: ClosedForest
-    kakariko_gate: KakarikoGate
-    door_of_time: DoorOfTime
-    zoras_fountain: ZorasFountain
-    sleeping_waterfall: SleepingWaterfall
-    jabu_jabu: JabuJabu
-    lock_overworld_doors: LockOverworldDoors
-    fortress_carpenters: FortressCarpenters
+    closed_forest: RSK_FOREST
+    kakariko_gate: RSK_KAK_GATE
+    door_of_time: RSK_DOOR_OF_TIME
+    zoras_fountain: RSK_ZORAS_FOUNTAIN
+    sleeping_waterfall: RSK_SLEEPING_WATERFALL
+    jabu_jabu: RSK_JABU_OPEN
+    lock_overworld_doors: RSK_LOCK_OVERWORLD_DOORS
+    fortress_carpenters: RSK_GERUDO_FORTRESS
     rainbow_bridge: RainbowBridge
     rainbow_bridge_stones_required: RainbowBridgeStonesRequired
     rainbow_bridge_medallions_required: RainbowBridgeMedallionsRequired
@@ -1579,7 +1884,7 @@ class SohOptions(PerGameCommonOptions):
     triforce_hunt_pieces_required_percentage: TriforceHuntPiecesRequiredPercentage
     shuffle_songs: ShuffleSongs
     shuffle_skull_tokens: ShuffleTokens
-    skulls_sun_song: SkullsSunSong
+    skulls_sun_song: RSK_SKULLS_SUNS_SONG
     shuffle_kokiri_sword: ShuffleKokiriSword
     shuffle_master_sword: ShuffleMasterSword
     shuffle_childs_wallet: ShuffleChildsWallet
@@ -1597,20 +1902,21 @@ class SohOptions(PerGameCommonOptions):
     shuffle_shops_minimum_price: ShuffleShopsMinimumPrice
     shuffle_shops_maximum_price: ShuffleShopsMaximumPrice
     shuffle_fish: ShuffleFish
-    shuffle_scrubs: ShuffleScrubs
+    shuffle_scrubs: RSK_SHUFFLE_SCRUBS
     shuffle_scrubs_minimum_price: ShuffleScrubsMinimumPrice
     shuffle_scrubs_maximum_price: ShuffleScrubsMaximumPrice
     shuffle_beehives: ShuffleBeehives
     shuffle_cows: ShuffleCows
-    shuffle_pots: ShufflePots
+    shuffle_pots: RSK_SHUFFLE_POTS
     shuffle_crates: ShuffleCrates
     shuffle_trees: ShuffleTrees
+    shuffle_bushes: ShuffleBushes
     shuffle_merchants: ShuffleMerchants
     shuffle_merchants_minimum_price: ShuffleMerchantsMinimumPrice
     shuffle_merchants_maximum_price: ShuffleMerchantsMaximumPrice
     shuffle_frog_song_rupees: ShuffleFrogSongRupees
-    shuffle_adult_trade_items: ShuffleAdultTradeItems
-    shuffle_boss_souls: ShuffleBossSouls
+    shuffle_adult_trade_items: RSK_SHUFFLE_ADULT_TRADE
+    shuffle_boss_souls: RSK_SHUFFLE_BOSS_SOULS
     shuffle_fountain_fairies: ShuffleFountainFairies
     shuffle_stone_fairies: ShuffleStoneFairies
     shuffle_bean_fairies: ShuffleBeanFairies
@@ -1625,7 +1931,7 @@ class SohOptions(PerGameCommonOptions):
     ganons_castle_boss_key_dungeons_required: GanonsCastleBossKeyDungeonsRequired
     ganons_castle_boss_key_skull_tokens_required: GanonsCastleBossKeySkullTokensRequired
     ganons_castle_boss_key_greg_modifier: GanonsCastleBossKeyGregModifier
-    small_key_shuffle: SmallKeyShuffle
+    small_key_shuffle: RSK_KEYSANITY
     gerudo_fortress_key_shuffle: GerudoFortressKeyShuffle
     boss_key_shuffle: BossKeyShuffle
     key_rings: KeyRings
@@ -1640,10 +1946,10 @@ class SohOptions(PerGameCommonOptions):
     gerudo_training_ground_key_ring: GerudoTrainingGroundKeyring
     ganons_castle_key_ring: GanonsCastleKeyring
     big_poe_target_count: BigPoeTargetCount
-    skip_child_zelda: SkipChildZelda
-    skip_epona_race: SkipEponaRace
-    complete_mask_quest: CompleteMaskQuest
-    skip_scarecrows_song: SkipScarecrowsSong
+    skip_child_zelda: RSK_SKIP_CHILD_ZELDA
+    skip_epona_race: RSK_SKIP_EPONA_RACE
+    complete_mask_quest: RSK_MASK_QUEST
+    skip_scarecrows_song: RSK_SKIP_SCARECROWS_SONG
     start_with_links_pocket: StartWithLinksPocket
     start_with_kokiri_sword: StartWithKokiriSword
     start_with_master_sword: StartWithMasterSword
@@ -1667,15 +1973,15 @@ class SohOptions(PerGameCommonOptions):
     #StartingTokens
     full_wallets: FullWallets
     bombchu_bag: BombchuBag
-    bombchu_drops: BombchuDrops
+    bombchu_drops: RSK_ENABLE_BOMBCHU_DROPS
     start_inventory_from_pool: StartInventoryPool
-    blue_fire_arrows: BlueFireArrows
-    sunlight_arrows: SunlightArrows
+    blue_fire_arrows: RSK_BLUE_FIRE_ARROWS
+    sunlight_arrows: RSK_SUNLIGHT_ARROWS
     rocs_feather: RocsFeather
     infinite_upgrades: InfiniteUpgrades
     skeleton_key: SkeletonKey
-    slingbow_break_beehives: SlingbowBreakBeehives
-    starting_age: StartingAge
+    slingbow_break_beehives: RSK_SLINGBOW_BREAK_BEEHIVES
+    starting_age: RSK_SELECTED_STARTING_AGE
     shuffle_100_gs_reward: Shuffle100GSReward
     ice_trap_count: IceTrapCount
     ice_trap_filler_replacement: IceTrapFillerReplacement
@@ -1684,7 +1990,7 @@ class SohOptions(PerGameCommonOptions):
     tricks_in_logic: TricksInLogic
     enable_all_tricks: EnableAllTricks
     item_pool: ItemPool
-    medallion_locked_trials: MedallionLockedTrials
+    medallion_locked_trials: RSK_MEDALLION_LOCKED_TRIALS
     starting_hearts: StartingHearts
     shop_affordable_prices: ShopAffordablePrices
     scrub_affordable_prices: ScrubAffordablePrices
@@ -1718,6 +2024,34 @@ class SohOptions(PerGameCommonOptions):
     gs_50_hint: GS50Hint
     gs_100_hint: GS100Hint
     mask_shop_hint: MaskShopHint
+    mq_dungeons: MQDungeons
+    mq_dungeon_count: MQDungeonCount
+    deku_tree_quest: DekuTreeQuest
+    dodongos_cavern_quest: DodongosCavernQuest
+    jabu_jabus_belly_quest: JabuJabusBellyQuest
+    forest_temple_quest: ForestTempleQuest
+    fire_temple_quest: FireTempleQuest
+    water_temple_quest: WaterTempleQuest
+    spirit_temple_quest: SpiritTempleQuest
+    shadow_temple_quest: ShadowTempleQuest
+    bottom_of_the_well_quest: BottomOfTheWellQuest
+    ice_cavern_quest: IceCavernQuest
+    gerudo_training_ground_quest: GerudoTrainingGroundQuest
+    ganons_castle_quest: GanonsCastleQuest
+    shuffle_climb: ShuffleClimb
+    shuffle_crawl: ShuffleCrawl
+    shuffle_grab: ShuffleGrab
+    shuffle_jabber_nuts: ShuffleJabberNuts
+    shuffle_open_chest: ShuffleOpenChest
+    shuffle_bean_souls: ShuffleBeanSouls
+    shuffle_dungeon_entrances: RSK_SHUFFLE_DUNGEON_ENTRANCES
+    shuffle_boss_entrances: RSK_SHUFFLE_BOSS_ENTRANCES
+    mix_boss_entrances: RSK_MIX_BOSS_ENTRANCES
+    mix_interior_entrances: RSK_MIX_INTERIOR_ENTRANCES
+    mix_overworld_entrances: RSK_MIX_OVERWORLD_ENTRANCES
+    decoupled_entrances: RSK_DECOUPLED_ENTRANCES
+    shuffle_chest_minigame: RSK_SHUFFLE_CHEST_MINIGAME
+    fishsanity_age_split: RSK_FISHSANITY_AGE_SPLIT
 
     def apply_any_required_option_adjustments(self):
         self.adjust_for_forced_child_starts()
@@ -1733,21 +2067,21 @@ class SohOptions(PerGameCommonOptions):
             return
 
         # If door of time is set to closed and dungeon rewards aren't shuffled or ocarinas aren't shuffled, force child spawn
-        if self.door_of_time == DoorOfTime.option_closed and (
+        if self.door_of_time == RSK_DOOR_OF_TIME.option_closed and (
             any([self.shuffle_dungeon_rewards == ShuffleDungeonRewards.option_off,
                     self.shuffle_ocarinas == ShuffleOcarinas.option_false,
                     self.shuffle_songs == ShuffleSongs.option_off])):
-            self.starting_age.value = StartingAge.option_child
+            self.starting_age.value = RSK_SELECTED_STARTING_AGE.option_child
             return
 
         # If door of time is set to song only and songs aren't shuffled, force child spawn
-        if all([self.door_of_time == DoorOfTime.option_song_only, self.shuffle_songs == ShuffleSongs.option_off]):
-            self.starting_age.value = StartingAge.option_child
+        if all([self.door_of_time == RSK_DOOR_OF_TIME.option_song_only, self.shuffle_songs == ShuffleSongs.option_off]):
+            self.starting_age.value = RSK_SELECTED_STARTING_AGE.option_child
             return
         
         # If closed forest is on, force child spawn. Will need additional logic when entrance shuffle is added in future.
-        if self.closed_forest == ClosedForest.option_on:
-            self.starting_age.value = StartingAge.option_child
+        if self.closed_forest == RSK_FOREST.option_on:
+            self.starting_age.value = RSK_SELECTED_STARTING_AGE.option_child
             return
         
 
@@ -1767,8 +2101,8 @@ class SohOptions(PerGameCommonOptions):
         # Check if Tycoon Wallet is shuffled and if price settings are above what Giants Wallet can hold. Max/Min Prices need to be adjusted to fit in Giants Wallet.
         if self.shuffle_tycoon_wallet == ShuffleTycoonWallet.option_false:
             for option in (self.shuffle_shops_minimum_price, self.shuffle_shops_maximum_price, self.shuffle_scrubs_minimum_price, self.shuffle_scrubs_maximum_price, self.shuffle_merchants_minimum_price, self.shuffle_merchants_maximum_price):
-                if option.value > wallet_capacities[Items.GIANT_WALLET]:
-                    option.value = wallet_capacities[Items.GIANT_WALLET]
+                if option.value > wallet_capacities[Items.RG_GIANT_WALLET]:
+                    option.value = wallet_capacities[Items.RG_GIANT_WALLET]
 
         # If maximum price is below minimum, set max to minimum.
         if self.shuffle_shops_minimum_price.value > self.shuffle_shops_maximum_price.value:
@@ -1894,20 +2228,20 @@ class SohOptions(PerGameCommonOptions):
 
 soh_option_groups = [
     OptionGroup("Area Access", [
-        ClosedForest,
-        KakarikoGate,
-        DoorOfTime,
-        ZorasFountain,
-        SleepingWaterfall,
-        JabuJabu,
-        LockOverworldDoors,
+        RSK_FOREST,
+        RSK_KAK_GATE,
+        RSK_DOOR_OF_TIME,
+        RSK_ZORAS_FOUNTAIN,
+        RSK_SLEEPING_WATERFALL,
+        RSK_JABU_OPEN,
+        RSK_LOCK_OVERWORLD_DOORS,
         EnableAllTricks,
         TricksInLogic
     ]),
     OptionGroup("World Settings", [
-        StartingAge,
+        RSK_SELECTED_STARTING_AGE,
         StartingHearts,
-        FortressCarpenters,
+        RSK_GERUDO_FORTRESS,
         RainbowBridge,
         RainbowBridgeStonesRequired,
         RainbowBridgeMedallionsRequired,
@@ -1915,7 +2249,7 @@ soh_option_groups = [
         RainbowBridgeDungeonsRequired,
         RainbowBridgeSkullTokensRequired,
         RainbowBridgeGregModifier,
-        MedallionLockedTrials,
+        RSK_MEDALLION_LOCKED_TRIALS,
         GanonsTrials,
         GanonsTrialsCount,
         TriforceHunt,
@@ -1936,7 +2270,7 @@ soh_option_groups = [
     OptionGroup("Shuffle Items", [
         ShuffleSongs,
         ShuffleTokens,
-        SkullsSunSong,
+        RSK_SKULLS_SUNS_SONG,
         ShuffleFreestandingItems,
         ShuffleKokiriSword,
         ShuffleMasterSword,
@@ -1950,7 +2284,13 @@ soh_option_groups = [
         ShuffleFishingPole,
         ShuffleDekuStickBag,
         ShuffleDekuNutBag,
-        RocsFeather
+        RocsFeather,
+        ShuffleClimb,
+        ShuffleCrawl,
+        ShuffleGrab,
+        ShuffleJabberNuts,
+        ShuffleOpenChest,
+        ShuffleBeanSouls,
     ]),
     OptionGroup("Shuffle NPCs & Merchants", [
         ShuffleShops,
@@ -1960,23 +2300,24 @@ soh_option_groups = [
         ShopAffordablePrices,
         # Other shop weight stuff
         ShuffleFish,
-        ShuffleScrubs,
+        RSK_SHUFFLE_SCRUBS,
         ShuffleScrubsMinimumPrice,
         ShuffleScrubsMaximumPrice,
         ScrubAffordablePrices,
         ShuffleBeehives,
         ShuffleCows,
-        ShufflePots,
+        RSK_SHUFFLE_POTS,
         ShuffleCrates,
         ShuffleTrees,
+        ShuffleBushes,
         ShuffleMerchants,
         ShuffleMerchantsMinimumPrice,
         ShuffleMerchantsMaximumPrice,
         MerchantAffordablePrices,
         ShuffleFrogSongRupees,
-        ShuffleAdultTradeItems,
+        RSK_SHUFFLE_ADULT_TRADE,
         Shuffle100GSReward,
-        ShuffleBossSouls,
+        RSK_SHUFFLE_BOSS_SOULS,
         ShuffleFountainFairies,
         ShuffleStoneFairies,
         ShuffleBeanFairies,
@@ -1986,7 +2327,7 @@ soh_option_groups = [
     OptionGroup("Shuffle Dungeon Items", [
         ShuffleDungeonRewards,
         MapsAndCompasses,
-        SmallKeyShuffle,
+        RSK_KEYSANITY,
         GerudoFortressKeyShuffle,
         BossKeyShuffle,
         GanonsCastleBossKey,
@@ -2008,13 +2349,12 @@ soh_option_groups = [
         GerudoTrainingGroundKeyring,
         GanonsCastleKeyring
     ]),
-    # todo: decide whether these should be in the yaml or just let you change them locally on the fly
     OptionGroup("Timesavers", [
         BigPoeTargetCount,
-        SkipChildZelda,
-        SkipEponaRace,
-        CompleteMaskQuest,
-        SkipScarecrowsSong,
+        RSK_SKIP_CHILD_ZELDA,
+        RSK_SKIP_EPONA_RACE,
+        RSK_MASK_QUEST,
+        RSK_SKIP_SCARECROWS_SONG,
     ]),
     OptionGroup("Item Pool & Traps", [
         ItemPool,
@@ -2080,11 +2420,27 @@ soh_option_groups = [
     OptionGroup("Additional Features", [
         FullWallets,  # another one that should maybe just be a locally changeable setting instead of in the yaml
         BombchuBag,
-        BombchuDrops,
-        BlueFireArrows,
-        SunlightArrows,
+        RSK_ENABLE_BOMBCHU_DROPS,
+        RSK_BLUE_FIRE_ARROWS,
+        RSK_SUNLIGHT_ARROWS,
         InfiniteUpgrades,
         SkeletonKey,
-        SlingbowBreakBeehives
+        RSK_SLINGBOW_BREAK_BEEHIVES,
+    ]),
+    OptionGroup("Master Quest", [
+        MQDungeons,
+        MQDungeonCount,
+        DekuTreeQuest,
+        DodongosCavernQuest,
+        JabuJabusBellyQuest,
+        ForestTempleQuest,
+        FireTempleQuest,
+        WaterTempleQuest,
+        SpiritTempleQuest,
+        ShadowTempleQuest,
+        BottomOfTheWellQuest,
+        IceCavernQuest,
+        GerudoTrainingGroundQuest,
+        GanonsCastleQuest,
     ])
 ]

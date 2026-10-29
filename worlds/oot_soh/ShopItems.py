@@ -4,7 +4,8 @@ from worlds.AutoWorld import LogicMixin
 from BaseClasses import CollectionState, MultiWorld
 
 from .Locations import scrubs_location_table, merchants_items_location_table, scrubs_one_time_only
-from .Enums import *
+from .Enums import Items, Locations
+from .enums_gen import Regions
 from . import SohItem
 
 if TYPE_CHECKING:
@@ -12,161 +13,161 @@ if TYPE_CHECKING:
 
 
 vanilla_shop_prices: dict[Items, int] = {
-    Items.BUY_ARROWS10: 20,
-    Items.BUY_DEKU_NUTS5: 15,
-    Items.BUY_ARROWS30: 60,
-    Items.BUY_ARROWS50: 90,
-    Items.BUY_BOMBS525: 25,
-    Items.BUY_DEKU_NUTS10: 30,
-    Items.BUY_DEKU_STICK1: 10,
-    Items.BUY_BOMBS10: 50,
-    Items.BUY_FISH: 200,
-    Items.BUY_RED_POTION30: 30,
-    Items.BUY_GREEN_POTION: 30,
-    Items.BUY_BLUE_POTION: 100,
-    Items.BUY_HYLIAN_SHIELD: 80,
-    Items.BUY_DEKU_SHIELD: 40,
-    Items.BUY_GORON_TUNIC: 200,
-    Items.BUY_ZORA_TUNIC: 300,
-    Items.BUY_HEART: 10,
-    Items.BUY_BOMBCHUS10: 99,
-    Items.BUY_BOMBCHUS20: 180,
-    Items.BUY_DEKU_SEEDS30: 30,
-    Items.BUY_BLUE_FIRE: 300,
-    Items.BUY_BOTTLE_BUG: 50,
-    Items.BUY_POE: 30,
-    Items.BUY_FAIRYS_SPIRIT: 50,
-    Items.BUY_BOMBS20: 80,
-    Items.BUY_BOMBS30: 120,
-    Items.BUY_BOMBS535: 35,
-    Items.BUY_RED_POTION40: 40,
-    Items.BUY_RED_POTION50: 50,
+    Items.RG_BUY_ARROWS_10: 20,
+    Items.RG_BUY_DEKU_NUTS_5: 15,
+    Items.RG_BUY_ARROWS_30: 60,
+    Items.RG_BUY_ARROWS_50: 90,
+    Items.RG_BUY_BOMBS_525: 25,
+    Items.RG_BUY_DEKU_NUTS_10: 30,
+    Items.RG_BUY_DEKU_STICK_1: 10,
+    Items.RG_BUY_BOMBS_10: 50,
+    Items.RG_BUY_FISH: 200,
+    Items.RG_BUY_RED_POTION_30: 30,
+    Items.RG_BUY_GREEN_POTION: 30,
+    Items.RG_BUY_BLUE_POTION: 100,
+    Items.RG_BUY_HYLIAN_SHIELD: 80,
+    Items.RG_BUY_DEKU_SHIELD: 40,
+    Items.RG_BUY_GORON_TUNIC: 200,
+    Items.RG_BUY_ZORA_TUNIC: 300,
+    Items.RG_BUY_HEART: 10,
+    Items.RG_BUY_BOMBCHUS_10: 99,
+    Items.RG_BUY_BOMBCHUS_20: 180,
+    Items.RG_BUY_DEKU_SEEDS_30: 30,
+    Items.RG_BUY_BLUE_FIRE: 300,
+    Items.RG_BUY_BOTTLE_BUG: 50,
+    Items.RG_BUY_POE: 30,
+    Items.RG_BUY_FAIRYS_SPIRIT: 50,
+    Items.RG_BUY_BOMBS_20: 80,
+    Items.RG_BUY_BOMBS_30: 120,
+    Items.RG_BUY_BOMBS_535: 35,
+    Items.RG_BUY_RED_POTION_40: 40,
+    Items.RG_BUY_RED_POTION_50: 50,
 }
 
 
 shop_locations_kf_shop: dict[Locations, Items] = {
-    Locations.KF_SHOP_ITEM1: Items.BUY_DEKU_SHIELD,
-    Locations.KF_SHOP_ITEM2: Items.BUY_DEKU_NUTS5,
-    Locations.KF_SHOP_ITEM3: Items.BUY_DEKU_NUTS10,
-    Locations.KF_SHOP_ITEM4: Items.BUY_DEKU_STICK1,
-    Locations.KF_SHOP_ITEM5: Items.BUY_DEKU_SEEDS30,
-    Locations.KF_SHOP_ITEM6: Items.BUY_ARROWS10,
-    Locations.KF_SHOP_ITEM7: Items.BUY_ARROWS30,
-    Locations.KF_SHOP_ITEM8: Items.BUY_HEART,
+    Locations.RC_KF_SHOP_ITEM_1: Items.RG_BUY_DEKU_SHIELD,
+    Locations.RC_KF_SHOP_ITEM_2: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_KF_SHOP_ITEM_3: Items.RG_BUY_DEKU_NUTS_10,
+    Locations.RC_KF_SHOP_ITEM_4: Items.RG_BUY_DEKU_STICK_1,
+    Locations.RC_KF_SHOP_ITEM_5: Items.RG_BUY_DEKU_SEEDS_30,
+    Locations.RC_KF_SHOP_ITEM_6: Items.RG_BUY_ARROWS_10,
+    Locations.RC_KF_SHOP_ITEM_7: Items.RG_BUY_ARROWS_30,
+    Locations.RC_KF_SHOP_ITEM_8: Items.RG_BUY_HEART,
 }
 
 shop_locations_market_bazaar: dict[Locations, Items] = {
-    Locations.MARKET_BAZAAR_ITEM1: Items.BUY_HYLIAN_SHIELD,
-    Locations.MARKET_BAZAAR_ITEM2: Items.BUY_BOMBS535,
-    Locations.MARKET_BAZAAR_ITEM3: Items.BUY_DEKU_NUTS5,
-    Locations.MARKET_BAZAAR_ITEM4: Items.BUY_HEART,
-    Locations.MARKET_BAZAAR_ITEM5: Items.BUY_ARROWS10,
-    Locations.MARKET_BAZAAR_ITEM6: Items.BUY_ARROWS50,
-    Locations.MARKET_BAZAAR_ITEM7: Items.BUY_DEKU_STICK1,
-    Locations.MARKET_BAZAAR_ITEM8: Items.BUY_ARROWS30,
+    Locations.RC_MARKET_BAZAAR_ITEM_1: Items.RG_BUY_HYLIAN_SHIELD,
+    Locations.RC_MARKET_BAZAAR_ITEM_2: Items.RG_BUY_BOMBS_535,
+    Locations.RC_MARKET_BAZAAR_ITEM_3: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_MARKET_BAZAAR_ITEM_4: Items.RG_BUY_HEART,
+    Locations.RC_MARKET_BAZAAR_ITEM_5: Items.RG_BUY_ARROWS_10,
+    Locations.RC_MARKET_BAZAAR_ITEM_6: Items.RG_BUY_ARROWS_50,
+    Locations.RC_MARKET_BAZAAR_ITEM_7: Items.RG_BUY_DEKU_STICK_1,
+    Locations.RC_MARKET_BAZAAR_ITEM_8: Items.RG_BUY_ARROWS_30,
 }
 
 shop_locations_market_potion_shop: dict[Locations, Items] = {
-    Locations.MARKET_POTION_SHOP_ITEM1: Items.BUY_GREEN_POTION,
-    Locations.MARKET_POTION_SHOP_ITEM2: Items.BUY_BLUE_FIRE,
-    Locations.MARKET_POTION_SHOP_ITEM3: Items.BUY_RED_POTION30,
-    Locations.MARKET_POTION_SHOP_ITEM4: Items.BUY_FAIRYS_SPIRIT,
-    Locations.MARKET_POTION_SHOP_ITEM5: Items.BUY_DEKU_NUTS5,
-    Locations.MARKET_POTION_SHOP_ITEM6: Items.BUY_BOTTLE_BUG,
-    Locations.MARKET_POTION_SHOP_ITEM7: Items.BUY_POE,
-    Locations.MARKET_POTION_SHOP_ITEM8: Items.BUY_FISH,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_1: Items.RG_BUY_GREEN_POTION,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_2: Items.RG_BUY_BLUE_FIRE,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_3: Items.RG_BUY_RED_POTION_30,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_4: Items.RG_BUY_FAIRYS_SPIRIT,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_5: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_6: Items.RG_BUY_BOTTLE_BUG,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_7: Items.RG_BUY_POE,
+    Locations.RC_MARKET_POTION_SHOP_ITEM_8: Items.RG_BUY_FISH,
 }
 
 shop_locations_market_bombchu_shop: dict[Locations, Items] = {
-    Locations.MARKET_BOMBCHU_SHOP_ITEM1: Items.BUY_BOMBCHUS10,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM2: Items.BUY_BOMBCHUS10,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM3: Items.BUY_BOMBCHUS10,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM4: Items.BUY_BOMBCHUS10,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM5: Items.BUY_BOMBCHUS20,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM6: Items.BUY_BOMBCHUS20,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM7: Items.BUY_BOMBCHUS20,
-    Locations.MARKET_BOMBCHU_SHOP_ITEM8: Items.BUY_BOMBCHUS20,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_1: Items.RG_BUY_BOMBCHUS_10,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_2: Items.RG_BUY_BOMBCHUS_10,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_3: Items.RG_BUY_BOMBCHUS_10,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_4: Items.RG_BUY_BOMBCHUS_10,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_5: Items.RG_BUY_BOMBCHUS_20,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_6: Items.RG_BUY_BOMBCHUS_20,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_7: Items.RG_BUY_BOMBCHUS_20,
+    Locations.RC_MARKET_BOMBCHU_SHOP_ITEM_8: Items.RG_BUY_BOMBCHUS_20,
 }
 
 shop_locations_kak_bazaar: dict[Locations, Items] = {
-    Locations.KAK_BAZAAR_ITEM1: Items.BUY_HYLIAN_SHIELD,
-    Locations.KAK_BAZAAR_ITEM2: Items.BUY_BOMBS535,
-    Locations.KAK_BAZAAR_ITEM3: Items.BUY_DEKU_NUTS5,
-    Locations.KAK_BAZAAR_ITEM4: Items.BUY_HEART,
-    Locations.KAK_BAZAAR_ITEM5: Items.BUY_ARROWS10,
-    Locations.KAK_BAZAAR_ITEM6: Items.BUY_ARROWS50,
-    Locations.KAK_BAZAAR_ITEM7: Items.BUY_DEKU_STICK1,
-    Locations.KAK_BAZAAR_ITEM8: Items.BUY_ARROWS30,
+    Locations.RC_KAK_BAZAAR_ITEM_1: Items.RG_BUY_HYLIAN_SHIELD,
+    Locations.RC_KAK_BAZAAR_ITEM_2: Items.RG_BUY_BOMBS_535,
+    Locations.RC_KAK_BAZAAR_ITEM_3: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_KAK_BAZAAR_ITEM_4: Items.RG_BUY_HEART,
+    Locations.RC_KAK_BAZAAR_ITEM_5: Items.RG_BUY_ARROWS_10,
+    Locations.RC_KAK_BAZAAR_ITEM_6: Items.RG_BUY_ARROWS_50,
+    Locations.RC_KAK_BAZAAR_ITEM_7: Items.RG_BUY_DEKU_STICK_1,
+    Locations.RC_KAK_BAZAAR_ITEM_8: Items.RG_BUY_ARROWS_30,
 }
 
 shop_locations_kak_potion_shop: dict[Locations, Items] = {
-    Locations.KAK_POTION_SHOP_ITEM1: Items.BUY_GREEN_POTION,
-    Locations.KAK_POTION_SHOP_ITEM2: Items.BUY_BLUE_FIRE,
-    Locations.KAK_POTION_SHOP_ITEM3: Items.BUY_RED_POTION30,
-    Locations.KAK_POTION_SHOP_ITEM4: Items.BUY_FAIRYS_SPIRIT,
-    Locations.KAK_POTION_SHOP_ITEM5: Items.BUY_DEKU_NUTS5,
-    Locations.KAK_POTION_SHOP_ITEM6: Items.BUY_BOTTLE_BUG,
-    Locations.KAK_POTION_SHOP_ITEM7: Items.BUY_POE,
-    Locations.KAK_POTION_SHOP_ITEM8: Items.BUY_FISH,
+    Locations.RC_KAK_POTION_SHOP_ITEM_1: Items.RG_BUY_GREEN_POTION,
+    Locations.RC_KAK_POTION_SHOP_ITEM_2: Items.RG_BUY_BLUE_FIRE,
+    Locations.RC_KAK_POTION_SHOP_ITEM_3: Items.RG_BUY_RED_POTION_30,
+    Locations.RC_KAK_POTION_SHOP_ITEM_4: Items.RG_BUY_FAIRYS_SPIRIT,
+    Locations.RC_KAK_POTION_SHOP_ITEM_5: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_KAK_POTION_SHOP_ITEM_6: Items.RG_BUY_BOTTLE_BUG,
+    Locations.RC_KAK_POTION_SHOP_ITEM_7: Items.RG_BUY_POE,
+    Locations.RC_KAK_POTION_SHOP_ITEM_8: Items.RG_BUY_FISH,
 }
 
 shop_locations_gc_shop: dict[Locations, Items] = {
-    Locations.GC_SHOP_ITEM1: Items.BUY_BOMBS525,
-    Locations.GC_SHOP_ITEM2: Items.BUY_BOMBS10,
-    Locations.GC_SHOP_ITEM3: Items.BUY_BOMBS20,
-    Locations.GC_SHOP_ITEM4: Items.BUY_BOMBS30,
-    Locations.GC_SHOP_ITEM5: Items.BUY_GORON_TUNIC,
-    Locations.GC_SHOP_ITEM6: Items.BUY_HEART,
-    Locations.GC_SHOP_ITEM7: Items.BUY_RED_POTION40,
-    Locations.GC_SHOP_ITEM8: Items.BUY_HEART,
+    Locations.RC_GC_SHOP_ITEM_1: Items.RG_BUY_BOMBS_525,
+    Locations.RC_GC_SHOP_ITEM_2: Items.RG_BUY_BOMBS_10,
+    Locations.RC_GC_SHOP_ITEM_3: Items.RG_BUY_BOMBS_20,
+    Locations.RC_GC_SHOP_ITEM_4: Items.RG_BUY_BOMBS_30,
+    Locations.RC_GC_SHOP_ITEM_5: Items.RG_BUY_GORON_TUNIC,
+    Locations.RC_GC_SHOP_ITEM_6: Items.RG_BUY_HEART,
+    Locations.RC_GC_SHOP_ITEM_7: Items.RG_BUY_RED_POTION_40,
+    Locations.RC_GC_SHOP_ITEM_8: Items.RG_BUY_HEART,
 }
 
 shop_locations_zd_shop: dict[Locations, Items] = {
-    Locations.ZD_SHOP_ITEM1: Items.BUY_ZORA_TUNIC,
-    Locations.ZD_SHOP_ITEM2: Items.BUY_ARROWS10,
-    Locations.ZD_SHOP_ITEM3: Items.BUY_HEART,
-    Locations.ZD_SHOP_ITEM4: Items.BUY_ARROWS30,
-    Locations.ZD_SHOP_ITEM5: Items.BUY_DEKU_NUTS5,
-    Locations.ZD_SHOP_ITEM6: Items.BUY_ARROWS50,
-    Locations.ZD_SHOP_ITEM7: Items.BUY_FISH,
-    Locations.ZD_SHOP_ITEM8: Items.BUY_RED_POTION30,
+    Locations.RC_ZD_SHOP_ITEM_1: Items.RG_BUY_ZORA_TUNIC,
+    Locations.RC_ZD_SHOP_ITEM_2: Items.RG_BUY_ARROWS_10,
+    Locations.RC_ZD_SHOP_ITEM_3: Items.RG_BUY_HEART,
+    Locations.RC_ZD_SHOP_ITEM_4: Items.RG_BUY_ARROWS_30,
+    Locations.RC_ZD_SHOP_ITEM_5: Items.RG_BUY_DEKU_NUTS_5,
+    Locations.RC_ZD_SHOP_ITEM_6: Items.RG_BUY_ARROWS_50,
+    Locations.RC_ZD_SHOP_ITEM_7: Items.RG_BUY_FISH,
+    Locations.RC_ZD_SHOP_ITEM_8: Items.RG_BUY_RED_POTION_30,
 }
 
 all_shop_locations: list[tuple[Regions, dict[Locations, Items]]] = [
-    (Regions.KF_KOKIRI_SHOP, shop_locations_kf_shop),
-    (Regions.MARKET_BAZAAR, shop_locations_market_bazaar),
-    (Regions.MARKET_POTION_SHOP, shop_locations_market_potion_shop),
-    (Regions.MARKET_BOMBCHU_SHOP, shop_locations_market_bombchu_shop),
-    (Regions.KAK_BAZAAR, shop_locations_kak_bazaar),
-    (Regions.KAK_POTION_SHOP_FRONT, shop_locations_kak_potion_shop),
-    (Regions.GC_SHOP, shop_locations_gc_shop),
-    (Regions.ZD_SHOP, shop_locations_zd_shop)
+    (Regions.RR_KF_KOKIRI_SHOP, shop_locations_kf_shop),
+    (Regions.RR_MARKET_BAZAAR, shop_locations_market_bazaar),
+    (Regions.RR_MARKET_POTION_SHOP, shop_locations_market_potion_shop),
+    (Regions.RR_MARKET_BOMBCHU_SHOP, shop_locations_market_bombchu_shop),
+    (Regions.RR_KAK_BAZAAR, shop_locations_kak_bazaar),
+    (Regions.RR_KAK_POTION_SHOP, shop_locations_kak_potion_shop),
+    (Regions.RR_GC_SHOP, shop_locations_gc_shop),
+    (Regions.RR_ZD_SHOP, shop_locations_zd_shop)
 ]
 
 vanilla_items_to_add: list[list[Items]] = [
-    [Items.BUY_DEKU_SHIELD, Items.BUY_HYLIAN_SHIELD, Items.BUY_GORON_TUNIC, Items.BUY_ZORA_TUNIC,
-        Items.BUY_DEKU_NUTS5, Items.BUY_BOMBS20, Items.BUY_BOMBCHUS10, Items.BUY_DEKU_STICK1],
-    [Items.BUY_FAIRYS_SPIRIT, Items.BUY_DEKU_SEEDS30, Items.BUY_ARROWS10, Items.BUY_BLUE_FIRE,
-        Items.BUY_RED_POTION30, Items.BUY_GREEN_POTION, Items.BUY_DEKU_NUTS10, Items.BUY_BOMBCHUS10],
-    [Items.BUY_BOMBCHUS10, Items.BUY_BOMBCHUS20, Items.BUY_BOMBS525, Items.BUY_BOMBS535,
-        Items.BUY_BOMBS10, Items.BUY_DEKU_NUTS5, Items.BUY_ARROWS30, Items.BUY_ARROWS50],
-    [Items.BUY_ARROWS10, Items.BUY_FAIRYS_SPIRIT, Items.BUY_BOTTLE_BUG, Items.BUY_FISH,
-        Items.BUY_HYLIAN_SHIELD, Items.BUY_BOTTLE_BUG, Items.BUY_DEKU_STICK1, Items.BUY_DEKU_STICK1],
-    [Items.BUY_BLUE_FIRE, Items.BUY_FISH, Items.BUY_BOMBCHUS10, Items.BUY_DEKU_NUTS5,
-        Items.BUY_ARROWS10, Items.BUY_BOMBCHUS20, Items.BUY_BOMBS535, Items.BUY_RED_POTION30],
-    [Items.BUY_BOMBS30, Items.BUY_BOMBCHUS20, Items.BUY_DEKU_NUTS5, Items.BUY_ARROWS10,
-        Items.BUY_DEKU_NUTS5, Items.BUY_ARROWS30, Items.BUY_RED_POTION40, Items.BUY_FISH],
-    [Items.BUY_BOMBCHUS20, Items.BUY_ARROWS30, Items.BUY_RED_POTION50, Items.BUY_ARROWS30,
-        Items.BUY_DEKU_NUTS5, Items.BUY_ARROWS50, Items.BUY_ARROWS50, Items.BUY_GREEN_POTION],
-    [Items.BUY_POE, Items.BUY_POE, Items.BUY_HEART, Items.BUY_HEART,
-        Items.BUY_HEART, Items.BUY_HEART, Items.BUY_HEART, Items.BUY_HEART],
+    [Items.RG_BUY_DEKU_SHIELD, Items.RG_BUY_HYLIAN_SHIELD, Items.RG_BUY_GORON_TUNIC, Items.RG_BUY_ZORA_TUNIC,
+        Items.RG_BUY_DEKU_NUTS_5, Items.RG_BUY_BOMBS_20, Items.RG_BUY_BOMBCHUS_10, Items.RG_BUY_DEKU_STICK_1],
+    [Items.RG_BUY_FAIRYS_SPIRIT, Items.RG_BUY_DEKU_SEEDS_30, Items.RG_BUY_ARROWS_10, Items.RG_BUY_BLUE_FIRE,
+        Items.RG_BUY_RED_POTION_30, Items.RG_BUY_GREEN_POTION, Items.RG_BUY_DEKU_NUTS_10, Items.RG_BUY_BOMBCHUS_10],
+    [Items.RG_BUY_BOMBCHUS_10, Items.RG_BUY_BOMBCHUS_20, Items.RG_BUY_BOMBS_525, Items.RG_BUY_BOMBS_535,
+        Items.RG_BUY_BOMBS_10, Items.RG_BUY_DEKU_NUTS_5, Items.RG_BUY_ARROWS_30, Items.RG_BUY_ARROWS_50],
+    [Items.RG_BUY_ARROWS_10, Items.RG_BUY_FAIRYS_SPIRIT, Items.RG_BUY_BOTTLE_BUG, Items.RG_BUY_FISH,
+        Items.RG_BUY_HYLIAN_SHIELD, Items.RG_BUY_BOTTLE_BUG, Items.RG_BUY_DEKU_STICK_1, Items.RG_BUY_DEKU_STICK_1],
+    [Items.RG_BUY_BLUE_FIRE, Items.RG_BUY_FISH, Items.RG_BUY_BOMBCHUS_10, Items.RG_BUY_DEKU_NUTS_5,
+        Items.RG_BUY_ARROWS_10, Items.RG_BUY_BOMBCHUS_20, Items.RG_BUY_BOMBS_535, Items.RG_BUY_RED_POTION_30],
+    [Items.RG_BUY_BOMBS_30, Items.RG_BUY_BOMBCHUS_20, Items.RG_BUY_DEKU_NUTS_5, Items.RG_BUY_ARROWS_10,
+        Items.RG_BUY_DEKU_NUTS_5, Items.RG_BUY_ARROWS_30, Items.RG_BUY_RED_POTION_40, Items.RG_BUY_FISH],
+    [Items.RG_BUY_BOMBCHUS_20, Items.RG_BUY_ARROWS_30, Items.RG_BUY_RED_POTION_50, Items.RG_BUY_ARROWS_30,
+        Items.RG_BUY_DEKU_NUTS_5, Items.RG_BUY_ARROWS_50, Items.RG_BUY_ARROWS_50, Items.RG_BUY_GREEN_POTION],
+    [Items.RG_BUY_POE, Items.RG_BUY_POE, Items.RG_BUY_HEART, Items.RG_BUY_HEART,
+        Items.RG_BUY_HEART, Items.RG_BUY_HEART, Items.RG_BUY_HEART, Items.RG_BUY_HEART],
 ]
 
 vanilla_merchant_prices: dict[Locations, int] = {
-    Locations.KAK_GRANNYS_SHOP: 100,
-    Locations.GC_MEDIGORON: 200,
-    Locations.ZR_MAGIC_BEAN_SALESMAN: 60,
-    Locations.WASTELAND_CARPET_SALESMAN: 200
+    Locations.RC_KAK_GRANNYS_SHOP: 100,
+    Locations.RC_GC_MEDIGORON: 200,
+    Locations.RC_ZR_MAGIC_BEAN_SALESMAN: 60,
+    Locations.RC_WASTELAND_BOMBCHU_SALESMAN: 200
 }
 
 def get_vanilla_shop_pool(world: "SohWorld") -> list[Items]:
@@ -203,13 +204,13 @@ def reserve_vanilla_shop_locations(world: "SohWorld") -> None:
     vanilla_shop_slots = get_vanilla_shop_locations(world)
     for slot in vanilla_shop_slots:
         location = world.get_location(slot)
-        location.place_locked_item(world.create_item(Items.RESERVATION))
+        location.place_locked_item(world.create_item(Items.RG_RESERVATION))
 
 def remove_vanilla_shop_reservations(world: "SohWorld") -> None:
     vanilla_shop_slots = get_vanilla_shop_locations(world)
     for slot in vanilla_shop_slots:
         location = world.get_location(slot)
-        if location.item == world.create_item(Items.RESERVATION):
+        if location.item == world.create_item(Items.RG_RESERVATION):
             location.item = None
             location.locked = False
 
@@ -311,9 +312,9 @@ def generate_merchant_prices(world: "SohWorld") -> dict[Locations, int]:
     max_merchant_price = world.options.shuffle_merchants_maximum_price.value
 
     for slot in merchants_items_location_table.keys():
-        if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.ZR_MAGIC_BEAN_SALESMAN:
+        if world.options.shuffle_merchants == "bean_merchant_only" and slot != Locations.RC_ZR_MAGIC_BEAN_SALESMAN:
             continue
-        if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.ZR_MAGIC_BEAN_SALESMAN:
+        if world.options.shuffle_merchants == "all_but_beans" and slot == Locations.RC_ZR_MAGIC_BEAN_SALESMAN:
             continue
 
         prices[slot] = create_random_price(min_merchant_price, max_merchant_price, world.options.merchant_affordable_prices, world)
