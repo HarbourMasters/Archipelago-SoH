@@ -495,7 +495,7 @@ def place_locked_items(world: "SohWorld") -> None:
         no_shop_shuffle(world)
 
     # Preplace tokens based on settings.
-    if world.options.shuffle_skull_tokens in [ShuffleTokens.option_off, ShuffleTokens.option_dungeon]:
+    if world.options.shuffle_skull_tokens in (ShuffleTokens.option_off, ShuffleTokens.option_dungeon):
         for location_name, address in gold_skulltula_overworld_location_table.items():
             if not world.get_item_from_pool(Items.GOLD_SKULLTULA_TOKEN, world.item_pool):
                 continue
@@ -505,7 +505,7 @@ def place_locked_items(world: "SohWorld") -> None:
             world.get_location(location_name).address = None
             world.get_location(location_name).item.code = None
 
-    if world.options.shuffle_skull_tokens in [ShuffleTokens.option_off, ShuffleTokens.option_overworld]:
+    if world.options.shuffle_skull_tokens in (ShuffleTokens.option_off, ShuffleTokens.option_overworld):
         for location_name, address in gold_skulltula_dungeon_location_table.items():
             if not world.get_item_from_pool(Items.GOLD_SKULLTULA_TOKEN, world.item_pool):
                 continue
