@@ -1893,11 +1893,11 @@ class SohOptions(PerGameCommonOptions):
             decrement_option(option)
 
     def adjust_key_rings(self):
-        if self.small_key_shuffle not in ("start_with", "vanilla"):
+        if self.small_key_shuffle not in (SmallKeyShuffle.option_start_with, SmallKeyShuffle.option_vanilla):
             return
         
         as_ring = Toggle.option_false
-        if self.small_key_shuffle == "start_with":
+        if self.small_key_shuffle == SmallKeyShuffle.option_start_with:
             as_ring = Toggle.option_true
 
         self.forest_temple_key_ring.value = as_ring

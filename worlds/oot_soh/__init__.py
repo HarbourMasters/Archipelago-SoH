@@ -346,7 +346,7 @@ class SohWorld(CachedRuleBuilderWorld):
             return goal
 
         # Get the items from the prefill pool
-        items = []
+        items = list()
         for item in item_pool:
             if (pre_fill_item := self.get_item_from_pool(item, self.pre_fill_pool)):
                 items.append(pre_fill_item)
