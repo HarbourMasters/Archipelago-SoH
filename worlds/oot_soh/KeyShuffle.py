@@ -112,6 +112,11 @@ def get_dungeon_item_prefill_items(world: "SohWorld", overworld_shuffle: bool) -
         if world.options.shuffle_dungeon_rewards == shuffle_setting:
             shuffle_items += list(dungeon_reward_item_mapping.values())
 
+        # Triforce pieces
+        if world.options.triforce_hunt and world.options.triforce_hunt_pieces_location == shuffle_setting:
+            for _ in range(world.options.triforce_hunt_pieces_total.value):
+                shuffle_items.append(Items.TRIFORCE_PIECE)
+
         return shuffle_items
         
 

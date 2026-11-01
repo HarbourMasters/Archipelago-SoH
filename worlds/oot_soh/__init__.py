@@ -168,6 +168,10 @@ class SohWorld(CachedRuleBuilderWorld):
             self.options.gerudo_fortress_key_ring.value = False
 
         # generate the prefill pool
+        if self.options.triforce_hunt and self.options.triforce_hunt_pieces_location != "anywhere":
+            # Assume that we can prefill every triforce piece the user wanted created
+            self.calculate_triforce_pieces(self.options.triforce_hunt_pieces_total.value)
+
         self.pre_fill_pool += get_pre_fill_rewards(self)
         self.pre_fill_pool += get_prefill_songs(self)
         for key_shuffle in get_own_dungeon_prefill_items(self).values():
@@ -288,7 +292,7 @@ class SohWorld(CachedRuleBuilderWorld):
 
         create_item_pool(self)
 
-        if self.options.triforce_hunt:
+        if self.options.triforce_hunt and self.options.triforce_hunt_pieces_location == "anywhere":
             create_triforce_pieces(self)
 
         create_filler_item_pool(self)
@@ -396,6 +400,14 @@ class SohWorld(CachedRuleBuilderWorld):
                 state.soh_heart_count[self.player] -= 1  # type: ignore
 
         return changed
+
+    def calculate_triforce_pieces(self, max_count: int) -> None:
+        if max_count != self.options.triforce_hunt_pieces_total.value:
+            self.options.triforce_hunt_pieces_total.value = min(max_count, self.options.triforce_hunt_pieces_total.value)
+        self.triforce_pieces_required = max(1, round(self.options.triforce_hunt_pieces_total.value * (self.options.triforce_hunt_pieces_required_percentage.value * .01)))
+
+        if self.using_ut:
+            self.triforce_pieces_required = self.passthrough["triforce_hunt_pieces_required"]
 
     # For debugging purposes
     # def generate_output(self, output_directory: str):
