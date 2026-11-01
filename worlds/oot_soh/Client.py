@@ -41,44 +41,33 @@ def launch(*launch_args: str):
         executable_path = SohWorld.settings.executable_path
         settings_folder = SohWorld.settings.soh_settings_folder
 
-        # If there is no path to the Ship install, prompt them until there is one
-        while executable_path is None or executable_path == "" or not os.path.exists(executable_path):
-            try:
-                tempPath = os.path.abspath(open_filename("Select Ship of Harkinian AP Client", (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), ""))
-
-                # Check this exists
-                if os.path.exists(tempPath):
-                    executable_path = tempPath
-                    SohWorld.settings.executable_path = executable_path
-                    force_settings_save_on_close()
-
-                settings_path = os.path.join(os.path.split(tempPath)[0], "shipofharkinian.json")
-
-                if os.path.exists(settings_path):
-                    settings_folder = os.path.split(settings_path)[0]
-                    SohWorld.settings.soh_settings_folder = settings_folder
-                    force_settings_save_on_close()
-
-            except Exception as e:
-                # Log an error? Unlikely to happen unless they close the file dialog
+        # If there is no path to the Ship install. Prompt once and if they cancel close the client
+        if not executable_path or not os.path.exists(executable_path):
+            selected = open_filename("Select Ship of Harkinian AP Client", (("Ship of Harkinian AP Client", (".exe", ".appimage", ".elf")), ("Any File", "")), "")
+            if not selected:
                 return
+            executable_path = os.path.abspath(selected)
+            SohWorld.settings.executable_path = executable_path
+            force_settings_save_on_close()
 
-        # Similarly for the path to the folder which contains other ship related files, prompt until it is valid.
-        while settings_folder is None or settings_folder == "" or not os.path.exists(settings_folder):
-            try:
-                suggested_path = ""
-                if sys.platform == "linux":
-                    suggested_path = os.path.realpath(os.path.join(os.environ["HOME"], ".local/share"))
-                tempt_path = os.path.realpath(open_directory("Select folder containing Ship of Harkinian settings, mods, etc", suggested_path))
+            # The settings folder is usually next to the executable
+            candidate = os.path.dirname(executable_path)
+            if os.path.exists(os.path.join(candidate, "shipofharkinian.json")):
+                settings_folder = candidate
+                SohWorld.settings.soh_settings_folder = settings_folder
+                force_settings_save_on_close()
 
-                if os.path.exists(os.path.join(tempt_path, "shipofharkinian.json")):
-                    settings_folder = tempt_path
-                    SohWorld.settings.soh_settings_folder = settings_folder
-                    force_settings_save_on_close()
-
-            except Exception as e:
-                # It's also unlikely for errors to occur here.
+        # Similarly for the folder containing other ship related files, if it wasn't found above
+        if not settings_folder or not os.path.exists(settings_folder):
+            suggested_path = ""
+            if sys.platform == "linux":
+                suggested_path = os.path.realpath(os.path.join(os.environ["HOME"], ".local/share"))
+            selected = open_directory("Select folder containing Ship of Harkinian settings, mods, etc", suggested_path)
+            if not selected or not os.path.exists(os.path.join(selected, "shipofharkinian.json")):
                 return
+            settings_folder = os.path.realpath(selected)
+            SohWorld.settings.soh_settings_folder = settings_folder
+            force_settings_save_on_close()
 
         if executable_path is not None and settings_folder is not None:
             directory = settings_folder

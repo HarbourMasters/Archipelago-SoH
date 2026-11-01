@@ -585,10 +585,10 @@ def give_starting_items(world: "SohWorld") -> None:
     if world.options.fortress_carpenters == "free":
         world.precollect_from_pool(Items.GERUDO_MEMBERSHIP_CARD)
 
-        # Songs
-    starting_songs =  set(song_vanilla_locations.values()) - get_shuffled_songs(world)
-    for song in starting_songs:
-        world.precollect_from_pool(song)
+    shuffled_songs = get_shuffled_songs(world)
+    for song in song_vanilla_locations.values():
+        if song not in shuffled_songs:
+            world.precollect_from_pool(song)
 
     if world.options.small_key_shuffle == "start_with":
         for key_ring in key_to_ring.values():
