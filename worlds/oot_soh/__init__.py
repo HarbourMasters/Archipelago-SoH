@@ -293,7 +293,7 @@ class SohWorld(CachedRuleBuilderWorld):
                 self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
 
         # generate the prefill pool
-        pre_fill_items = []
+        pre_fill_items = list()
         pre_fill_items += get_pre_fill_rewards(self)
         pre_fill_items += get_prefill_songs(self)
         for key_shuffle in get_own_dungeon_prefill_items(self).values():
