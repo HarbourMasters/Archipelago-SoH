@@ -8,6 +8,7 @@ from .KeyShuffle import small_key_option_matching
 from BaseClasses import ItemClassification
 from .SongShuffle import song_vanilla_locations, get_shuffled_songs
 from .ShopItems import get_vanilla_shop_pool
+from .Options import *
 
 if TYPE_CHECKING:
     from . import SohWorld
