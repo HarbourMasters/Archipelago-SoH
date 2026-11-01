@@ -274,7 +274,7 @@ class SohWorld(CachedRuleBuilderWorld):
 
     def create_items(self) -> None:
         # generate the prefill pool
-        pre_fill_items = []
+        pre_fill_items = list()
         pre_fill_items += get_pre_fill_rewards(self)
         pre_fill_items += get_prefill_songs(self)
         for key_shuffle in get_own_dungeon_prefill_items(self).values():
@@ -327,7 +327,7 @@ class SohWorld(CachedRuleBuilderWorld):
             return goal
 
         # Get the items from the prefill pool
-        items = []
+        items = list()
         for item in item_pool:
             if (pre_fill_item := self.get_item_from_pool(item, self.pre_fill_pool)):
                 items.append(pre_fill_item)
