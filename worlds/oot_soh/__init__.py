@@ -273,25 +273,6 @@ class SohWorld(CachedRuleBuilderWorld):
 
 
     def create_items(self) -> None:
-        # these are for making the progressive items collect/remove work properly
-        if not self.options.shuffle_swim:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_SCALE, create_as_event=True))
-        if not self.options.shuffle_deku_stick_bag:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_STICK_CAPACITY, create_as_event=True))
-        if not self.options.shuffle_deku_nut_bag:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_NUT_CAPACITY, create_as_event=True))
-        if not self.options.shuffle_childs_wallet:
-            self.push_precollected(self.create_item(
-                Items.PROGRESSIVE_WALLET, create_as_event=True))
-
-        # Pre-Collect Extra Fire Temple Small Key
-        if self.options.small_key_shuffle in ("vanilla", "own_dungeon"):
-            self.multiworld.push_precollected(
-                self.create_item(str(Items.FIRE_TEMPLE_SMALL_KEY), True))
-
         # generate the prefill pool
         pre_fill_items = []
         pre_fill_items += get_pre_fill_rewards(self)

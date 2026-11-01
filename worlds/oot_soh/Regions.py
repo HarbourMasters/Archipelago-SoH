@@ -448,8 +448,7 @@ def place_locked_items(world: "SohWorld") -> None:
             world.precollect_from_pool(Items.MASTER_SWORD)
 
         # place locked mastersword so this location doesn't get counted as an empty location
-        world.get_location(Locations.MARKET_TOT_MASTER_SWORD).place_locked_item(
-            world.create_item(Items.MASTER_SWORD, create_as_event=True))
+        place_from_pool(Locations.MARKET_TOT_MASTER_SWORD, Items.MASTER_SWORD, world, True)
         world.get_location(Locations.MARKET_TOT_MASTER_SWORD).address = None
         
     # Place the Ocarinas on their vanilla locations if not shuffled
