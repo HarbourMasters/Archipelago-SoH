@@ -61,11 +61,8 @@ class ZorasFountain(Choice):
 
 class SleepingWaterfall(Choice):
     """
-    Closed:
-    Sleeping Waterfall obstructs the entrance to Zora's Domain. Zelda's Lullaby must be played in order to open it.
-
-    Open: 
-    Sleeping Waterfall is always open. Link may always enter Zora's Domain and Zelda's Lullaby is not required to enter Zora's Domain.
+    Closed - Sleeping Waterfall obstructs the entrance to Zora's Domain. Zelda's Lullaby must be played in order to open it.
+    Open - Sleeping Waterfall is always open. Link may always enter Zora's Domain and Zelda's Lullaby is not required to enter Zora's Domain.
     """
     display_name = "Sleeping Waterfall"
     option_closed = 0
@@ -75,7 +72,7 @@ class SleepingWaterfall(Choice):
 
 class JabuJabu(Choice):
     """
-    Closed - A fish is required to open Jabu-Jabu's mouth.
+    Closed - A fish in a bottle is required to open Jabu-Jabu's mouth.
     Open - Jabu-Jabu's mouth opens without the need for a fish.
     """
     display_name = "Jabu-Jabu"
@@ -96,7 +93,7 @@ class FortressCarpenters(Choice):
     Sets the state of the carpenters captured by Gerudo in Gerudo Fortress, and with it the number of guards that spawn.
     Normal - All 4 carpenters are required to be saved.
     Fast - Only the bottom left carpenter requires rescuing.
-    Free - The bridge is repaired from the start, and Nabooru cannot spawn.
+    Free - The bridge is repaired from the start, and Aveil cannot spawn.
     Only Normal is compatible with the Gerudo Fortress Key Ring.
     """
     display_name = "Fortress Carpenters"
@@ -296,7 +293,7 @@ class SkullsSunSong(Toggle):
 class ShuffleKokiriSword(Toggle):
     """
     Shuffles the Kokiri Sword into the item pool.
-    This will require the use of Deku Sticks until the Kokiri Sword is found.
+    This will require the use of other items to deal damage until the Kokiri Sword is found.
     """
     display_name = "Shuffle Kokiri Sword"
 
@@ -304,7 +301,7 @@ class ShuffleKokiriSword(Toggle):
 class ShuffleMasterSword(Toggle):
     """
     Shuffles the Master Sword into the item pool.
-    If you haven't found the Master Sword before facing Ganon, you won't receive it during the fight.
+    If you haven't found the Master Sword before facing Ganon, you won't receive it during the fight, as the Master Sword is required to beat Ganon.
     """
     display_name = "Shuffle Master Sword"
 
@@ -387,7 +384,7 @@ class ShuffleDekuNutBag(Toggle):
 
 class ShuffleFreestandingItems(Choice):
     """
-    Freestanding rupees & hearts are shuffled to random items. Freestanding heart pieces and small keys are already shuffled by default.
+    Freestanding rupees & hearts are shuffled to random items. Freestanding heart pieces are already shuffled by default.
     Off - Freestanding rupees & hearts will not be shuffled.
     Dungeons - Only freestanding rupees & hearts that are within dungeons will be shuffled.
     Overworld - Only freestanding rupees & hearts that are outside of dungeons will be shuffled.
@@ -410,7 +407,7 @@ class ShuffleShops(Toggle):
 
 class ShuffleShopsItemAmount(Range):
     """
-    If Shuffle Shops is on, set how many shop items in each shop will be replaced by an entirely random item with a random price.
+    If Shuffle Shops is on, set how many shop items in each shop will be replaced by an entirely random item with a random price, at least 1 shop item will be a vanilla item (for Shields and Tunics), any vanilla shop items will be shuffled amongst other shops.
     """
     display_name = "Shuffle Shops Item Amount"
     range_start = 0
@@ -530,6 +527,7 @@ class ShuffleCrates(Choice):
     Dungeons - Only shuffle crates that are within dungeons.
     Overworld - Only shuffle crates that are outside of dungeons.
     All Crates - Shuffle all crates.
+    Four crates in Gerudo Valley (Fortress Side) and one crate in Gerudo Fortress (HBA North Target) are only shuffled with No Logic enabled. All 5 of these crates are Child only.
     """
     display_name = "Shuffle Crates"
     option_off = 0
@@ -545,7 +543,7 @@ class ShuffleTrees(Toggle):
     Trees will have a special appearance when carrying randomized items.
 
     Some trees are dependent on Link's age, such as some trees in Hyrule Field.
-    Two trees at Hyrule Castle are only shuffled with No Logic.
+    Two trees outside of Hyrule Castle are only shuffled with No Logic enabled.
     """
     display_name = "Shuffle Trees"
 
@@ -554,7 +552,7 @@ class ShuffleMerchants(Choice):
     """
     This setting governs if the Bean Salesman, Medigoron, Granny and the Carpet Salesman sell a random item.
     Beans Merchant Only - Only the Bean Salesman will have a check, and a pack of Magic Beans will be added to the item pool.
-    All But Beans - Medigoron, Granny and the Carpet Salesman will have checks.
+    All But Beans - Medigoron, Granny and the Carpet Salesman will have checks, and the Bean Salesman will sell Magic Beans as normal.
     All - Apply both effects.
     """
     display_name = "Shuffle Merchants"
@@ -603,7 +601,7 @@ class ShuffleAdultTradeItems(Toggle):
 class ShuffleBossSouls(Choice):
     """
     Shuffles 8 boss souls (one for each blue warp dungeon). A boss will not appear until you collect its respective soul.
-    On + Ganon will also hide Ganon and Ganondorf behind a boss soul.
+    On + Ganon will also hide Ganon and Ganondorf behind a single boss soul.
     """
     display_name = "Shuffle Boss Souls"
     option_off = 0
@@ -622,34 +620,35 @@ class ShuffleFountainFairies(Toggle):
 
 class ShuffleStoneFairies(Toggle):
     """
-    Shuffle fairies from Gossip Stone locations.
+    Shuffle the fairies that appear from Gossip Stones when you play certain songs near them. There are 2 locations for each Gossip Stone: one for playing Zelda's Lullaby, Epona's Song, or Song of Time (Sun's Song can also be used in areas that dont trigger a reload), and one for playing Song of Storms.
+    If you took out the Ocarina without playing a song you may have to reload the area to get the fairys to react to the song.
     """
     display_name = "Shuffle Gossip Stone Fairies"
 
 
 class ShuffleBeanFairies(Toggle):
     """
-    Shuffle fairies from Magic Bean locations.
+    Shuffle fairies that appear from Magic Bean locations when you play Song of Storms near them after planting a Magic Bean.
     """
     display_name = "Shuffle Bean Fairies"
 
 
 class ShuffleSongFairies(Toggle):
     """
-    Shuffle fairy spots. These are spots where a big fairy is revealed by a song.
+    Shuffle fairy spots. These are arbitrary spots where a big fairy is revealed by playing a specific song, such as when you play Sun's Song by the flag in Death Mountain Trail.
 
-    This excludes Gossip Stones and Magic Bean locations.
+    This does not include fairies from Gossip Stone or Magic Bean locations.
     """
     display_name = "Shuffle Fairy Spots"
 
 
 class ShuffleGrass(Choice):
     """
-    Grass/Bushes will drop a randomized item the first time they're cut and collected.
-    Off - Grass/Bushes will not be shuffled.
-    Dungeons - Only shuffle grass/bushes that are within dungeons.
-    Overworld - Only shuffle grass/bushes that are outside of dungeons.
-    All Grass/Bushes - Shuffle all grass/bushes.
+    Grass will drop a randomized item the first time they're cut and collected.
+    Off - Grass will not be shuffled.
+    Dungeons - Only shuffle grass that are within dungeons.
+    Overworld - Only shuffle grass that are outside of dungeons.
+    All - Shuffle all grass.
     """
     display_name = "Shuffle Grass"
     option_off = 0
@@ -769,7 +768,7 @@ class GanonsCastleBossKeyDungeonRewardsRequired(Range):
     display_name = "Ganon's Castle Boss Key Dungeon Rewards Required"
     range_start = 1
     range_end = 10
-    default = 6
+    default = 9
 
 
 class GanonsCastleBossKeyDungeonsRequired(Range):
@@ -797,8 +796,9 @@ class GanonsCastleBossKeySkullTokensRequired(Range):
 
 class SmallKeyShuffle(Choice):
     """
-    Vanilla - Small Keys will appear in their vanilla locations. You start with 3 keys in Spirit Temple MQ because the vanilla key layout is not beatable in logic.
-    Own Dungeon - Small Keys can only appear in their respective dungeon. If Fire Temple is not a Master Quest dungeon, the door to the Boss Key chest will be unlocked.
+    Start With - You will start with all Small Keys for all dungeons.
+    Vanilla - Small Keys will appear in their vanilla locations. Vanilla Small Keys cannot become Key Rings. You start with 3 keys in Spirit Temple MQ because the vanilla key layout is not beatable in logic.
+    Own Dungeon - Small Keys can only appear in their respective dungeon. If this setting is enabled and Fire Temple is not a Master Quest dungeon, the door to the Boss Key chest will be unlocked.
     Any Dungeon - Small Keys can only appear inside any dungeon.
     Overworld - Small Keys can only appear outside of dungeons.
     Anywhere - Small Keys can appear anywhere in the world.
@@ -812,10 +812,9 @@ class SmallKeyShuffle(Choice):
     option_anywhere = 5
     default = 2
 
-
 class GerudoFortressKeyShuffle(Choice):
     """
-    Vanilla - Thieves' Hideout Keys will appear in their vanilla locations.
+    Vanilla - Thieves' Hideout Keys will appear in their vanilla locations. Vanilla Thieves' Hideout Small Keys cannot become Key Rings.
     Any Dungeon - Thieves' Hideout Keys can only appear inside any dungeon.
     Overworld - Thieves' Hideout Keys can only appear outside of dungeons.
     Anywhere - Thieves' Hideout Keys can appear anywhere in the world.
@@ -830,6 +829,7 @@ class GerudoFortressKeyShuffle(Choice):
 
 class BossKeyShuffle(Choice):
     """
+    Start With - You will start with all Boss Keys for all dungeons.
     Vanilla - Boss Keys will appear in their vanilla locations.
     Own Dungeon - Boss Keys can only appear in their respective dungeon.
     Any Dungeon - Boss Keys can only appear inside any dungeon.
@@ -849,15 +849,10 @@ class BossKeyShuffle(Choice):
 class KeyRings(Choice):
     """
     Keyrings will replace all small keys from a particular dungeon with a single keyring that awards all keys for its associated dungeon.
-
     Off - No dungeons will have their keys replaced with keyrings.
-
     Count - A specified amount of randomly selected dungeons will have their keys replaced with keyrings.
-    
     Selection - Hand select which dungeons will have their keys replaced with keyrings.
-    
     Selecting key ring for dungeons will have no effect if Small Keys are set to Vanilla.
-    
     If Gerudo Fortress Carpenters is set to Normal, and Gerudo Fortress Keys is set to anything other than Vanilla, then the maximum amount of Key Rings that can be selected by Count will be 9. Otherwise, the maximum amount of Key Rings will be 8.
     """
     display_name = "Key Rings"
@@ -989,11 +984,8 @@ class FullWallets(DefaultOnToggle):
 class BombchuBag(Choice):
     """
     None - Bombchus have vanilla behavior, and any Bombchu requirement is filled by Bomb Bag + a renewable source of Bombchus.
-
-    Single Bag - Bombchus require their own bag to be found before use. 5 of them are added to the pool (6 if the Carpet Merchant is shuffled). The first Bombchu Bag you find will be a Bag containing 20 chus, and subsequent bags will be replaced with Bombchu Ammo refills. Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant. Bombchu Bowling is opened by obtaining the Bombchu Bag.
-
+    Single Bag - Bombchus require their own bag to be found before use. 5 of them are added to the pool (6 if the Carpet Merchant is shuffled). The first Bombchu Bag you find will be a Bag containing 20 chus, and subsequent bags will be replaced with Bombchu Ammo refills. Once found, they can be replenished at shops selling refills, Bombchu Bowling and the carpet merchant.
     Progressive Bags - 3 Bombchu Bags are added to the pool, and the first one will unlock Bombchus with a capacity of 20. The second one will upgrade this capacity to 30, and the final one will upgrade this capacity to the usual 50.
-
     Bombchu Bowling is opened by obtaining the first Bombchu bag.
     """
     display_name = "Bombchu Bag"
@@ -1048,7 +1040,8 @@ class InfiniteUpgrades(Choice):
 
 class SkeletonKey(Toggle):
     """
-    Adds a new item called the Skeleton Key, it unlocks every door locked by a small key.
+    Adds a new item called the Skeleton Key, which unlocks every door locked by a small key or overworld key. It does not open boss doors.
+    This item will be considered in the logic and may be required to open locked doors in dungeons or in the overworld.
     """
     display_name = "Skeleton Key"
 
@@ -1065,8 +1058,7 @@ class StartingAge(Choice):
     Decide whether to start as child Link or adult Link.
     Child Link starts in Link's House in Kokiri Forest.
     Adult Link starts in the Temple of Time.
-    CAUTION: When "Closed Forest" is set to "On" or "Door of Time" is set to closed with either "Shuffle Dungeon Rewards" set to "Off" or "Shuffle Ocarinas" set to "Off,"
-    this option will be forced to child.
+    CAUTION: When "Closed Forest" is set to "On" or "Door of Time" is set to closed with either "Shuffle Dungeon Rewards" set to "Off" or "Shuffle Ocarinas" set to "Off," this option will be forced to child.
     """
     display_name = "Starting Age"
     option_child = 0
@@ -1131,11 +1123,8 @@ class GossipStoneHints(Choice):
     are not yet implemented.
 
     None - Gossip Stones do not give out hints.
-
     Need Nothing - Gossip Stones give out hints and you don't need anything to read them.
-
     Need Truth - Gossip Stones give out hints but you need Mask of Truth to read them.
-
     Need Stone - Gossip Stones give out hints but you need Stone of Agony to read them.
     """
     display_name = "Gossip Stone Hints"
@@ -1148,8 +1137,7 @@ class GossipStoneHints(Choice):
 class ToTAltarHint(Toggle):
     """
     Reading the Temple of Time altar as child will tell you the locations of the Spiritual Stones.
-    Reading the Temple of Time altar as adult will tell you the locations of the medallions,
-    as well as the conditions for building the Rainbow Bridge and getting the Boss Key for Ganon's Castle.
+    Reading the Temple of Time altar as adult will tell you the locations of the medallions, as well as the conditions for building the Rainbow Bridge and getting the Boss Key for Ganon's Castle.
     """
     display_name = "ToT Altar Hint"
     default = 1
@@ -1157,8 +1145,7 @@ class ToTAltarHint(Toggle):
 class GanondorfHint(Toggle):
     """
     Talking to Ganondorf in his boss room will tell you the location of the Light Arrows and Master Sword.
-    If this option is enabled and Ganondorf is reachable without these items,
-    Gossip Stones will never hint them.
+    If this option is enabled and Ganondorf is reachable without these items, Gossip Stones will never hint them.
     """
     display_name = "Ganondorf Hint"
     default = 1
@@ -1166,8 +1153,7 @@ class GanondorfHint(Toggle):
 class SheikLightArrowHint(Toggle):
     """
     Talking to Sheik inside Ganon's Castle will tell you the location of the Light Arrows.
-    If this option is enabled and Sheik is reachable without Light Arrows,
-    Gossip Stones will never hint the Light Arrows.
+    If this option is enabled and Sheik is reachable without Light Arrows, Gossip Stones will never hint the Light Arrows.
     """
     display_name = "Sheik Light Arrow Hint"
 
@@ -1247,16 +1233,14 @@ class ChickenHint(Toggle):
 
 class MalonHint(Toggle):
     """
-    Talking to Malon as adult will tell you the item on "Link's Cow",
-    the cow you win from beating her time on the Lon Lon Obstacle Course.
+    Talking to Malon as adult will tell you the item on "Link's Cow", the cow you win from beating her time on the Lon Lon Ranch Obstacle Course.
     """
     display_name = "Malon Hint"
     default = 1
 
 class HorsebackArcheryHint(Toggle):
     """
-    Talking to the Horseback Archery Gerudo in Gerudo Fortress, or the nearby sign,
-    will tell you what you win for scoring 1000 and 1500 points on Horseback Archery.
+    Talking to the Horseback Archery Gerudo in Gerudo Fortress, or the nearby sign, will tell you what you win for scoring 1000 and 1500 points on Horseback Archery.
     """
     display_name = "Horseback Archery Hint"
     default = 1
@@ -1329,6 +1313,7 @@ class GS100Hint(Toggle):
     Talking to the Cursed Resident in the Skulltula House who is saved after 100 tokens will tell you the reward.
     """
     display_name = "100 GS Hint"
+    default = 1
 
 class MaskShopHint(Toggle):
     """
@@ -1439,56 +1424,67 @@ class StartWithZeldasLullaby(Toggle):
     Start with Zelda's Lullaby in your inventory.
     """
     display_name = "Start with Zelda's Lullaby"
+    
 class StartWithEponasSong(Toggle):
     """
     Start with Epona's Song in your inventory.
     """
     display_name = "Start with Epona's Song"
+    
 class StartWithSariasSong(Toggle):
     """
     Start with Saria's Song in your inventory.
     """
     display_name = "Start with Saria's Song"
+    
 class StartWithSunsSong(Toggle):
     """
     Start with Sun's Song in your inventory.
     """
     display_name = "Start with Sun's Song"
+    
 class StartWithSongOfTime(Toggle):
     """
     Start with Song of Time in your inventory.
     """
     display_name = "Start with Song of Time"
+    
 class StartWithSongOfStorms(Toggle):
     """
     Start with Song of Storms in your inventory.
     """
     display_name = "Start with Song of Storms"
+    
 class StartWithMinuet(Toggle):
     """
     Start with Minuet of Forest in your inventory.
     """
     display_name = "Start with Minuet of Forest"
+    
 class StartWithBolero(Toggle):
     """
     Start with Bolero of Fire in your inventory.
     """
     display_name = "Start with Bolero of Fire"
+    
 class StartWithSerenade(Toggle):
     """
     Start with Serenade of Water in your inventory.
     """
     display_name = "Start with Serenade of Water"
+    
 class StartWithRequiem(Toggle):
     """
     Start with Requiem of Spirit in your inventory.
     """
     display_name = "Start with Requiem of Spirit"
+    
 class StartWithNocturne(Toggle):
     """
     Start with Nocturne of Shadow in your inventory.
     """
     display_name = "Start with Nocturne of Shadow"
+    
 class StartWithPrelude(Toggle):
     """
     Start with Prelude of Light in your inventory.
@@ -1513,7 +1509,7 @@ class ItemPool(Choice):
 
 class MedallionLockedTrials(Toggle):
     """
-    Doors to trials will be barred until their corresponding medallion is acquired.
+    Doors to Ganon's trials will be barred until their corresponding medallion is acquired.
     """
     display_name = "Medallion Locked Trials"
     
