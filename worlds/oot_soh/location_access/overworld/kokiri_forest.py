@@ -211,10 +211,10 @@ def set_region_rules(world: "SohWorld") -> None:
     ])
     # Connections
     connect_regions(Regions.KF_OUTSIDE_DEKU_TREE, world, [
-        (Regions.DEKU_TREE_ENTRYWAY, lambda bundle: (is_child(bundle))
-         # Todo: Add dungeons shuffle rule when entrance shuffle is implementedd
-         & (OptionFilter(ClosedForest, ClosedForest.option_off)
-              | has_item(LocalEvents.MIDO_SWORD_AND_SHIELD, bundle))),
+        (Regions.DEKU_TREE_ENTRYWAY, lambda bundle: is_child(bundle)
+         | (dungeon_entrances_shuffled(bundle)
+            & (OptionFilter(ClosedForest, ClosedForest.option_off)
+               | has_item(LocalEvents.MIDO_SWORD_AND_SHIELD, bundle)))),
         (Regions.KOKIRI_FOREST, lambda bundle:  (is_adult(bundle) &
                                                  (can_pass_enemy(bundle, Enemies.BIG_SKULLTULA) |
                                                   has_item(Events.FOREST_TEMPLE_COMPLETED, bundle)))
